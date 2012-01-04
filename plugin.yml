@@ -1,0 +1,38 @@
+name: Likeaboss
+main: cam.Likeaboss
+version: 1.0.0
+
+commands:
+  lab:
+    description: Likeaboss base command
+    permission: lab
+    usage: /lab [info | reload | clear | viewer | list]
+
+permissions:
+  lab.*:
+    description: Gives access to all Lab commands
+    children:
+      lab.info: true
+      lab.reload: true
+      lab.clear: true
+      lab.viewer: true
+      lab.list: true
+    default: op
+  lab:
+    description: Likeaboss base command
+    default: true
+  lab.info:
+    description: Gives some game info
+    default: false
+  lab.reload:
+    description: Reloads config
+    default: false
+  lab.clear:
+    description: Removes bosses
+    default: false
+  lab.viewer:
+    description: Display bosses health
+    default: false
+  lab.list:
+    description: Display bosses location
+    default: false
