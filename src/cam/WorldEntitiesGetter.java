@@ -8,11 +8,11 @@ import java.util.concurrent.Callable;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 
-public class EntitiesGetter implements Callable<Set<Entity>> {
+public class WorldEntitiesGetter implements Callable<Set<Entity>> {
 
 	Likeaboss plugin = null;
 	
-	public EntitiesGetter(Likeaboss plugin) {
+	public WorldEntitiesGetter(Likeaboss plugin) {
 		this.plugin = plugin;
 	}
 	

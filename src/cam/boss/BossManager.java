@@ -9,8 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
-import cam.Config;
-
 public class BossManager {
 	
 	private static List<Boss> bosses = new ArrayList<Boss>();
@@ -24,8 +22,11 @@ public class BossManager {
 		bosses.add(boss);
 	}
 	
-	public void AddBoss(Config config, LivingEntity livingEntity) {
-		bosses.add(new Boss(config, livingEntity));
+	public Boss AddBoss(LivingEntity livingEntity) {
+		Boss boss = new Boss(livingEntity);
+		bosses.add(boss);
+		
+		return boss;
 	}
 	
 	public void AddDroped(Material material, int quantity) {
@@ -36,11 +37,9 @@ public class BossManager {
 	}
 	
 	public void RemoveBoss(Entity entity, boolean killed) {
-		Object[] tempBosses = bosses.toArray();
-		
-		for (Object object : tempBosses) {
-			if (((Boss) object).getLivingEntity() == entity) {
-				bosses.remove(object);
+		for (Boss boss : bosses) {
+			if (boss.getLivingEntity() == entity) {
+				bosses.remove(boss);
 				if (killed)
 					bossKilled++;
 				break;
@@ -49,23 +48,14 @@ public class BossManager {
 	}
 	
 	public void RemoveBoss(Boss boss, boolean killed) {
-		Object[] tempBosses = bosses.toArray();
-		
-		for (Object object : tempBosses) {
-			if ((Boss) object == boss) {
-				bosses.remove(object);
-				if (killed)
-					bossKilled++;
-				break;
-			}
-		}
+		bosses.remove(boss);
+		if (killed)
+			bossKilled++;
 	}
 	
 	public boolean IsBoss(Entity entity) {
-		Object[] tempBosses = bosses.toArray();
-		
-		for (Object object : tempBosses) {
-			if (((Boss) object).getLivingEntity() == entity)
+		for (Boss bossa : bosses) {
+			if (bossa.getLivingEntity() == entity)
 				return true;
 		}
 		return false;

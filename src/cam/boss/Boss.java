@@ -2,7 +2,7 @@ package cam.boss;
 
 import org.bukkit.entity.LivingEntity;
 
-import cam.Config;
+import cam.config.LabConfig;
 
 public class Boss {
 	
@@ -14,15 +14,15 @@ public class Boss {
 	private int health;
 	private boolean found = false;
 
-	public Boss(Config config, LivingEntity livingEntity) {
-		healthCoef = config.getValue("Boss.HealthCoef");
-		damageCoef = config.getValue("Boss.DamageCoef");
-		expCoef = config.getValue("Boss.ExpCoef");
+	public Boss(LivingEntity livingEntity) {
+		healthCoef = LabConfig.Entry.BOSS_STATS_HEALTHCOEF.getValue();
+		damageCoef = LabConfig.Entry.BOSS_STATS_DAMAGECOEF.getValue();
+		expCoef = LabConfig.Entry.BOSS_STATS_EXPCOEF.getValue();
 
 		this.livingEntity = livingEntity;
 		this.health = (int) (livingEntity.getMaxHealth() * healthCoef);
 	}
-
+	
 	public double getDamageCoef() {
 		return damageCoef;
 	}
@@ -42,7 +42,7 @@ public class Boss {
 	public boolean getFound() {
 		return found;
 	}
-
+	
 	public void setDamageCoef(double damageCoef) {
 		this.damageCoef = damageCoef;
 	}
