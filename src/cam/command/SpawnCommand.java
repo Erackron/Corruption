@@ -8,22 +8,17 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
-import cam.Likeaboss;
 import cam.boss.BossManager;
 
-public class SpawnCommand extends CommandBase {
+public abstract class SpawnCommand extends CommandBase {
 	
 	private static String creatureList = "";
 	private static CreatureType[] creatureTypes = CreatureType.values();
 	
-	public SpawnCommand(Likeaboss plugin) {
-		super(plugin);
-	}
-
-	public static boolean Process(String[] args) {
+	public static boolean Process() {
 		if (creatureList.isEmpty()) {
 			for (CreatureType creatureType : creatureTypes) {
-				if (Monster.class.isAssignableFrom(creatureType.getEntityClass()))
+				if (Monster.class.isAssignableFrom(creatureType.getEntityClass()) && creatureType.getEntityClass() != Monster.class)
 					creatureList += creatureType.getName() + ", ";
 			}
 			
@@ -34,7 +29,7 @@ public class SpawnCommand extends CommandBase {
 		String creatureName = null;
 		
 		if (args.length >= 2) {
-			creatureName = GetGoodName(args[1]);
+			creatureName = GetCorrectName(args[1]);
 			
 			if (creatureName != null)
 				spawn = true;
@@ -58,9 +53,9 @@ public class SpawnCommand extends CommandBase {
 		return true;
 	}
 	
-	private static String GetGoodName(String name) {
+	private static String GetCorrectName(String name) {
 		for (CreatureType creatureType : creatureTypes) {
-			if (Monster.class.isAssignableFrom(creatureType.getEntityClass()))
+			if (Monster.class.isAssignableFrom(creatureType.getEntityClass()) && creatureType.getEntityClass() != Monster.class)
 				if (creatureType.getName().equalsIgnoreCase(name))
 					return creatureType.getName();
 		}

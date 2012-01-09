@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
+import cam.Likeaboss;
+
 public class LabPlayerManager {
 
 	private static List<LabPlayer> labPlayers = new ArrayList<LabPlayer>();
@@ -12,8 +14,11 @@ public class LabPlayerManager {
 	public LabPlayerManager() {
 	}
 	
-	public void AddLabPlayer(LabPlayer newPlayer) {
-		labPlayers.add(newPlayer);
+	public void AddOnlinePlayers(Likeaboss plugin) {
+		Object[] players = plugin.getServer().getOnlinePlayers();
+		
+		for (Object player : players)
+			AddLabPlayer((Player) player);
 	}
 	
 	public void AddLabPlayer(Player player) {
@@ -44,8 +49,8 @@ public class LabPlayerManager {
 		}
 		return null; //Should never happen
 	}
-
-	public int getLabPlayerCount() {
-		return labPlayers.size();
+	
+	public List<LabPlayer> getLabPlayers() {
+		return labPlayers;
 	}
 }

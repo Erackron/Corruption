@@ -1,23 +1,25 @@
 package cam.boss;
 
+
 import org.bukkit.entity.LivingEntity;
 
 import cam.config.LabConfig;
 
 public class Boss {
 	
-	private double healthCoef;
-	private double damageCoef;
-	private double expCoef;
+	private double healthCoef = 0;
+	private double damageCoef = 0;
+	private double expCoef = 0;
 	
-	private LivingEntity livingEntity;
-	private int health;
+	private LivingEntity livingEntity = null;
+	private int health = 0;
 	private boolean found = false;
+	private boolean alreadyNotified = false;
 
 	public Boss(LivingEntity livingEntity) {
-		healthCoef = LabConfig.Entry.BOSS_STATS_HEALTHCOEF.getValue();
-		damageCoef = LabConfig.Entry.BOSS_STATS_DAMAGECOEF.getValue();
-		expCoef = LabConfig.Entry.BOSS_STATS_EXPCOEF.getValue();
+		healthCoef = LabConfig.BossesData.STATS_HEALTHCOEF.getValue();
+		damageCoef = LabConfig.BossesData.STATS_DAMAGECOEF.getValue();
+		expCoef = LabConfig.BossesData.STATS_EXPCOEF.getValue();
 
 		this.livingEntity = livingEntity;
 		this.health = (int) (livingEntity.getMaxHealth() * healthCoef);
@@ -43,6 +45,10 @@ public class Boss {
 		return found;
 	}
 	
+	public boolean getAlreadyNotified() {
+		return alreadyNotified;
+	}
+
 	public void setDamageCoef(double damageCoef) {
 		this.damageCoef = damageCoef;
 	}
@@ -57,5 +63,9 @@ public class Boss {
 	
 	public void setFound(boolean found) {
 		this.found = found;
+	}
+	
+	public void setAlreadyNotified(boolean alreadyNotified) {
+		this.alreadyNotified = alreadyNotified;
 	}
 }

@@ -2,23 +2,21 @@ package cam.command;
 
 import org.bukkit.ChatColor;
 
-import cam.Likeaboss;
-import cam.boss.BossTask;
+import cam.boss.BossTaskManager;
 import cam.config.LabConfig;
+import cam.player.LabPlayerTaskManager;
 
-public class ReloadCommand extends CommandBase {
-
-	public ReloadCommand(Likeaboss plugin) {
-		super(plugin);
-	}
+public abstract class ReloadCommand extends CommandBase {
 
 	public static boolean Process() {
-		BossTask bossTask = plugin.getBossTask();
 		LabConfig labConfig = plugin.getLabConfig();
+		BossTaskManager bossTask = plugin.getBossTaskManager();
+		LabPlayerTaskManager labPlayerTaskManager = plugin.getLabPlayerTaskManager();
 		
-		bossTask.Stop();
-		bossTask.Start(10, 10);
 		labConfig.LoadFile(plugin);
+		bossTask.Restart();
+		labPlayerTaskManager.Restart();
+				
 		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Reloaded");
 		
 		return true;

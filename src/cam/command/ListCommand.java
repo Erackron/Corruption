@@ -11,15 +11,11 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import cam.Likeaboss;
+import cam.Utility.MapValueComparator;
 import cam.boss.Boss;
 import cam.boss.BossManager;
 
-public class ListCommand extends CommandBase {
-
-	public ListCommand(Likeaboss plugin) {
-		super(plugin);
-	}
+public abstract class ListCommand extends CommandBase {
 
 	public static boolean Process() {
 		Player player = (Player) sender;
@@ -40,8 +36,8 @@ public class ListCommand extends CommandBase {
 			unsortedData.put(livingEntity, distance);
 		}
 		
-		ValueComparator vc = new ValueComparator(unsortedData);
-		Map<LivingEntity, Double> sortedData = new TreeMap<LivingEntity, Double>(vc);
+		MapValueComparator mapValueComparator = new MapValueComparator(unsortedData);
+		Map<LivingEntity, Double> sortedData = new TreeMap<LivingEntity, Double>(mapValueComparator);
 		sortedData.putAll(unsortedData);
 		
 		for (Entry<LivingEntity, Double> entry : sortedData.entrySet()) {
