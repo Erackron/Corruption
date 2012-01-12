@@ -128,7 +128,7 @@ public class LabConfig {
 			this.value = value;
 		}
 	}
-	
+		
 	public LabConfig(DropManager dropManager) {
 		this.dropManager = dropManager;
 	}

@@ -50,7 +50,8 @@ public abstract class ListCommand extends CommandBase {
 			int y = (int) Math.round(location.getY());
 			int z = (int) Math.round(location.getZ());
 			
-			String message = ChatColor.GRAY + livingEntity.getClass().getSimpleName().substring(5) + ":  ([" + world + "], " + x + ", " + y + ", " + z + ")";
+			String name = livingEntity.getClass().getSimpleName().replace("Craft", "");
+			String message = ChatColor.GRAY + name + ":  ([" + world + "], " + x + ", " + y + ", " + z + ")";
 			if (distance > 0)
 				message += "  Dist: " + distance;
 			

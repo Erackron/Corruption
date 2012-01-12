@@ -7,12 +7,14 @@ import java.util.Map.Entry;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Silverfish;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Slime;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -45,8 +47,10 @@ public class LabEntityListener extends EntityListener {
 	
 	@Override
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
-		if (event.getEntity() instanceof Monster) {
-			LivingEntity livingEntity = (LivingEntity) event.getEntity();
+		Entity entity = event.getEntity();
+		
+		if (entity instanceof Monster || entity instanceof Slime  && ((Slime) entity).getSize() == 4 || entity instanceof Ghast) {
+			LivingEntity livingEntity = (LivingEntity) entity;
 			
 			if (livingEntity.getLocation().getY() <= LabConfig.BossesData.SPAWN_MAXHEIGHT.getValue()) {
 				if (event.getSpawnReason() == SpawnReason.SPAWNER && LabConfig.BossesData.SPAWN_FROMMOBSPAWNER.getValue() == 0)
@@ -120,6 +124,7 @@ public class LabEntityListener extends EntityListener {
 			
 			//Invulnerability timer
 			if (livingEntity.getNoDamageTicks() > livingEntity.getMaximumNoDamageTicks() / 2.0) {
+				event.setDamage(0); //Because other plugins may uncancel the event
 				event.setCancelled(true);
 				return;
 			}
@@ -146,7 +151,7 @@ public class LabEntityListener extends EntityListener {
 					if (!boss.getFound()) {
 						boss.setFound(true);
 						List<Entity> nearbyEntities = livingEntity.getNearbyEntities(35, 35, 35);
-									
+						
 						player.sendMessage(ChatColor.RED + "Oh noes, that's a boss!");
 						if (tooFar)
 							player.sendMessage(ChatColor.RED + "But it's too far away.");
@@ -158,7 +163,7 @@ public class LabEntityListener extends EntityListener {
 					}
 					
 					if (tooFar) {
-						event.setCancelled(true);
+						event.setDamage(0);
 						return;
 					}
 				}
@@ -184,8 +189,6 @@ public class LabEntityListener extends EntityListener {
 							damage += Utility.Random(1, entry.getValue() * 4);
 						else if (enchantment.getId() == Enchantment.DAMAGE_UNDEAD.getId() && (livingEntity instanceof Zombie || livingEntity instanceof Skeleton))
 							damage += Utility.Random(1, entry.getValue() * 4);
-						
-						break;
 					}
 					
 					//Message
@@ -201,19 +204,29 @@ public class LabEntityListener extends EntityListener {
 			}
 			else if (event.getCause() == DamageCause.ENTITY_EXPLOSION || event.getCause() == DamageCause.BLOCK_EXPLOSION)
 				bossManager.DamageBoss(boss, (int) (damage / 2.0));
-			else if (event.getCause() == DamageCause.VOID)
-				bossManager.DamageBoss(boss, boss.getHealth());
 			else {
+				event.setDamage(0);
 				event.setCancelled(true);
 				return;
 			}
 					
 			//Should the entity die?
-			if (bossManager.IsDead(boss))
-				event.setDamage(100); //Zombies have armor, need to be superior to maxHealth
+			if (bossManager.IsDead(boss)) {
+				//Dirty fix to keep exp gain in mcMMO
+				double healthCoef = LabConfig.BossesData.STATS_HEALTHCOEF.getValue();
+				
+				if (healthCoef < 1) {
+					if (livingEntity instanceof Zombie)
+						healthCoef = 1.1; //Zombies have armor
+					else
+						healthCoef = 1;
+				}
+				
+				event.setDamage((int) (healthCoef * livingEntity.getMaxHealth())); //Zombie has armor, need to be superior to maxHealth
+			}
 			else {
-				livingEntity.damage(0, damager);
-				event.setCancelled(true); //Otherwise Minecraft adds enchant damage, it could result in OHK
+				event.setDamage(0); //Otherwise Minecraft adds enchant damage, it could result in OHK
+				livingEntity.damage(0, damager); //To have a knockback and red flash
 			}
 		}
 	}
