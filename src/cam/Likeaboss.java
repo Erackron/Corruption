@@ -23,7 +23,6 @@ public class Likeaboss extends JavaPlugin {
 	public static Logger log = Logger.getLogger("Minecraft");
 	
 	private DropManager dropManager = new DropManager();
-	private LabConfig labConfig = new LabConfig(dropManager);
 	private BossManager bossManager = new BossManager(dropManager);
 	private BossTaskManager bossTaskManager = new BossTaskManager(this);
 	private LabPlayerManager labPlayerManager = new LabPlayerManager();
@@ -35,7 +34,8 @@ public class Likeaboss extends JavaPlugin {
 	public void onEnable() {
 		log.info("[Likeaboss] Enabled.");
 		
-		labConfig.LoadFile(this);
+		LabConfig labConfig = new LabConfig(this);
+		labConfig.LoadFiles();
 		
 		bossTaskManager.Start();
 		labPlayerManager.AddOnlinePlayers(this);
@@ -65,10 +65,6 @@ public class Likeaboss extends JavaPlugin {
 		return dropManager;
 	}
 	
-	public LabConfig getLabConfig() {
-		return labConfig;
-	}
-
 	public BossManager getBossManager() {
 		return bossManager;
 	}

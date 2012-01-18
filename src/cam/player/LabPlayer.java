@@ -6,6 +6,7 @@ public class LabPlayer {
 
 	private Player player = null;
 	private boolean viewer = false;
+	//For boss proximity
 	private int lastTimeNotified = 0;
 	private boolean warmingUp = false;
 	private int warmingUpStartTime = 0;

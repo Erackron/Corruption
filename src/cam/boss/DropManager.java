@@ -20,8 +20,8 @@ public class DropManager {
 	public DropManager() {
 	}
 	
-	public void AddPossibleDrop(int rollId, int[] values) {
-		Drop drop = new Drop(values[0], values[1], values[2], values[3]);
+	public void AddPossibleDrop(int rollId, double[] values) {
+		Drop drop = new Drop(rollId, values);
 		
 		if (rolls.containsKey(rollId))
 			rolls.get(rollId).AddDrop(drop);
@@ -80,48 +80,48 @@ public class DropManager {
 	public Map<Material, Integer> getDroped() {
 		return droped;
 	}
-}
+	
+	private class Roll {
 
-class Roll {
+		private Set<Drop> drops = new HashSet<Drop>();
+		
+		public Set<Drop> getDrops() {
+			return drops;
+		}
 
-	private Set<Drop> drops = new HashSet<Drop>();
-	
-	public Set<Drop> getDrops() {
-		return drops;
+		public void AddDrop(Drop drop) {
+			drops.add(drop);
+		}
 	}
 
-	public void AddDrop(Drop drop) {
-		drops.add(drop);
-	}
-}
-
-class Drop {
-	
-	private int materialId = 0;
-	private int chance = 0;
-	private int minQuantity = 0;
-	private int maxQuantity = 0;
-	
-	public Drop(int materialId, int chance, int minQuantity, int maxQuantity) {
-		this.materialId = materialId;
-		this.chance = chance;
-		this.minQuantity = minQuantity;
-		this.maxQuantity = maxQuantity;
-	}
-	
-	public int getMaterialId() {
-		return materialId;
-	}
-	
-	public int getChance() {
-		return chance;
-	}
-	
-	public int getMinQuantity() {
-		return minQuantity;
-	}
-	
-	public int getMaxQuantity() {
-		return maxQuantity;
+	private class Drop {
+		
+		private int materialId = 0;
+		private int chance = 0;
+		private int minQuantity = 0;
+		private int maxQuantity = 0;
+		
+		public Drop(int materialId, double[] values) {
+			this.materialId = (int) values[0];
+			this.chance = (int) values[1];
+			this.minQuantity = (int) values[2];
+			this.maxQuantity = (int) values[3];
+		}
+		
+		public int getMaterialId() {
+			return materialId;
+		}
+		
+		public int getChance() {
+			return chance;
+		}
+		
+		public int getMinQuantity() {
+			return minQuantity;
+		}
+		
+		public int getMaxQuantity() {
+			return maxQuantity;
+		}
 	}
 }

@@ -31,7 +31,7 @@ import cam.Likeaboss;
 import cam.Utility;
 import cam.boss.Boss;
 import cam.boss.BossManager;
-import cam.config.LabConfig;
+import cam.boss.BossManager.BossParams;
 import cam.player.LabPlayer;
 import cam.player.LabPlayerManager;
 
@@ -52,11 +52,15 @@ public class LabEntityListener extends EntityListener {
 		if (entity instanceof Monster || entity instanceof Slime  && ((Slime) entity).getSize() == 4 || entity instanceof Ghast) {
 			LivingEntity livingEntity = (LivingEntity) entity;
 			
-			if (livingEntity.getLocation().getY() <= LabConfig.BossesData.SPAWN_MAXHEIGHT.getValue()) {
-				if (event.getSpawnReason() == SpawnReason.SPAWNER && LabConfig.BossesData.SPAWN_FROMMOBSPAWNER.getValue() == 0)
+			BossParams bossParams = bossManager.getBossParams(livingEntity);
+			if (bossParams == null)
+				return;
+			
+			if (livingEntity.getLocation().getY() <= bossParams.getMaxHeight()) {
+				if (event.getSpawnReason() == SpawnReason.SPAWNER && bossParams.getFromMobSpawner() == 0)
 					return;
 				
-				if (Math.random() * 100 < LabConfig.BossesData.SPAWN_CHANCE.getValue())
+				if (Math.random() * 100 < bossParams.getChance())
 					bossManager.AddBoss(livingEntity);
 			}
 		}
@@ -124,7 +128,7 @@ public class LabEntityListener extends EntityListener {
 			
 			//Invulnerability timer
 			if (livingEntity.getNoDamageTicks() > livingEntity.getMaximumNoDamageTicks() / 2.0) {
-				event.setDamage(0); //Because other plugins may uncancel the event
+				event.setDamage(0);
 				event.setCancelled(true);
 				return;
 			}
@@ -137,38 +141,43 @@ public class LabEntityListener extends EntityListener {
 			if (event instanceof EntityDamageByEntityEvent) {
 				damager = ((EntityDamageByEntityEvent) event).getDamager();
 					
-				if (damager instanceof Projectile) 
-					damager = ((Projectile) damager).getShooter();
+				if (damager instanceof Projectile) {
+					Projectile projectile = (Projectile) damager;
+					damager = projectile.getShooter();
 					
+					projectile.remove();
+				}
+				
 				//If player found, calculate distance and send message
 				if (damager instanceof Player) {
 					Player player = (Player) damager;
-					double distance = livingEntity.getLocation().distance(player.getLocation());
 						
-					if (distance >= 16)
+					if (!Utility.IsNear(player.getLocation(), livingEntity.getLocation(), 0, 16))
 						tooFar = true;
 
 					if (!boss.getFound()) {
+						player.sendMessage(ChatColor.RED + "Oh noes, that's a boss!");
+						
+						if (tooFar) {
+							player.sendMessage(ChatColor.RED + "But it's too far away.");
+							event.setDamage(0);
+							event.setCancelled(true);
+							return;
+						}
+						
 						boss.setFound(true);
+						
 						List<Entity> nearbyEntities = livingEntity.getNearbyEntities(35, 35, 35);
 						
-						player.sendMessage(ChatColor.RED + "Oh noes, that's a boss!");
-						if (tooFar)
-							player.sendMessage(ChatColor.RED + "But it's too far away.");
-									
 						for (Entity nearbyEntity : nearbyEntities) {
 							if (nearbyEntity instanceof Player && nearbyEntity != player)
 								((Player) nearbyEntity).sendMessage(ChatColor.WHITE + player.getPlayerListName() + ChatColor.RED + " found a boss!");
 						}
 					}
-					
-					if (tooFar) {
-						event.setDamage(0);
-						return;
-					}
 				}
 			}
 			
+			ItemStack weapon = null;
 			int damage = event.getDamage();
 								
 			//Apply damage
@@ -176,7 +185,7 @@ public class LabEntityListener extends EntityListener {
 				//Check for enchantment
 				if (damager instanceof Player) {
 					Player player = (Player) damager;
-					ItemStack weapon = player.getItemInHand();
+					weapon = player.getItemInHand();
 					Map<Enchantment, Integer> enchantments = weapon.getEnchantments();
 					
 					for (Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
@@ -209,11 +218,11 @@ public class LabEntityListener extends EntityListener {
 				event.setCancelled(true);
 				return;
 			}
-					
+			
 			//Should the entity die?
 			if (bossManager.IsDead(boss)) {
 				//Dirty fix to keep exp gain in mcMMO
-				double healthCoef = LabConfig.BossesData.STATS_HEALTHCOEF.getValue();
+				double healthCoef = boss.getHealthCoef();
 				
 				if (healthCoef < 1) {
 					if (livingEntity instanceof Zombie)
@@ -222,9 +231,13 @@ public class LabEntityListener extends EntityListener {
 						healthCoef = 1;
 				}
 				
-				event.setDamage((int) (healthCoef * livingEntity.getMaxHealth())); //Zombie has armor, need to be superior to maxHealth
+				event.setDamage((int) (healthCoef * livingEntity.getMaxHealth())); //Zombies have armor, need to be superior to maxHealth
 			}
 			else {
+				//Handle the loss of durability, needed when event damage = 0;
+				if (weapon != null)
+					weapon.setDurability((short) (weapon.getDurability() + 1));
+				
 				event.setDamage(0); //Otherwise Minecraft adds enchant damage, it could result in OHK
 				livingEntity.damage(0, damager); //To have a knockback and red flash
 			}

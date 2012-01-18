@@ -9,14 +9,15 @@ import cam.player.LabPlayerTaskManager;
 public abstract class ReloadCommand extends CommandBase {
 
 	public static boolean Process() {
-		LabConfig labConfig = plugin.getLabConfig();
-		BossTaskManager bossTask = plugin.getBossTaskManager();
-		LabPlayerTaskManager labPlayerTaskManager = plugin.getLabPlayerTaskManager();
+		LabConfig labConfig = new LabConfig(plugin);
+		labConfig.LoadFiles();
 		
-		labConfig.LoadFile(plugin);
+		BossTaskManager bossTask = plugin.getBossTaskManager();
 		bossTask.Restart();
+		
+		LabPlayerTaskManager labPlayerTaskManager = plugin.getLabPlayerTaskManager();
 		labPlayerTaskManager.Restart();
-				
+		
 		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Reloaded");
 		
 		return true;

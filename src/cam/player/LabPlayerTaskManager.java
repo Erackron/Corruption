@@ -1,12 +1,12 @@
 package cam.player;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import cam.Likeaboss;
+import cam.Utility;
 import cam.boss.Boss;
 import cam.boss.BossManager;
 import cam.config.LabConfig;
@@ -61,44 +61,37 @@ class CheckBossProximity implements Runnable {
 			if (player.isSprinting())
 				return;
 			
-			int ticksLived = player.getTicksLived();
+			int playerTicksLived = player.getTicksLived();
 			
-			if (ticksLived - labPlayer.getLastTimeNotified() < 300)
+			if (playerTicksLived - labPlayer.getLastTimeNotified() < 20)
 				return;
 			
-			Location playerLoc = player.getLocation();
-			Object[] tempBosses = bossManager.getBosses().toArray();
-			
 			int maxNotifyRange = 15;
-			int minNotifyRange = 4;
+			int minNotifyRange = 3;
 			
-			if (player.isSneaking())
-				maxNotifyRange += 4;
+			Object[] tempBosses = bossManager.getBosses().toArray();
 			
 			for (Object objectBoss : tempBosses) {
 				Boss boss = (Boss) objectBoss;
 				
-				if (boss.getFound() || boss.getAlreadyNotified())
+				if (boss.getFound())
 					continue;
 				
-				LivingEntity livingEntity = ((Boss) objectBoss).getLivingEntity();
-				Location livingEntityLoc = livingEntity.getLocation();
+				LivingEntity livingEntity = boss.getLivingEntity();
+				int bossTicksLived = livingEntity.getTicksLived();
 				
-				double relX = livingEntityLoc.getX() - playerLoc.getX();
-				double relY = livingEntityLoc.getY() - playerLoc.getY();
-				double relZ = livingEntityLoc.getZ() - playerLoc.getZ();
-				double dist = relX * relX + relY * relY + relZ * relZ;
+				if (bossTicksLived - boss.getLastTimeNotified() < 300)
+					continue;
 				
-				if (dist < maxNotifyRange * maxNotifyRange && dist > minNotifyRange * minNotifyRange) {
+				if (Utility.IsNear(player.getLocation(), livingEntity.getLocation(), minNotifyRange, maxNotifyRange)) {
 					if (!labPlayer.getWarmingUp()) {
 						labPlayer.setWarmingUp(true);
-						labPlayer.setWarmingUpStartTime(ticksLived);
+						labPlayer.setWarmingUpStartTime(playerTicksLived);
 					}
 					
-					else if (ticksLived - labPlayer.getWarmingUpStartTime() >= 50) {
-						labPlayer.setLastTimeNotified(ticksLived);
-						labPlayer.setWarmingUp(false);
-						boss.setAlreadyNotified(true);
+					else if (playerTicksLived - labPlayer.getWarmingUpStartTime() >= 50) {
+						labPlayer.setLastTimeNotified(playerTicksLived);
+						boss.setLastTimeNotified(bossTicksLived);
 						player.sendMessage(ChatColor.DARK_RED + "You feel an evil presence...");
 					}
 					
