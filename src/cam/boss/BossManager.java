@@ -10,15 +10,19 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
+import cam.Likeaboss;
+
 public class BossManager {
 	
 	private Map<World, Map<Class<? extends LivingEntity>, BossParams>> bossesParams = new HashMap<World, Map<Class<? extends LivingEntity>, BossParams>>();
 	private List<Boss> bosses = new ArrayList<Boss>();
+	private Likeaboss plugin = null;
 	private DropManager dropManager = null;
 	private int bossKilled = 0;
 	
-	public BossManager(DropManager dropManager) {
-		this.dropManager = dropManager;
+	public BossManager(Likeaboss plugin) {
+		this.plugin = plugin;
+		this.dropManager = plugin.getDropManager();
 	}
 	
 	public void AddBossParameters(World world, Class<? extends LivingEntity> type, double[] spawnValues, double[] statsValues) {
@@ -54,17 +58,10 @@ public class BossManager {
 			bossKilled++;
 		}
 	}
-	
-	public boolean IsBoss(Entity entity) {
-		for (Boss boss : bosses) {
-			if (boss.getLivingEntity() == entity)
-				return true;
-		}
-		return false;
-	}
-	
+		
 	public void DamageBoss(Boss boss, int damage) {
 		boss.setHealth(boss.getHealth() - damage);
+		boss.setLastDamage(damage);
 	}
 	
 	public boolean IsDead(Boss boss) {
@@ -83,18 +80,26 @@ public class BossManager {
 			if (boss.getLivingEntity() == entity)
 				return boss;
 		}
-		return null; //Should never happen
+		
+		return null;
 	}
 	
 	public BossParams getBossParams(LivingEntity livingEntity) {
 		Map<Class<? extends LivingEntity>, BossParams> map = bossesParams.get(livingEntity.getWorld());
 		
+		if (map == null) {
+			plugin.getLabConfig().LoadFiles();
+			map = bossesParams.get(livingEntity.getWorld());
+		}
+		
+		Class<? extends LivingEntity> livingEntityClass = livingEntity.getClass();
+		
 		for (Class<? extends LivingEntity> type : map.keySet()) {
-			if (livingEntity.getClass().equals(type)) 
+			if (livingEntityClass.equals(type)) 
 				return map.get(type);
 		}
 		
-		return null;
+		return null; //Should never happen
 	}
 	
 

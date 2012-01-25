@@ -14,7 +14,6 @@ import cam.player.LabPlayerTaskManager;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,18 +22,16 @@ public class Likeaboss extends JavaPlugin {
 	public static Logger log = Logger.getLogger("Minecraft");
 	
 	private DropManager dropManager = new DropManager();
-	private BossManager bossManager = new BossManager(dropManager);
+	private BossManager bossManager = new BossManager(this);
 	private BossTaskManager bossTaskManager = new BossTaskManager(this);
 	private LabPlayerManager labPlayerManager = new LabPlayerManager();
 	private LabPlayerTaskManager labPlayerTaskManager = new LabPlayerTaskManager(this);
 	private LabEntityListener labEntityListener = new LabEntityListener(this);
 	private LabPlayerListener labPlayerListener = new LabPlayerListener(this);
 	private CommandManager commandManager = new CommandManager(this);
+	private LabConfig labConfig = new LabConfig(this);
 	
 	public void onEnable() {
-		log.info("[Likeaboss] Enabled.");
-		
-		LabConfig labConfig = new LabConfig(this);
 		labConfig.LoadFiles();
 		
 		bossTaskManager.Start();
@@ -42,12 +39,10 @@ public class Likeaboss extends JavaPlugin {
 		labPlayerTaskManager.Start();
 		
 		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.CREATURE_SPAWN, labEntityListener, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.ENTITY_DEATH, labEntityListener, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.ENTITY_DAMAGE, labEntityListener, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.ENTITY_EXPLODE, labEntityListener, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_JOIN, labPlayerListener, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_QUIT, labPlayerListener, Event.Priority.Normal, this);
+		pm.registerEvents(labEntityListener, this);
+		pm.registerEvents(labPlayerListener, this);
+		
+		log.info("[Likeaboss] Enabled.");
 	}
 	
 	public void onDisable() {
@@ -87,5 +82,9 @@ public class Likeaboss extends JavaPlugin {
 	
 	public LabPlayerListener getLabPlayerListener() {
 		return labPlayerListener;
+	}
+	
+	public LabConfig getLabConfig() {
+		return labConfig;
 	}
 }

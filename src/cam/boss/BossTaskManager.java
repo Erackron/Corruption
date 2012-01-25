@@ -12,7 +12,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import cam.Likeaboss;
-import cam.WorldEntitiesGetter;
+import cam.WorldLivingEntitiesGetter;
 import cam.config.LabConfig;
 
 public class BossTaskManager {
@@ -112,7 +112,7 @@ class CheckEntityExistence extends BossTask implements Runnable {
 	@Override
 	public void run() {
 		tempBosses = bossManager.getBosses().toArray();
-		Future<Set<Entity>> futur = bukkitScheduler.callSyncMethod(plugin, new WorldEntitiesGetter(plugin));
+		Future<Set<Entity>> futur = bukkitScheduler.callSyncMethod(plugin, new WorldLivingEntitiesGetter(plugin));
 		Set<Entity> entities = new HashSet<Entity>();
 		
 		try {

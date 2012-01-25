@@ -34,20 +34,13 @@ public class LabPlayerManager {
 		}
 	}
 
-	public boolean IsLabPlayer(Player player) {
-		for (LabPlayer labPlayer : labPlayers) {
-			if (labPlayer.getPlayer() == player)
-				return true;
-		}
-		return false;
-	}
-
 	public LabPlayer getLabPlayer(Player player) {
 		for (LabPlayer labPlayer : labPlayers) {
 			if (labPlayer.getPlayer() == player)
 				return labPlayer;
 		}
-		return null; //Should never happen
+		
+		return null;
 	}
 	
 	public List<LabPlayer> getLabPlayers() {

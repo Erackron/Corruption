@@ -11,7 +11,6 @@ import org.bukkit.World;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-
 import cam.Likeaboss;
 import cam.boss.BossManager;
 import cam.boss.DropManager;
@@ -20,6 +19,7 @@ public class LabConfig {
 	
 	private List<World> worlds = new ArrayList<World>();
 	private YamlConfiguration configFile = new YamlConfiguration();
+	private Likeaboss plugin = null;
 	private BossManager bossManager = null;
 	private DropManager dropManager = null;
 	
@@ -51,7 +51,7 @@ public class LabConfig {
 	}
 		
 	public LabConfig(Likeaboss plugin) {
-		this.worlds = plugin.getServer().getWorlds();
+		this.plugin = plugin;
 		this.bossManager = plugin.getBossManager();
 		this.dropManager = plugin.getDropManager();
 	}
@@ -59,6 +59,8 @@ public class LabConfig {
 	public void LoadFiles() {
 		dropManager.getRolls().clear();
 		bossManager.getBossesParams().clear();
+		
+		this.worlds = plugin.getServer().getWorlds();
 		
 		LoadGlobalConfigFile();
 		LoadWorldConfigFiles();
@@ -114,7 +116,7 @@ public class LabConfig {
 			File file = new File(filePath);
 			
 			if (!file.exists()) {
-				Likeaboss.log.warning("[Likeaboss] Creating default config file for " + world + ".");
+				Likeaboss.log.warning("[Likeaboss] Creating default config file for " + world.getName() + ".");
 				CreateWorldConfigFile(filePath);
 			}
 			

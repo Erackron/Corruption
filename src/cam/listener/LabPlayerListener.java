@@ -1,13 +1,15 @@
 package cam.listener;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import cam.Likeaboss;
 import cam.player.LabPlayerManager;
 
-public class LabPlayerListener extends PlayerListener {
+public class LabPlayerListener implements Listener {
 	
 	LabPlayerManager labPlayerManager = null;
 	
@@ -15,12 +17,12 @@ public class LabPlayerListener extends PlayerListener {
 		labPlayerManager = plugin.getLabPlayerManager();
 	}
 	
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		labPlayerManager.AddLabPlayer(event.getPlayer());
 	}
 	
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		labPlayerManager.RemoveLabPlayer(event.getPlayer());
 	}

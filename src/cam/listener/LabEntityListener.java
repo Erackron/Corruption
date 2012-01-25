@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
@@ -17,6 +19,9 @@ import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Zombie;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -24,7 +29,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityListener;
 import org.bukkit.inventory.ItemStack;
 
 import cam.Likeaboss;
@@ -35,7 +39,7 @@ import cam.boss.BossManager.BossParams;
 import cam.player.LabPlayer;
 import cam.player.LabPlayerManager;
 
-public class LabEntityListener extends EntityListener {
+public class LabEntityListener implements Listener {
 
 	private BossManager bossManager = null;
 	private LabPlayerManager labPlayerManager = null;
@@ -45,7 +49,7 @@ public class LabEntityListener extends EntityListener {
 		labPlayerManager = plugin.getLabPlayerManager();
 	}
 	
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		Entity entity = event.getEntity();
 		
@@ -53,8 +57,6 @@ public class LabEntityListener extends EntityListener {
 			LivingEntity livingEntity = (LivingEntity) entity;
 			
 			BossParams bossParams = bossManager.getBossParams(livingEntity);
-			if (bossParams == null)
-				return;
 			
 			if (livingEntity.getLocation().getY() <= bossParams.getMaxHeight()) {
 				if (event.getSpawnReason() == SpawnReason.SPAWNER && bossParams.getFromMobSpawner() == 0)
@@ -66,31 +68,28 @@ public class LabEntityListener extends EntityListener {
 		}
 	}
 	
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onEntityDeath(EntityDeathEvent event) {
 		Entity entity = event.getEntity();
+		Boss boss = bossManager.getBoss(entity);
 		
-		if (!bossManager.IsBoss(entity))
+		if (boss == null)
 			return;
-
-		Boss boss = bossManager.getBoss(entity);		
-
+		
 		event.setDroppedExp((int) (event.getDroppedExp() * boss.getExpCoef()));
 		bossManager.RemoveBoss(boss, true);
 	}
 	
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onEntityExplode(EntityExplodeEvent event) {
 		Entity entity = event.getEntity();
+		Boss boss = bossManager.getBoss(entity);
 		
-		if (bossManager.IsBoss(entity)) {
-			Boss boss = bossManager.getBoss(entity);
-			
+		if (boss != null)
 			bossManager.RemoveBoss(boss, false);
-		}
 	}
 		
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onEntityDamage(EntityDamageEvent event) {
 		Entity entity = event.getEntity();
 		
@@ -99,12 +98,11 @@ public class LabEntityListener extends EntityListener {
 			
 			if (event instanceof EntityDamageByEntityEvent) {
 				Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
+				Boss boss = bossManager.getBoss(damager);
 				
-				if (!bossManager.IsBoss(damager))
+				if (boss == null)
 					return;
 				
-				Boss boss = bossManager.getBoss(damager);
-					
 				event.setDamage((int) (event.getDamage() * boss.getDamageCoef()));
 					
 				//Found message
@@ -123,17 +121,21 @@ public class LabEntityListener extends EntityListener {
 		}
 		
 		//Only affect bosses
-		else if (bossManager.IsBoss(entity)) {			
+		else if (entity instanceof LivingEntity) {
+			Boss boss = bossManager.getBoss(entity);
+			
+			if (boss == null)
+				return;
+			
 			LivingEntity livingEntity = (LivingEntity) entity;
 			
 			//Invulnerability timer
-			if (livingEntity.getNoDamageTicks() > livingEntity.getMaximumNoDamageTicks() / 2.0) {
+			if (livingEntity.getNoDamageTicks() > livingEntity.getMaximumNoDamageTicks() / 2.0 && event.getDamage() <= boss.getLastDamage()) {
 				event.setDamage(0);
 				event.setCancelled(true);
 				return;
 			}
 			
-			Boss boss = bossManager.getBoss(livingEntity);	
 			Entity damager = null;
 			boolean tooFar = false;
 						
@@ -145,7 +147,8 @@ public class LabEntityListener extends EntityListener {
 					Projectile projectile = (Projectile) damager;
 					damager = projectile.getShooter();
 					
-					projectile.remove();
+					if (projectile instanceof Arrow)
+						projectile.remove();
 				}
 				
 				//If player found, calculate distance and send message
@@ -154,7 +157,7 @@ public class LabEntityListener extends EntityListener {
 						
 					if (!Utility.IsNear(player.getLocation(), livingEntity.getLocation(), 0, 16))
 						tooFar = true;
-
+					
 					if (!boss.getFound()) {
 						player.sendMessage(ChatColor.RED + "Oh noes, that's a boss!");
 						
@@ -167,11 +170,16 @@ public class LabEntityListener extends EntityListener {
 						
 						boss.setFound(true);
 						
-						List<Entity> nearbyEntities = livingEntity.getNearbyEntities(35, 35, 35);
+						List<LabPlayer> labPlayers = labPlayerManager.getLabPlayers();
 						
-						for (Entity nearbyEntity : nearbyEntities) {
-							if (nearbyEntity instanceof Player && nearbyEntity != player)
-								((Player) nearbyEntity).sendMessage(ChatColor.WHITE + player.getPlayerListName() + ChatColor.RED + " found a boss!");
+						for (LabPlayer labPlayer : labPlayers) {
+							Player otherPlayer = labPlayer.getPlayer();
+							
+							if (otherPlayer == player)
+								continue;
+							
+							if (Utility.IsNear(otherPlayer.getLocation(), livingEntity.getLocation(), 0, 35))
+								otherPlayer.sendMessage(ChatColor.WHITE + player.getPlayerListName() + ChatColor.RED + " found a boss!");
 						}
 					}
 				}
@@ -188,31 +196,53 @@ public class LabEntityListener extends EntityListener {
 					weapon = player.getItemInHand();
 					Map<Enchantment, Integer> enchantments = weapon.getEnchantments();
 					
-					for (Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-						Enchantment enchantment = entry.getKey();
-						
-						//Let us assume that the weapon isn't hacked
-						if (enchantment.getId() == Enchantment.DAMAGE_ALL.getId())
-							damage += Utility.Random(1, entry.getValue() * 3);
-						else if (enchantment.getId() == Enchantment.DAMAGE_ARTHROPODS.getId() && (livingEntity instanceof Spider || livingEntity instanceof Silverfish))
-							damage += Utility.Random(1, entry.getValue() * 4);
-						else if (enchantment.getId() == Enchantment.DAMAGE_UNDEAD.getId() && (livingEntity instanceof Zombie || livingEntity instanceof Skeleton))
-							damage += Utility.Random(1, entry.getValue() * 4);
+					//if (weapon.getType() == Material.BOW) {
+					//	for (Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+					//		Enchantment enchantment = entry.getKey();
+							
+					//		if (enchantment.getId() == Enchantment.ARROW_DAMAGE.getId()) {
+					//			double coef = 1.5;
+					//			int level = entry.getValue();
+					//			if (level > 1)
+					//				coef += 0.25 * (level - 1);
+					//			damage *= coef;
+					//			break;
+					//		}
+					//	}
+					//}
+					
+					if (weapon.getType() == Material.DIAMOND_SWORD) {
+						for (Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+							Enchantment enchantment = entry.getKey();
+							
+							if (enchantment.getId() == Enchantment.DAMAGE_ALL.getId()) {
+								damage += Utility.Random(1, entry.getValue() * 3);
+								break;
+							}
+							else if (enchantment.getId() == Enchantment.DAMAGE_UNDEAD.getId() && (livingEntity instanceof Zombie || livingEntity instanceof Skeleton)) {
+								damage += Utility.Random(1, entry.getValue() * 4);
+								break;
+							}
+							else if (enchantment.getId() == Enchantment.DAMAGE_ARTHROPODS.getId() && (livingEntity instanceof Spider || livingEntity instanceof Silverfish)) {
+								damage += Utility.Random(1, entry.getValue() * 4);
+								break;
+							}
+						}
 					}
 					
 					//Message
-					if (labPlayerManager.IsLabPlayer(player)) {
-						LabPlayer labPlayer = labPlayerManager.getLabPlayer(player);
-
-						if (labPlayer.getViewer())
-							player.sendMessage("Boss Health: " + ChatColor.GRAY + (boss.getHealth() - damage) + " (-" + damage + ")");
-					}
+					LabPlayer labPlayer = labPlayerManager.getLabPlayer(player);
+					
+					if (labPlayer != null && labPlayer.getViewer())
+						player.sendMessage("Boss Health: " + ChatColor.GRAY + (boss.getHealth() - damage) + " (-" + damage + ")");
 				}
 				
 				bossManager.DamageBoss(boss, damage);
 			}
 			else if (event.getCause() == DamageCause.ENTITY_EXPLOSION || event.getCause() == DamageCause.BLOCK_EXPLOSION)
 				bossManager.DamageBoss(boss, (int) (damage / 2.0));
+			else if (event.getCause() == DamageCause.MAGIC || event.getCause() == DamageCause.POISON)
+				bossManager.DamageBoss(boss, (int) (damage * 1.25));
 			else {
 				event.setDamage(0);
 				event.setCancelled(true);
@@ -235,7 +265,7 @@ public class LabEntityListener extends EntityListener {
 			}
 			else {
 				//Handle the loss of durability, needed when event damage = 0;
-				if (weapon != null)
+				if (weapon != null && weapon.getType() != Material.BOW)
 					weapon.setDurability((short) (weapon.getDurability() + 1));
 				
 				event.setDamage(0); //Otherwise Minecraft adds enchant damage, it could result in OHK

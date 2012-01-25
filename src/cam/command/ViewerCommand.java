@@ -10,12 +10,9 @@ public abstract class ViewerCommand extends CommandBase {
 
 	public static boolean Process() {
 		LabPlayerManager labPlayerManager = plugin.getLabPlayerManager();
-		LabPlayer labPlayer = null;
-		Player player = (Player) sender;
-			
-		if (labPlayerManager.IsLabPlayer(player)) {
-			labPlayer = labPlayerManager.getLabPlayer(player);
-				
+		LabPlayer labPlayer = labPlayerManager.getLabPlayer((Player) sender);
+		
+		if (labPlayer != null) {
 			if (labPlayer.getViewer())
 				labPlayer.setViewer(false);
 			else

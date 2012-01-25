@@ -12,6 +12,7 @@ public class Boss {
 	
 	private LivingEntity livingEntity = null;
 	private int health = 0;
+	private int lastDamage = 0;
 	private boolean found = false;
 	private int lastTimeNotified = 0;
 
@@ -43,6 +44,10 @@ public class Boss {
 		return health;
 	}
 	
+	public int getLastDamage() {
+		return lastDamage;
+	}
+	
 	public boolean getFound() {
 		return found;
 	}
@@ -53,6 +58,10 @@ public class Boss {
 	
 	public void setHealth(int health) {
 		this.health = health;
+	}
+	
+	public void setLastDamage(int lastDamage) {
+		this.lastDamage = lastDamage;
 	}
 	
 	public void setFound(boolean found) {
