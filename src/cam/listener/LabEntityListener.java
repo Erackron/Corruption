@@ -215,18 +215,12 @@ public class LabEntityListener implements Listener {
 						for (Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
 							Enchantment enchantment = entry.getKey();
 							
-							if (enchantment.getId() == Enchantment.DAMAGE_ALL.getId()) {
+							if (enchantment.getId() == Enchantment.DAMAGE_ALL.getId())
 								damage += Utility.Random(1, entry.getValue() * 3);
-								break;
-							}
-							else if (enchantment.getId() == Enchantment.DAMAGE_UNDEAD.getId() && (livingEntity instanceof Zombie || livingEntity instanceof Skeleton)) {
+							else if (enchantment.getId() == Enchantment.DAMAGE_UNDEAD.getId() && (livingEntity instanceof Zombie || livingEntity instanceof Skeleton))
 								damage += Utility.Random(1, entry.getValue() * 4);
-								break;
-							}
-							else if (enchantment.getId() == Enchantment.DAMAGE_ARTHROPODS.getId() && (livingEntity instanceof Spider || livingEntity instanceof Silverfish)) {
+							else if (enchantment.getId() == Enchantment.DAMAGE_ARTHROPODS.getId() && (livingEntity instanceof Spider || livingEntity instanceof Silverfish))
 								damage += Utility.Random(1, entry.getValue() * 4);
-								break;
-							}
 						}
 					}
 					
