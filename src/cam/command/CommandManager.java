@@ -31,6 +31,9 @@ public class CommandManager {
 		else if (sender instanceof Player) {
 			if (firstArg.equals("viewer") && sender.hasPermission("lab." + firstArg))
 				return ViewerCommand.Process();
+			
+			else if (firstArg.equals("ignore") && sender.hasPermission("lab." + firstArg))
+				return IgnoreCommand.Process();
 				
 			else if (firstArg.equals("list") && sender.hasPermission("lab." + firstArg))
 				return ListCommand.Process();

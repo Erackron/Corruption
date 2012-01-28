@@ -6,6 +6,7 @@ public class LabPlayer {
 
 	private Player player = null;
 	private boolean viewer = false;
+	private boolean ignore = false;
 	//For boss proximity
 	private int lastTimeNotified = 0;
 	private boolean warmingUp = false;
@@ -23,6 +24,10 @@ public class LabPlayer {
 		return viewer;
 	}
 	
+	public boolean getIgnore() {
+		return ignore;
+	}
+	
 	public int getLastTimeNotified() {
 		return lastTimeNotified;
 	}
@@ -37,6 +42,10 @@ public class LabPlayer {
 	
 	public void setViewer(boolean viewer) {
 		this.viewer = viewer;
+	}
+	
+	public void setIgnore(boolean ignore) {
+		this.ignore = ignore;
 	}
 
 	public void setLastTimeNotified(int lastTimeNotified) {

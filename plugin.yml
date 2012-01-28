@@ -1,13 +1,13 @@
 name: Likeaboss
 main: cam.Likeaboss
-version: 1.3.1
+version: 1.3.2
 author: bm01
 
 commands:
   lab:
     description: Likeaboss base command
     permission: lab
-    usage: /lab [info | reload | clear | viewer | list | spawn]
+    usage: /lab [info | reload | clear | viewer | ignore | list | spawn]
 
 permissions:
   lab.*:
@@ -17,6 +17,7 @@ permissions:
       lab.reload: true
       lab.clear: true
       lab.viewer: true
+      lab.ignore: true
       lab.list: true
       lab.spawn: true
     default: op
@@ -34,6 +35,9 @@ permissions:
     default: false
   lab.viewer:
     description: Display bosses health
+    default: false
+  lab.ignore:
+    description: Ignore bosses
     default: false
   lab.list:
     description: Display bosses location

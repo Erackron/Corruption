@@ -98,10 +98,25 @@ public class LabEntityListener implements Listener {
 			
 			if (event instanceof EntityDamageByEntityEvent) {
 				Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
+				
+				if (damager instanceof Projectile) {
+					Projectile projectile = (Projectile) damager;
+					damager = projectile.getShooter();
+				}
+				
 				Boss boss = bossManager.getBoss(damager);
 				
 				if (boss == null)
 					return;
+				
+				LabPlayer labPlayer = labPlayerManager.getLabPlayer(player);
+				
+				if (labPlayer != null) {
+					if (labPlayer.getIgnore()) {
+						bossManager.RemoveBoss(boss, false);
+						return;
+					}
+				}
 				
 				event.setDamage((int) (event.getDamage() * boss.getDamageCoef()));
 					
@@ -110,11 +125,16 @@ public class LabEntityListener implements Listener {
 					boss.setFound(true);
 					player.sendMessage(ChatColor.RED + "Sneaky boss.");
 					
-					List<Entity> nearbyEntities = boss.getLivingEntity().getNearbyEntities(35, 35, 35);
+					List<LabPlayer> labPlayers = labPlayerManager.getLabPlayers();
 					
-					for (Entity nearbyEntity : nearbyEntities) {
-						if (nearbyEntity instanceof Player && nearbyEntity != player)
-							((Player) nearbyEntity).sendMessage(ChatColor.RED + "A boss found " + ChatColor.WHITE + player.getPlayerListName() + ChatColor.RED + "!");
+					for (LabPlayer nearbyLabPlayer : labPlayers) {
+						Player nearbyPlayer = nearbyLabPlayer.getPlayer();
+						
+						if (nearbyPlayer == player)
+							continue;
+						
+						if (Utility.IsNear(nearbyPlayer.getLocation(), entity.getLocation(), 0, 35))
+							nearbyPlayer.sendMessage(ChatColor.WHITE + player.getPlayerListName() + ChatColor.RED + " found a boss!");
 					}
 				}
 			}
@@ -154,6 +174,14 @@ public class LabEntityListener implements Listener {
 				//If player found, calculate distance and send message
 				if (damager instanceof Player) {
 					Player player = (Player) damager;
+					LabPlayer labPlayer = labPlayerManager.getLabPlayer(player);
+					
+					if (labPlayer != null) {
+						if (labPlayer.getIgnore()) {
+							bossManager.RemoveBoss(boss, false);
+							return;
+						}
+					}
 						
 					if (!Utility.IsNear(player.getLocation(), livingEntity.getLocation(), 0, 16))
 						tooFar = true;
@@ -172,14 +200,14 @@ public class LabEntityListener implements Listener {
 						
 						List<LabPlayer> labPlayers = labPlayerManager.getLabPlayers();
 						
-						for (LabPlayer labPlayer : labPlayers) {
-							Player otherPlayer = labPlayer.getPlayer();
+						for (LabPlayer nearbyLabPlayer : labPlayers) {
+							Player nearbyPlayer = nearbyLabPlayer.getPlayer();
 							
-							if (otherPlayer == player)
+							if (nearbyPlayer == player)
 								continue;
 							
-							if (Utility.IsNear(otherPlayer.getLocation(), livingEntity.getLocation(), 0, 35))
-								otherPlayer.sendMessage(ChatColor.WHITE + player.getPlayerListName() + ChatColor.RED + " found a boss!");
+							if (Utility.IsNear(nearbyPlayer.getLocation(), livingEntity.getLocation(), 0, 35))
+								nearbyPlayer.sendMessage(ChatColor.WHITE + player.getPlayerListName() + ChatColor.RED + " found a boss!");
 						}
 					}
 				}

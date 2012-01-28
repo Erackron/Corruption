@@ -56,15 +56,19 @@ class CheckBossProximity implements Runnable {
 		
 		for (Object objectLabPlayer : tempLabPlayer) {
 			LabPlayer labPlayer = (LabPlayer) objectLabPlayer;
+			
+			if (labPlayer.getIgnore())
+				continue;
+			
 			Player player = ((LabPlayer) objectLabPlayer).getPlayer();
 			
 			if (player.isSprinting())
-				return;
+				continue;
 			
 			int playerTicksLived = player.getTicksLived();
 			
 			if (playerTicksLived - labPlayer.getLastTimeNotified() < 20)
-				return;
+				continue;
 			
 			int maxNotifyRange = 15;
 			int minNotifyRange = 3;

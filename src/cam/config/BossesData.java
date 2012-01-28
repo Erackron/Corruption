@@ -105,19 +105,19 @@ public enum BossesData {
 	
 	public static enum BossesStatsData {
 		
-		CREEPER ("Boss.Creeper.Stats", 3.75, 3.0, 10.5),
-		MAGMACUBE ("Boss.MagmaCube.Stats", 5.5, 3.0, 8.0),
+		CREEPER ("Boss.Creeper.Stats", 3.75, 2.5, 10.5),
+		MAGMACUBE ("Boss.MagmaCube.Stats", 5.5, 2.5, 8.0),
 		GIANT ("Boss.Giant.Stats", 0.0, 0.0, 0.0),
-		PIGZOMBIE ("Boss.PigZombie.Stats", 5.5, 3.0, 8.0),
-		SLIME ("Boss.Slime.Stats", 5.5, 3.0, 8.0),
-		SILVERFISH ("Boss.Silverfish.Stats", 10.0, 10.0, 7.0),
-		SPIDER ("Boss.Spider.Stats", 5.5, 3.0, 8.0),
-		ENDERMAN ("Boss.Enderman.Stats", 3.75, 3.0, 10.5),
-		BLAZE ("Boss.Blaze.Stats", 5.5, 3.0, 8.0),
-		CAVESPIDER ("Boss.CaveSpider.Stats", 5.5, 3.0, 8.0),
-		ZOMBIE ("Boss.Zombie.Stats", 5.5, 3.0, 8.0),
-		GHAST ("Boss.Ghast.Stats", 5.5, 3.0, 8.0),
-		SKELETON ("Boss.Skeleton.Stats", 5.5, 3.0, 8.0);
+		PIGZOMBIE ("Boss.PigZombie.Stats", 5.5, 2.5, 8.0),
+		SLIME ("Boss.Slime.Stats", 5.5, 2.5, 8.0),
+		SILVERFISH ("Boss.Silverfish.Stats", 7.5, 7.5, 5.0),
+		SPIDER ("Boss.Spider.Stats", 5.5, 2.75, 8.0),
+		ENDERMAN ("Boss.Enderman.Stats", 3.75, 2.5, 10.5),
+		BLAZE ("Boss.Blaze.Stats", 5.5, 2.5, 8.0),
+		CAVESPIDER ("Boss.CaveSpider.Stats", 5.5, 2.75, 8.0),
+		ZOMBIE ("Boss.Zombie.Stats", 5.5, 2.5, 8.0),
+		GHAST ("Boss.Ghast.Stats", 5.5, 2.5, 8.0),
+		SKELETON ("Boss.Skeleton.Stats", 5.5, 2.5, 8.0);
 		
 		private String line = null;
 		private List<Double> params = new LinkedList<Double>();
