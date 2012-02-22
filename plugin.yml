@@ -1,6 +1,6 @@
 name: Likeaboss
 main: cam.Likeaboss
-version: 1.3.2
+version: 1.4.0
 author: bm01
 
 commands:
@@ -11,13 +11,13 @@ commands:
 
 permissions:
   lab.*:
-    description: Gives access to all Lab commands
+    description: Gives access to all /lab permissions
     children:
       lab.info: true
       lab.reload: true
       lab.clear: true
       lab.viewer: true
-      lab.ignore: true
+      lab.ignore.*: true
       lab.list: true
       lab.spawn: true
     default: op
@@ -25,23 +25,32 @@ permissions:
     description: Likeaboss base command
     default: true
   lab.info:
-    description: Give some game info
+    description: Gives some game info
     default: false
   lab.reload:
-    description: Reload config
+    description: Reloads config
     default: false
   lab.clear:
-    description: Clear /lab.info data
+    description: Clears /lab.info data
     default: false
   lab.viewer:
-    description: Display bosses health
+    description: Displays bosses health
+    default: false
+  lab.ignore.*:
+    description: Gives access to all /lab ignore permissions
+    children:
+      lab.ignore: true
+      lab.ignore.immediate: true
     default: false
   lab.ignore:
-    description: Ignore bosses
+    description: Toggle ignore bosses, only work is there is no boss near the player
+    default: false
+  lab.ignore.immediate:
+    description: Allow to use /lab ignore even near a boss
     default: false
   lab.list:
-    description: Display bosses location
+    description: Displays bosses location
     default: false
   lab.spawn:
-    description: Spawn a boss
+    description: Spawns a boss
     default: false

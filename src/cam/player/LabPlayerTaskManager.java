@@ -9,7 +9,8 @@ import cam.Likeaboss;
 import cam.Utility;
 import cam.boss.Boss;
 import cam.boss.BossManager;
-import cam.config.LabConfig;
+import cam.config.MessageData;
+import cam.config.TaskData;
 
 public class LabPlayerTaskManager {
 	
@@ -22,7 +23,7 @@ public class LabPlayerTaskManager {
 	}
 	
 	public void Start() {
-		double checkBossProximity = LabConfig.TasksData.CHECK_BOSS_PROXIMITY.getValue();
+		double checkBossProximity = TaskData.CHECK_BOSS_PROXIMITY.getValue();
 		bukkitScheduler = plugin.getServer().getScheduler();
 		
 		if (checkBossProximity > 0)
@@ -57,7 +58,7 @@ class CheckBossProximity implements Runnable {
 		for (Object objectLabPlayer : tempLabPlayer) {
 			LabPlayer labPlayer = (LabPlayer) objectLabPlayer;
 			
-			if (labPlayer.getIgnore())
+			if (labPlayer.getCommandStatus().getIgnore())
 				continue;
 			
 			Player player = ((LabPlayer) objectLabPlayer).getPlayer();
@@ -96,7 +97,7 @@ class CheckBossProximity implements Runnable {
 					else if (playerTicksLived - labPlayer.getWarmingUpStartTime() >= 50) {
 						labPlayer.setLastTimeNotified(playerTicksLived);
 						boss.setLastTimeNotified(bossTicksLived);
-						player.sendMessage(ChatColor.DARK_RED + "You feel an evil presence...");
+						player.sendMessage(MessageData.PROXIMITY.getMessage().replace('&', ChatColor.COLOR_CHAR));
 					}
 					
 					return;

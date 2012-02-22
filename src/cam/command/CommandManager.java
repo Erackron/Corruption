@@ -18,27 +18,28 @@ public class CommandManager {
 		CommandBase.sender = sender;
 		CommandBase.args = args;
 		String firstArg = args[0].toLowerCase();
+		String perm = "lab." + firstArg;
 		
-		if (firstArg.equals("clear") && sender.hasPermission("lab." + firstArg))
+		if (firstArg.equals("clear") && sender.hasPermission(perm))
 			return ClearCommand.Process();
 			
-		else if (firstArg.equals("reload") && sender.hasPermission("lab." + firstArg))
+		else if (firstArg.equals("reload") && sender.hasPermission(perm))
 			return ReloadCommand.Process();
 			
-		else if (firstArg.equals("info") && sender.hasPermission("lab." + firstArg))
+		else if (firstArg.equals("info") && sender.hasPermission(perm))
 			return InfoCommand.Process();
 			
 		else if (sender instanceof Player) {
-			if (firstArg.equals("viewer") && sender.hasPermission("lab." + firstArg))
+			if (firstArg.equals("viewer") && sender.hasPermission(perm))
 				return ViewerCommand.Process();
 			
-			else if (firstArg.equals("ignore") && sender.hasPermission("lab." + firstArg))
-				return IgnoreCommand.Process();
+			else if (firstArg.equals("ignore") && sender.hasPermission(perm))
+				return IgnoreCommand.Process(sender.hasPermission(perm + ".immediate"));
 				
-			else if (firstArg.equals("list") && sender.hasPermission("lab." + firstArg))
+			else if (firstArg.equals("list") && sender.hasPermission(perm))
 				return ListCommand.Process();
 			
-			else if (firstArg.equals("spawn") && sender.hasPermission("lab." + firstArg))
+			else if (firstArg.equals("spawn") && sender.hasPermission(perm))
 				return SpawnCommand.Process();
 		}
 		

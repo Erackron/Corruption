@@ -2,42 +2,29 @@ package cam.boss;
 
 import org.bukkit.entity.LivingEntity;
 
-import cam.boss.BossManager.BossParams;
+import cam.config.BossData;
 
 public class Boss {
 	
-	private double healthCoef = 0;
-	private double damageCoef = 0;
-	private double expCoef = 0;
-	
 	private LivingEntity livingEntity = null;
+	private BossData bossData = null;
 	private int health = 0;
 	private int lastDamage = 0;
 	private boolean found = false;
 	private int lastTimeNotified = 0;
 
-	public Boss(LivingEntity livingEntity, BossParams bossParams) {
+	public Boss(LivingEntity livingEntity, BossData bossData) {
 		this.livingEntity = livingEntity;
-		this.healthCoef = bossParams.getHealthCoef();
-		this.damageCoef = bossParams.getDamageCoef();
-		this.expCoef = bossParams.getExpCoef();
-		this.health = (int) (livingEntity.getMaxHealth() * healthCoef);
-	}
-	
-	public double getHealthCoef() {
-		return healthCoef;
-	}
-	
-	public double getDamageCoef() {
-		return damageCoef;
-	}
-	
-	public double getExpCoef() {
-		return expCoef;
+		this.bossData = bossData;
+		this.health = (int) (livingEntity.getMaxHealth() * bossData.getHealthCoef());
 	}
 	
 	public LivingEntity getLivingEntity() {
 		return livingEntity;
+	}
+	
+	public BossData getBossData() {
+		return bossData;
 	}
 	
 	public int getHealth() {

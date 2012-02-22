@@ -1,98 +1,101 @@
 package cam.config;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.LivingEntity;
 
 import cam.Likeaboss;
-import cam.boss.BossManager;
-import cam.boss.DropManager;
+import cam.Utility;
+import cam.command.IgnoreCommand;
+import cam.drop.Drop;
+import cam.drop.Roll;
 
 public class LabConfig {
-	
-	private List<World> worlds = new ArrayList<World>();
-	private YamlConfiguration configFile = new YamlConfiguration();
+
 	private Likeaboss plugin = null;
-	private BossManager bossManager = null;
-	private DropManager dropManager = null;
+	private YamlConfiguration configFile = null;
+	private List<World> worlds = new ArrayList<World>();
+	private Map<World, Set<BossData>> bossesData = new HashMap<World, Set<BossData>>();
+	private Map<World, WorldDropData> worldsDropData = new HashMap<World, WorldDropData>();
 	
-	public static enum TasksData {
-		BOSS_VISUAL_EFFECT ("Task.VisualEffect", 1.0),
-		CHECK_BOSS_PROXIMITY ("Task.CheckBossProximity", 0.5),
-		CHECK_ENTITY_HEALTH ("Task.CheckEntityHealth", 2.0),
-		CHECK_ENTITY_EXISTENCE ("Task.CheckEntityExistence", 5.0);
-		
-		private String line = null;
-		private double value = 0;
-		
-		private TasksData(String line, double value) {
-			this.line = line;
-			this.value = value;
-		}
-		
-		public String getLine() {
-			return line;
-		}
-		
-		public double getValue() {
-			return value;
-		}
-		
-		public void setValue(double value) {
-			this.value = value;
-		}
-	}
-		
 	public LabConfig(Likeaboss plugin) {
 		this.plugin = plugin;
-		this.bossManager = plugin.getBossManager();
-		this.dropManager = plugin.getDropManager();
 	}
 	
 	public void LoadFiles() {
-		dropManager.getRolls().clear();
-		bossManager.getBossesParams().clear();
-		
-		this.worlds = plugin.getServer().getWorlds();
-		
-		LoadGlobalConfigFile();
-		LoadWorldConfigFiles();
+		try {
+			LoadGlobalConfigFile();
+			LoadWorldConfigFiles();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
-	private void LoadGlobalConfigFile() {
-		String filePath = "plugins/Likeaboss/config.yml";
-		File file = new File(filePath);
+
+	private void LoadGlobalConfigFile() throws Exception {
+		configFile = new YamlConfiguration();
+		File file = new File("plugins/Likeaboss/config.yml");
 		
 		if (!file.exists()) {
 			Likeaboss.log.warning("[Likeaboss] Creating default global config file.");
-			CreateGlobalConfigFile(filePath);
+			
+			File parentFile = file.getParentFile();
+			if (!parentFile.exists())
+				parentFile.mkdirs();
+			
+			file.createNewFile();
+			
+			InputStream intpuStream = plugin.getResource("cam/config/globalconfig.yml");
+			Utility.StreamToFile(intpuStream, file);
 		}
 		
-		try {
-			configFile.load(filePath);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InvalidConfigurationException e) {
-			e.printStackTrace();
-		}
+		LoadConfig(configFile, file);
 		
 		boolean needSaving = false;
 		
-		//Tasks parameters
-		for (TasksData taskData : TasksData.values()) {
-			String line = taskData.getLine();
+		//Command parameters
+		String line = "Command.Ignore.Delay";
+		if (!configFile.contains(line)) {
+			Likeaboss.log.warning("[Likeaboss] Adding '" + line + "' in config file.");
+			
+			configFile.set(line, 120);
+		}
+		IgnoreCommand.setDelay(configFile.getInt(line));
+		
+		//Message parameters
+		for (MessageData messageData : MessageData.values()) {
+			line = messageData.getLine();
+			
+			if (!configFile.contains(line)) {
+				Likeaboss.log.warning("[Likeaboss] Adding '" + line + "' in config file.");
+				
+				configFile.set(line, messageData.getMessage());
+				needSaving = true;
+				continue;
+			}
+			
+			messageData.setMessage(configFile.getString(line));
+		}
+		
+		//Task parameters
+		for (TaskData taskData : TaskData.values()) {
+			line = taskData.getLine();
 				
 			if (!configFile.contains(line)) {
-				Likeaboss.log.warning("[Likeaboss] Adding missing data in config file.");
+				Likeaboss.log.warning("[Likeaboss] Adding '" + line + "' in config file.");
 					
 				configFile.set(line, taskData.getValue());
 				needSaving = true;
@@ -103,155 +106,252 @@ public class LabConfig {
 		}
 		
 		if (needSaving)
-			SaveFile(filePath);
+			SaveConfig(configFile, file);
 	}
-	
-	private void LoadWorldConfigFiles() {
+
+	private void LoadWorldConfigFiles() throws Exception {
+		worlds = plugin.getServer().getWorlds();
 		Iterator<World> it = worlds.iterator();
 		
 		while (it.hasNext()) {
 			World world = it.next();
-			
-			String filePath = "plugins/Likeaboss/" + world.getName() + "/config.yml";
-			File file = new File(filePath);
+			configFile = new YamlConfiguration();
+			File folder = new File(world.getName());
+			File file = new File("plugins/Likeaboss/" + folder.getName() + "/config.yml");
 			
 			if (!file.exists()) {
-				Likeaboss.log.warning("[Likeaboss] Creating default config file for " + world.getName() + ".");
-				CreateWorldConfigFile(filePath);
-			}
-			
-			try {
-				configFile.load(filePath);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (InvalidConfigurationException e) {
-				e.printStackTrace();
-			}
-			
-			boolean needSaving = false;
-			
-			//Boss parameters
-			for (BossesData bossData : BossesData.values()) {
-				String spawnLine = bossData.getSpawnData().getLine();
-				String statsLine = bossData.getStatsData().getLine();
+				Likeaboss.log.warning("[Likeaboss] Creating default config file for '" + world.getName() + "'.");
 				
-				if (!configFile.contains(spawnLine) || !configFile.contains(statsLine)) {
-					Likeaboss.log.warning("[Likeaboss] Adding missing data in config file.");
+				File parentFile = file.getParentFile();
+				if (!parentFile.exists())
+					parentFile.mkdirs();
+				
+				file.createNewFile();
+				
+				InputStream intpuStream = plugin.getResource("cam/config/worldconfig.yml");
+				Utility.StreamToFile(intpuStream, file);
+			}
+			
+			LoadConfig(configFile, file);
+			
+			Set<BossData> tempBossesData = new HashSet<BossData>();
+			bossesData.put(world, tempBossesData);
+			
+			Set<String> creatureNames = configFile.getConfigurationSection("Boss").getKeys(false);
+			
+			for (String creatureName : creatureNames) {
+				CreatureType creatureType = CreatureType.fromName(creatureName);
+				
+				if (creatureType == null) {
+					Likeaboss.log.warning("[Likeaboss] In '" + world.getName() + "' config file, '" + creatureName + "' isn't a valid creature name");
+					continue;
+				}
+				
+				BossData bossData = new BossData(creatureType);
+				tempBossesData.add(bossData);
+				
+				String bossEntry = "Boss." + creatureName;
+				Map<String, Object> datas = configFile.getConfigurationSection(bossEntry).getValues(false);
+				
+				Boss:
+				for (Entry<String, Object> data : datas.entrySet()) {
+					String dataEntry = bossEntry + "." + data.getKey();
+					String dataType = data.getKey();
 					
-					configFile.set(spawnLine, bossData.getSpawnData().getStringValues());
-					configFile.set(statsLine, bossData.getStatsData().getStringValues());
-					needSaving = true;
-					continue;
-				}
-				
-				String stringSpawnValues = configFile.getString(spawnLine);
-				String stringStatsValues = configFile.getString(statsLine);
-				
-				double[] spawnValues = ProcessString(stringSpawnValues);
-				if (spawnValues == null)
-					continue;
-				
-				double[] statsValues = ProcessString(stringStatsValues);
-				if (statsValues == null)
-					continue;
-				
-				//Check if missing argument
-				if (spawnValues.length < bossData.getSpawnData().getValues().size()) {
-					Likeaboss.log.warning("[Likeaboss] Invalid args for '" + spawnLine + "'. Ignoring.");
-					continue;
-				}
-				if (statsValues.length < bossData.getStatsData().getValues().size()) {
-					Likeaboss.log.warning("[Likeaboss] Invalid args for '" + statsLine + "'. Ignoring.");
-					continue;
-				}
-				
-				bossManager.AddBossParameters(world, bossData.getType(), spawnValues, statsValues);
-			}
-			
-			//Drops parameters
-			for (DropsData dropData : DropsData.values()) {
-				String line = dropData.getLine();
-				
-				if (!configFile.contains(line)) {
-					Likeaboss.log.warning("[Likeaboss] Adding missing data in config file.");
+					//Spawn data
+					if (dataType.equalsIgnoreCase("Spawn")) {
+						String rawValue = data.getValue().toString();
+						
+						for (int i = 0 ; i < rawValue.length() ; i++) {
+							char c = rawValue.charAt(i);
+								
+							if (!Character.isDigit(c) && c != '.' && c != ' ') {
+								Likeaboss.log.warning("[Likeaboss] Invalid values for '" + dataEntry + "' in '" + world.getName() + "' config file");
+								continue Boss;
+							}
+						}
+						
+						String[] values = rawValue.split(" ");
+						
+						if (values.length < 3) {
+							Likeaboss.log.warning("[Likeaboss] Missing values for '" + dataEntry + "' in '" + world.getName() + "' config file");
+							continue;
+						}
+							
+						bossData.setSpawnData(Double.valueOf(values[0]), Double.valueOf(values[1]), Integer.valueOf(values[2]));
+					}
 					
-					configFile.set(line, dropData.getStringValues());
-					needSaving = true;
-					continue;
+					//Stats data
+					else if (dataType.equalsIgnoreCase("Stats")) {
+						String rawValue = data.getValue().toString();
+						
+						for (int i = 0 ; i < rawValue.length() ; i++) {
+							char c = rawValue.charAt(i);
+								
+							if (!Character.isDigit(c) && c != '.' && c != ' ') {
+								Likeaboss.log.warning("[Likeaboss] Invalid values for '" + dataEntry + "' in '" + world.getName() + "' config file");
+								continue Boss;
+							}
+						}
+						
+						String[] values = rawValue.split(" ");
+						
+						if (values.length < 3) {
+							Likeaboss.log.warning("[Likeaboss] Missing values for '" + dataEntry + "' in '" + world.getName() + "' config file");
+							continue;
+						}
+							
+						bossData.setStatData(Double.valueOf(values[0]), Double.valueOf(values[1]), Double.valueOf(values[2]));
+					}
+					
+					//Drops data
+					else if (dataType.equalsIgnoreCase("Drop")) {
+						Set<String> rolls = configFile.getConfigurationSection(dataEntry).getKeys(false);
+						
+						for (String roll : rolls) {
+							String rollEntry = dataEntry + "." + roll;
+							
+							Roll newRoll = new Roll();
+							bossData.AddRoll(newRoll);
+
+							Map<String, Object> drops = configFile.getConfigurationSection(rollEntry).getValues(false);
+							
+							Drop:
+							for (Entry<String, Object> drop : drops.entrySet()) {
+								String dropEntry = rollEntry + "." + drop.getKey();
+								String rawValue = drop.getValue().toString();
+								
+								for (int i = 0 ; i < rawValue.length() ; i++) {
+									char c = rawValue.charAt(i);
+									
+									if (!Character.isDigit(c) && c != '.' && c != ':' && c != ' ') {
+										
+										Likeaboss.log.warning("[Likeaboss] Invalid values for '" + dropEntry + "' in '" + world.getName() + "' config file");
+										continue Drop;
+									}
+								}
+								
+								String[] values = rawValue.split(" ");
+								
+								if (values.length < 4) {
+									Likeaboss.log.warning("[Likeaboss] Missing values for '" + dropEntry + "' in '" + world.getName() + "' config file");
+									continue;
+								}
+								
+								Material material = null;
+								short metaData = 0;
+								
+								if (values[0].contains(":")) {
+									String[] tempData = values[0].split(":");
+									material = Material.getMaterial(Integer.valueOf(tempData[0]));
+									metaData = Short.valueOf(tempData[1]);
+								}
+								else
+									material = Material.getMaterial(Integer.valueOf(values[0]));
+								
+								Drop newDrop = new Drop(material, metaData, Double.valueOf(values[1]), Integer.valueOf(values[2]), Integer.valueOf(values[3]));
+								newRoll.AddDrop(newDrop);
+							}
+						}
+					}
 				}
-				
-				String stringValues = configFile.getString(line);
-				
-				double[] values = ProcessString(stringValues);
-				if (values == null)
-					continue;
-				
-				//Check if missing argument
-				if (values.length < dropData.getValues().size()) {
-					Likeaboss.log.warning("[Likeaboss] Invalid args for '" + line + "'. Ignoring.");
-					continue;
-				}
-				
-				if (values[0] != 0) //Air = no drop
-					dropManager.AddPossibleDrop(dropData.getRollId(), values);
 			}
 			
-			if (needSaving)
-				SaveFile(filePath);
-		}
-	}
-	
-	private double[] ProcessString(String string) {
-		//Check the string before splitting
-		for (int i = 0 ; i < string.length() ; i++) {
-			char c = string.charAt(i);
+			WorldDropData worldDropData = new WorldDropData();
+			worldsDropData.put(world, worldDropData);
 			
-			if (!Character.isDigit(c) && c != ' ' && c != '.') {
-				Likeaboss.log.warning("[Likeaboss] Invalid args for '" + string + "'. Ignoring.");
-				return null;
+			Set<String> rolls = configFile.getConfigurationSection("Drop").getKeys(false);
+			
+			for (String roll : rolls) {
+				String rollEntry = "Drop." + roll;
+				
+				Roll newRoll = new Roll();
+				worldDropData.AddRoll(newRoll);
+				
+				Map<String, Object> drops = configFile.getConfigurationSection(rollEntry).getValues(false);
+				
+				Drop:
+				for (Entry<String, Object> drop : drops.entrySet()) {
+					String dropEntry = rollEntry + "." + drop.getKey();
+					String rawValue = drop.getValue().toString();
+					
+					for (int i = 0 ; i < rawValue.length() ; i++) {
+						char c = rawValue.charAt(i);
+							
+						if (!Character.isDigit(c) && c != '.' && c != ':' && c != ' ') {
+							Likeaboss.log.warning("[Likeaboss] Invalid values for '" + dropEntry + "' in '" + world.getName() + "' config file");
+							continue Drop;
+						}
+					}
+						
+					String[] values = rawValue.split(" ");
+						
+					if (values.length < 4) {
+						Likeaboss.log.warning("[Likeaboss] Missing values for '" + dropEntry + "' in '" + world.getName() + "' config file");
+						continue;
+					}
+						
+					Material material = null;
+					short metaData = 0;
+						
+					if (values[0].contains(":")) {
+						String[] tempData = values[0].split(":");
+						material = Material.getMaterial(Integer.valueOf(tempData[0]));
+						metaData = Short.valueOf(tempData[1]);
+					}
+					else
+						material = Material.getMaterial(Integer.valueOf(values[0]));
+														
+						
+					Drop newDrop = new Drop(material, metaData, Double.valueOf(values[1]), Integer.valueOf(values[2]), Integer.valueOf(values[3]));
+					newRoll.AddDrop(newDrop);
+				}
 			}
 		}
-		
-		//Split
-		String[] splitted = string.split(" ");
-		double[] values = new double[splitted.length];
-			
-		for (int i = 0 ; i < splitted.length ; i++)
-			values[i] = Double.valueOf(splitted[i]);
-			
-		return values;
 	}
 	
-	private void CreateGlobalConfigFile(String filePath) {
-		configFile = new YamlConfiguration();
-		
-		for (TasksData taskData : TasksData.values())
-			configFile.set(taskData.getLine(), taskData.getValue());
-		
-		SaveFile(filePath);
-	}
-	
-	private void CreateWorldConfigFile(String filePath) {
-		configFile = new YamlConfiguration();
-		
-		for (BossesData bossData : BossesData.values()) {
-			configFile.set(bossData.getSpawnData().getLine(), bossData.getSpawnData().getStringValues());
-			configFile.set(bossData.getStatsData().getLine(), bossData.getStatsData().getStringValues());
-		}
-		
-		for (DropsData dropData : DropsData.values())
-			configFile.set(dropData.getLine(), dropData.getStringValues());
-		
-		SaveFile(filePath);
-	}
-	
-	private void SaveFile(String filePath) {
+	private void LoadConfig(YamlConfiguration configFile, File file) {
 		try {
-			configFile.save(filePath);
-		} catch (IOException e) {
+			configFile.load(file);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void SaveConfig(YamlConfiguration configFile, File file) {
+		try {
+			configFile.save(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public BossData getBossData(LivingEntity livingEntity) {
+		World world = livingEntity.getWorld();
+		Set<BossData> set = bossesData.get(world);
+				
+		if (set == null) {
+			LoadFiles();
+			set = bossesData.get(world);
+		}
+		
+		for (BossData bossData : set) {
+			//WHY BUKKIT, WHY?
+			if (bossData.getCreatureType().getEntityClass().getSimpleName().equals(livingEntity.getClass().getSimpleName().substring(5)))
+				return bossData;
+		}
+		
+		return null;
+	}
+	
+	public WorldDropData getWorldDropData(World world) {
+		WorldDropData worldDropData = worldsDropData.get(world);
+		
+		if (worldDropData == null) {
+			LoadFiles();
+			worldDropData = worldsDropData.get(world);
+		}
+		
+		return worldDropData;
 	}
 }

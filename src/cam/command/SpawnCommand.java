@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 
 import cam.boss.BossManager;
+import cam.config.BossData;
 
 public abstract class SpawnCommand extends CommandBase {
 	
@@ -60,11 +61,12 @@ public abstract class SpawnCommand extends CommandBase {
 		
 		else {
 			BossManager bossManager = plugin.getBossManager();
+			
 			Player player = (Player) sender;
 			World world = player.getWorld();
 			Block block = player.getTargetBlock(null, 100).getRelative(BlockFace.UP);
-			CreatureType creatureType = CreatureType.fromName(creatureName);
 			
+			CreatureType creatureType = CreatureType.fromName(creatureName);
 			LivingEntity spawnedCreature = world.spawnCreature(block.getLocation(), creatureType);
 			
 			if (Slime.class.isAssignableFrom(creatureType.getEntityClass())) {
@@ -74,7 +76,12 @@ public abstract class SpawnCommand extends CommandBase {
 				slime.setHealth(slime.getMaxHealth());
 			}
 			
-			bossManager.AddBoss(spawnedCreature);
+			BossData bossData = plugin.getLabConfig().getBossData(spawnedCreature);
+			
+			if (bossData == null)
+				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Nothing in the config file for " + ChatColor.GRAY + creatureName + ChatColor.WHITE + ".");
+			else
+				bossManager.AddBoss(spawnedCreature, bossData);
 		}
 		
 		return true;

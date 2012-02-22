@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import cam.Likeaboss;
 import cam.WorldLivingEntitiesGetter;
-import cam.config.LabConfig;
+import cam.config.TaskData;
 
 public class BossTaskManager {
 	
@@ -27,9 +27,9 @@ public class BossTaskManager {
 	}
 	
 	public void Start() {
-		double drawEffectInterval = LabConfig.TasksData.BOSS_VISUAL_EFFECT.getValue();
-		double checkEntityHealthInterval = LabConfig.TasksData.CHECK_ENTITY_HEALTH.getValue();
-		double checkEntityExistenceInterval = LabConfig.TasksData.CHECK_ENTITY_EXISTENCE.getValue();
+		double drawEffectInterval = TaskData.BOSS_VISUAL_EFFECT.getValue();
+		double checkEntityHealthInterval = TaskData.CHECK_ENTITY_HEALTH.getValue();
+		double checkEntityExistenceInterval = TaskData.CHECK_ENTITY_EXISTENCE.getValue();
 		bukkitScheduler = plugin.getServer().getScheduler();
 		
 		if (drawEffectInterval > 0)
@@ -127,7 +127,7 @@ class CheckEntityExistence extends BossTask implements Runnable {
 			Boss boss = ((Boss) object);
 			
 			if (!entities.contains(boss.getLivingEntity()))
-				bossManager.RemoveBoss(boss, false);
+				bossManager.RemoveBoss(boss);
 		}
 	}
 }

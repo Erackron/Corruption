@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 public class LabPlayer {
 
 	private Player player = null;
-	private boolean viewer = false;
-	private boolean ignore = false;
+	private LabPlayerCommandStatus commandStatus = null;
+	private int ignoreTaskId = 0;
 	//For boss proximity
 	private int lastTimeNotified = 0;
 	private boolean warmingUp = false;
@@ -14,18 +14,19 @@ public class LabPlayer {
 
 	public LabPlayer(Player player) {
 		this.player = player;
+		this.commandStatus = new LabPlayerCommandStatus();
 	}
 	
 	public Player getPlayer() {
 		return player;
 	}
 	
-	public boolean getViewer() {
-		return viewer;
+	public LabPlayerCommandStatus getCommandStatus() {
+		return commandStatus;
 	}
 	
-	public boolean getIgnore() {
-		return ignore;
+	public int getIgnoreTaskId() {
+		return ignoreTaskId;
 	}
 	
 	public int getLastTimeNotified() {
@@ -40,12 +41,12 @@ public class LabPlayer {
 		return warmingUpStartTime;
 	}
 	
-	public void setViewer(boolean viewer) {
-		this.viewer = viewer;
+	public void setCommandsStatus(LabPlayerCommandStatus commandStatus) {
+		this.commandStatus = commandStatus;
 	}
 	
-	public void setIgnore(boolean ignore) {
-		this.ignore = ignore;
+	public void setIgnoreTaskId(int ignoreTaskId) {
+		this.ignoreTaskId = ignoreTaskId;
 	}
 
 	public void setLastTimeNotified(int lastTimeNotified) {

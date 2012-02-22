@@ -17,12 +17,12 @@ public class LabPlayerListener implements Listener {
 		labPlayerManager = plugin.getLabPlayerManager();
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		labPlayerManager.AddLabPlayer(event.getPlayer());
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		labPlayerManager.RemoveLabPlayer(event.getPlayer());
 	}
