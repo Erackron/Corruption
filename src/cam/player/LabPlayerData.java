@@ -1,6 +1,6 @@
 package cam.player;
 
-public class LabPlayerCommandStatus {
+public class LabPlayerData {
 	
 	private boolean viewer = false;
 	private boolean ignore = false;

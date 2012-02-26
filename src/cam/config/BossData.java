@@ -3,14 +3,14 @@ package cam.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 
 import cam.drop.Roll;
 
 public class BossData {
 	
 	private List<Roll> rolls = new ArrayList<Roll>();
-	private CreatureType creatureType = null;
+	private EntityType entityType = null;
 	private String name = null;
 	private double chance = 0.0;
 	private double chanceFromSpawner = 0.0;
@@ -19,8 +19,8 @@ public class BossData {
 	private double damageCoef = 0.0;
 	private double expCoef = 0.0;
 	
-	public BossData(CreatureType creatureType) {
-		this.creatureType = creatureType;
+	public BossData(EntityType entityType) {
+		this.entityType = entityType;
 	}
 	
 	public void AddRoll(Roll roll) {
@@ -31,8 +31,8 @@ public class BossData {
 		return rolls;
 	}
 
-	public CreatureType getCreatureType() {
-		return creatureType;
+	public EntityType getEntityType() {
+		return entityType;
 	}
 	
 	public String getName() {

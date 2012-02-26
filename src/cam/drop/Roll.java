@@ -8,7 +8,6 @@ public class Roll {
 	private List<Drop> drops = new ArrayList<Drop>();
 	
 	public Roll() {
-		
 	}
 
 	public void AddDrop(Drop drop) {

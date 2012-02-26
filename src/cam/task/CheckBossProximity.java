@@ -1,52 +1,23 @@
-package cam.player;
+package cam.task;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import cam.Likeaboss;
 import cam.Utility;
 import cam.boss.Boss;
 import cam.boss.BossManager;
 import cam.config.MessageData;
-import cam.config.TaskData;
-
-public class LabPlayerTaskManager {
-	
-	private Likeaboss plugin = null;
-	private BukkitScheduler bukkitScheduler = null;
-	private int taskId = 0;
-	
-	public LabPlayerTaskManager(Likeaboss plugin) {
-		this.plugin = plugin;
-	}
-	
-	public void Start() {
-		double checkBossProximity = TaskData.CHECK_BOSS_PROXIMITY.getValue();
-		bukkitScheduler = plugin.getServer().getScheduler();
-		
-		if (checkBossProximity > 0)
-			taskId = bukkitScheduler.scheduleAsyncRepeatingTask(plugin, new CheckBossProximity(plugin, bukkitScheduler), 0, (long) (checkBossProximity * 20));
-	}
-	
-	public void Stop() {
-		if (taskId != 0)
-			bukkitScheduler.cancelTask(taskId);
-	}
-	
-	public void Restart() {
-		Stop();
-		Start();
-	}
-}
+import cam.player.LabPlayer;
+import cam.player.LabPlayerManager;
 
 class CheckBossProximity implements Runnable {
 
 	private LabPlayerManager labPlayerManager = null;
 	private BossManager bossManager = null;
 	
-	public CheckBossProximity(Likeaboss plugin, BukkitScheduler bukkitScheduler) {
+	public CheckBossProximity(Likeaboss plugin) {
 		this.labPlayerManager = plugin.getLabPlayerManager();
 		this.bossManager = plugin.getBossManager();
 	}
@@ -58,7 +29,7 @@ class CheckBossProximity implements Runnable {
 		for (Object objectLabPlayer : tempLabPlayer) {
 			LabPlayer labPlayer = (LabPlayer) objectLabPlayer;
 			
-			if (labPlayer.getCommandStatus().getIgnore())
+			if (labPlayer.getLabPlayerData().getIgnore())
 				continue;
 			
 			Player player = ((LabPlayer) objectLabPlayer).getPlayer();

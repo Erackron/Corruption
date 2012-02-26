@@ -11,7 +11,10 @@ import cam.drop.DropCalculator;
 
 public abstract class InfoCommand extends CommandBase {
 
-	public static boolean Process() {
+	public static void Process() {
+		if (!CheckPermission("lab.info", true))
+			return;
+		
 		BossManager bossManager = plugin.getBossManager();
 		DropCalculator dropCalculator = plugin.getDropCalculator();
 		
@@ -22,7 +25,5 @@ public abstract class InfoCommand extends CommandBase {
 		Map<Material, Integer> droped = dropCalculator.getDroped();
 		for (Entry<Material, Integer> entry : droped.entrySet())
 			sender.sendMessage(ChatColor.GRAY + entry.getKey().toString() + " found: " + entry.getValue());
-		
-		return true;
 	}
 }

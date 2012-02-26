@@ -4,12 +4,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import cam.player.LabPlayer;
-import cam.player.LabPlayerCommandStatus;
+import cam.player.LabPlayerData;
 import cam.player.LabPlayerManager;
 
 public abstract class ViewerCommand extends CommandBase {
 
-	public static boolean Process() {
+	public static void Process() {
+		if (!CheckPermission("lab.viewer", false))
+			return;
+		
 		LabPlayerManager labPlayerManager = plugin.getLabPlayerManager();
 		LabPlayer labPlayer = labPlayerManager.getLabPlayer((Player) sender);
 		
@@ -19,16 +22,11 @@ public abstract class ViewerCommand extends CommandBase {
 		}
 		
 		else {
-			LabPlayerCommandStatus commandStatus = labPlayer.getCommandStatus();
+			LabPlayerData labPlayerData = labPlayer.getLabPlayerData();
+			boolean viewer = labPlayerData.getViewer();
 			
-			if (commandStatus.getViewer())
-				commandStatus.setViewer(false);
-			else
-				commandStatus.setViewer(true);
-			
-			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Viewer: " + ChatColor.GREEN + commandStatus.getViewer());
+			labPlayerData.setViewer(!viewer);
+			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Viewer: " + ChatColor.GREEN + !viewer);
 		}
-		
-		return true;
 	}
 }

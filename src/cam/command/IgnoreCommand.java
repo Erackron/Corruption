@@ -5,14 +5,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import cam.player.LabPlayer;
-import cam.player.LabPlayerCommandStatus;
+import cam.player.LabPlayerData;
 import cam.player.LabPlayerManager;
 
 public abstract class IgnoreCommand extends CommandBase {
 
 	private static int delay = 0;
 	
-	public static boolean Process(boolean immediate) {
+	public static void Process() {
+		if (!CheckPermission("lab.ignore", false))
+			return;
+		
 		LabPlayerManager labPlayerManager = plugin.getLabPlayerManager();
 		LabPlayer labPlayer = labPlayerManager.getLabPlayer((Player) sender);
 		BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
@@ -20,10 +23,10 @@ public abstract class IgnoreCommand extends CommandBase {
 		if (labPlayer == null) {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Oops, something went wrong.");
 			sender.sendMessage("Please notify the plugin author.");
-			return true;
+			return;
 		}
 		
-		if (!immediate && delay != 0) {
+		if (!sender.hasPermission("lab.ignore.immediate") && delay != 0) {
 			int ignoreTaskId = labPlayer.getIgnoreTaskId();
 			
 			if (ignoreTaskId != 0) {
@@ -31,26 +34,21 @@ public abstract class IgnoreCommand extends CommandBase {
 				labPlayer.setIgnoreTaskId(0);
 				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Canceled");
 			}
-			else {		
+			else {
 				labPlayer.setIgnoreTaskId(bukkitScheduler.scheduleAsyncDelayedTask(plugin, new IgnoreCommandTask(labPlayer), delay * 20));
 				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Applied in " + ChatColor.GREEN + delay + ChatColor.GRAY + " second(s)");
 			}
 		}
 		else
 			Apply(labPlayer);
-		
-		return true;
 	}
 	
 	public static void Apply(LabPlayer labPlayer) {
-		LabPlayerCommandStatus commandStatus = labPlayer.getCommandStatus();
+		LabPlayerData labPlayerData = labPlayer.getLabPlayerData();
+		boolean ignore = labPlayerData.getIgnore();
 		
-		if (commandStatus.getIgnore())
-			commandStatus.setIgnore(false);
-		else
-			commandStatus.setIgnore(true);
-			
-		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GREEN + commandStatus.getIgnore());
+		labPlayerData.setIgnore(!ignore);
+		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GREEN + !ignore);
 	}
 	
 	public static void setDelay(int delay) {

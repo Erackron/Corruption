@@ -7,8 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -20,18 +20,23 @@ import cam.config.BossData;
 
 public abstract class SpawnCommand extends CommandBase {
 	
-	private static Set<String> spawnableCreatureNames = new HashSet<String>();
-	private static CreatureType[] creatureTypes = CreatureType.values();
+	private static Set<EntityType> spawnableEntities = new HashSet<EntityType>();
 	
-	public static boolean Process() {
-		if (spawnableCreatureNames.isEmpty()) {
-			for (CreatureType creatureType : creatureTypes) {
-				Class<? extends Entity> entityClass = creatureType.getEntityClass();
+	public static void Process() {
+		if (!CheckPermission("lab.spawn", false))
+			return;
+		
+		if (spawnableEntities.isEmpty()) {
+			for (EntityType entityType : EntityType.values()) {
+				Class<? extends Entity> entityClass = entityType.getEntityClass();
+				
+				if (entityClass == null)
+					continue;
 				
 				if (Monster.class.isAssignableFrom(entityClass) && entityClass != Monster.class ||
 					Slime.class.isAssignableFrom(entityClass) ||
 					Ghast.class.isAssignableFrom(entityClass))
-					spawnableCreatureNames.add(creatureType.getName());
+					spawnableEntities.add(entityType);
 			}
 		}
 		
@@ -39,10 +44,10 @@ public abstract class SpawnCommand extends CommandBase {
 		String creatureName = null;
 		
 		if (args.length >= 2) {
-			for (String name : spawnableCreatureNames) {
-				if (name.equalsIgnoreCase(args[1])) {
+			for (EntityType entityType : spawnableEntities) {
+				if (entityType.getName().equalsIgnoreCase(args[1])) {
 					spawn = true;
-					creatureName = name;
+					creatureName = entityType.getName();
 					break;
 				}
 			}
@@ -51,8 +56,8 @@ public abstract class SpawnCommand extends CommandBase {
 		if (!spawn) {
 			String creatureList = "";
 			
-			for (String name : spawnableCreatureNames)
-				creatureList += name + ", ";
+			for (EntityType entityType : spawnableEntities)
+				creatureList += entityType.getName() + ", ";
 			creatureList = creatureList.substring(0, creatureList.length() - 2);
 			
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Allowed Creatures");
@@ -66,10 +71,10 @@ public abstract class SpawnCommand extends CommandBase {
 			World world = player.getWorld();
 			Block block = player.getTargetBlock(null, 100).getRelative(BlockFace.UP);
 			
-			CreatureType creatureType = CreatureType.fromName(creatureName);
-			LivingEntity spawnedCreature = world.spawnCreature(block.getLocation(), creatureType);
+			EntityType entityType = EntityType.fromName(creatureName);
+			LivingEntity spawnedCreature = world.spawnCreature(block.getLocation(), entityType);
 			
-			if (Slime.class.isAssignableFrom(creatureType.getEntityClass())) {
+			if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
 				Slime slime = (Slime) spawnedCreature;
 				
 				slime.setSize(4);
@@ -83,7 +88,5 @@ public abstract class SpawnCommand extends CommandBase {
 			else
 				bossManager.AddBoss(spawnedCreature, bossData);
 		}
-		
-		return true;
 	}
 }

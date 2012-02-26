@@ -24,7 +24,7 @@ public class LabPlayerManager {
 
 	private static List<LabPlayer> labPlayers = new ArrayList<LabPlayer>();
 	private static List<LabPlayer> seenLabPlayers = new ArrayList<LabPlayer>();
-	private static Map<String, LabPlayerCommandStatus> labPlayerCommandStatus = new HashMap<String, LabPlayerCommandStatus>();
+	private static Map<String, LabPlayerData> labPlayerData = new HashMap<String, LabPlayerData>();
 	private static String filePath = "plugins/Likeaboss/players.dat";
 	private static String separator = ":";
 	private static String endLine = System.getProperty("line.separator");
@@ -33,15 +33,22 @@ public class LabPlayerManager {
 	}
 	
 	public void AddOnlinePlayers(Likeaboss plugin) {
-		Object[] players = plugin.getServer().getOnlinePlayers();
+		Player[] players = plugin.getServer().getOnlinePlayers();
 		
-		for (Object player : players)
-			AddLabPlayer((Player) player);
+		for (Player player : players)
+			AddLabPlayer(player);
 	}
 	
 	public void AddLabPlayer(Player player) {
+		//for (LabPlayer labPlayer : seenLabPlayers) {
+		//	if (labPlayer.getPlayer() == player) {
+		//		labPlayers.add(labPlayer);
+		//		return;
+		//	}
+		//}
 		for (LabPlayer labPlayer : seenLabPlayers) {
-			if (labPlayer.getPlayer() == player) {
+			if (labPlayer.getPlayer().getName().equals(player.getName())) {
+				labPlayer.setPlayer(player);
 				labPlayers.add(labPlayer);
 				return;
 			}
@@ -51,10 +58,10 @@ public class LabPlayerManager {
 		labPlayers.add(labPlayer);
 		seenLabPlayers.add(labPlayer);
 		
-		for (Entry<String, LabPlayerCommandStatus> entry : labPlayerCommandStatus.entrySet()) {
+		for (Entry<String, LabPlayerData> entry : labPlayerData.entrySet()) {
 			if (entry.getKey().equals(player.getName())) {
-				labPlayer.setCommandsStatus(entry.getValue());
-				break;
+				labPlayer.setLabPlayerData(entry.getValue());
+				return;
 			}
 		}
 	}
@@ -63,7 +70,7 @@ public class LabPlayerManager {
 		for (LabPlayer labPlayer : labPlayers) {
 			if (labPlayer.getPlayer() == player) {
 				labPlayers.remove(labPlayer);
-				break;
+				return;
 			}
 		}
 	}
@@ -80,11 +87,11 @@ public class LabPlayerManager {
 			String line = scanner.nextLine();
 			String[] data = line.split(separator);
 			
-			LabPlayerCommandStatus commandStatus = new LabPlayerCommandStatus();
+			LabPlayerData commandStatus = new LabPlayerData();
 			commandStatus.setViewer(Boolean.valueOf(data[1]));
 			commandStatus.setIgnore(Boolean.valueOf(data[2]));
 			
-			labPlayerCommandStatus.put(data[0], commandStatus);
+			labPlayerData.put(data[0], commandStatus);
 		}
 		
 		scanner.close();
@@ -110,13 +117,18 @@ public class LabPlayerManager {
 		Outer:
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
+			
+			if (line == endLine)
+				continue;
+			
 			String nameInFile = line.substring(0, line.indexOf(separator));
 			
 			for (LabPlayer labPlayer : seenLabPlayers) {
 				String playerName = labPlayer.getPlayer().getName();
 				
+				//If the player is present in the old file and was seen, update its data
 				if (nameInFile.equals(playerName)) {
-					LabPlayerCommandStatus commandStatus = labPlayer.getCommandStatus();
+					LabPlayerData commandStatus = labPlayer.getLabPlayerData();
 					String viewer = String.valueOf(commandStatus.getViewer());
 					String ignore = String.valueOf(commandStatus.getIgnore());
 					
@@ -126,12 +138,13 @@ public class LabPlayerManager {
 				}
 			}
 			
-			if (line != endLine)
-				writer.write(line + endLine);
+			//If not seen, just copy the line
+			writer.write(line + endLine);
 		}
 		
+		//New players
 		for (LabPlayer labPlayer : seenLabPlayers) {
-			LabPlayerCommandStatus commandStatus = labPlayer.getCommandStatus();
+			LabPlayerData commandStatus = labPlayer.getLabPlayerData();
 			
 			String playerName = labPlayer.getPlayer().getName();
 			String viewer = String.valueOf(commandStatus.getViewer());

@@ -1,7 +1,6 @@
 package cam.command;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import cam.Likeaboss;
 
@@ -15,33 +14,28 @@ public class CommandManager {
 		if (!label.equalsIgnoreCase("lab") || args.length == 0)
 			return false;
 		
+		CommandBase.processed = false;
 		CommandBase.sender = sender;
 		CommandBase.args = args;
 		String firstArg = args[0].toLowerCase();
-		String perm = "lab." + firstArg;
 		
-		if (firstArg.equals("clear") && sender.hasPermission(perm))
-			return ClearCommand.Process();
-			
-		else if (firstArg.equals("reload") && sender.hasPermission(perm))
-			return ReloadCommand.Process();
-			
-		else if (firstArg.equals("info") && sender.hasPermission(perm))
-			return InfoCommand.Process();
-			
-		else if (sender instanceof Player) {
-			if (firstArg.equals("viewer") && sender.hasPermission(perm))
-				return ViewerCommand.Process();
-			
-			else if (firstArg.equals("ignore") && sender.hasPermission(perm))
-				return IgnoreCommand.Process(sender.hasPermission(perm + ".immediate"));
-				
-			else if (firstArg.equals("list") && sender.hasPermission(perm))
-				return ListCommand.Process();
-			
-			else if (firstArg.equals("spawn") && sender.hasPermission(perm))
-				return SpawnCommand.Process();
-		}
+		if (firstArg.equals("clear"))
+			ClearCommand.Process();
+		else if (firstArg.equals("reload"))
+			ReloadCommand.Process();
+		else if (firstArg.equals("info"))
+			InfoCommand.Process();
+		else if (firstArg.equals("viewer"))
+			ViewerCommand.Process();
+		else if (firstArg.equals("ignore"))
+			IgnoreCommand.Process();
+		else if (firstArg.equals("list"))
+			ListCommand.Process();
+		else if (firstArg.equals("spawn"))
+			SpawnCommand.Process();
+		
+		if (CommandBase.processed)
+			return true;
 		
 		return false;
 	}

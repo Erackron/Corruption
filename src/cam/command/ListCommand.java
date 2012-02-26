@@ -17,9 +17,12 @@ import cam.boss.BossManager;
 
 public abstract class ListCommand extends CommandBase {
 
-	public static boolean Process() {
+	public static void Process() {
+		if (!CheckPermission("lab.list", false))
+			return;
+		
 		Player player = (Player) sender;
-
+		
 		BossManager bossManager = plugin.getBossManager();
 		List<Boss> bosses = bossManager.getBosses();
 		Map<LivingEntity, Double> unsortedData = new HashMap<LivingEntity, Double>();
@@ -57,7 +60,5 @@ public abstract class ListCommand extends CommandBase {
 			
 			sender.sendMessage(message);
 		}
-			
-		return true;
 	}
 }

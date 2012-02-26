@@ -1,9 +1,9 @@
 package cam.listener;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -27,6 +27,7 @@ import cam.config.BossData;
 import cam.config.LabConfig;
 import cam.config.MessageData;
 import cam.drop.DropCalculator;
+import cam.event.BossDamageEvent;
 import cam.player.LabPlayer;
 import cam.player.LabPlayerManager;
 
@@ -46,9 +47,7 @@ public class LabEntityListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
-		SpawnReason spawnReason = event.getSpawnReason();
-		
-		if (spawnReason == SpawnReason.CUSTOM)
+		if (event.getSpawnReason() == SpawnReason.CUSTOM)
 			return;
 		
 		Entity entity = event.getEntity();
@@ -83,8 +82,7 @@ public class LabEntityListener implements Listener {
 		if (boss == null)
 			return;
 		
-		List<ItemStack> drops = event.getDrops();
-		dropCalculator.Process(drops, boss, entity.getWorld());
+		dropCalculator.Process(event.getDrops(), boss, entity.getWorld());
 		event.setDroppedExp((int) (event.getDroppedExp() * boss.getBossData().getExpCoef()));
 		
 		bossManager.KillBoss(boss);
@@ -92,8 +90,7 @@ public class LabEntityListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent event) {
-		Entity entity = event.getEntity();
-		Boss boss = bossManager.getBoss(entity);
+		Boss boss = bossManager.getBoss(event.getEntity());
 		
 		if (boss != null)
 			bossManager.RemoveBoss(boss);
@@ -122,12 +119,12 @@ public class LabEntityListener implements Listener {
 				LabPlayer labPlayer = labPlayerManager.getLabPlayer(player);
 				
 				if (labPlayer != null) {
-					if (labPlayer.getCommandStatus().getIgnore()) {
+					if (labPlayer.getLabPlayerData().getIgnore()) {
 						bossManager.RemoveBoss(boss);
 						return;
 					}
 				}
-
+				
 				event.setDamage((int) (event.getDamage() * boss.getBossData().getDamageCoef()));
 					
 				//Found message
@@ -155,7 +152,7 @@ public class LabEntityListener implements Listener {
 			}
 			
 			Entity damager = null;
-						
+			
 			//Damager finder
 			if (event instanceof EntityDamageByEntityEvent) {
 				damager = ((EntityDamageByEntityEvent) event).getDamager();
@@ -174,14 +171,14 @@ public class LabEntityListener implements Listener {
 					LabPlayer labPlayer = labPlayerManager.getLabPlayer(player);
 					
 					if (labPlayer != null) {
-						if (labPlayer.getCommandStatus().getIgnore()) {
+						if (labPlayer.getLabPlayerData().getIgnore()) {
 							bossManager.RemoveBoss(boss);
 							return;
 						}
 					}
 						
 					if (!Utility.IsNear(player.getLocation(), livingEntity.getLocation(), 0, 16)) {
-						player.sendMessage(MessageData.TOOFAR.getMessage());
+						player.sendMessage(MessageData.TOOFAR.getMessage().replace('&', ChatColor.COLOR_CHAR));
 						event.setDamage(0);
 						event.setCancelled(true);
 						return;
@@ -196,7 +193,7 @@ public class LabEntityListener implements Listener {
 			
 			ItemStack weapon = null;
 			int damage = event.getDamage();
-								
+			
 			//Apply damage
 			if (event.getCause() == DamageCause.ENTITY_ATTACK || event.getCause() == DamageCause.PROJECTILE) {
 				//Check for enchantment
@@ -236,21 +233,25 @@ public class LabEntityListener implements Listener {
 					//Message
 					LabPlayer labPlayer = labPlayerManager.getLabPlayer(player);
 					
-					if (labPlayer != null && labPlayer.getCommandStatus().getViewer())
+					if (labPlayer != null && labPlayer.getLabPlayerData().getViewer())
 						player.sendMessage("Boss Health: " + ChatColor.GRAY + (boss.getHealth() - damage) + " (-" + damage + ")");
 				}
-				
-				bossManager.DamageBoss(boss, damage);
 			}
 			else if (event.getCause() == DamageCause.ENTITY_EXPLOSION || event.getCause() == DamageCause.BLOCK_EXPLOSION)
-				bossManager.DamageBoss(boss, (int) (damage / 2.0));
+				damage /= 2;
 			else if (event.getCause() == DamageCause.MAGIC || event.getCause() == DamageCause.POISON)
-				bossManager.DamageBoss(boss, (int) (damage * 1.25));
+				damage *= 1.25;
 			else {
 				event.setDamage(0);
 				event.setCancelled(true);
 				return;
 			}
+			
+			//Throw event
+			BossDamageEvent bossDamageEvent = new BossDamageEvent(boss, damager, damage);
+			Bukkit.getServer().getPluginManager().callEvent(bossDamageEvent);
+			
+			bossManager.DamageBoss(boss, damage);
 			
 			if (boss.getHealth() <= 0) {
 				//Dirty fix to keep correct exp gain from mcMMO
@@ -270,8 +271,8 @@ public class LabEntityListener implements Listener {
 				if (weapon != null) {
 					short maxDurability = weapon.getType().getMaxDurability();
 					
-					if (maxDurability == 33 || maxDurability == 66 || maxDurability == 132 || maxDurability == 251 || maxDurability == 1562)
-						weapon.setDurability((short) (weapon.getDurability() + 1));
+					if (maxDurability == 1561 || maxDurability == 251 || maxDurability == 131 || maxDurability == 59 || maxDurability == 32)
+						weapon.setDurability((short) (weapon.getDurability() + 1)); //TODO: +2 for tools
 				}
 				
 				event.setDamage(0); //Otherwise Minecraft adds enchant damage, it could result in OHK
