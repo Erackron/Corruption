@@ -6,8 +6,6 @@ import java.util.List;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
-import cam.config.BossData;
-
 public class BossManager {
 	
 	private List<Boss> bosses = new ArrayList<Boss>();

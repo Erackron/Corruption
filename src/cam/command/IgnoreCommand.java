@@ -4,14 +4,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import cam.config.GlobalConfig.CommandData;
 import cam.player.LabPlayer;
 import cam.player.LabPlayerData;
 import cam.player.LabPlayerManager;
 
 public abstract class IgnoreCommand extends CommandBase {
 
-	private static int delay = 0;
-	
 	public static void Process() {
 		if (!CheckPermission("lab.ignore", false))
 			return;
@@ -25,6 +24,8 @@ public abstract class IgnoreCommand extends CommandBase {
 			sender.sendMessage("Please notify the plugin author.");
 			return;
 		}
+		
+		int delay = CommandData.IGNORE_DELAY.getValue();
 		
 		if (!sender.hasPermission("lab.ignore.immediate") && delay != 0) {
 			int ignoreTaskId = labPlayer.getIgnoreTaskId();
@@ -49,10 +50,6 @@ public abstract class IgnoreCommand extends CommandBase {
 		
 		labPlayerData.setIgnore(!ignore);
 		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GREEN + !ignore);
-	}
-	
-	public static void setDelay(int delay) {
-		IgnoreCommand.delay = delay;
 	}
 }
 

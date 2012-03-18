@@ -1,7 +1,7 @@
-package cam.config;
+package cam.boss;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.entity.EntityType;
 
@@ -9,9 +9,8 @@ import cam.drop.Roll;
 
 public class BossData {
 	
-	private List<Roll> rolls = new ArrayList<Roll>();
+	private Set<Roll> rolls = new HashSet<Roll>();
 	private EntityType entityType = null;
-	private String name = null;
 	private double chance = 0.0;
 	private double chanceFromSpawner = 0.0;
 	private int maxHeight = 0;
@@ -27,16 +26,12 @@ public class BossData {
 		rolls.add(roll);
 	}
 	
-	public List<Roll> getRolls() {
+	public Set<Roll> getRolls() {
 		return rolls;
 	}
-
+	
 	public EntityType getEntityType() {
 		return entityType;
-	}
-	
-	public String getName() {
-		return name;
 	}
 	
 	public double getChance() {

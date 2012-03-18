@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +14,13 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 
 import cam.Likeaboss;
 import cam.Utility;
-import cam.command.IgnoreCommand;
+import cam.boss.BossData;
+import cam.config.GlobalConfig.CommandData;
+import cam.config.GlobalConfig.MessageData;
+import cam.config.GlobalConfig.TaskData;
 import cam.drop.Drop;
 import cam.drop.Roll;
 
@@ -28,8 +29,7 @@ public class LabConfig {
 	private Likeaboss plugin = null;
 	private YamlConfiguration configFile = null;
 	private List<World> worlds = new ArrayList<World>();
-	private Map<World, Set<BossData>> bossesData = new HashMap<World, Set<BossData>>();
-	private Map<World, WorldDropData> worldsDropData = new HashMap<World, WorldDropData>();
+	private Map<World, WorldConfig> worldConfigs = new HashMap<World, WorldConfig>();
 	
 	public LabConfig(Likeaboss plugin) {
 		this.plugin = plugin;
@@ -69,45 +69,52 @@ public class LabConfig {
 		
 		LoadConfig(configFile, file);
 		
+		String node = null;
 		boolean needSaving = false;
 		
 		//Command parameters
-		String line = "Command.Ignore.Delay";
-		if (!configFile.contains(line)) {
-			Likeaboss.log.warning("[Likeaboss] Adding '" + line + "' in config file.");
+		for (CommandData commandData : CommandData.values()) {
+			node = commandData.getNode();
 			
-			configFile.set(line, 120);
-		}
-		IgnoreCommand.setDelay(configFile.getInt(line));
-		
-		//Message parameters
-		for (MessageData messageData : MessageData.values()) {
-			line = messageData.getLine();
+			if (!configFile.contains(node)) {
+				Likeaboss.log.warning("[Likeaboss] Adding '" + node + "' in config file.");
 			
-			if (!configFile.contains(line)) {
-				Likeaboss.log.warning("[Likeaboss] Adding '" + line + "' in config file.");
-				
-				configFile.set(line, messageData.getMessage());
+				configFile.set(node, commandData.getValue());
 				needSaving = true;
 				continue;
 			}
 			
-			messageData.setMessage(configFile.getString(line));
+			commandData.setValue(configFile.getInt(node));
+		}
+		
+		//Message parameters
+		for (MessageData messageData : MessageData.values()) {
+			node = messageData.getNode();
+			
+			if (!configFile.contains(node)) {
+				Likeaboss.log.warning("[Likeaboss] Adding '" + node + "' in config file.");
+				
+				configFile.set(node, messageData.getMessage());
+				needSaving = true;
+				continue;
+			}
+			
+			messageData.setMessage(configFile.getString(node));
 		}
 		
 		//Task parameters
 		for (TaskData taskData : TaskData.values()) {
-			line = taskData.getLine();
+			node = taskData.getNode();
 				
-			if (!configFile.contains(line)) {
-				Likeaboss.log.warning("[Likeaboss] Adding '" + line + "' in config file.");
+			if (!configFile.contains(node)) {
+				Likeaboss.log.warning("[Likeaboss] Adding '" + node + "' in config file.");
 				
-				configFile.set(line, taskData.getValue());
+				configFile.set(node, taskData.getValue());
 				needSaving = true;
 				continue;
 			}
 				
-			taskData.setValue(configFile.getDouble(line));
+			taskData.setValue(configFile.getDouble(node));
 		}
 		
 		if (needSaving)
@@ -134,8 +141,8 @@ public class LabConfig {
 		
 		LoadConfig(configFile, file);
 		
-		Set<BossData> tempBossesData = new HashSet<BossData>();
-		bossesData.put(world, tempBossesData);
+		WorldConfig worldConfig = new WorldConfig();
+		worldConfigs.put(world, worldConfig);
 		
 		Set<String> entityNames = configFile.getConfigurationSection("Boss").getKeys(false);
 		
@@ -148,7 +155,6 @@ public class LabConfig {
 			}
 			
 			BossData bossData = new BossData(entityType);
-			tempBossesData.add(bossData);
 			
 			String bossEntry = "Boss." + entityName;
 			Map<String, Object> datas = configFile.getConfigurationSection(bossEntry).getValues(false);
@@ -254,11 +260,10 @@ public class LabConfig {
 						}
 					}
 				}
+				
+				worldConfig.AddBossData(bossData);
 			}
 		}
-		
-		WorldDropData worldDropData = new WorldDropData();
-		worldsDropData.put(world, worldDropData);
 		
 		Set<String> rolls = configFile.getConfigurationSection("Drop").getKeys(false);
 		
@@ -266,7 +271,7 @@ public class LabConfig {
 		String rollEntry = "Drop." + roll;
 		
 		Roll newRoll = new Roll();
-		worldDropData.AddRoll(newRoll);
+		worldConfig.AddRoll(newRoll);
 		
 		Map<String, Object> drops = configFile.getConfigurationSection(rollEntry).getValues(false);
 		
@@ -325,43 +330,20 @@ public class LabConfig {
 	}
 	
 	public void RemoveWorldData(World world) {
-		bossesData.remove(world);
-		worldsDropData.remove(world);
+		worldConfigs.remove(world);
 	}
 	
-	public BossData getBossData(LivingEntity livingEntity) {
-		World world = livingEntity.getWorld();
-		Set<BossData> set = bossesData.get(world);
+	public WorldConfig getWorldConfig(World world) {
+		WorldConfig worldConfig = worldConfigs.get(world);
 		
-		if (set == null) {
+		if (worldConfig == null) {
 			try {
 				LoadWorldConfigFile(world);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			set = bossesData.get(world);
 		}
 		
-		for (BossData bossData : set) {
-			if (bossData.getEntityType() == livingEntity.getType())
-				return bossData;
-		}
-		
-		return null;
-	}
-	
-	public WorldDropData getWorldDropData(World world) {
-		WorldDropData worldDropData = worldsDropData.get(world);
-		
-		if (worldDropData == null) {
-			try {
-				LoadWorldConfigFile(world);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			worldDropData = worldsDropData.get(world);
-		}
-		
-		return worldDropData;
+		return worldConfig;
 	}
 }

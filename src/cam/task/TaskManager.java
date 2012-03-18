@@ -1,19 +1,15 @@
 package cam.task;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.bukkit.scheduler.BukkitScheduler;
 
 import cam.Likeaboss;
 import cam.boss.BossManager;
-import cam.config.TaskData;
+import cam.config.GlobalConfig.TaskData;
 
 public class TaskManager {
 	
 	private Likeaboss plugin = null;
 	private BukkitScheduler bukkitScheduler = null;
-	private Set<Integer> taskIds = new HashSet<Integer>();
 	
 	public TaskManager(Likeaboss plugin) {
 		this.plugin = plugin;
@@ -28,19 +24,17 @@ public class TaskManager {
 		bukkitScheduler = plugin.getServer().getScheduler();
 		
 		if (drawEffectInterval > 0)
-			taskIds.add(bukkitScheduler.scheduleSyncRepeatingTask(plugin, new DrawBossEffect(), 0, (long) (drawEffectInterval * 20)));
+			bukkitScheduler.scheduleSyncRepeatingTask(plugin, new DrawBossEffect(), 0, (long) (drawEffectInterval * 20));
 		if (checkEntityHealthInterval > 0)
-			taskIds.add(bukkitScheduler.scheduleAsyncRepeatingTask(plugin, new CheckEntityHealth(), 0, (long) (checkEntityHealthInterval * 20)));
+			bukkitScheduler.scheduleAsyncRepeatingTask(plugin, new CheckEntityHealth(), 0, (long) (checkEntityHealthInterval * 20));
 		if (checkEntityExistenceInterval > 0)
-			taskIds.add(bukkitScheduler.scheduleAsyncRepeatingTask(plugin, new CheckEntityExistence(plugin, bukkitScheduler), 0, (long) (checkEntityExistenceInterval * 20)));
+			bukkitScheduler.scheduleAsyncRepeatingTask(plugin, new CheckEntityExistence(), 0, (long) (checkEntityExistenceInterval * 20));
 		if (checkBossProximity > 0)
-			taskIds.add(bukkitScheduler.scheduleAsyncRepeatingTask(plugin, new CheckBossProximity(plugin), 0, (long) (checkBossProximity * 20)));
+			bukkitScheduler.scheduleAsyncRepeatingTask(plugin, new CheckBossProximity(plugin), 0, (long) (checkBossProximity * 20));
 	}
 	
 	public void Stop() {
-		for (int i : taskIds)
-			bukkitScheduler.cancelTask(i);
-		taskIds.clear();
+		bukkitScheduler.cancelTasks(plugin);
 	}
 	
 	public void Restart() {

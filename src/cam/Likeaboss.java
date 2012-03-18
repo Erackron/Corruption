@@ -31,6 +31,7 @@ public class Likeaboss extends JavaPlugin {
 	private LabWorldListener labWorldListener = new LabWorldListener(this);
 	private CommandManager commandManager = new CommandManager(this);
 	
+	@Override
 	public void onEnable() {
 		labConfig.LoadFiles();
 		try {
@@ -49,6 +50,7 @@ public class Likeaboss extends JavaPlugin {
 		log.info("[Likeaboss] Enabled.");
 	}
 	
+	@Override
 	public void onDisable() {
 		try {
 			labPlayerManager.SaveFile();
@@ -60,6 +62,7 @@ public class Likeaboss extends JavaPlugin {
 		log.info("[Likeaboss] Disabled.");
 	}
 	
+	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		return commandManager.Process(sender, label, args);
 	}
@@ -67,7 +70,7 @@ public class Likeaboss extends JavaPlugin {
 	public BossManager getBossManager() {
 		return bossManager;
 	}
-
+	
 	public LabPlayerManager getLabPlayerManager() {
 		return labPlayerManager;
 	}
@@ -79,7 +82,7 @@ public class Likeaboss extends JavaPlugin {
 	public DropCalculator getDropCalculator() {
 		return dropCalculator;
 	}
-
+	
 	public LabEntityListener getLabEntityListener() {
 		return labEntityListener;
 	}

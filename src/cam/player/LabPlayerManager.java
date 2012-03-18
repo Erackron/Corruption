@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
 
 import cam.Likeaboss;
 import cam.Utility;
-import cam.config.MessageData;
+import cam.config.GlobalConfig.MessageData;
 
 public class LabPlayerManager {
 
@@ -162,31 +162,31 @@ public class LabPlayerManager {
 		String toOthers = null;
 		
 		if (isFinder) {
-			toPlayer = MessageData.PLAYERFOUNDBOSS1.getMessage();
-			toOthers = MessageData.PLAYERFOUNDBOSS2.getMessage();
+			toPlayer = MessageData.PLAYER_FOUND_BOSS_1.getMessage();
+			toOthers = MessageData.PLAYER_FOUND_BOSS_2.getMessage();
 		}
 		else {
-			toPlayer = MessageData.BOSSFOUNDPLAYER1.getMessage();
-			toOthers = MessageData.BOSSFOUNDPLAYER2.getMessage();
+			toPlayer = MessageData.BOSS_FOUND_PLAYER_1.getMessage();
+			toOthers = MessageData.BOSS_FOUND_PLAYER_2.getMessage();
 		}
 		
 		toPlayer = toPlayer.replace('&', ChatColor.COLOR_CHAR);
 		toOthers = toOthers.replace('&', ChatColor.COLOR_CHAR).replace("{PLAYER}", player.getDisplayName());
 		
-		for (LabPlayer nearbyLabPlayer : labPlayers) {
-			Player nearbyPlayer = nearbyLabPlayer.getPlayer();
+		for (LabPlayer otherLabPlayer : labPlayers) {
+			Player otherPlayer = otherLabPlayer.getPlayer();
 			
-			if (nearbyPlayer == player)
+			if (otherPlayer == player)
 				player.sendMessage(toPlayer);
 			
-			else if (Utility.IsNear(nearbyPlayer.getLocation(), entity.getLocation(), 0, 35))
-				nearbyPlayer.sendMessage(toOthers);
+			else if (Utility.IsNear(otherPlayer.getLocation(), entity.getLocation(), 0, 35))
+				otherPlayer.sendMessage(toOthers);
 		}
 	}
 
-	public LabPlayer getLabPlayer(Player player) {
+	public LabPlayer getLabPlayer(Entity entity) {
 		for (LabPlayer labPlayer : labPlayers) {
-			if (labPlayer.getPlayer() == player)
+			if (labPlayer.getPlayer() == entity)
 				return labPlayer;
 		}
 		

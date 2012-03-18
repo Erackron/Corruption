@@ -13,7 +13,7 @@ import cam.Likeaboss;
 import cam.Utility;
 import cam.boss.Boss;
 import cam.config.LabConfig;
-import cam.config.WorldDropData;
+import cam.config.WorldConfig;
 
 public class DropCalculator {
 
@@ -28,9 +28,9 @@ public class DropCalculator {
 		if (!(drops instanceof ArrayList))
 			return;
 		
-		WorldDropData worldDropData = labConfig.getWorldDropData(world);
+		WorldConfig worldConfig = labConfig.getWorldConfig(world);
 		List<Roll> rolls = new ArrayList<Roll>();
-		rolls.addAll(worldDropData.getRolls());
+		rolls.addAll(worldConfig.getRolls());
 		rolls.addAll(boss.getBossData().getRolls());
 		
 		for (Roll roll : rolls) {
@@ -67,7 +67,7 @@ public class DropCalculator {
 	public void Clear() {
 		droped.clear();
 	}
-
+	
 	public Map<Material, Integer> getDroped() {
 		return droped;
 	}

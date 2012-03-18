@@ -11,9 +11,9 @@ public class BossDamageEvent extends Event implements Cancellable {
 
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled = false;
-	Boss boss = null;
-	Entity damager = null;
-	int damage = 0;
+	private Boss boss = null;
+	private Entity damager = null;
+	private int damage = 0;
 	
 	public BossDamageEvent(Boss boss, Entity damager, int damage) {
 		this.boss = boss;

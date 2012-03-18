@@ -2,8 +2,6 @@ package cam.boss;
 
 import org.bukkit.entity.LivingEntity;
 
-import cam.config.BossData;
-
 public class Boss {
 	
 	private LivingEntity livingEntity = null;
@@ -11,12 +9,24 @@ public class Boss {
 	private int health = 0;
 	private int lastDamage = 0;
 	private boolean found = false;
-	private int lastTimeNotified = 0;
-
+	private int lastTimeNotified = 0; //For boss proximity
+	private int previousTicksLived = 0; //For IsAlive()
+	
 	public Boss(LivingEntity livingEntity, BossData bossData) {
 		this.livingEntity = livingEntity;
 		this.bossData = bossData;
 		this.health = (int) (livingEntity.getMaxHealth() * bossData.getHealthCoef());
+	}
+	
+	public boolean IsAlive() {
+		int currentTicksLived = livingEntity.getTicksLived();
+		
+		if (currentTicksLived == previousTicksLived)
+			return false;
+		else {
+			previousTicksLived = currentTicksLived;
+			return true;
+		}
 	}
 	
 	public LivingEntity getLivingEntity() {

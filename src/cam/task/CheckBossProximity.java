@@ -8,7 +8,7 @@ import cam.Likeaboss;
 import cam.Utility;
 import cam.boss.Boss;
 import cam.boss.BossManager;
-import cam.config.MessageData;
+import cam.config.GlobalConfig.MessageData;
 import cam.player.LabPlayer;
 import cam.player.LabPlayerManager;
 
@@ -26,24 +26,21 @@ class CheckBossProximity implements Runnable {
 	public void run() {
 		Object[] tempLabPlayer = labPlayerManager.getLabPlayers().toArray();
 		
-		for (Object objectLabPlayer : tempLabPlayer) {
-			LabPlayer labPlayer = (LabPlayer) objectLabPlayer;
+		for (Object object : tempLabPlayer) {
+			LabPlayer labPlayer = (LabPlayer) object;
 			
 			if (labPlayer.getLabPlayerData().getIgnore())
 				continue;
 			
-			Player player = ((LabPlayer) objectLabPlayer).getPlayer();
+			Player player = labPlayer.getPlayer();
 			
 			if (player.isSprinting())
 				continue;
 			
 			int playerTicksLived = player.getTicksLived();
 			
-			if (playerTicksLived - labPlayer.getLastTimeNotified() < 20)
+			if (playerTicksLived - labPlayer.getLastTimeNotified() < 150)
 				continue;
-			
-			int maxNotifyRange = 15;
-			int minNotifyRange = 3;
 			
 			Object[] tempBosses = bossManager.getBosses().toArray();
 			
@@ -59,7 +56,7 @@ class CheckBossProximity implements Runnable {
 				if (bossTicksLived - boss.getLastTimeNotified() < 300)
 					continue;
 				
-				if (Utility.IsNear(player.getLocation(), livingEntity.getLocation(), minNotifyRange, maxNotifyRange)) {
+				if (Utility.IsNear(player.getLocation(), livingEntity.getLocation(), 3, 15)) {
 					if (!labPlayer.getWarmingUp()) {
 						labPlayer.setWarmingUp(true);
 						labPlayer.setWarmingUpStartTime(playerTicksLived);

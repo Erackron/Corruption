@@ -23,8 +23,8 @@ public abstract class CommandBase {
 		}
 		
 		if (!sender.hasPermission(permission)) {
-			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "You don't have the permission for this command. " +
-							   ChatColor.GRAY + permission + ChatColor.WHITE + " is needed.");
+			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "You don't have the permission for this command.");
+			sender.sendMessage(ChatColor.GRAY + permission + ChatColor.WHITE + " is needed.");
 			
 			return false;
 		}

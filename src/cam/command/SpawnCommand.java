@@ -15,8 +15,8 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 
+import cam.boss.BossData;
 import cam.boss.BossManager;
-import cam.config.BossData;
 
 public abstract class SpawnCommand extends CommandBase {
 	
@@ -34,8 +34,8 @@ public abstract class SpawnCommand extends CommandBase {
 					continue;
 				
 				if (Monster.class.isAssignableFrom(entityClass) && entityClass != Monster.class ||
-					Slime.class.isAssignableFrom(entityClass) ||
-					Ghast.class.isAssignableFrom(entityClass))
+						Slime.class.isAssignableFrom(entityClass) ||
+						Ghast.class.isAssignableFrom(entityClass))
 					spawnableEntities.add(entityType);
 			}
 		}
@@ -76,12 +76,10 @@ public abstract class SpawnCommand extends CommandBase {
 			
 			if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
 				Slime slime = (Slime) spawnedCreature;
-				
 				slime.setSize(4);
-				slime.setHealth(slime.getMaxHealth());
 			}
 			
-			BossData bossData = plugin.getLabConfig().getBossData(spawnedCreature);
+			BossData bossData = plugin.getLabConfig().getWorldConfig(world).getBossData(entityType);
 			
 			if (bossData == null)
 				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Nothing in the config file for " + ChatColor.GRAY + creatureName + ChatColor.WHITE + ".");

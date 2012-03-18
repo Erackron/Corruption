@@ -4,14 +4,14 @@ Command:
 Message:
   PlayerFoundBoss:
     ToPlayer: '&cOh noes, that''s a boss!'
-    ToOthers: '&c{PLAYER} found a boss&c!'
+    ToOthers: '&c{PLAYER} found a boss!'
   BossFoundPlayer:
     ToPlayer: '&cSneaky boss.'
     ToOthers: '&cA boss found {PLAYER}!'
   TooFar: '&cYou''re too far away.'
   Proximity: '&4You feel an evil presence...'
 Task:
-  VisualEffect: 1.0
+  BossVisualEffect: 1.0
   CheckBossProximity: 0.5
   CheckEntityHealth: 2.0
   CheckEntityExistence: 5.0
