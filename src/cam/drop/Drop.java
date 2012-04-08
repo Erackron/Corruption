@@ -4,11 +4,11 @@ import org.bukkit.Material;
 
 public class Drop {
 	
-	private Material material = null;
-	private short data = 0;
-	private double chance = 0;
-	private int minQuantity = 0;
-	private int maxQuantity = 0;
+	private Material material;
+	private short data;
+	private double chance;
+	private int minQuantity;
+	private int maxQuantity;
 	
 	public Drop(Material material, short data, double chance, int minQuantity, int maxQuantity) {
 		this.material = material;

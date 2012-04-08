@@ -10,13 +10,13 @@ import cam.drop.Roll;
 public class BossData {
 	
 	private Set<Roll> rolls = new HashSet<Roll>();
-	private EntityType entityType = null;
-	private double chance = 0.0;
-	private double chanceFromSpawner = 0.0;
-	private int maxHeight = 0;
-	private double healthCoef = 0.0;
-	private double damageCoef = 0.0;
-	private double expCoef = 0.0;
+	private EntityType entityType;
+	private double chance;
+	private double chanceFromSpawner;
+	private int maxHeight;
+	private double healthCoef;
+	private double damageCoef;
+	private double expCoef;
 	
 	public BossData(EntityType entityType) {
 		this.entityType = entityType;

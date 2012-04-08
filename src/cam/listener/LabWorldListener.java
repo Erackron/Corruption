@@ -11,10 +11,10 @@ import cam.config.LabConfig;
 
 public class LabWorldListener implements Listener {
 	
-	LabConfig labConfig = null;
+	LabConfig labConfig;
 	
-	public LabWorldListener(Likeaboss plugin) {
-		labConfig = plugin.getLabConfig();
+	public LabWorldListener() {
+		labConfig = Likeaboss.instance.getLabConfig();
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

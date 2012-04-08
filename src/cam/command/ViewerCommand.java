@@ -3,17 +3,18 @@ package cam.command;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import cam.Likeaboss;
 import cam.player.LabPlayer;
 import cam.player.LabPlayerData;
 import cam.player.LabPlayerManager;
 
-public abstract class ViewerCommand extends CommandBase {
-
+public abstract class ViewerCommand extends BaseCommand {
+	
 	public static void Process() {
 		if (!CheckPermission("lab.viewer", false))
 			return;
 		
-		LabPlayerManager labPlayerManager = plugin.getLabPlayerManager();
+		LabPlayerManager labPlayerManager = Likeaboss.instance.getLabPlayerManager();
 		LabPlayer labPlayer = labPlayerManager.getLabPlayer((Player) sender);
 		
 		if (labPlayer == null) {

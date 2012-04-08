@@ -4,20 +4,21 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import cam.config.GlobalConfig.CommandData;
+import cam.Likeaboss;
+import cam.config.GlobalConfig.CommandParam;
 import cam.player.LabPlayer;
 import cam.player.LabPlayerData;
 import cam.player.LabPlayerManager;
 
-public abstract class IgnoreCommand extends CommandBase {
-
+public abstract class IgnoreCommand extends BaseCommand {
+	
 	public static void Process() {
 		if (!CheckPermission("lab.ignore", false))
 			return;
 		
-		LabPlayerManager labPlayerManager = plugin.getLabPlayerManager();
+		LabPlayerManager labPlayerManager = Likeaboss.instance.getLabPlayerManager();
 		LabPlayer labPlayer = labPlayerManager.getLabPlayer((Player) sender);
-		BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
+		BukkitScheduler bukkitScheduler = Likeaboss.instance.getServer().getScheduler();
 		
 		if (labPlayer == null) {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Oops, something went wrong.");
@@ -25,7 +26,7 @@ public abstract class IgnoreCommand extends CommandBase {
 			return;
 		}
 		
-		int delay = CommandData.IGNORE_DELAY.getValue();
+		int delay = CommandParam.IGNORE_DELAY.getValue();
 		
 		if (!sender.hasPermission("lab.ignore.immediate") && delay != 0) {
 			int ignoreTaskId = labPlayer.getIgnoreTaskId();
@@ -36,7 +37,7 @@ public abstract class IgnoreCommand extends CommandBase {
 				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Canceled");
 			}
 			else {
-				labPlayer.setIgnoreTaskId(bukkitScheduler.scheduleAsyncDelayedTask(plugin, new IgnoreCommandTask(labPlayer), delay * 20));
+				labPlayer.setIgnoreTaskId(bukkitScheduler.scheduleAsyncDelayedTask(Likeaboss.instance, new IgnoreCommandTask(labPlayer), delay * 20));
 				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Applied in " + ChatColor.GREEN + delay + ChatColor.GRAY + " second(s)");
 			}
 		}

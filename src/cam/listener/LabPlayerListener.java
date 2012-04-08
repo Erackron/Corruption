@@ -11,10 +11,10 @@ import cam.player.LabPlayerManager;
 
 public class LabPlayerListener implements Listener {
 	
-	LabPlayerManager labPlayerManager = null;
+	LabPlayerManager labPlayerManager;
 	
-	public LabPlayerListener(Likeaboss plugin) {
-		labPlayerManager = plugin.getLabPlayerManager();
+	public LabPlayerListener() {
+		labPlayerManager = Likeaboss.instance.getLabPlayerManager();
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

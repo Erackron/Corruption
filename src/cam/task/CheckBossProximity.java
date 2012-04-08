@@ -7,28 +7,23 @@ import org.bukkit.entity.Player;
 import cam.Likeaboss;
 import cam.Utility;
 import cam.boss.Boss;
-import cam.boss.BossManager;
-import cam.config.GlobalConfig.MessageData;
+import cam.config.GlobalConfig.MessageParam;
 import cam.player.LabPlayer;
 import cam.player.LabPlayerManager;
 
-class CheckBossProximity implements Runnable {
+public class CheckBossProximity extends BaseTask implements Runnable {
 
-	private LabPlayerManager labPlayerManager = null;
-	private BossManager bossManager = null;
+	private LabPlayerManager labPlayerManager;
 	
-	public CheckBossProximity(Likeaboss plugin) {
-		this.labPlayerManager = plugin.getLabPlayerManager();
-		this.bossManager = plugin.getBossManager();
+	public CheckBossProximity() {
+		this.labPlayerManager = Likeaboss.instance.getLabPlayerManager();
 	}
 	
 	@Override
 	public void run() {
-		Object[] tempLabPlayer = labPlayerManager.getLabPlayers().toArray();
+		LabPlayer[] tempLabPlayer = (LabPlayer[]) labPlayerManager.getLabPlayers().toArray(new LabPlayer[0]);
 		
-		for (Object object : tempLabPlayer) {
-			LabPlayer labPlayer = (LabPlayer) object;
-			
+		for (LabPlayer labPlayer : tempLabPlayer) {
 			if (labPlayer.getLabPlayerData().getIgnore())
 				continue;
 			
@@ -42,11 +37,7 @@ class CheckBossProximity implements Runnable {
 			if (playerTicksLived - labPlayer.getLastTimeNotified() < 150)
 				continue;
 			
-			Object[] tempBosses = bossManager.getBosses().toArray();
-			
-			for (Object objectBoss : tempBosses) {
-				Boss boss = (Boss) objectBoss;
-				
+			for (Boss boss : tempBosses) {
 				if (boss.getFound())
 					continue;
 				
@@ -65,7 +56,7 @@ class CheckBossProximity implements Runnable {
 					else if (playerTicksLived - labPlayer.getWarmingUpStartTime() >= 50) {
 						labPlayer.setLastTimeNotified(playerTicksLived);
 						boss.setLastTimeNotified(bossTicksLived);
-						player.sendMessage(MessageData.PROXIMITY.getMessage().replace('&', ChatColor.COLOR_CHAR));
+						player.sendMessage(MessageParam.PROXIMITY.getMessage().replace('&', ChatColor.COLOR_CHAR));
 					}
 					
 					return;

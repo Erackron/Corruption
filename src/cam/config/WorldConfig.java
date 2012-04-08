@@ -9,12 +9,9 @@ import cam.boss.BossData;
 import cam.drop.Roll;
 
 public class WorldConfig {
-
+	
 	private Set<Roll> rolls = new HashSet<Roll>();
 	private Set<BossData> bossDatas = new HashSet<BossData>();
-	
-	public WorldConfig() {
-	}
 	
 	public void AddRoll(Roll roll) {
 		rolls.add(roll);

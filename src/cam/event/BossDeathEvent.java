@@ -1,24 +1,26 @@
 package cam.event;
 
-import org.bukkit.entity.Entity;
+import java.util.List;
+
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 
 import cam.boss.Boss;
 
-public class BossDamageEvent extends Event implements Cancellable {
+public class BossDeathEvent extends Event implements Cancellable {
 	
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;
 	private Boss boss;
-	private Entity damager;
-	private int damage;
+	private List<ItemStack> drops;
+	private int exp;
 	
-	public BossDamageEvent(Boss boss, Entity damager, int damage) {
+	public BossDeathEvent(Boss boss, List<ItemStack> drops, int exp) {
 		this.boss = boss;
-		this.damager = damager;
-		this.damage = damage;
+		this.drops = drops;
+		this.exp = exp;
 	}
 	
 	@Override
@@ -39,12 +41,12 @@ public class BossDamageEvent extends Event implements Cancellable {
 		return boss;
 	}
 	
-	public Entity getDamager() {
-		return damager;
+	public List<ItemStack> getDrops() {
+		return drops;
 	}
 	
-	public int getDamage() {
-		return damage;
+	public int getExp() {
+		return exp;
 	}
 	
 	@Override
@@ -52,7 +54,11 @@ public class BossDamageEvent extends Event implements Cancellable {
 		this.cancelled = cancelled;
 	}
 	
-	public void setDamage(int damage) {
-		this.damage = damage;
+	public void setDrops(List<ItemStack> drops) {
+		this.drops = drops;
+	}
+	
+	public void setExp(int exp) {
+		this.exp = exp;
 	}
 }

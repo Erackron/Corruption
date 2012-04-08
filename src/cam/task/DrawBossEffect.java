@@ -6,17 +6,12 @@ import org.bukkit.entity.LivingEntity;
 
 import cam.boss.Boss;
 
-class DrawBossEffect extends BossTask implements Runnable {
-	
-	public DrawBossEffect() {
-	}
+public class DrawBossEffect extends BaseTask implements Runnable {
 	
 	@Override
 	public void run() {
-		tempBosses = bossManager.getBosses().toArray();
-		
-		for (Object object : tempBosses) {
-			LivingEntity livingEntity = ((Boss) object).getLivingEntity();
+		for (Boss boss : tempBosses) {
+			LivingEntity livingEntity = boss.getLivingEntity();
 			World world = livingEntity.getWorld();
 			
 			world.playEffect(livingEntity.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);

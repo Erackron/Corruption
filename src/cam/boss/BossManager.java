@@ -4,25 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 
 public class BossManager {
 	
 	private List<Boss> bosses = new ArrayList<Boss>();
-	private int bossKilled = 0;
 	
-	public BossManager() {
-	}
-	
-	public Boss AddBoss(LivingEntity livingEntity, BossData bossData) {
-		Boss boss = new Boss(livingEntity, bossData);
+	public void AddBoss(Boss boss) {
 		bosses.add(boss);
-		
-		return boss;
 	}
 	
 	public void KillBoss(Boss boss) {
-		bossKilled++;
 		RemoveBoss(boss);
 	}
 	
@@ -32,7 +23,6 @@ public class BossManager {
 		
 	public void DamageBoss(Boss boss, int damage) {
 		boss.setHealth(boss.getHealth() - damage);
-		boss.setLastDamage(damage);
 	}
 	
 	public boolean IsDead(Boss boss) {
@@ -42,7 +32,6 @@ public class BossManager {
 	}
 	
 	public void Clear() {
-		bossKilled = 0;
 		bosses.clear();
 	}
 	
@@ -54,12 +43,8 @@ public class BossManager {
 		
 		return null;
 	}
-		
+	
 	public List<Boss> getBosses() {
-		return bosses;		
-	}
-		
-	public int getBossKilled() {
-		return bossKilled;
+		return bosses;
 	}
 }

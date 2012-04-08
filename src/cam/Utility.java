@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.bukkit.Location;
 
@@ -29,22 +32,30 @@ public abstract class Utility {
 		return false;
 	}
 	
-	public static class MapValueComparator implements Comparator<Object> {
-		
-		private Map<?, ?> base;
-		
-		public MapValueComparator(Map<?, ?> base) {
-			this.base = base;
+	private static class ValueComparatorAsc<K, V extends Comparable<? super V>> implements Comparator<Entry<K, V>> {
+		@Override
+		public int compare(Entry<K, V> e1, Entry<K, V> e2) {
+			int res = e1.getValue().compareTo(e2.getValue());
+			return res != 0 ? res : 1;
 		}
-		
-		public int compare(Object a, Object b) {
-			if ((Double) base.get(a) > (Double) base.get(b)) 
-				return 1;
-			else if ((Double) base.get(a) == (Double) base.get(b))
-				return 0;
-			else
-				return -1;
+	}
+	
+	private static class ValueComparatorDesc<K, V extends Comparable<? super V>> implements Comparator<Entry<K, V>> {
+		@Override
+		public int compare(Entry<K, V> e1, Entry<K, V> e2) {
+			int res = e2.getValue().compareTo(e1.getValue());
+			return res != 0 ? res : 1;
 		}
+	}
+	
+	public static <K, V extends Comparable<? super V>> SortedSet<Entry<K, V>> SortEntriesByValues(Map<K, V> map, boolean ascendant) {
+		SortedSet<Map.Entry<K, V>> sortedEntries;
+		if (ascendant)
+			sortedEntries = new TreeSet<Entry<K, V>>(new ValueComparatorAsc<K, V>());
+		else
+			sortedEntries = new TreeSet<Entry<K, V>>(new ValueComparatorDesc<K, V>());
+		sortedEntries.addAll(map.entrySet());
+		return sortedEntries;
 	}
 	
 	public static void StreamToFile(InputStream resource, File file) throws Exception {

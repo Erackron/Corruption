@@ -10,6 +10,7 @@ import cam.listener.LabEntityListener;
 import cam.listener.LabPlayerListener;
 import cam.listener.LabWorldListener;
 import cam.player.LabPlayerManager;
+import cam.stats.Stats;
 import cam.task.TaskManager;
 
 import org.bukkit.command.Command;
@@ -20,29 +21,40 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Likeaboss extends JavaPlugin {
 	
 	public static Logger log = Logger.getLogger("Minecraft");
+	public static Likeaboss instance;
 	
-	private BossManager bossManager = new BossManager();
-	private LabPlayerManager labPlayerManager = new LabPlayerManager();
-	private TaskManager taskManager = new TaskManager(this);
-	private LabConfig labConfig = new LabConfig(this);
-	private DropCalculator dropCalculator = new DropCalculator(this);
-	private LabEntityListener labEntityListener = new LabEntityListener(this);
-	private LabPlayerListener labPlayerListener = new LabPlayerListener(this);
-	private LabWorldListener labWorldListener = new LabWorldListener(this);
-	private CommandManager commandManager = new CommandManager(this);
+	private BossManager bossManager;
+	private LabPlayerManager labPlayerManager;
+	private TaskManager taskManager;
+	private LabConfig labConfig;
+	private DropCalculator dropCalculator;
+	private Stats stats;
+	private LabEntityListener labEntityListener;
+	private LabPlayerListener labPlayerListener;
+	private LabWorldListener labWorldListener;
+	private CommandManager commandManager;
 	
 	@Override
 	public void onEnable() {
+		instance = this;
+		
+		bossManager = new BossManager();
+		labPlayerManager = new LabPlayerManager();
+		taskManager = new TaskManager();
+		labConfig = new LabConfig();
+		dropCalculator = new DropCalculator();
+		stats = new Stats();
+		labEntityListener = new LabEntityListener();
+		labPlayerListener = new LabPlayerListener();
+		labWorldListener = new LabWorldListener();
+		commandManager = new CommandManager();
+		
 		labConfig.LoadFiles();
-		try {
-			labPlayerManager.LoadFile();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		labPlayerManager.AddOnlinePlayers(this);
+		labPlayerManager.AddOnlinePlayers();
+		taskManager.setBukkitScheduler(getServer().getScheduler());
 		taskManager.Start();
 		
-		PluginManager pluginManager = this.getServer().getPluginManager();
+		PluginManager pluginManager = getServer().getPluginManager();
 		pluginManager.registerEvents(labEntityListener, this);
 		pluginManager.registerEvents(labPlayerListener, this);
 		pluginManager.registerEvents(labWorldListener, this);
@@ -52,12 +64,12 @@ public class Likeaboss extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
+		taskManager.Stop();
 		try {
-			labPlayerManager.SaveFile();
+			labPlayerManager.SavePlayerData();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		taskManager.Stop();
 		
 		log.info("[Likeaboss] Disabled.");
 	}
@@ -81,6 +93,10 @@ public class Likeaboss extends JavaPlugin {
 	
 	public DropCalculator getDropCalculator() {
 		return dropCalculator;
+	}
+	
+	public Stats getStats() {
+		return stats;
 	}
 	
 	public LabEntityListener getLabEntityListener() {

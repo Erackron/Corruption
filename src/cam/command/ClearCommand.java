@@ -2,20 +2,16 @@ package cam.command;
 
 import org.bukkit.ChatColor;
 
-import cam.boss.BossManager;
-import cam.drop.DropCalculator;
+import cam.Likeaboss;
 
-public abstract class ClearCommand extends CommandBase {
-
+public abstract class ClearCommand extends BaseCommand {
+	
 	public static void Process() {
 		if (!CheckPermission("lab.clear", true))
 			return;
 			
-		BossManager bossManager = plugin.getBossManager();
-		DropCalculator dropCalculator = plugin.getDropCalculator();
+		Likeaboss.instance.getStats().Clear();
 		
-		bossManager.Clear();
-		dropCalculator.Clear();
 		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Cleared");
 	}
 }

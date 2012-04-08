@@ -1,56 +1,62 @@
 name: Likeaboss
 main: cam.Likeaboss
-version: 1.4.2
+version: 1.5.0
 author: bm01
-
 commands:
   lab:
     description: Likeaboss base command
     permission: lab
-    usage: /lab [info | reload | clear | viewer | ignore | list | spawn]
-
+    usage: Type /lab help for more information
 permissions:
   lab.*:
-    description: Gives access to all /lab permissions
+    description: Give access to all /lab permissions.
     children:
+      lab.clear: true
+      lab.help: true
+      lab.ignore.*: true
       lab.info: true
       lab.reload: true
-      lab.clear: true
-      lab.viewer: true
-      lab.ignore.*: true
       lab.list: true
       lab.spawn: true
+      lab.stats: true
+      lab.viewer: true
     default: op
   lab:
     description: Likeaboss base command
     default: true
-  lab.info:
-    description: Gives some game info
-    default: false
-  lab.reload:
-    description: Reloads config
-    default: false
   lab.clear:
-    description: Clears /lab.info data
+    description: Clear informations given by /lab info.
     default: false
-  lab.viewer:
-    description: Displays bosses health
-    default: false
+  lab.help:
+    description: Display command uses.
+    default: true
   lab.ignore.*:
-    description: Gives access to all /lab ignore permissions
+    description: Give access to all /lab ignore permissions.
     children:
       lab.ignore: true
       lab.ignore.immediate: true
     default: false
   lab.ignore:
-    description: Toggle ignore bosses, only work is there is no boss near the player
+    description: Toggle ignore state, which allows to not be affected by bosses.
     default: false
   lab.ignore.immediate:
-    description: Allow to use /lab ignore even near a boss
+    description: Allow to bypass /lab ignore delay
+    default: false
+  lab.info:
+    description: Display some global and non-lasting stats.
+    default: false
+  lab.reload:
+    description: Reload configuration files.
     default: false
   lab.list:
-    description: Displays bosses location
+    description: Display the location of active bosses.
     default: false
   lab.spawn:
-    description: Spawns a boss
+    description: Spawn one or multiple bosses on the targeted block.
+    default: false
+  lab.stats:
+    description: Display the leaderboard, or player stats.
+    default: false
+  lab.viewer:
+    description: Toggle viewer state, which allows to see boss healths.
     default: false

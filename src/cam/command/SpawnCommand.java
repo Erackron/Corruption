@@ -15,63 +15,70 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 
+import cam.Likeaboss;
+import cam.boss.Boss;
 import cam.boss.BossData;
-import cam.boss.BossManager;
+import cam.config.GlobalConfig.CommandParam;
 
-public abstract class SpawnCommand extends CommandBase {
-	
-	private static Set<EntityType> spawnableEntities = new HashSet<EntityType>();
+public abstract class SpawnCommand extends BaseCommand {
 	
 	public static void Process() {
 		if (!CheckPermission("lab.spawn", false))
 			return;
 		
-		if (spawnableEntities.isEmpty()) {
-			for (EntityType entityType : EntityType.values()) {
-				Class<? extends Entity> entityClass = entityType.getEntityClass();
-				
-				if (entityClass == null)
-					continue;
-				
-				if (Monster.class.isAssignableFrom(entityClass) && entityClass != Monster.class ||
-						Slime.class.isAssignableFrom(entityClass) ||
-						Ghast.class.isAssignableFrom(entityClass))
-					spawnableEntities.add(entityType);
-			}
+		Set<EntityType> spawnableEntities = new HashSet<EntityType>();
+		for (EntityType entityType : EntityType.values()) {
+			if (entityType == EntityType.UNKNOWN)
+				continue;
+			
+			Class<? extends Entity> entityClass = entityType.getEntityClass();
+			if (Monster.class.isAssignableFrom(entityClass) && entityClass != Monster.class ||
+					Slime.class.isAssignableFrom(entityClass) ||
+					Ghast.class.isAssignableFrom(entityClass))
+				spawnableEntities.add(entityType);
 		}
 		
-		boolean spawn = false;
-		String creatureName = null;
+		if (args.length < 2) {
+			SendUsage(spawnableEntities);
+			return;
+		}
 		
-		if (args.length >= 2) {
-			for (EntityType entityType : spawnableEntities) {
-				if (entityType.getName().equalsIgnoreCase(args[1])) {
-					spawn = true;
-					creatureName = entityType.getName();
-					break;
+		for (EntityType entityType : spawnableEntities) {
+			if (!entityType.getName().equalsIgnoreCase(args[1]))
+				continue;
+			
+			int amount = 1;
+			if (args.length >= 3) {
+				try {
+					amount = Integer.parseInt(args[2]);
+				}
+				catch (Exception e) {
+					sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.GRAY + args[2] + ChatColor.WHITE + " isn't an integer.");
+					return;
+				}
+				
+				int max = CommandParam.SPAWN_MAX.getValue();
+				if (amount > max) {
+					sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "You are not allowed to spawn more than " + ChatColor.GRAY + max + ChatColor.WHITE + " boss(es) at a time.");
+					return;
 				}
 			}
+			
+			Spawn(entityType.getName(), amount);
+			return;
 		}
 		
-		if (!spawn) {
-			String creatureList = "";
-			
-			for (EntityType entityType : spawnableEntities)
-				creatureList += entityType.getName() + ", ";
-			creatureList = creatureList.substring(0, creatureList.length() - 2);
-			
-			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Allowed Creatures");
-			sender.sendMessage(ChatColor.GRAY + creatureList);
-		}
+		//Invalid creature name
+		SendUsage(spawnableEntities);
+	}
+	
+	private static void Spawn(String creatureName, int amount) {
+		Player player = (Player) sender;
+		World world = player.getWorld();
+		Block block = player.getTargetBlock(null, 100).getRelative(BlockFace.UP);
+		EntityType entityType = EntityType.fromName(creatureName);
 		
-		else {
-			BossManager bossManager = plugin.getBossManager();
-			
-			Player player = (Player) sender;
-			World world = player.getWorld();
-			Block block = player.getTargetBlock(null, 100).getRelative(BlockFace.UP);
-			
-			EntityType entityType = EntityType.fromName(creatureName);
+		for (int i = 0 ; i < amount ; i++) {
 			LivingEntity spawnedCreature = world.spawnCreature(block.getLocation(), entityType);
 			
 			if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
@@ -79,12 +86,24 @@ public abstract class SpawnCommand extends CommandBase {
 				slime.setSize(4);
 			}
 			
-			BossData bossData = plugin.getLabConfig().getWorldConfig(world).getBossData(entityType);
+			BossData bossData = Likeaboss.instance.getLabConfig().getWorldConfig(world).getBossData(entityType);
 			
 			if (bossData == null)
 				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Nothing in the config file for " + ChatColor.GRAY + creatureName + ChatColor.WHITE + ".");
-			else
-				bossManager.AddBoss(spawnedCreature, bossData);
+			else {
+				Boss boss = new Boss(spawnedCreature, bossData);
+				Likeaboss.instance.getBossManager().AddBoss(boss);
+			}
 		}
+	}
+	
+	private static void SendUsage(Set<EntityType> spawnableEntities) {
+		String creatureList = "";
+		for (EntityType entityType : spawnableEntities)
+			creatureList += entityType.getName() + ", ";
+		creatureList = creatureList.substring(0, creatureList.length() - 2);
+		
+		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Allowed Creatures:");
+		sender.sendMessage(ChatColor.GRAY + creatureList);
 	}
 }

@@ -1,6 +1,8 @@
 Command:
   Ignore:
     Delay: 120
+  Spawn:
+    Max: 50
 Message:
   PlayerFoundBoss:
     ToPlayer: '&cOh noes, that''s a boss!'
@@ -11,7 +13,27 @@ Message:
   TooFar: '&cYou''re too far away.'
   Proximity: '&4You feel an evil presence...'
 Task:
+  RetrieveBossList: 0.5
   BossVisualEffect: 1.0
   CheckBossProximity: 0.5
   CheckEntityHealth: 2.0
   CheckEntityExistence: 5.0
+  SavePlayerData: 600.0
+Boss:
+  OverwriteDrops: false
+  Immunity:
+    Attack: false
+    Projectile : false
+    BlockExplosion: false
+    EntityExplosion: false
+    Fire: true
+    Lava: true
+    EnchantFireTick: false
+    EnvironmentalFireTick: true
+    Fall: true
+    Contact: true
+    Drowning: true
+    Lightning: false
+    Suffocation: true
+    Magic: false
+    Poison: false

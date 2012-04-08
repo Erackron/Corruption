@@ -18,28 +18,24 @@ import org.bukkit.entity.EntityType;
 import cam.Likeaboss;
 import cam.Utility;
 import cam.boss.BossData;
-import cam.config.GlobalConfig.CommandData;
-import cam.config.GlobalConfig.MessageData;
-import cam.config.GlobalConfig.TaskData;
+import cam.config.GlobalConfig.BossParam;
+import cam.config.GlobalConfig.CommandParam;
+import cam.config.GlobalConfig.MessageParam;
+import cam.config.GlobalConfig.TaskParam;
 import cam.drop.Drop;
 import cam.drop.Roll;
 
 public class LabConfig {
-
-	private Likeaboss plugin = null;
-	private YamlConfiguration configFile = null;
+	
+	private YamlConfiguration configFile;
 	private List<World> worlds = new ArrayList<World>();
 	private Map<World, WorldConfig> worldConfigs = new HashMap<World, WorldConfig>();
-	
-	public LabConfig(Likeaboss plugin) {
-		this.plugin = plugin;
-	}
 	
 	public void LoadFiles() {
 		try {
 			LoadGlobalConfigFile();
 			
-			worlds = plugin.getServer().getWorlds();
+			worlds = Likeaboss.instance.getServer().getWorlds();
 			Iterator<World> it = worlds.iterator();
 				
 			while (it.hasNext())
@@ -63,7 +59,7 @@ public class LabConfig {
 			
 			file.createNewFile();
 			
-			InputStream intpuStream = plugin.getResource("cam/config/globalconfig.yml");
+			InputStream intpuStream = Likeaboss.instance.getResource("cam/config/globalconfig.yml");
 			Utility.StreamToFile(intpuStream, file);
 		}
 		
@@ -73,7 +69,7 @@ public class LabConfig {
 		boolean needSaving = false;
 		
 		//Command parameters
-		for (CommandData commandData : CommandData.values()) {
+		for (CommandParam commandData : CommandParam.values()) {
 			node = commandData.getNode();
 			
 			if (!configFile.contains(node)) {
@@ -88,7 +84,7 @@ public class LabConfig {
 		}
 		
 		//Message parameters
-		for (MessageData messageData : MessageData.values()) {
+		for (MessageParam messageData : MessageParam.values()) {
 			node = messageData.getNode();
 			
 			if (!configFile.contains(node)) {
@@ -103,7 +99,7 @@ public class LabConfig {
 		}
 		
 		//Task parameters
-		for (TaskData taskData : TaskData.values()) {
+		for (TaskParam taskData : TaskParam.values()) {
 			node = taskData.getNode();
 				
 			if (!configFile.contains(node)) {
@@ -115,6 +111,21 @@ public class LabConfig {
 			}
 				
 			taskData.setValue(configFile.getDouble(node));
+		}
+		
+		//Boss parameters
+		for (BossParam bossParam : BossParam.values()) {
+			node = bossParam.getNode();
+			
+			if (!configFile.contains(node)) {
+				Likeaboss.log.warning("[Likeaboss] Adding '" + node + "' in config file.");
+				
+				configFile.set(node, bossParam.getValue());
+				needSaving = true;
+				continue;
+			}
+			
+			bossParam.setValue(configFile.getBoolean(node));
 		}
 		
 		if (needSaving)
@@ -135,7 +146,7 @@ public class LabConfig {
 			
 			file.createNewFile();
 			
-			InputStream intpuStream = plugin.getResource("cam/config/worldconfig.yml");
+			InputStream intpuStream = Likeaboss.instance.getResource("cam/config/worldconfig.yml");
 			Utility.StreamToFile(intpuStream, file);
 		}
 		

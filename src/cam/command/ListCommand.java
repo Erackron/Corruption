@@ -3,7 +3,7 @@ package cam.command;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
@@ -11,21 +11,22 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import cam.Utility.MapValueComparator;
+import cam.Likeaboss;
+import cam.Utility;
 import cam.boss.Boss;
 import cam.boss.BossManager;
 
-public abstract class ListCommand extends CommandBase {
-
+public abstract class ListCommand extends BaseCommand {
+	
 	public static void Process() {
 		if (!CheckPermission("lab.list", false))
 			return;
 		
 		Player player = (Player) sender;
 		
-		BossManager bossManager = plugin.getBossManager();
+		BossManager bossManager = Likeaboss.instance.getBossManager();
 		List<Boss> bosses = bossManager.getBosses();
-		Map<LivingEntity, Double> unsortedData = new HashMap<LivingEntity, Double>();
+		Map<LivingEntity, Double> unsortedMap = new HashMap<LivingEntity, Double>();
 		
 		player.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Boss List");
 		
@@ -36,14 +37,12 @@ public abstract class ListCommand extends CommandBase {
 			if (livingEntity.getWorld().equals(player.getWorld()))
 				distance = livingEntity.getLocation().distance(player.getLocation());
 			
-			unsortedData.put(livingEntity, distance);
+			unsortedMap.put(livingEntity, distance);
 		}
 		
-		MapValueComparator mapValueComparator = new MapValueComparator(unsortedData);
-		Map<LivingEntity, Double> sortedData = new TreeMap<LivingEntity, Double>(mapValueComparator);
-		sortedData.putAll(unsortedData);
+		Set<Entry<LivingEntity, Double>> sortedEntries = Utility.SortEntriesByValues(unsortedMap, true);
 		
-		for (Entry<LivingEntity, Double> entry : sortedData.entrySet()) {
+		for (Entry<LivingEntity, Double> entry : sortedEntries) {
 			int distance = (int) Math.round(entry.getValue());
 			LivingEntity livingEntity = entry.getKey();
 			
