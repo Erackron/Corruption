@@ -5,17 +5,16 @@ Command:
     Max: 50
 Message:
   PlayerFoundBoss:
-    ToPlayer: '&cOh noes, that''s a boss!'
-    ToOthers: '&c{PLAYER} found a boss!'
+    ToPlayer: "&cOh noes, that's a boss!"
+    ToOthers: "&c{PLAYER} found a boss!"
   BossFoundPlayer:
-    ToPlayer: '&cSneaky boss.'
-    ToOthers: '&cA boss found {PLAYER}!'
-  TooFar: '&cYou''re too far away.'
-  Proximity: '&4You feel an evil presence...'
+    ToPlayer: "&cSneaky boss."
+    ToOthers: "&cA boss found {PLAYER}!"
+  Proximity: "&4You feel an evil presence..."
+  Motd: "&6[Likeaboss] &eRunning version &9{VERSION}&e, watch out :3"
 Task:
-  RetrieveBossList: 0.5
-  BossVisualEffect: 1.0
-  CheckBossProximity: 0.5
+  DrawBossEffect: 1.0
+  CheckEntityProximity: 0.5
   CheckEntityHealth: 2.0
   CheckEntityExistence: 5.0
   SavePlayerData: 600.0

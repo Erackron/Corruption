@@ -14,42 +14,41 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import cam.Likeaboss;
 import cam.Utility;
 import cam.config.GlobalConfig.MessageParam;
 
-public class LabPlayerManager {
-	
+public abstract class LabPlayerManager {
 	private static List<LabPlayer> labPlayers = new ArrayList<LabPlayer>();
 	private static List<LabPlayer> seenLabPlayers = new ArrayList<LabPlayer>();
-	private Pattern pattern = Pattern.compile(StringConst.SEPARATOR.getString());
+	private static Pattern pattern = Pattern.compile(StringConst.SEPARATOR.getString());
 	
 	private enum StringConst {
-		FILEPATH {public String getString() {return "plugins/Likeaboss/players.dat";}},
-		SEPARATOR {public String getString() {return ":";}},
-		ENDLINE {public String getString() {return System.getProperty("line.separator");}};
+		FILEPATH {@Override public String getString() {return "plugins/Likeaboss/players.dat";}},
+		SEPARATOR {@Override public String getString() {return ":";}},
+		ENDLINE {@Override public String getString() {return System.getProperty("line.separator");}};
 		
 		public abstract String getString();
 	}
 	
-	public void AddOnlinePlayers() {
+	public static void AddOnlinePlayers() {
 		Player[] players = Likeaboss.instance.getServer().getOnlinePlayers();
 		
 		for (Player player : players)
 			AddLabPlayer(player);
 	}
 	
-	public void AddLabPlayer(Player player) {
+	public static LabPlayer AddLabPlayer(Player player) {
 		for (LabPlayer labPlayer : seenLabPlayers) {
 			if (labPlayer.getName().equals(player.getName())) {
 				labPlayer.setPlayer(player);
 				labPlayers.add(labPlayer);
 				seenLabPlayers.remove(labPlayer);
-				return;
+				return labPlayer;
 			}
 		}
 		
@@ -60,9 +59,10 @@ public class LabPlayerManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return labPlayer;
 	}
 	
-	public void RemoveLabPlayer(Player player) {
+	public static void RemoveLabPlayer(Player player) {
 		for (LabPlayer labPlayer : labPlayers) {
 			if (labPlayer.getName().equals(player.getName())) {
 				labPlayers.remove(labPlayer);
@@ -72,9 +72,10 @@ public class LabPlayerManager {
 		}
 	}
 	
-	public void LoadPlayerData(LabPlayer labPlayer) {
+	public static void LoadPlayerData(LabPlayer labPlayer) {
 		File file = getFile();
 		Scanner scanner = null;
+		
 		try {
 			scanner = new Scanner(new FileInputStream(file));
 		} catch (Exception e) {
@@ -83,10 +84,12 @@ public class LabPlayerManager {
 		
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
+			
 			if (line == StringConst.ENDLINE.getString())
 				continue;
 			
 			String name = line.substring(0, line.indexOf(StringConst.SEPARATOR.getString()));
+			
 			if (!name.equalsIgnoreCase(labPlayer.getName()))
 				continue;
 			
@@ -100,7 +103,7 @@ public class LabPlayerManager {
 			}
 			
 			for (int i = 3 ; i < data.length ; i += 2)
-				labPlayer.AddBossKilled(EntityType.fromId(Integer.valueOf(data[i])), Integer.valueOf(data[i+1]));
+				labPlayer.AddBossKilled(data[i], Integer.valueOf(data[i+1]));
 			
 			break;
 		}
@@ -108,12 +111,12 @@ public class LabPlayerManager {
 		scanner.close();
 	}
 	
-	public void SavePlayerData() throws Exception {
+	public static void SavePlayerData() throws Exception {
 		String separator = StringConst.SEPARATOR.getString();
 		String endLine = StringConst.ENDLINE.getString();
-		
 		File file = getFile();
 		File tempFile = new File(file.getPath() + ".temp");
+		
 		Utility.FileToFile(file, tempFile);
 		
 		//Copy file A to B and overwrite A.
@@ -125,6 +128,7 @@ public class LabPlayerManager {
 		Outer:
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
+			
 			if (line == endLine)
 				continue;
 			
@@ -136,11 +140,13 @@ public class LabPlayerManager {
 				//If the player is present in the temp file and was seen, update its data
 				if (nameInFile.equals(playerName)) {
 					LabPlayerData commandStatus = labPlayer.getLabPlayerData();
+					
 					writer.write(playerName + separator + commandStatus.getViewer() + separator + commandStatus.getIgnore() + separator);
 					
-					Map<EntityType, Integer> bossesKilled = labPlayer.getBossesKilled();
-					for (Entry<EntityType, Integer> bossKilled : bossesKilled.entrySet())
-						writer.write(bossKilled.getKey().getTypeId() + separator + bossKilled.getValue() + separator);
+					Map<String, Integer> bossesKilled = labPlayer.getBossesKilled();
+					
+					for (Entry<String, Integer> bossKilled : bossesKilled.entrySet())
+						writer.write(bossKilled.getKey() + separator + bossKilled.getValue() + separator);
 					
 					writer.write(endLine);
 					
@@ -158,11 +164,13 @@ public class LabPlayerManager {
 		//New players
 		for (LabPlayer labPlayer : seenLabPlayers) {
 			LabPlayerData commandStatus = labPlayer.getLabPlayerData();
+			
 			writer.write(labPlayer.getName() + separator + commandStatus.getViewer() + separator + commandStatus.getIgnore() + separator);
 				
-			Map<EntityType, Integer> bossesKilled = labPlayer.getBossesKilled();
-			for (Entry<EntityType, Integer> bossKilled : bossesKilled.entrySet())
-				writer.write(bossKilled.getKey().getTypeId() + separator + bossKilled.getValue() + separator);
+			Map<String, Integer> bossesKilled = labPlayer.getBossesKilled();
+			
+			for (Entry<String, Integer> bossKilled : bossesKilled.entrySet())
+				writer.write(bossKilled.getKey() + separator + bossKilled.getValue() + separator);
 			
 			writer.write(endLine);
 		}
@@ -172,7 +180,8 @@ public class LabPlayerManager {
 		writer.close();
 	}
 	
-	public void SendFoundMessage(Player player, boolean isFinder, Entity entity) {
+	//TODO : {BOSS}
+	public static void SendFoundMessage(LabPlayer labPlayer, boolean isFinder, Location location) {
 		String toPlayer = null;
 		String toOthers = null;
 		
@@ -185,21 +194,30 @@ public class LabPlayerManager {
 			toOthers = MessageParam.BOSS_FOUND_PLAYER_2.getMessage();
 		}
 		
-		toPlayer = toPlayer.replace('&', ChatColor.COLOR_CHAR);
-		toOthers = toOthers.replace('&', ChatColor.COLOR_CHAR).replace("{PLAYER}", player.getDisplayName());
+		if (toPlayer.length() > 0) {
+			toPlayer = toPlayer.replace('&', ChatColor.COLOR_CHAR);
+			
+			
+			labPlayer.getPlayer().sendMessage(toPlayer);
+		}
 		
-		for (LabPlayer otherLabPlayer : labPlayers) {
-			Player otherPlayer = otherLabPlayer.getPlayer();
+		if (toOthers.length() > 0) {
+			labPlayers.remove(labPlayer);
 			
-			if (otherPlayer == player)
-				player.sendMessage(toPlayer);
+			toOthers = toOthers.replace('&', ChatColor.COLOR_CHAR).replace("{PLAYER}", labPlayer.getPlayer().getDisplayName());
 			
-			else if (Utility.IsNear(otherPlayer.getLocation(), entity.getLocation(), 0, 35))
-				otherPlayer.sendMessage(toOthers);
+			for (LabPlayer otherLabPlayer : labPlayers) {
+				Player otherPlayer = otherLabPlayer.getPlayer();
+				
+				if (Utility.IsNear(otherPlayer.getLocation(), location, 0, 35))
+					otherPlayer.sendMessage(toOthers);
+			}
+			
+			labPlayers.add(labPlayer);
 		}
 	}
 	
-	public LabPlayer getLabPlayer(Entity entity) {
+	public static LabPlayer getLabPlayer(Entity entity) {
 		for (LabPlayer labPlayer : labPlayers) {
 			if (labPlayer.getPlayer() == entity)
 				return labPlayer;
@@ -208,22 +226,15 @@ public class LabPlayerManager {
 		return null;
 	}
 	
-	public List<LabPlayer> getLabPlayers() {
+	public static List<LabPlayer> getLabPlayers() {
 		return labPlayers;
 	}
 	
-	public List<LabPlayer> getSeenLabPlayers() {
+	public static List<LabPlayer> getSeenLabPlayers() {
 		return seenLabPlayers;
 	}
 	
-	public List<LabPlayer> getAllLabPlayers() {
-		List<LabPlayer> newList = new ArrayList<LabPlayer>();
-		newList.addAll(labPlayers);
-		newList.addAll(seenLabPlayers);
-		return newList;
-	}
-	
-	public File getFile() {
+	public static File getFile() {
 		File file = new File(StringConst.FILEPATH.getString());
 		
 		if (!file.exists()) {
@@ -241,7 +252,7 @@ public class LabPlayerManager {
 		return file;
 	}
 	
-	public Pattern getPattern() {
+	public static Pattern getPattern() {
 		return pattern;
 	}
 }

@@ -3,7 +3,6 @@ package cam.command;
 import org.bukkit.ChatColor;
 
 public abstract class HelpCommand extends BaseCommand {
-	
 	public static void Process() {
 		if (!CheckPermission("lab.help", true))
 			return;

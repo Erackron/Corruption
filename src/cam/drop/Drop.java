@@ -3,7 +3,6 @@ package cam.drop;
 import org.bukkit.Material;
 
 public class Drop {
-	
 	private Material material;
 	private short data;
 	private double chance;

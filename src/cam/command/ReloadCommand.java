@@ -2,16 +2,16 @@ package cam.command;
 
 import org.bukkit.ChatColor;
 
-import cam.Likeaboss;
+import cam.config.ConfigManager;
+import cam.task.TaskManager;
 
 public abstract class ReloadCommand extends BaseCommand {
-	
 	public static void Process() {
 		if (!CheckPermission("lab.reload", true))
 			return;
 		
-		Likeaboss.instance.getLabConfig().LoadFiles();
-		Likeaboss.instance.getTaskManager().Restart();
+		ConfigManager.Load();
+		TaskManager.Restart();
 		
 		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Reloaded");
 	}

@@ -2,7 +2,6 @@ package cam.command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import cam.Likeaboss;
 import cam.config.GlobalConfig.CommandParam;
@@ -11,14 +10,11 @@ import cam.player.LabPlayerData;
 import cam.player.LabPlayerManager;
 
 public abstract class IgnoreCommand extends BaseCommand {
-	
 	public static void Process() {
 		if (!CheckPermission("lab.ignore", false))
 			return;
 		
-		LabPlayerManager labPlayerManager = Likeaboss.instance.getLabPlayerManager();
-		LabPlayer labPlayer = labPlayerManager.getLabPlayer((Player) sender);
-		BukkitScheduler bukkitScheduler = Likeaboss.instance.getServer().getScheduler();
+		LabPlayer labPlayer = LabPlayerManager.getLabPlayer((Player) sender);
 		
 		if (labPlayer == null) {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Oops, something went wrong.");
@@ -32,12 +28,12 @@ public abstract class IgnoreCommand extends BaseCommand {
 			int ignoreTaskId = labPlayer.getIgnoreTaskId();
 			
 			if (ignoreTaskId != 0) {
-				bukkitScheduler.cancelTask(ignoreTaskId);
+				Likeaboss.scheduler.cancelTask(ignoreTaskId);
 				labPlayer.setIgnoreTaskId(0);
 				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Canceled");
 			}
 			else {
-				labPlayer.setIgnoreTaskId(bukkitScheduler.scheduleAsyncDelayedTask(Likeaboss.instance, new IgnoreCommandTask(labPlayer), delay * 20));
+				labPlayer.setIgnoreTaskId(Likeaboss.scheduler.scheduleAsyncDelayedTask(Likeaboss.instance, new IgnoreCommandTask(labPlayer), delay * 20));
 				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Applied in " + ChatColor.GREEN + delay + ChatColor.GRAY + " second(s)");
 			}
 		}

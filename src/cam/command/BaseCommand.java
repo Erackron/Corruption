@@ -5,7 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public abstract class BaseCommand {
-	
 	protected static boolean processed;
 	protected static CommandSender sender;
 	protected static String[] args;

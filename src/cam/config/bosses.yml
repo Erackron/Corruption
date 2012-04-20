@@ -1,0 +1,97 @@
+Blaze:
+  EntityType: Blaze
+  Spawn: 3.0 1.0
+  Stats: 5.5 2.0 8.0
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 370:0 20.0 1 1
+CaveSpider:
+  EntityType: CaveSpider
+  Spawn: 3.0 1.0
+  Stats: 5.5 3.0 8.0
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 376:0 20.0 1 2
+Creeper:
+  EntityType: Creeper
+  Spawn: 3.0 1.0
+  Stats: 3.75 2.0 10.5
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 46:0 20.0 1 2
+Enderman:
+  EntityType: Enderman
+  Spawn: 3.0 1.0
+  Stats: 3.75 2.0 10.5
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 121:0 20.0 1 2
+Ghast:
+  EntityType: Ghast
+  Spawn: 3.0 1.0
+  Stats: 5.5 2.0 8.0
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 348:0 20.0 4 8
+LavaSlime:
+  EntityType: LavaSlime
+  Spawn: 3.0 1.0
+  Stats: 5.5 2.0 8.0
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 341:0 20.0 1 3
+PigZombie:
+  EntityType: PigZombie
+  Spawn: 3.0 1.0
+  Stats: 5.5 2.0 8.0
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 266:0 20.0 1 1
+Silverfish:
+  EntityType: SilverFish
+  Spawn: 3.0 1.0
+  Stats: 7.5 4.0 5.0
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 350:0 20.0 1 2
+Skeleton:
+  EntityType: Skeleton
+  Spawn: 3.0 1.0
+  Stats: 5.5 2.0 8.0
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 261:0 3.5 1 1
+      SecondItem: 262:0 20.0 2 4
+Slime:
+  EntityType: Slime
+  Spawn: 3.0 1.0
+  Stats: 5.5 2.0 8.0
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 378:0 20.0 1 3
+Spider:
+  EntityType: Spider
+  Spawn: 3.0 1.0
+  Stats: 5.5 3.0 8.0
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 35:0 20.0 1 2
+Zombie:
+  EntityType: Zombie
+  Spawn: 3.0 1.0
+  Stats: 5.5 2.0 8.0
+  Ability:
+  Loot:
+    FirstRoll:
+      FirstItem: 288:0 20.0 1 3

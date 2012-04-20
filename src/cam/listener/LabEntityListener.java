@@ -1,12 +1,15 @@
 package cam.listener;
 
-import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -16,104 +19,61 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.PluginManager;
 
 import cam.Likeaboss;
 import cam.Utility;
-import cam.boss.Boss;
-import cam.boss.BossData;
-import cam.boss.BossManager;
-import cam.config.GlobalConfig.BossParam;
-import cam.config.GlobalConfig.MessageParam;
+import cam.ability.Ability.ActivationCondition;
 import cam.config.WorldConfig;
-import cam.event.BossDamageEvent;
-import cam.event.BossDeathEvent;
-import cam.event.BossSpawnEvent;
+import cam.config.GlobalConfig.BossParam;
+import cam.entity.Boss;
+import cam.entity.BossData;
+import cam.entity.LabEntity;
+import cam.entity.LabEntityManager;
 import cam.player.LabPlayer;
 import cam.player.LabPlayerManager;
 
 public class LabEntityListener implements Listener {
-	
-	private BossManager bossManager;
-	private LabPlayerManager labPlayerManager;
-	private PluginManager pluginManager;
-	
-	public LabEntityListener() {
-		bossManager = Likeaboss.instance.getBossManager();
-		labPlayerManager = Likeaboss.instance.getLabPlayerManager();
-		pluginManager = Bukkit.getServer().getPluginManager();
-	}
-	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		if (event.getSpawnReason() == SpawnReason.CUSTOM)
 			return;
 		
 		LivingEntity livingEntity = event.getEntity();
+		BossData bossData = WorldConfig.getWorldData(livingEntity.getWorld()).getBossData(livingEntity.getType());
 		
-		if (livingEntity instanceof Monster || livingEntity instanceof Slime  && ((Slime) livingEntity).getSize() == 4 || livingEntity instanceof Ghast) {
-			BossData bossData = Likeaboss.instance.getLabConfig().getWorldConfig(livingEntity.getWorld()).getBossData(livingEntity.getType());
-			if (bossData == null)
-				return;
-			
-			if (livingEntity.getLocation().getY() <= bossData.getMaxHeight()) {
-				double chance = Math.random() * 100;
+		if (bossData == null)
+			return;
+		
+		double chance = Utility.random.nextInt(100);
+		
+		if (event.getSpawnReason() == SpawnReason.SPAWNER) {
+			if (chance < bossData.getChanceFromSpawner()) {
+				Boss boss = new Boss(livingEntity, bossData);
 				
-				if (event.getSpawnReason() == SpawnReason.SPAWNER && chance < bossData.getChanceFromSpawner() ||
-					chance < bossData.getChance()) {
-					Boss boss = new Boss(livingEntity, bossData);
-					
-					BossSpawnEvent bossSpawnEvent = new BossSpawnEvent(boss);
-					pluginManager.callEvent(bossSpawnEvent);
-					
-					if (!bossSpawnEvent.isCancelled())
-						bossManager.AddBoss(boss);
-				}
+				LabEntityManager.AddBoss(boss);
 			}
+		}
+		else if (chance < bossData.getChance()) {
+			Boss boss = new Boss(livingEntity, bossData);
+			
+			LabEntityManager.AddBoss(boss);
 		}
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityDeath(EntityDeathEvent event) {
-		LivingEntity livingEntity = event.getEntity();
-		Boss boss = bossManager.getBoss(livingEntity);
-		if (boss == null)
-			return;
+		LabEntity labEntity = LabEntityManager.getEntity(event.getEntity());
 		
-		//Prepare drops and exp
-		BossData bossData = boss.getBossData();
-		WorldConfig worldConfig = Likeaboss.instance.getLabConfig().getWorldConfig(livingEntity.getWorld());
-		List<ItemStack> drops = Likeaboss.instance.getDropCalculator().CreateDrops(bossData, worldConfig);
-		int exp = (int) (event.getDroppedExp() * boss.getBossData().getExpCoef());
-		
-		//Throw an event
-		BossDeathEvent bossDeathEvent = new BossDeathEvent(boss, drops, exp);
-		pluginManager.callEvent(bossDeathEvent);
-		if (bossDeathEvent.isCancelled())
-			return;
-		
-		//Update drops and exp
-		List<ItemStack> originalDrops = event.getDrops();
-		if (BossParam.OVERWRITE_DROPS.getValue())
-			originalDrops.clear();
-		originalDrops.addAll(drops);
-		event.setDroppedExp(bossDeathEvent.getExp());
-		
-		bossManager.KillBoss(boss);
-		
-		LabPlayer killer = boss.getKiller();
-		if (killer != null) {
-			killer.AddBossKilled(livingEntity.getType(), 1);
-			Likeaboss.instance.getStats().AddBossKilled(1);
-		}
+		if (labEntity != null)
+			labEntity.OnDeath(event);
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent event) {
-		Boss boss = bossManager.getBoss(event.getEntity());
+		Boss boss = LabEntityManager.getBoss(event.getEntity());
+		
 		if (boss != null)
-			bossManager.RemoveBoss(boss);
+			LabEntityManager.RemoveBoss(boss);
 	}
 		
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -122,56 +82,63 @@ public class LabEntityListener implements Listener {
 		if (event.getDamage() <= 0)
 			return;
 		
-		Entity entity = event.getEntity();
-		
-		if (entity instanceof Player) {
-			Player player = (Player) entity;
+		//Only if the damager is a boss
+		if (event instanceof EntityDamageByEntityEvent) {
+			Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
 			
-			if (event instanceof EntityDamageByEntityEvent) {
-				Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
+			if (damager instanceof Projectile) {
+				Projectile projectile = (Projectile) damager;
+				damager = projectile.getShooter();
+			}
+			
+			Boss boss = LabEntityManager.getBoss(damager);
+			
+			if (boss != null) {
+				Entity entity = event.getEntity();
 				
-				if (damager instanceof Projectile) {
-					Projectile projectile = (Projectile) damager;
-					damager = projectile.getShooter();
-				}
-				
-				Boss boss = bossManager.getBoss(damager);
-				if (boss == null)
+				if (!(entity instanceof LivingEntity))
 					return;
 				
-				LabPlayer labPlayer = labPlayerManager.getLabPlayer(player);
-				if (labPlayer != null) {
-					if (labPlayer.getLabPlayerData().getIgnore()) {
-						bossManager.RemoveBoss(boss);
-						return;
+				LivingEntity livingEntity = (LivingEntity) entity;
+				
+				switch (livingEntity.getType()) {
+				case PLAYER:
+					Player player = (Player) livingEntity;
+					LabPlayer labPlayer = LabPlayerManager.getLabPlayer(player);
+					
+					if (labPlayer != null) {
+						if (labPlayer.getLabPlayerData().getIgnore()) {
+							LabEntityManager.RemoveBoss(boss);
+							return;
+						}
+					}
+					
+					//Found message
+					if (!boss.getFound()) {
+						boss.setFound(true);
+						LabPlayerManager.SendFoundMessage(labPlayer, false, player.getLocation());
 					}
 				}
 				
 				event.setDamage((int) (event.getDamage() * boss.getBossData().getDamageCoef()));
-					
-				//Found message
-				if (!boss.getFound()) {
-					boss.setFound(true);
-					labPlayerManager.SendFoundMessage(player, false, entity);
-				}
+				boss.ActivateAbilities(event, livingEntity, ActivationCondition.ONATTACK);
 			}
 		}
 		
-		//Only affect bosses
-		else if (entity instanceof LivingEntity) {
-			Boss boss = bossManager.getBoss(entity);
-			if (boss == null)
-				return;
+		Boss boss = LabEntityManager.getBoss(event.getEntity());
+		
+		if (boss != null) {
+			LivingEntity livingEntity = boss.getLivingEntity();
 			
 			//Simplified Minecraft invulnerability timer
-			LivingEntity livingEntity = boss.getLivingEntity();
 			if (livingEntity.getNoDamageTicks() > livingEntity.getMaximumNoDamageTicks() / 2.0) {
 				event.setCancelled(true);
 				return;
 			}
 			
-			//Damager finder
 			Entity damager = null;
+			
+			//Damager finder
 			if (event instanceof EntityDamageByEntityEvent) {
 				damager = ((EntityDamageByEntityEvent) event).getDamager();
 				
@@ -186,26 +153,23 @@ public class LabEntityListener implements Listener {
 			
 			Player player = null;
 			LabPlayer labPlayer = null;
+			
 			if (damager instanceof Player) {
 				player = (Player) damager;
 				
+				labPlayer = LabPlayerManager.getLabPlayer(player);
+				
 				//Remove the boss and return if the player has Ignore
-				labPlayer = labPlayerManager.getLabPlayer(player);
 				if (labPlayer.getLabPlayerData().getIgnore()) {
-					bossManager.RemoveBoss(boss);
+					LabEntityManager.RemoveBoss(boss);
 					event.setCancelled(true);
 					return;
 				}
 				
 				//Player notifications
-				if (!Utility.IsNear(player.getLocation(), livingEntity.getLocation(), 0, 16)) {
-					player.sendMessage(MessageParam.TOO_FAR.getMessage().replace('&', ChatColor.COLOR_CHAR));
-					event.setCancelled(true);
-					return;
-				}
-				else if (!boss.getFound()) {
+				if (!boss.getFound()) {
 					boss.setFound(true);
-					labPlayerManager.SendFoundMessage(player, true, entity);
+					LabPlayerManager.SendFoundMessage(labPlayer, true, livingEntity.getLocation());
 				}
 			}
 			
@@ -220,8 +184,9 @@ public class LabEntityListener implements Listener {
 				}
 				if (player != null && !BossParam.ENCHANT_FIRETICK_IMMUNE.getValue()) {
 					Map<Enchantment, Integer> enchants = player.getItemInHand().getEnchantments();
+					
 					if (enchants.containsKey(Enchantment.FIRE_ASPECT))
-						Likeaboss.instance.getServer().getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new GetFireEnchantTicks(boss), 0);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new GetFireEnchantTicks(boss), 0);
 				}
 				break;
 			case PROJECTILE:
@@ -231,8 +196,9 @@ public class LabEntityListener implements Listener {
 				}
 				if (player != null && !BossParam.ENCHANT_FIRETICK_IMMUNE.getValue()) {
 					Map<Enchantment, Integer> enchants = player.getItemInHand().getEnchantments();
-					if (enchants.containsKey(Enchantment.FIRE_ASPECT))
-						Likeaboss.instance.getServer().getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new GetFireEnchantTicks(boss), 0);
+					
+					if (enchants.containsKey(Enchantment.ARROW_FIRE))
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new GetFireEnchantTicks(boss), 0);
 				}
 				break;
 			case BLOCK_EXPLOSION:
@@ -291,7 +257,7 @@ public class LabEntityListener implements Listener {
 					damage *= 1.25;
 				break;
 			case POISON:
-				if (BossParam.POISON_IMMUNE.getValue() || boss.getHealth() - damage > 0)
+				if (BossParam.POISON_IMMUNE.getValue() || boss.getHealth() - damage <= 0)
 					event.setCancelled(true);
 				break;
 			default:
@@ -302,23 +268,12 @@ public class LabEntityListener implements Listener {
 			if (event.isCancelled())
 				return;
 			
-			//Throw an event
-			BossDamageEvent bossDamageEvent = new BossDamageEvent(boss, damager, damage);
-			pluginManager.callEvent(bossDamageEvent);
+			LabEntityManager.DamageBoss(boss, damage);
+			boss.ActivateAbilities(event, (LivingEntity) damager, ActivationCondition.ONDEFENSE);
 			
-			//Listen the event
-			int newDamage = bossDamageEvent.getDamage();
-			if (bossDamageEvent.isCancelled() || newDamage <= 0) {
-				event.setCancelled(true);
-				return;
-			}
-			bossManager.DamageBoss(boss, newDamage);
-			
-			if (labPlayer != null) {
-				//Viewer message
-				if (labPlayer.getLabPlayerData().getViewer())
-					player.sendMessage("Boss Health: " + ChatColor.GRAY + (boss.getHealth()) + " (-" + newDamage + ")");
-			}
+			//Viewer message
+			if (labPlayer != null && labPlayer.getLabPlayerData().getViewer())
+				player.sendMessage("Boss Health: " + ChatColor.GRAY + (boss.getHealth()) + " (-" + damage + ")");
 			
 			if (boss.getHealth() <= 0) {
 				boss.setKiller(labPlayer);
@@ -330,9 +285,9 @@ public class LabEntityListener implements Listener {
 		}
 	}
 	
-	class GetFireEnchantTicks implements Runnable {
+	private class GetFireEnchantTicks implements Runnable {
 		
-		Boss boss;
+		private Boss boss;
 		
 		public GetFireEnchantTicks(Boss boss) {
 			this.boss = boss;

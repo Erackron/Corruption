@@ -2,9 +2,8 @@ package cam.command;
 
 import org.bukkit.command.CommandSender;
 
-public class CommandManager {
-	
-	public boolean Process(CommandSender sender, String label, String[] args) {
+public abstract class CommandManager {
+	public static boolean Process(CommandSender sender, String label, String[] args) {
 		if (!label.equalsIgnoreCase("lab") || args.length == 0)
 			return false;
 		

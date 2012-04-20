@@ -1,53 +1,41 @@
 package cam.command;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 
-import cam.Likeaboss;
-import cam.boss.Boss;
-import cam.boss.BossData;
 import cam.config.GlobalConfig.CommandParam;
+import cam.config.BossConfig;
+import cam.entity.Boss;
+import cam.entity.BossData;
+import cam.entity.LabEntityManager;
 
 public abstract class SpawnCommand extends BaseCommand {
-	
 	public static void Process() {
 		if (!CheckPermission("lab.spawn", false))
 			return;
 		
-		Set<EntityType> spawnableEntities = new HashSet<EntityType>();
-		for (EntityType entityType : EntityType.values()) {
-			if (entityType == EntityType.UNKNOWN)
-				continue;
-			
-			Class<? extends Entity> entityClass = entityType.getEntityClass();
-			if (Monster.class.isAssignableFrom(entityClass) && entityClass != Monster.class ||
-					Slime.class.isAssignableFrom(entityClass) ||
-					Ghast.class.isAssignableFrom(entityClass))
-				spawnableEntities.add(entityType);
-		}
+		Map<String, BossData> bossesData = BossConfig.getBossesData();
 		
 		if (args.length < 2) {
-			SendUsage(spawnableEntities);
+			SendUsage(bossesData);
 			return;
 		}
 		
-		for (EntityType entityType : spawnableEntities) {
-			if (!entityType.getName().equalsIgnoreCase(args[1]))
+		for (Entry<String, BossData> bossesDataEntry : bossesData.entrySet()) {
+			if (!bossesDataEntry.getKey().equalsIgnoreCase(args[1]))
 				continue;
 			
 			int amount = 1;
+			
 			if (args.length >= 3) {
 				try {
 					amount = Integer.parseInt(args[2]);
@@ -64,46 +52,45 @@ public abstract class SpawnCommand extends BaseCommand {
 				}
 			}
 			
-			Spawn(entityType.getName(), amount);
+			Spawn(bossesDataEntry.getValue(), amount);
 			return;
 		}
 		
 		//Invalid creature name
-		SendUsage(spawnableEntities);
+		SendUsage(bossesData);
 	}
 	
-	private static void Spawn(String creatureName, int amount) {
+	private static void Spawn(BossData bossData, int amount) {
 		Player player = (Player) sender;
+		Location location = player.getTargetBlock(null, 100).getRelative(BlockFace.UP).getLocation();
 		World world = player.getWorld();
-		Block block = player.getTargetBlock(null, 100).getRelative(BlockFace.UP);
-		EntityType entityType = EntityType.fromName(creatureName);
+		EntityType entityType = bossData.getEntityType();
 		
 		for (int i = 0 ; i < amount ; i++) {
-			LivingEntity spawnedCreature = world.spawnCreature(block.getLocation(), entityType);
+			LivingEntity spawnedCreature = world.spawnCreature(location, entityType);
 			
+			//Slimes are always big
 			if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
 				Slime slime = (Slime) spawnedCreature;
 				slime.setSize(4);
 			}
 			
-			BossData bossData = Likeaboss.instance.getLabConfig().getWorldConfig(world).getBossData(entityType);
+			Boss boss = new Boss(spawnedCreature, bossData);
 			
-			if (bossData == null)
-				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Nothing in the config file for " + ChatColor.GRAY + creatureName + ChatColor.WHITE + ".");
-			else {
-				Boss boss = new Boss(spawnedCreature, bossData);
-				Likeaboss.instance.getBossManager().AddBoss(boss);
-			}
+			LabEntityManager.AddBoss(boss);
 		}
 	}
 	
-	private static void SendUsage(Set<EntityType> spawnableEntities) {
-		String creatureList = "";
-		for (EntityType entityType : spawnableEntities)
-			creatureList += entityType.getName() + ", ";
-		creatureList = creatureList.substring(0, creatureList.length() - 2);
+	private static void SendUsage(Map<String, BossData> bossesData) {
+		StringBuilder bossListBuilder = new StringBuilder();
+		
+		for (String key : bossesData.keySet()) {
+			bossListBuilder.append(key + ", ");
+		}
+		
+		bossListBuilder.substring(0, bossListBuilder.length() - 2);
 		
 		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Allowed Creatures:");
-		sender.sendMessage(ChatColor.GRAY + creatureList);
+		sender.sendMessage(ChatColor.GRAY + bossListBuilder.toString());
 	}
 }

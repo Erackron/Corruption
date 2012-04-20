@@ -1,58 +1,32 @@
 package cam.task;
 
-import org.bukkit.scheduler.BukkitScheduler;
-
 import cam.Likeaboss;
-import cam.boss.Boss;
-import cam.boss.BossManager;
 import cam.config.GlobalConfig.TaskParam;
 
-public class TaskManager {
-	
-	protected static BukkitScheduler bukkitScheduler;
-	
-	public TaskManager() {
-		BaseTask.bossManager = Likeaboss.instance.getBossManager();
+public abstract class TaskManager {
+	public static void Start() {
+		ScheduleSyncRepeatingTask(new DrawBossEffect(), TaskParam.DRAW_BOSS_EFFECT.getValue());
+		ScheduleSyncRepeatingTask(new CheckEntityHealth(), TaskParam.CHECK_ENTITY_HEALTH.getValue());
+		ScheduleSyncRepeatingTask(new CheckEntityExistence(), TaskParam.CHECK_ENTITY_EXISTENCE.getValue());
+		ScheduleSyncRepeatingTask(new CheckEntityProximity(), TaskParam.CHECK_ENTITY_PROXIMITY.getValue());
+		ScheduleSyncRepeatingTask(new SavePlayerData(), TaskParam.SAVE_PLAYER_DATA.getValue());
 	}
 	
-	public void Start() {
-		long retrieveBossList = (long) (TaskParam.RETRIEVE_BOSS_LIST.getValue() * 20);
-		long drawBossEffect = (long) (TaskParam.BOSS_VISUAL_EFFECT.getValue() * 20);
-		long checkEntityHealth = (long) (TaskParam.CHECK_ENTITY_HEALTH.getValue() * 20);
-		long checkEntityExistence = (long) (TaskParam.CHECK_ENTITY_EXISTENCE.getValue() * 20);
-		long checkBossProximity = (long) (TaskParam.CHECK_BOSS_PROXIMITY.getValue() * 20);
-		long savePlayerFiles = (long) (TaskParam.SAVE_PLAYER_DATA.getValue() * 20);
-		
-		if (retrieveBossList > 0)
-			bukkitScheduler.scheduleSyncRepeatingTask(Likeaboss.instance, new RetrieveBossList(), retrieveBossList, retrieveBossList);
-		if (drawBossEffect > 0)
-			bukkitScheduler.scheduleSyncRepeatingTask(Likeaboss.instance, new DrawBossEffect(), drawBossEffect, drawBossEffect);
-		if (checkEntityHealth > 0)
-			bukkitScheduler.scheduleAsyncRepeatingTask(Likeaboss.instance, new CheckEntityHealth(), checkEntityHealth, checkEntityHealth);
-		if (checkEntityExistence > 0)
-			bukkitScheduler.scheduleAsyncRepeatingTask(Likeaboss.instance, new CheckEntityExistence(), checkEntityExistence, checkEntityExistence);
-		if (checkBossProximity > 0)
-			bukkitScheduler.scheduleAsyncRepeatingTask(Likeaboss.instance, new CheckBossProximity(), checkBossProximity, checkBossProximity);
-		if (savePlayerFiles > 0)
-			bukkitScheduler.scheduleSyncRepeatingTask(Likeaboss.instance, new SavePlayerFiles(), savePlayerFiles, savePlayerFiles);
+	private static void ScheduleSyncRepeatingTask(BaseTask baseTask, double period) {
+		if (period > 0) {
+			long periodInTicks = (long) (period * 20);
+			Likeaboss.scheduler.scheduleSyncRepeatingTask(Likeaboss.instance, baseTask, periodInTicks, periodInTicks);
+		}
 	}
 	
-	public void Stop() {
-		bukkitScheduler.cancelTasks(Likeaboss.instance);
+	public static void Stop() {
+		Likeaboss.scheduler.cancelTasks(Likeaboss.instance);
 	}
 	
-	public void Restart() {
+	public static void Restart() {
 		Stop();
 		Start();
 	}
-	
-	public void setBukkitScheduler(BukkitScheduler bukkitScheduler) {
-		TaskManager.bukkitScheduler = bukkitScheduler;
-	}
 }
 
-class BaseTask {
-	
-	protected static BossManager bossManager;
-	protected static Boss[] tempBosses = new Boss[0];
-}
+abstract class BaseTask implements Runnable {}

@@ -1,33 +1,47 @@
-package cam.boss;
+package cam.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.entity.EntityType;
 
+import cam.ability.Ability;
 import cam.drop.Roll;
 
 public class BossData {
-	
-	private Set<Roll> rolls = new HashSet<Roll>();
+	private List<Ability> abilities = new ArrayList<Ability>();
+	private List<Roll> rolls = new ArrayList<Roll>();
+	private String name;
 	private EntityType entityType;
 	private double chance;
 	private double chanceFromSpawner;
-	private int maxHeight;
 	private double healthCoef;
 	private double damageCoef;
 	private double expCoef;
 	
-	public BossData(EntityType entityType) {
+	public BossData(String name, EntityType entityType) {
+		this.name = name;
 		this.entityType = entityType;
+	}
+	
+	public void AddAbility(Ability ability) {
+		abilities.add(ability);
 	}
 	
 	public void AddRoll(Roll roll) {
 		rolls.add(roll);
 	}
 	
-	public Set<Roll> getRolls() {
+	public List<Ability> getAbilities() {
+		return abilities;
+	}
+	
+	public List<Roll> getRolls() {
 		return rolls;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public EntityType getEntityType() {
@@ -42,10 +56,6 @@ public class BossData {
 		return chanceFromSpawner;
 	}
 	
-	public int getMaxHeight() {
-		return maxHeight;
-	}
-	
 	public double getHealthCoef() {
 		return healthCoef;
 	}
@@ -58,10 +68,9 @@ public class BossData {
 		return expCoef;
 	}
 	
-	public void setSpawnData(double chance, double chanceFromSpawner, int maxHeight) {
+	public void setSpawnData(double chance, double chanceFromSpawner) {
 		this.chance = chance;
 		this.chanceFromSpawner = chanceFromSpawner;
-		this.maxHeight = maxHeight;
 	}
 	
 	public void setStatData(double healthCoef, double damageCoef, double expCoef) {

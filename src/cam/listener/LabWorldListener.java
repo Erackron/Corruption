@@ -6,24 +6,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
-import cam.Likeaboss;
-import cam.config.LabConfig;
+import cam.config.WorldConfig;
 
 public class LabWorldListener implements Listener {
-	
-	LabConfig labConfig;
-	
-	public LabWorldListener() {
-		labConfig = Likeaboss.instance.getLabConfig();
-	}
-	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onWorldLoad(WorldLoadEvent event) throws Exception {
-		labConfig.LoadWorldConfigFile(event.getWorld());
+		WorldConfig.Load(event.getWorld());
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onWorldUnload(WorldUnloadEvent event) {
-		labConfig.RemoveWorldData(event.getWorld());
+		WorldConfig.Remove(event.getWorld());
 	}
 }

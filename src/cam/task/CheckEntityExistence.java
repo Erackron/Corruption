@@ -1,15 +1,26 @@
 package cam.task;
 
-import cam.boss.Boss;
+import java.util.Iterator;
+import java.util.List;
 
-public class CheckEntityExistence extends BaseTask implements Runnable {
-	
+import cam.entity.Boss;
+import cam.entity.LabEntityManager;
+import cam.entity.Minion;
+
+public class CheckEntityExistence extends BaseTask {
 	@Override
 	public void run() {
-		for (Boss boss : tempBosses) {
-			//Sometimes Entity.isDead() isn't enough, most certainly a MC/CraftBukkit bug.
-			if (!boss.IsAlive())
-				bossManager.RemoveBoss(boss);
+		List<Boss> bosses = LabEntityManager.getBosses();
+		List<Minion> minions = LabEntityManager.getMinions();
+		
+		for (Iterator<Boss> it = bosses.iterator() ; it.hasNext() ; ) {
+			if (!it.next().IsEntityAlive())
+				it.remove();
+		}
+		
+		for (Iterator<Minion> it = minions.iterator() ; it.hasNext() ; ) {
+			if (!it.next().IsEntityAlive())
+				it.remove();
 		}
 	}
 }

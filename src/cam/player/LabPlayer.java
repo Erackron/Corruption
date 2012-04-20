@@ -2,33 +2,32 @@ package cam.player;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 public class LabPlayer {
-	
 	private OfflinePlayer player; //Weird class naming indeed
 	private LabPlayerData labPlayerData;
-	private Map<EntityType, Integer> bossesKilled = new HashMap<EntityType, Integer>();
-	private int ignoreTaskId = 0;
+	private Map<String, Integer> bossesKilled = new HashMap<String, Integer>();
+	private int ignoreTaskId;
 	//For boss proximity
-	private int lastTimeNotified = 0;
-	private boolean warmingUp = false;
-	private int warmingUpStartTime = 0;
+	private int lastTimeNotified;
+	private boolean warmingUp;
+	private int warmingUpStartTime;
 	
 	public LabPlayer(OfflinePlayer player) {
 		this.player = player;
 		this.labPlayerData = new LabPlayerData();
 	}
 	
-	public void AddBossKilled(EntityType entityType, int amount) {
+	public void AddBossKilled(String string, int amount) {
 		int baseAmount = 0;
-		if (bossesKilled.containsKey(entityType))
-			baseAmount = bossesKilled.get(entityType);
-		bossesKilled.put(entityType, baseAmount + amount);
+		
+		if (bossesKilled.containsKey(string))
+			baseAmount = bossesKilled.get(string);
+		
+		bossesKilled.put(string, baseAmount + amount);
 	}
 	
 	public Player getPlayer() {
@@ -43,14 +42,16 @@ public class LabPlayer {
 		return labPlayerData;
 	}
 	
-	public Map<EntityType, Integer> getBossesKilled() {
+	public Map<String, Integer> getBossesKilled() {
 		return bossesKilled;
 	}
 	
 	public int getTotalBossesKilled() {
 		int amount = 0;
-		for (Entry<EntityType, Integer> bossKilled : bossesKilled.entrySet())
-			amount += bossKilled.getValue();
+		
+		for (Integer bossKilled : bossesKilled.values())
+			amount += bossKilled;
+		
 		return amount;
 	}
 	

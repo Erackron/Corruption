@@ -2,19 +2,19 @@ package cam.task;
 
 import org.bukkit.entity.LivingEntity;
 
-import cam.boss.Boss;
+import cam.entity.Boss;
+import cam.entity.LabEntityManager;
 
-public class CheckEntityHealth extends BaseTask implements Runnable {
-	
+public class CheckEntityHealth extends BaseTask {
 	@Override
 	public void run() {
-		for (Boss boss : tempBosses) {
+		for (Boss boss : LabEntityManager.getBosses()) {
 			LivingEntity livingEntity = boss.getLivingEntity();
 			int entityHealth = livingEntity.getHealth();
 			int entityMaxHealth = livingEntity.getMaxHealth();
 			
-			//If the entity received damage, but shouldn't (for example if another plugin uses LivingEntity.setHealth)
-			if (entityHealth < entityMaxHealth && boss.getHealth() > 0 && entityHealth > 0)
+			//If the entity received damage not handled by the EntityDamageEvent listener.
+			if (entityHealth < entityMaxHealth && boss.getHealth() > 0)
 				livingEntity.setHealth(entityMaxHealth);
 		}
 	}

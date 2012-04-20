@@ -14,13 +14,15 @@ import java.util.TreeSet;
 import org.bukkit.Location;
 
 public abstract class Utility {
+	public static java.util.Random random = new java.util.Random();
 	
 	public static int Random(int min, int max) {
-		int result = (int) (Math.random() * (max - min + 1)) + min;
+		int result = (int) (random.nextDouble() * (max - min + 1) + min);
 		return result;
 	}
 	
 	public static boolean IsNear(Location first, Location second, int minDistance, int maxDistance) {
+		//TODO Square before circle.
 		double relX = first.getX() - second.getX();
 		double relY = first.getY() - second.getY();
 		double relZ = first.getZ() - second.getZ();

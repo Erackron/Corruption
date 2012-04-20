@@ -4,13 +4,13 @@ import org.bukkit.Effect;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 
-import cam.boss.Boss;
+import cam.entity.Boss;
+import cam.entity.LabEntityManager;
 
-public class DrawBossEffect extends BaseTask implements Runnable {
-	
+public class DrawBossEffect extends BaseTask {
 	@Override
 	public void run() {
-		for (Boss boss : tempBosses) {
+		for (Boss boss : LabEntityManager.getBosses()) {
 			LivingEntity livingEntity = boss.getLivingEntity();
 			World world = livingEntity.getWorld();
 			
