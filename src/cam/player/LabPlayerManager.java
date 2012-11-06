@@ -181,7 +181,7 @@ public abstract class LabPlayerManager {
 	}
 	
 	//TODO : {BOSS}
-	public static void SendFoundMessage(LabPlayer labPlayer, boolean isFinder, Location location) {
+	public static void SendFoundMessage(LabPlayer labPlayer, boolean isFinder, Location location, String bossName) {
 		String toPlayer = null;
 		String toOthers = null;
 		
@@ -195,7 +195,7 @@ public abstract class LabPlayerManager {
 		}
 		
 		if (toPlayer.length() > 0) {
-			toPlayer = toPlayer.replace('&', ChatColor.COLOR_CHAR);
+			toPlayer = toPlayer.replace('&', ChatColor.COLOR_CHAR).replace("{BOSSNAME}", bossName);
 			
 			
 			labPlayer.getPlayer().sendMessage(toPlayer);
@@ -204,7 +204,7 @@ public abstract class LabPlayerManager {
 		if (toOthers.length() > 0) {
 			labPlayers.remove(labPlayer);
 			
-			toOthers = toOthers.replace('&', ChatColor.COLOR_CHAR).replace("{PLAYER}", labPlayer.getPlayer().getDisplayName());
+			toOthers = toOthers.replace('&', ChatColor.COLOR_CHAR).replace("{PLAYER}", labPlayer.getPlayer().getDisplayName()).replace("{BOSSNAME}", bossName);
 			
 			for (LabPlayer otherLabPlayer : labPlayers) {
 				Player otherPlayer = otherLabPlayer.getPlayer();

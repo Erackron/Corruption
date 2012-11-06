@@ -29,10 +29,10 @@ public abstract class GlobalConfig extends BaseConfig {
 	}
 	
 	public enum MessageParam {
-		PLAYER_FOUND_BOSS_1 ("&cOh noes, that's a boss!") {@Override public String getNode() {return "Message.PlayerFoundBoss.ToPlayer";}},
-		PLAYER_FOUND_BOSS_2 ("&c{PLAYER} found a boss!") {@Override public String getNode() {return "Message.PlayerFoundBoss.ToOthers";}},
-		BOSS_FOUND_PLAYER_1 ("&cSneaky boss.") {@Override public String getNode() {return "Message.BossFoundPlayer.ToPlayer";}},
-		BOSS_FOUND_PLAYER_2 ("&cA boss found {PLAYER}!") {@Override public String getNode() {return "Message.BossFoundPlayer.ToOthers";}},
+		PLAYER_FOUND_BOSS_1 ("&cOh noes, that's a {BOSSNAME} boss!") {@Override public String getNode() {return "Message.PlayerFoundBoss.ToPlayer";}},
+		PLAYER_FOUND_BOSS_2 ("&c{PLAYER} found a {BOSSNAME} boss!") {@Override public String getNode() {return "Message.PlayerFoundBoss.ToOthers";}},
+		BOSS_FOUND_PLAYER_1 ("&cSneaky {BOSSNAME} boss.") {@Override public String getNode() {return "Message.BossFoundPlayer.ToPlayer";}},
+		BOSS_FOUND_PLAYER_2 ("&cA {BOSSNAME} boss found {PLAYER}!") {@Override public String getNode() {return "Message.BossFoundPlayer.ToOthers";}},
 		PROXIMITY ("&4You feel an evil presence...") {@Override public String getNode() {return "Message.Proximity";}},
 		MOTD ("&6[Likeaboss] &eRunning version &9{VERSION}&e, watch out :3") {@Override public String getNode() {return "Message.Motd";}};
 		

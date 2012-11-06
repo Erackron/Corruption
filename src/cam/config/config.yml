@@ -5,11 +5,11 @@ Command:
     Max: 50
 Message:
   PlayerFoundBoss:
-    ToPlayer: "&cOh noes, that's a boss!"
-    ToOthers: "&c{PLAYER} found a boss!"
+    ToPlayer: "&cOh noes, that's a {BOSSNAME} boss!"
+    ToOthers: "&c{PLAYER} found a {BOSSNAME} boss!"
   BossFoundPlayer:
-    ToPlayer: "&cSneaky boss."
-    ToOthers: "&cA boss found {PLAYER}!"
+    ToPlayer: "&cSneaky {BOSSNAME} boss."
+    ToOthers: "&cA {BOSSNAME} boss found {PLAYER}!"
   Proximity: "&4You feel an evil presence..."
   Motd: "&6[Likeaboss] &eRunning version &9{VERSION}&e, watch out :3"
 Task:

@@ -116,7 +116,7 @@ public class LabEntityListener implements Listener {
 					//Found message
 					if (!boss.getFound()) {
 						boss.setFound(true);
-						LabPlayerManager.SendFoundMessage(labPlayer, false, player.getLocation());
+						LabPlayerManager.SendFoundMessage(labPlayer, false, player.getLocation(), boss.getBossData().getName());
 					}
 				}
 				
@@ -169,7 +169,7 @@ public class LabEntityListener implements Listener {
 				//Player notifications
 				if (!boss.getFound()) {
 					boss.setFound(true);
-					LabPlayerManager.SendFoundMessage(labPlayer, true, livingEntity.getLocation());
+					LabPlayerManager.SendFoundMessage(labPlayer, true, livingEntity.getLocation(), boss.getBossData().getName());
 				}
 			}
 			
