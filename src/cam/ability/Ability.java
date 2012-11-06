@@ -21,7 +21,8 @@ public abstract class Ability {
 		KNOCKBACK,
 		MINIONS,
 		SLOW,
-		UNKNOWN;
+		UNKNOWN,
+		OBSIDIANBOMB;
 		
 		public static AbilityType FromString(String string) {
 			for (AbilityType abilityType : AbilityType.values()) {

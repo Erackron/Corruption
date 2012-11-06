@@ -15,11 +15,12 @@ import cam.ability.ArmorPierce;
 import cam.ability.FirePunch;
 import cam.ability.Knockback;
 import cam.ability.Minions;
+import cam.ability.ObsidianBomb;
 import cam.ability.Slow;
 
 public abstract class AbilityConfig extends BaseConfig {
 	private static Map<String, Ability> abilities = new HashMap<String, Ability>();
-	
+	private Likeaboss plugin;
 	public static void Load() {
 		File file = LoadFile("plugins/Likeaboss/abilities.yml", "cam/config/abilities.yml");
 		
@@ -29,6 +30,7 @@ public abstract class AbilityConfig extends BaseConfig {
 		YamlConfiguration yamlConfig = LoadConfig(file);
 		
 		LoadAbilities(yamlConfig);
+		
 	}
 	
 	private static void LoadAbilities(YamlConfiguration yamlConfig) {
@@ -118,6 +120,9 @@ public abstract class AbilityConfig extends BaseConfig {
 					
 				abilities.put(abilityName, snare);
 				break;
+			
+			case OBSIDIANBOMB:
+				ObsidianBomb ob = new ObsidianBomb();
 				
 			case UNKNOWN:
 				Likeaboss.logger.warning("[Likeaboss] '" + entryValue + "' in abilities config file isn't a valid ability.");
