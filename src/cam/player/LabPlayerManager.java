@@ -180,11 +180,17 @@ public abstract class LabPlayerManager {
 		writer.close();
 	}
 	
-	//TODO : {BOSS}
 	public static void SendFoundMessage(LabPlayer labPlayer, boolean isFinder, Location location, String bossName) {
 		String toPlayer = null;
 		String toOthers = null;
 		
+		String[] bNameS = bossName.split("(?=\\p{Upper})");
+		if (bNameS.length>1){
+			bossName = bNameS[1];
+			for (int i = 2 ; i < bNameS.length ; i++) 
+				bossName += " "+bNameS[i];
+		}
+
 		if (isFinder) {
 			toPlayer = MessageParam.PLAYER_FOUND_BOSS_1.getMessage();
 			toOthers = MessageParam.PLAYER_FOUND_BOSS_2.getMessage();

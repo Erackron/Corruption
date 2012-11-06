@@ -58,8 +58,13 @@ public class BossConfig extends BaseConfig {
 			if (!LoadStats(bossData, yamlConfig.getString(bossName + ".Stats"), bossName))
 				continue;
 			LoadAbilities(bossData, yamlConfig.getStringList(bossName + ".Ability"), bossName);
-			LoadLoots(bossData, yamlConfig.getConfigurationSection(bossName + ".Loot"), bossName);
+			LoadLoots(bossData, yamlConfig.getConfigurationSection(bossName + ".Loot"), bossName);	
 			
+			String [] bossNameS = bossName.split("_");
+			bossName = bossNameS[0];
+			for(int i = 1;i<bossNameS.length;i++){
+				bossName += " "+bossNameS[i]; 
+			}
 			bossesData.put(bossName, bossData);
 		}
 	}

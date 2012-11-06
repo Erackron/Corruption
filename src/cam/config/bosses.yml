@@ -87,6 +87,14 @@ Spider:
   Loot:
     FirstRoll:
       FirstItem: 35:0 20.0 1 2
+      
+Witch:
+  EntityType: Witch
+  Spawn: 3.0 1.0
+  Stats: 5.5 2.0 8.0
+  Ability:
+  Loot:
+      
 Zombie:
   EntityType: Zombie
   Spawn: 3.0 1.0
