@@ -20,7 +20,6 @@ import cam.ability.Slow;
 
 public abstract class AbilityConfig extends BaseConfig {
 	private static Map<String, Ability> abilities = new HashMap<String, Ability>();
-	private Likeaboss plugin;
 	public static void Load() {
 		File file = LoadFile("plugins/Likeaboss/abilities.yml", "cam/config/abilities.yml");
 		
@@ -123,7 +122,20 @@ public abstract class AbilityConfig extends BaseConfig {
 			
 			case OBSIDIANBOMB:
 				ObsidianBomb ob = new ObsidianBomb();
+				
+				entryKey = "Fuse";
+				if (abilityEntries.containsKey(entryKey)){
+					ob.setFuseTicks((int) abilityEntries.get(entryKey));
+				}
+				
+				entryKey = "Radius";
+				if (abilityEntries.containsKey(entryKey)){
+					String s = (String) abilityEntries.get(entryKey);
+					ob.setRadius(Float.parseFloat(s));
+				}
+				
 				abilities.put(abilityName, ob);
+				break;
 				
 			case UNKNOWN:
 				Likeaboss.logger.warning("[Likeaboss] '" + entryValue + "' in abilities config file isn't a valid ability.");

@@ -8,8 +8,8 @@ import org.bukkit.potion.PotionEffectType;
 import cam.entity.Boss;
 
 public class Slow extends Ability {
-	private int amplifier;
-	private int duration;
+	private int amplifier = 2;
+	private int duration = 3;
 	
 	public Slow() {
 		activationConditions.add(ActivationCondition.ONATTACK);

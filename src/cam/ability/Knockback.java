@@ -8,8 +8,8 @@ import cam.Likeaboss;
 import cam.entity.Boss;
 
 public class Knockback extends Ability {
-	private double horizontalCoef;
-	private double verticalCoef;
+	private double horizontalCoef = 2;
+	private double verticalCoef = 3;
 	
 	public Knockback() {
 		activationConditions.add(ActivationCondition.ONATTACK);

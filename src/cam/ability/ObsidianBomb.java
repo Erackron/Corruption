@@ -11,15 +11,21 @@ import cam.Likeaboss;
 import cam.entity.Boss;
 
 public class ObsidianBomb extends Ability {
-		
-    /**
-     * How many ticks before the bomb goes off.
-     */
-    private final int FUSE = 80;
-    
+	
+	private int fuse = 80;
+	private float radius = 3F;
+	
     public ObsidianBomb(){
-		activationConditions.add(ActivationCondition.ONATTACK);		
+		activationConditions.add(ActivationCondition.ONATTACK);
 	}
+    
+    public void setFuseTicks(int fuseticks){
+    	this.fuse = fuseticks;
+    }
+    
+    public void setRadius(float radius){
+    	this.radius = radius;
+    }
     
     public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
         // Grab the target, or a random player.
@@ -35,9 +41,9 @@ public class ObsidianBomb extends Ability {
             public void run() {
                                 
                 world.getBlockAt(loc).breakNaturally();
-                world.createExplosion(loc, 3F);
+                world.createExplosion(loc, radius);
             }
-        }, FUSE);
+        }, fuse);
         
     }
 }
