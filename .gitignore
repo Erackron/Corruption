@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+out.jardesc
 
 # External tool builders
 .externalToolBuilders/
