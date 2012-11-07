@@ -16,11 +16,9 @@ public class ObsidianBomb extends Ability {
      * How many ticks before the bomb goes off.
      */
     private final int FUSE = 80;
-    private Likeaboss plugin;
     
     public ObsidianBomb(){
-		activationConditions.add(ActivationCondition.ONATTACK);
-		plugin = Likeaboss.instance;
+		activationConditions.add(ActivationCondition.ONATTACK);		
 	}
     
     public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
@@ -33,7 +31,7 @@ public class ObsidianBomb extends Ability {
         b.setType(Material.OBSIDIAN);
         
         
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new Runnable() {
             public void run() {
                                 
                 world.getBlockAt(loc).breakNaturally();
