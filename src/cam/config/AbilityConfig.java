@@ -123,6 +123,7 @@ public abstract class AbilityConfig extends BaseConfig {
 			
 			case OBSIDIANBOMB:
 				ObsidianBomb ob = new ObsidianBomb();
+				abilities.put(abilityName, ob);
 				
 			case UNKNOWN:
 				Likeaboss.logger.warning("[Likeaboss] '" + entryValue + "' in abilities config file isn't a valid ability.");
