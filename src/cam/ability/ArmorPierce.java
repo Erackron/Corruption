@@ -9,7 +9,7 @@ import org.bukkit.inventory.PlayerInventory;
 import cam.entity.Boss;
 
 public class ArmorPierce extends Ability {
-	private double value;
+	private double value = 25;
 	
 	public ArmorPierce() {
 		activationConditions.add(ActivationCondition.ONATTACK);

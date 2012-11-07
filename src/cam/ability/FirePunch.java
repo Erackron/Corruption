@@ -6,7 +6,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import cam.entity.Boss;
 
 public class FirePunch extends Ability {
-	private int ticks;
+	private int ticks = 2;
 	
 	public FirePunch() {
 		activationConditions.add(ActivationCondition.ONATTACK);

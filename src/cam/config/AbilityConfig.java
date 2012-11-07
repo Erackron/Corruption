@@ -15,11 +15,11 @@ import cam.ability.ArmorPierce;
 import cam.ability.FirePunch;
 import cam.ability.Knockback;
 import cam.ability.Minions;
+import cam.ability.ObsidianBomb;
 import cam.ability.Slow;
 
 public abstract class AbilityConfig extends BaseConfig {
 	private static Map<String, Ability> abilities = new HashMap<String, Ability>();
-	
 	public static void Load() {
 		File file = LoadFile("plugins/Likeaboss/abilities.yml", "cam/config/abilities.yml");
 		
@@ -29,6 +29,7 @@ public abstract class AbilityConfig extends BaseConfig {
 		YamlConfiguration yamlConfig = LoadConfig(file);
 		
 		LoadAbilities(yamlConfig);
+		
 	}
 	
 	private static void LoadAbilities(YamlConfiguration yamlConfig) {
@@ -117,6 +118,23 @@ public abstract class AbilityConfig extends BaseConfig {
 					snare.setDuration(((Double) abilityEntries.get(entryKey)).intValue() * 20);
 					
 				abilities.put(abilityName, snare);
+				break;
+			
+			case OBSIDIANBOMB:
+				ObsidianBomb ob = new ObsidianBomb();
+				
+				entryKey = "Fuse";
+				if (abilityEntries.containsKey(entryKey)){
+					ob.setFuseTicks((int) abilityEntries.get(entryKey));
+				}
+				
+				entryKey = "Radius";
+				if (abilityEntries.containsKey(entryKey)){
+					String s = (String) abilityEntries.get(entryKey);
+					ob.setRadius(Float.parseFloat(s));
+				}
+				
+				abilities.put(abilityName, ob);
 				break;
 				
 			case UNKNOWN:

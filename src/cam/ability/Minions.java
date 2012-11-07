@@ -21,10 +21,10 @@ import cam.entity.LabEntityManager;
 import cam.entity.Minion;
 
 public class Minions extends Ability {
-	private EntityType entityType;
-	private int amount;
-	private int areaRadius;
-	private double cooldown;
+	private EntityType entityType = EntityType.SILVERFISH;
+	private int amount = 3;
+	private int areaRadius = 2;
+	private double cooldown = 7.5;
 	
 	public Minions() {
 		activationConditions.add(ActivationCondition.ONATTACK);
