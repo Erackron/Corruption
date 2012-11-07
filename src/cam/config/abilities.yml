@@ -23,3 +23,8 @@ SL2:
   Probability: 100.0
   Amplifier: 2
   Duration: 3.0
+OB2:
+  Type: ObsidianBomb
+  Probability: 100.0
+  Fuse: 80
+  Radius: 3F
