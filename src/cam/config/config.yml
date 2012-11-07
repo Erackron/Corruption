@@ -12,6 +12,7 @@ Message:
     ToOthers: "&cA {BOSSNAME} boss found {PLAYER}!"
   Proximity: "&4You feel an evil presence..."
   Motd: "&6[Likeaboss] &eRunning version &9{VERSION}&e, watch out :3"
+  ViewerName: 'Boss Health'
 Task:
   DrawBossEffect: 1.0
   CheckEntityProximity: 0.5

@@ -23,6 +23,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import cam.Likeaboss;
 import cam.Utility;
 import cam.ability.Ability.ActivationCondition;
+import cam.config.GlobalConfig.MessageParam;
 import cam.config.WorldConfig;
 import cam.config.GlobalConfig.BossParam;
 import cam.entity.Boss;
@@ -273,7 +274,7 @@ public class LabEntityListener implements Listener {
 			
 			//Viewer message
 			if (labPlayer != null && labPlayer.getLabPlayerData().getViewer())
-				player.sendMessage("Boss Health: " + ChatColor.GRAY + (boss.getHealth()) + " (-" + damage + ")");
+				player.sendMessage(MessageParam.VIEWERNAME.getMessage()+": " + ChatColor.GRAY + ((boss.getHealth() <= 0)?"Dead":boss.getHealth()) + " (-" + damage + ")");
 			
 			if (boss.getHealth() <= 0) {
 				boss.setKiller(labPlayer);
