@@ -15,7 +15,7 @@ import cam.ability.ArmorPierce;
 import cam.ability.FirePunch;
 import cam.ability.Knockback;
 import cam.ability.Minions;
-import cam.ability.ObsidianBomb;
+import cam.ability.Bomb;
 import cam.ability.Slow;
 
 public abstract class AbilityConfig extends BaseConfig {
@@ -116,25 +116,33 @@ public abstract class AbilityConfig extends BaseConfig {
 				entryKey = "Duration";
 				if (abilityEntries.containsKey(entryKey))
 					snare.setDuration(((Double) abilityEntries.get(entryKey)).intValue() * 20);
-					
+				
+				entryKey = "Probability";
+				if (abilityEntries.containsKey(entryKey))
+					snare.setChance((Double) abilityEntries.get(entryKey));
+				
 				abilities.put(abilityName, snare);
 				break;
 			
-			case OBSIDIANBOMB:
-				ObsidianBomb ob = new ObsidianBomb();
+			case BOMB:
+				Bomb b = new Bomb();
 				
 				entryKey = "Fuse";
 				if (abilityEntries.containsKey(entryKey)){
-					ob.setFuseTicks((int) abilityEntries.get(entryKey));
+					b.setFuseTicks((int) abilityEntries.get(entryKey));
 				}
 				
 				entryKey = "Radius";
 				if (abilityEntries.containsKey(entryKey)){
 					String s = (String) abilityEntries.get(entryKey);
-					ob.setRadius(Float.parseFloat(s));
+					b.setRadius(Float.parseFloat(s));
 				}
 				
-				abilities.put(abilityName, ob);
+				entryKey = "Probability";
+				if (abilityEntries.containsKey(entryKey))
+					b.setChance((Double) abilityEntries.get(entryKey));
+				
+				abilities.put(abilityName, b);
 				break;
 				
 			case UNKNOWN:

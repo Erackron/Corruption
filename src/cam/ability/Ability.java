@@ -22,7 +22,7 @@ public abstract class Ability {
 		MINIONS,
 		SLOW,
 		UNKNOWN,
-		OBSIDIANBOMB;
+		BOMB;
 		
 		public static AbilityType FromString(String string) {
 			for (AbilityType abilityType : AbilityType.values()) {

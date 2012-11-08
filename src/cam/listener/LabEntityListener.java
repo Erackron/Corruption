@@ -273,8 +273,25 @@ public class LabEntityListener implements Listener {
 			boss.ActivateAbilities(event, (LivingEntity) damager, ActivationCondition.ONDEFENSE);
 			
 			//Viewer message
-			if (labPlayer != null && labPlayer.getLabPlayerData().getViewer())
-				player.sendMessage(MessageParam.VIEWERNAME.getMessage()+": " + ChatColor.GRAY + ((boss.getHealth() <= 0)?"Dead":boss.getHealth()) + " (-" + damage + ")");
+			String viewerMsg = null;
+			if (labPlayer != null && labPlayer.getLabPlayerData().getViewer()){
+				if (boss.getHealth()>0)
+					viewerMsg = MessageParam.VIEWERMESSAGE.getMessage()
+						.replace(
+							"{HEALTH}",
+							"" + ChatColor.GRAY + boss.getHealth()
+						).replace(
+							"{DAMAGE}",
+							"" + damage
+						);
+				else
+					viewerMsg = MessageParam.VIEWERDEFEATED.getMessage()
+						.replace(
+							"{BOSSNAME}",
+							boss.getBossData().getName()
+						);
+				player.sendMessage(viewerMsg);
+			}
 			
 			if (boss.getHealth() <= 0) {
 				boss.setKiller(labPlayer);
