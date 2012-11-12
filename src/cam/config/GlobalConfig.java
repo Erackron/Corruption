@@ -34,7 +34,6 @@ public abstract class GlobalConfig extends BaseConfig {
 		BOSS_FOUND_PLAYER_1 ("&cSneaky {BOSSNAME} boss.") {@Override public String getNode() {return "Message.BossFoundPlayer.ToPlayer";}},
 		BOSS_FOUND_PLAYER_2 ("&cA {BOSSNAME} boss found {PLAYER}!") {@Override public String getNode() {return "Message.BossFoundPlayer.ToOthers";}},
 		PROXIMITY ("&4You feel an evil presence...") {@Override public String getNode() {return "Message.Proximity";}},
-		MOTD ("&6[Likeaboss] &eRunning version &9{VERSION}&e, watch out :3") {@Override public String getNode() {return "Message.Motd";}},
 		VIEWERMESSAGE("Boss Health: {HEALTH} (-{DAMAGE})") {@Override public String getNode() {return "Message.ViewerMessage";}},
 		VIEWERDEFEATED("{BOSSNAME} boss has been defeated."){@Override public String getNode() {return "Message.ViewerDefeated";}};
 		

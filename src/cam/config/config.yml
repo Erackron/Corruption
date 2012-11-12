@@ -11,7 +11,6 @@ Message:
     ToPlayer: "&cSneaky {BOSSNAME} boss."
     ToOthers: "&cA {BOSSNAME} boss found {PLAYER}!"
   Proximity: "&4You feel an evil presence..."
-  Motd: "&6[Likeaboss] &eRunning version &9{VERSION}&e, watch out :3"
   ViewerMessage: 'Boss Health: {HEALT} (-{DAMAGE})'
   ViewerDefeated: '{BOSSNAME} boss has been defeated.'
 Task:
