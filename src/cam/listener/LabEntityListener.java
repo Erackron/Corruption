@@ -273,7 +273,7 @@ public class LabEntityListener implements Listener {
 			boss.ActivateAbilities(event, (LivingEntity) damager, ActivationCondition.ONDEFENSE);
 			
 			//Viewer message
-			String viewerMsg = null;
+			String viewerMsg = null, bossName = boss.getBossData().getName();
 			if (labPlayer != null && labPlayer.getLabPlayerData().getViewer()){
 				if (boss.getHealth()>0)
 					viewerMsg = MessageParam.VIEWERMESSAGE.getMessage()
@@ -288,7 +288,7 @@ public class LabEntityListener implements Listener {
 					viewerMsg = MessageParam.VIEWERDEFEATED.getMessage()
 						.replace(
 							"{BOSSNAME}",
-							boss.getBossData().getName()
+							(bossName.contains("#"))?bossName.split("#")[0]:bossName
 						);
 				player.sendMessage(viewerMsg);
 			}

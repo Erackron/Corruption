@@ -184,6 +184,7 @@ public abstract class LabPlayerManager {
 		String toPlayer = null;
 		String toOthers = null;
 		
+		bossName = (bossName.contains("#"))?bossName.split("#")[0]:bossName;
 		String[] bNameS = bossName.split("(?=\\p{Upper})");
 		if (bNameS.length>1){
 			bossName = bNameS[1];
