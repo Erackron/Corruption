@@ -123,7 +123,7 @@ public class Minions extends Ability {
 		
 		@Override
 		public void run() {
-			LivingEntity livingEntity = block.getWorld().spawnCreature(block.getLocation(), entityType);
+			LivingEntity livingEntity = (LivingEntity) block.getWorld().spawnEntity(block.getLocation(), entityType);
 			LabEntityManager.AddMinion(new Minion(livingEntity, boss));
 		}
 	}

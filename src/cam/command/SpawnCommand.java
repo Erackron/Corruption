@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -60,14 +61,19 @@ public abstract class SpawnCommand extends BaseCommand {
 		SendUsage(bossesData);
 	}
 	
-	private static void Spawn(BossData bossData, int amount) {
+	private static Boolean Spawn(BossData bossData, int amount) {
 		Player player = (Player) sender;
 		Location location = player.getTargetBlock(null, 100).getRelative(BlockFace.UP).getLocation();
 		World world = player.getWorld();
 		EntityType entityType = bossData.getEntityType();
+		LivingEntity spawnedCreature;
 		
 		for (int i = 0 ; i < amount ; i++) {
-			LivingEntity spawnedCreature = world.spawnCreature(location, entityType);
+			Entity spawnedEntity = world.spawnEntity(location, entityType);
+			if (spawnedEntity.isValid())
+				spawnedCreature = (LivingEntity) spawnedEntity;
+			else
+				return false;
 			
 			//Slimes are always big
 			if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
@@ -79,6 +85,7 @@ public abstract class SpawnCommand extends BaseCommand {
 			
 			LabEntityManager.AddBoss(boss);
 		}
+		return true;
 	}
 	
 	private static void SendUsage(Map<String, BossData> bossesData) {

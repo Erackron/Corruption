@@ -1,12 +1,5 @@
 package cam;
 
-// TODO - Message containing which corrupted attacked
-// TODO - Witch support
-// TODO - Abilities
-// TODO - Add API for MagicSpells
-// TODO - Fix bug that makes LAB lose track of its monsters
-// TODO - Use SpiderJockey API if available
-
 import java.util.logging.Logger;
 
 import cam.command.CommandManager;
