@@ -119,6 +119,8 @@ public class LabEntityListener implements Listener {
 						boss.setFound(true);
 						LabPlayerManager.SendFoundMessage(labPlayer, false, player.getLocation(), boss.getBossData().getName());
 					}
+				default:
+					break;
 				}
 				
 				event.setDamage((int) (event.getDamage() * boss.getBossData().getDamageCoef()));

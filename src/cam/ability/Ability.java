@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import cam.Utility;
 import cam.entity.Boss;
 
 public abstract class Ability {
@@ -44,6 +45,10 @@ public abstract class Ability {
 	
 	public double getChance() {
 		return chance;
+	}
+	
+	public boolean checkChance() {
+		return (Utility.random.nextInt(100) < this.getChance())? true : false;
 	}
 	
 	public void AddActivationCondition(ActivationCondition activationCondition) {

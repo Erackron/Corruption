@@ -14,13 +14,15 @@ public class FirePunch extends Ability {
 	
 	@Override
 	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
-		int fireTicks = livingEntity.getFireTicks();
-		
-		//Somehow getFireTicks returns -20 when not on fire
-		if (fireTicks < 0)
-			livingEntity.setFireTicks(ticks * 20);
-		else
-			livingEntity.setFireTicks(fireTicks + ticks * 20);
+		if(checkChance()){
+			int fireTicks = livingEntity.getFireTicks();
+			
+			//Somehow getFireTicks returns -20 when not on fire
+			if (fireTicks < 0)
+				livingEntity.setFireTicks(ticks * 20);
+			else
+				livingEntity.setFireTicks(fireTicks + ticks * 20);
+		}
 	}
 	
 	public void setTicks(int ticks) {

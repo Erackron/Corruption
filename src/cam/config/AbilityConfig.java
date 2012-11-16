@@ -56,6 +56,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				entryKey = "Value";
 				if (abilityEntries.containsKey(entryKey))
 					armorPierce.setValue((Double) abilityEntries.get(entryKey));
+				
+				entryKey = "Probability";
+				if (abilityEntries.containsKey(entryKey))
+					armorPierce.setChance((Double) abilityEntries.get(entryKey));
 					
 				abilities.put(abilityName, armorPierce);
 				break;
@@ -66,6 +70,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				entryKey = "Ticks";
 				if (abilityEntries.containsKey(entryKey))
 					firePunch.setTicks((Integer) abilityEntries.get(entryKey));
+				
+				entryKey = "Probability";
+				if (abilityEntries.containsKey(entryKey))
+					firePunch.setChance((Double) abilityEntries.get(entryKey));
 					
 				abilities.put(abilityName, firePunch);
 				break;
@@ -80,6 +88,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				entryKey = "HorizontalCoef";
 				if (abilityEntries.containsKey(entryKey))
 					knockback.setHorizontalCoef((Double) abilityEntries.get(entryKey));
+				
+				entryKey = "Probability";
+				if (abilityEntries.containsKey(entryKey))
+					knockback.setChance((Double) abilityEntries.get(entryKey));
 				
 				abilities.put(abilityName, knockback);
 				break;
@@ -102,6 +114,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				entryKey = "Range";
 				if (abilityEntries.containsKey(entryKey))
 					minions.setAreaRadius((Integer) abilityEntries.get(entryKey));
+				
+				entryKey = "Probability";
+				if (abilityEntries.containsKey(entryKey))
+					minions.setChance((Double) abilityEntries.get(entryKey));
 				
 				abilities.put(abilityName, minions);
 				break;

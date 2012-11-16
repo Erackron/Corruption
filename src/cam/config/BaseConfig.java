@@ -9,17 +9,17 @@ import cam.Likeaboss;
 import cam.Utility;
 
 public abstract class BaseConfig {
-	protected static File LoadFile(String filePath, String ressourcePath) {
+	protected static File LoadFile(String filePath, String resourcePath) {
 		File file = new File(filePath);
 		
 		if (!file.exists()) {
 			file.getParentFile().mkdirs();
 			
 			try {
-				InputStream inputStream = Likeaboss.instance.getResource(ressourcePath);
+				InputStream inputStream = Likeaboss.instance.getResource(resourcePath);
 				
 				if (inputStream == null) {
-					Likeaboss.logger.severe("[Likeaboss] Missing ressource file: '" + ressourcePath + "', please notify the plugin author");
+					Likeaboss.logger.severe("[Likeaboss] Missing ressource file: '" + resourcePath + "', please notify the plugin author");
 					return null;
 				}
 				else {

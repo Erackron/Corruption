@@ -5,7 +5,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import cam.Utility;
 import cam.entity.Boss;
 
 public class Slow extends Ability {
@@ -19,8 +18,7 @@ public class Slow extends Ability {
 	
 	@Override
 	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
-		double chance = Utility.random.nextInt(100);
-		if(chance < this.getChance()){
+		if(checkChance()){
 			PotionEffect potionEffect = new PotionEffect(PotionEffectType.SLOW, duration, amplifier);
 			livingEntity.addPotionEffect(potionEffect, true);
 		} 

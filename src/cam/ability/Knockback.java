@@ -17,7 +17,9 @@ public class Knockback extends Ability {
 	
 	@Override
 	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
-		Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.instance, new VelocityMultiplier(livingEntity));
+		if(checkChance()){
+			Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.instance, new VelocityMultiplier(livingEntity));
+		}
 	}
 	
 	public void setHorizontalCoef(double horizontalCoef) {

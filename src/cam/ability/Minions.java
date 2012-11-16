@@ -33,9 +33,11 @@ public class Minions extends Ability {
 	
 	@Override
 	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
-		if (PrepareMinionsSpawn(FindValidBlocks(boss.getLivingEntity().getLocation()), boss)) {
-			boss.ChangeAbilityStatus(this, false);
-			Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new AbilityReactivator(boss, this), (long) (cooldown * 20));
+		if(checkChance()){
+			if (PrepareMinionsSpawn(FindValidBlocks(boss.getLivingEntity().getLocation()), boss)) {
+				boss.ChangeAbilityStatus(this, false);
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new AbilityReactivator(boss, this), (long) (cooldown * 20));
+			}
 		}
 	}
 	
