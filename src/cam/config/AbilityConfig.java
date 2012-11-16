@@ -16,7 +16,7 @@ import cam.ability.FirePunch;
 import cam.ability.Knockback;
 import cam.ability.Minions;
 import cam.ability.Bomb;
-import cam.ability.Slow;
+import cam.ability.Potion;
 
 public abstract class AbilityConfig extends BaseConfig {
 	private static Map<String, Ability> abilities = new HashMap<String, Ability>();
@@ -122,22 +122,27 @@ public abstract class AbilityConfig extends BaseConfig {
 				abilities.put(abilityName, minions);
 				break;
 				
-			case SLOW:
-				Slow snare = new Slow();
+			case POTION:
+				entryKey = "Target";		
+				Potion potion = new Potion((abilityEntries.containsKey(entryKey))?(String)abilityEntries.get(entryKey):"other");
 					
 				entryKey = "Amplifier";
 				if (abilityEntries.containsKey(entryKey))
-					snare.setAmplifier((Integer) abilityEntries.get(entryKey));
+					potion.setAmplifier((Integer) abilityEntries.get(entryKey));
 				
 				entryKey = "Duration";
 				if (abilityEntries.containsKey(entryKey))
-					snare.setDuration(((Double) abilityEntries.get(entryKey)).intValue() * 20);
+					potion.setDuration(((Double) abilityEntries.get(entryKey)).intValue() * 20);
 				
 				entryKey = "Probability";
 				if (abilityEntries.containsKey(entryKey))
-					snare.setChance((Double) abilityEntries.get(entryKey));
+					potion.setChance((Double) abilityEntries.get(entryKey));
 				
-				abilities.put(abilityName, snare);
+				entryKey = "Effect";
+				if (abilityEntries.containsKey(entryKey))
+					potion.setEffect((String) abilityEntries.get(entryKey));
+				
+				abilities.put(abilityName, potion);
 				break;
 			
 			case BOMB:

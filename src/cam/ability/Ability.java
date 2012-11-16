@@ -21,7 +21,7 @@ public abstract class Ability {
 		FIREPUNCH,
 		KNOCKBACK,
 		MINIONS,
-		SLOW,
+		POTION,
 		UNKNOWN,
 		BOMB;
 		

@@ -18,8 +18,10 @@ MN4:
   EntityType: Silverfish
   Amount: 3
   Range: 2
-SL2:
-  Type: Slow
+SL3:
+  Type: Potion
+  Effect: slow
+  Target: other
   Probability: 100.0
   Amplifier: 2
   Duration: 3.0

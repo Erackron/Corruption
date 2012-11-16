@@ -272,7 +272,10 @@ public class LabEntityListener implements Listener {
 				return;
 			
 			LabEntityManager.DamageBoss(boss, damage);
-			boss.ActivateAbilities(event, (LivingEntity) damager, ActivationCondition.ONDEFENSE);
+			try{
+				boss.ActivateAbilities(event, (LivingEntity) damager, ActivationCondition.ONDEFENSE);
+			} catch(ClassCastException e){}
+			
 			
 			//Viewer message
 			String viewerMsg = null, bossName = boss.getBossData().getName();
