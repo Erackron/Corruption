@@ -22,6 +22,8 @@ public class FirePunch extends Ability {
 				livingEntity.setFireTicks(ticks * 20);
 			else
 				livingEntity.setFireTicks(fireTicks + ticks * 20);
+			
+			sendMessage(boss, livingEntity);
 		}
 	}
 	

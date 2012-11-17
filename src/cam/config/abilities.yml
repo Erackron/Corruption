@@ -1,32 +1,38 @@
 AP25:
   Type: ArmorPierce
-  Probability: 100.0
+  Message: "&4{BOSSNAME} Boss used Armor Pierce."
+  Probability: 10.0
   Value: 25.0
 FP2:
   Type: FirePunch
-  Probability: 100.0
+  Message: "&4{BOSSNAME} Boss used Fire Punch."
+  Probability: 15.0
   Ticks: 2
 KB2:
   Type: Knockback
-  Probability: 100.0
+  Message: "&4{BOSSNAME} Boss used Knockback."
+  Probability: 25.0
   VerticalCoef: 2.0
   HorizontalCoef: 3.0
 MN4:
   Type: Minions
-  Probability: 100.0
+  Message: "&4{BOSSNAME} Boss spawned minions."
+  Probability: 20.0
   Cooldown: 7.5
   EntityType: Silverfish
   Amount: 3
   Range: 2
 SL3:
   Type: Potion
+  Message: "&4{BOSSNAME} Boss used slowness."
   Effect: slow
   Target: other
-  Probability: 100.0
+  Probability: 25.0
   Amplifier: 2
   Duration: 3.0
 B2:
   Type: Bomb
-  Probability: 100.0
+  Message: "&4{BOSSNAME} Boss planted a bomb."
+  Probability: 15.0
   Fuse: 80
   Radius: 3F

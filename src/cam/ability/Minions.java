@@ -37,6 +37,7 @@ public class Minions extends Ability {
 			if (PrepareMinionsSpawn(FindValidBlocks(boss.getLivingEntity().getLocation()), boss)) {
 				boss.ChangeAbilityStatus(this, false);
 				Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new AbilityReactivator(boss, this), (long) (cooldown * 20));
+				sendMessage(boss);
 			}
 		}
 	}

@@ -43,6 +43,7 @@ public class Bomb extends Ability {
 	                world.createExplosion(loc, radius);
 	            }
 	        }, fuse);
+	        sendMessage(boss);
 		}
         
     }

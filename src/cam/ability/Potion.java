@@ -28,8 +28,10 @@ public class Potion extends Ability {
 			PotionEffect potionEffect = new PotionEffect(PotionEffectType.getByName(effect), duration, amplifier);
 			if (targetSelf) {
 				boss.getLivingEntity().addPotionEffect(potionEffect, true);
+				sendMessage(boss);
 			} else {
 				livingEntity.addPotionEffect(potionEffect, true);
+				sendMessage(boss, livingEntity);
 			}
 		}
 	}

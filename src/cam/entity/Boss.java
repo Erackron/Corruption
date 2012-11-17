@@ -38,12 +38,12 @@ public class Boss extends LabEntity {
 	
 	private void AddAbilities() {
 		for (Ability ability : WorldConfig.getWorldData(livingEntity.getWorld()).getAbilities()) {
-			if (Utility.random.nextInt(100) < ability.getChance())
+			//if (Utility.random.nextInt(100) < ability.getChance())
 				abilities.put(ability, true);
 		}
 		
 		for (Ability ability : bossData.getAbilities()) {
-			if (Utility.random.nextInt(100) < ability.getChance())
+			//if (Utility.random.nextInt(100) < ability.getChance())
 				abilities.put(ability, true);
 		}
 	}

@@ -52,7 +52,11 @@ public abstract class AbilityConfig extends BaseConfig {
 			switch (abilityType) {
 			case ARMORPIERCE:
 				ArmorPierce armorPierce = new ArmorPierce();
-					
+				
+				entryKey = "Message";
+				if (abilityEntries.containsKey(entryKey))
+					armorPierce.setMessage((String) abilityEntries.get(entryKey));
+				
 				entryKey = "Value";
 				if (abilityEntries.containsKey(entryKey))
 					armorPierce.setValue((Double) abilityEntries.get(entryKey));
@@ -66,6 +70,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				
 			case FIREPUNCH:
 				FirePunch firePunch = new FirePunch();
+				
+				entryKey = "Message";
+				if (abilityEntries.containsKey(entryKey))
+					firePunch.setMessage((String) abilityEntries.get(entryKey));
 					
 				entryKey = "Ticks";
 				if (abilityEntries.containsKey(entryKey))
@@ -80,6 +88,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				
 			case KNOCKBACK:
 				Knockback knockback = new Knockback();
+				
+				entryKey = "Message";
+				if (abilityEntries.containsKey(entryKey))
+					knockback.setMessage((String) abilityEntries.get(entryKey));
 				
 				entryKey = "VerticalCoef";
 				if (abilityEntries.containsKey(entryKey))
@@ -98,6 +110,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				
 			case MINIONS:
 				Minions minions = new Minions();
+				
+				entryKey = "Message";
+				if (abilityEntries.containsKey(entryKey))
+					minions.setMessage((String) abilityEntries.get(entryKey));
 				
 				entryKey = "Cooldown";
 				if (abilityEntries.containsKey(entryKey))
@@ -125,6 +141,10 @@ public abstract class AbilityConfig extends BaseConfig {
 			case POTION:
 				entryKey = "Target";		
 				Potion potion = new Potion((abilityEntries.containsKey(entryKey))?(String)abilityEntries.get(entryKey):"other");
+				
+				entryKey = "Message";
+				if (abilityEntries.containsKey(entryKey))
+					potion.setMessage((String) abilityEntries.get(entryKey));
 					
 				entryKey = "Amplifier";
 				if (abilityEntries.containsKey(entryKey))
@@ -146,24 +166,28 @@ public abstract class AbilityConfig extends BaseConfig {
 				break;
 			
 			case BOMB:
-				Bomb b = new Bomb();
+				Bomb bomb = new Bomb();
+				
+				entryKey = "Message";
+				if (abilityEntries.containsKey(entryKey))
+					bomb.setMessage((String) abilityEntries.get(entryKey));
 				
 				entryKey = "Fuse";
 				if (abilityEntries.containsKey(entryKey)){
-					b.setFuseTicks((int) abilityEntries.get(entryKey));
+					bomb.setFuseTicks((int) abilityEntries.get(entryKey));
 				}
 				
 				entryKey = "Radius";
 				if (abilityEntries.containsKey(entryKey)){
 					String s = (String) abilityEntries.get(entryKey);
-					b.setRadius(Float.parseFloat(s));
+					bomb.setRadius(Float.parseFloat(s));
 				}
 				
 				entryKey = "Probability";
 				if (abilityEntries.containsKey(entryKey))
-					b.setChance((Double) abilityEntries.get(entryKey));
+					bomb.setChance((Double) abilityEntries.get(entryKey));
 				
-				abilities.put(abilityName, b);
+				abilities.put(abilityName, bomb);
 				break;
 				
 			case UNKNOWN:

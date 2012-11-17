@@ -44,6 +44,7 @@ public class ArmorPierce extends Ability {
 				armor.setDurability((short) (armor.getDurability() - durabilityLossSurplus));
 			
 			event.setDamage(newDamage);
+			sendMessage(boss, livingEntity);
 		}
 	}
 	
