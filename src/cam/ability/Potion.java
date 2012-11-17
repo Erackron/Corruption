@@ -26,10 +26,11 @@ public class Potion extends Ability {
 	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
 		if(checkChance() && effect != ""){
 			PotionEffect potionEffect = new PotionEffect(PotionEffectType.getByName(effect), duration, amplifier);
-			if (targetSelf)
+			if (targetSelf) {
 				boss.getLivingEntity().addPotionEffect(potionEffect, true);
-			else
+			} else {
 				livingEntity.addPotionEffect(potionEffect, true);
+			}
 		}
 	}
 	
