@@ -11,7 +11,10 @@ import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+
+import cam.entity.Boss;
 
 public abstract class Utility {
 	public static java.util.Random random = new java.util.Random();
@@ -22,6 +25,9 @@ public abstract class Utility {
 	}
 	
 	public static boolean IsNear(Location first, Location second, int minDistance, int maxDistance) {
+		if(first.getWorld()!=second.getWorld())
+			return false;
+		
 		//TODO Square before circle.
 		double relX = first.getX() - second.getX();
 		double relY = first.getY() - second.getY();
@@ -32,6 +38,28 @@ public abstract class Utility {
 			return true;
 		
 		return false;
+	}
+	
+	public static String parseMessage(String msg, Boss boss){
+		return parseMessage(msg, boss, 0, 0);
+	}
+	
+	public static String parseMessage(String msg, Boss boss, int health, int damage){
+		String bossName = boss.getBossData().getName();
+		bossName = (bossName.contains("#"))?bossName.split("#")[0]:bossName;
+		String[] bNameS = bossName.split("(?=\\p{Upper})");
+		if (bNameS.length>1){
+			bossName = bNameS[1];
+			for (int i = 2 ; i < bNameS.length ; i++)
+				bossName += " "+bNameS[i];
+		}
+		return msg.replace('&', ChatColor.COLOR_CHAR).replace("{BOSSNAME}", bossName).replace(
+				"{HEALTH}",
+				"" + ChatColor.GRAY + boss.getHealth()
+			).replace(
+				"{DAMAGE}",
+				"" + damage
+			);
 	}
 	
 	private static class ValueComparatorAsc<K, V extends Comparable<? super V>> implements Comparator<Entry<K, V>> {

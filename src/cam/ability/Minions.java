@@ -35,8 +35,7 @@ public class Minions extends Ability {
 	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
 		if(checkChance()){
 			if (PrepareMinionsSpawn(FindValidBlocks(boss.getLivingEntity().getLocation()), boss)) {
-				boss.ChangeAbilityStatus(this, false);
-				Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new AbilityReactivator(boss, this), (long) (cooldown * 20));
+				useCooldown(boss);
 				sendMessage(boss);
 			}
 		}
@@ -107,10 +106,6 @@ public class Minions extends Ability {
 	
 	public void setAreaRadius(int areaRadius) {
 		this.areaRadius = areaRadius;
-	}
-	
-	public void setCooldown(double cooldown) {
-		this.cooldown = cooldown;
 	}
 	
 	private class SpawnMinion implements Runnable {

@@ -3,11 +3,13 @@ package cam.ability;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import cam.Likeaboss;
 import cam.Utility;
 import cam.entity.Boss;
 import cam.player.LabPlayer;
@@ -43,7 +45,8 @@ public abstract class Ability {
 	protected AbilityType abilityType;
 	protected double chance = 100.0;
 	private int radius = 16;
-	private String msg = "&4{BOSSNAME} Boss used an ability.";
+	private String msg = "";
+	private double cooldown = 0.0;
 	
 	public List<ActivationCondition> getActivationConditions() {
 		return activationConditions;
@@ -69,7 +72,20 @@ public abstract class Ability {
 		this.msg = msg;
 	}
 	
+	public void setCooldown(double cooldown) {
+		this.cooldown = cooldown;
+	}
+	
+	public void useCooldown(Boss boss){
+		if(cooldown==0.0)
+			return;
+		boss.ChangeAbilityStatus(this, false);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new AbilityReactivator(boss, this), (long) (cooldown * 20));
+	}
+	
 	public void sendMessage(Boss boss){
+		if(msg=="")
+			return;
 		String message = parseMsg(msg, boss);
 		for (LabPlayer labPlayer : LabPlayerManager.getLabPlayers()) {
 			Player player = labPlayer.getPlayer();
@@ -80,21 +96,15 @@ public abstract class Ability {
 	}
 	
 	public void sendMessage(Boss boss, LivingEntity target){
+		if(msg=="")
+			return;
 		if (target instanceof Player)
 			((Player) target).sendMessage(parseMsg(msg, boss));
 		
 	}
 	
 	public String parseMsg(String msg, Boss boss){
-		String bossName = boss.getBossData().getName();
-		bossName = (bossName.contains("#"))?bossName.split("#")[0]:bossName;
-		String[] bNameS = bossName.split("(?=\\p{Upper})");
-		if (bNameS.length>1){
-			bossName = bNameS[1];
-			for (int i = 2 ; i < bNameS.length ; i++)
-				bossName += " "+bNameS[i];
-		}
-		return msg.replace('&', ChatColor.COLOR_CHAR).replace("{BOSSNAME}", bossName);
+		return Utility.parseMessage(msg, boss);
 	}
 	
 	public abstract void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss);

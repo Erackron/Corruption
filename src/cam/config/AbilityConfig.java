@@ -57,6 +57,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				if (abilityEntries.containsKey(entryKey))
 					armorPierce.setMessage((String) abilityEntries.get(entryKey));
 				
+				entryKey = "Cooldown";
+				if (abilityEntries.containsKey(entryKey))
+					armorPierce.setCooldown((Double) abilityEntries.get(entryKey));
+				
 				entryKey = "Value";
 				if (abilityEntries.containsKey(entryKey))
 					armorPierce.setValue((Double) abilityEntries.get(entryKey));
@@ -74,6 +78,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				entryKey = "Message";
 				if (abilityEntries.containsKey(entryKey))
 					firePunch.setMessage((String) abilityEntries.get(entryKey));
+				
+				entryKey = "Cooldown";
+				if (abilityEntries.containsKey(entryKey))
+					firePunch.setCooldown((Double) abilityEntries.get(entryKey));
 					
 				entryKey = "Ticks";
 				if (abilityEntries.containsKey(entryKey))
@@ -92,6 +100,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				entryKey = "Message";
 				if (abilityEntries.containsKey(entryKey))
 					knockback.setMessage((String) abilityEntries.get(entryKey));
+				
+				entryKey = "Cooldown";
+				if (abilityEntries.containsKey(entryKey))
+					knockback.setCooldown((Double) abilityEntries.get(entryKey));
 				
 				entryKey = "VerticalCoef";
 				if (abilityEntries.containsKey(entryKey))
@@ -145,6 +157,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				entryKey = "Message";
 				if (abilityEntries.containsKey(entryKey))
 					potion.setMessage((String) abilityEntries.get(entryKey));
+				
+				entryKey = "Cooldown";
+				if (abilityEntries.containsKey(entryKey))
+					potion.setCooldown((Double) abilityEntries.get(entryKey));
 					
 				entryKey = "Amplifier";
 				if (abilityEntries.containsKey(entryKey))
@@ -172,16 +188,18 @@ public abstract class AbilityConfig extends BaseConfig {
 				if (abilityEntries.containsKey(entryKey))
 					bomb.setMessage((String) abilityEntries.get(entryKey));
 				
+				entryKey = "Cooldown";
+				if (abilityEntries.containsKey(entryKey))
+					bomb.setCooldown((Double) abilityEntries.get(entryKey));
+				
 				entryKey = "Fuse";
 				if (abilityEntries.containsKey(entryKey)){
 					bomb.setFuseTicks((int) abilityEntries.get(entryKey));
 				}
 				
 				entryKey = "Radius";
-				if (abilityEntries.containsKey(entryKey)){
-					String s = (String) abilityEntries.get(entryKey);
-					bomb.setRadius(Float.parseFloat(s));
-				}
+				if (abilityEntries.containsKey(entryKey))
+					bomb.setRadius((float)((int)abilityEntries.get(entryKey)));
 				
 				entryKey = "Probability";
 				if (abilityEntries.containsKey(entryKey))

@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import cam.Likeaboss;
+import cam.ability.Ability.AbilityReactivator;
 import cam.entity.Boss;
 
 public class Bomb extends Ability {
@@ -15,9 +16,11 @@ public class Bomb extends Ability {
 	private int fuse = 80;
 	private float radius = 3F;
 	protected double chance = 10.0;
+	private double cooldown = 7.5;
 	
     public Bomb(){
 		activationConditions.add(ActivationCondition.ONATTACK);
+		activationConditions.add(ActivationCondition.ONDEFENSE);
 	}
     
     public void setFuseTicks(int fuseticks){
@@ -43,6 +46,8 @@ public class Bomb extends Ability {
 	                world.createExplosion(loc, radius);
 	            }
 	        }, fuse);
+	        
+	        useCooldown(boss);
 	        sendMessage(boss);
 		}
         

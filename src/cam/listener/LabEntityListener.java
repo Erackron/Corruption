@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Slime;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -40,10 +41,17 @@ public class LabEntityListener implements Listener {
 			return;
 		
 		LivingEntity livingEntity = event.getEntity();
-		BossData bossData = WorldConfig.getWorldData(livingEntity.getWorld()).getBossData(livingEntity.getType());
+		BossData bossData = WorldConfig.getWorldData(livingEntity.getWorld()).getBossData(livingEntity.getType());			
 		
 		if (bossData == null)
 			return;
+		
+		if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY())
+			return;
+		
+		if(event.getSpawnReason() == SpawnReason.SLIME_SPLIT)
+			if(((Slime) livingEntity).getSize()==1)
+				return;
 		
 		double chance = Utility.random.nextInt(100);
 		
@@ -278,24 +286,22 @@ public class LabEntityListener implements Listener {
 			
 			
 			//Viewer message
-			String viewerMsg = null, bossName = boss.getBossData().getName();
-			if (labPlayer != null && labPlayer.getLabPlayerData().getViewer()){
-				if (boss.getHealth()>0)
-					viewerMsg = MessageParam.VIEWERMESSAGE.getMessage()
-						.replace(
-							"{HEALTH}",
-							"" + ChatColor.GRAY + boss.getHealth()
-						).replace(
-							"{DAMAGE}",
-							"" + damage
-						);
-				else
-					viewerMsg = MessageParam.VIEWERDEFEATED.getMessage()
-						.replace(
-							"{BOSSNAME}",
-							(bossName.contains("#"))?bossName.split("#")[0]:bossName
-						);
-				player.sendMessage(viewerMsg);
+			String viewerMsg = null;
+			if (boss.getHealth()>0)
+				viewerMsg = MessageParam.VIEWERMESSAGE.getMessage();
+			else
+				viewerMsg = MessageParam.VIEWERDEFEATED.getMessage();
+			
+			viewerMsg = Utility.parseMessage(viewerMsg, boss, boss.getHealth(), damage);
+			
+				
+			for (LabPlayer labPlayerTemp : LabPlayerManager.getLabPlayers()) {
+				if(labPlayerTemp != null && labPlayerTemp.getLabPlayerData().getViewer()){
+					player = labPlayerTemp.getPlayer();
+					if (Utility.IsNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, 16)){
+						player.sendMessage(viewerMsg);
+					}
+				}
 			}
 			
 			if (boss.getHealth() <= 0) {

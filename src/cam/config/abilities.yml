@@ -34,5 +34,6 @@ B2:
   Type: Bomb
   Message: "&4{BOSSNAME} Boss planted a bomb."
   Probability: 15.0
+  Cooldown: 7.5
   Fuse: 80
-  Radius: 3F
+  Radius: 3

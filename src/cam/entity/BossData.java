@@ -18,6 +18,7 @@ public class BossData {
 	private double healthCoef;
 	private double damageCoef;
 	private double expCoef;
+	private double maxSpawnLevel;
 	
 	public BossData(String name, EntityType entityType) {
 		this.name = name;
@@ -68,9 +69,14 @@ public class BossData {
 		return expCoef;
 	}
 	
-	public void setSpawnData(double chance, double chanceFromSpawner) {
+	public double getMaxSpawnLevel(){
+		return maxSpawnLevel;
+	}
+	
+	public void setSpawnData(double chance, double chanceFromSpawner, double maxSpawnLevel) {
 		this.chance = chance;
 		this.chanceFromSpawner = chanceFromSpawner;
+		this.maxSpawnLevel = maxSpawnLevel;
 	}
 	
 	public void setStatData(double healthCoef, double damageCoef, double expCoef) {

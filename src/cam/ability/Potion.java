@@ -8,7 +8,7 @@ import org.bukkit.potion.PotionEffectType;
 import cam.entity.Boss;
 
 public class Potion extends Ability {
-	private int amplifier = 2;
+	private int amplifier = 0;
 	private int duration = 3;
 	private String effect = "";
 	private boolean targetSelf = false;
@@ -33,6 +33,7 @@ public class Potion extends Ability {
 				livingEntity.addPotionEffect(potionEffect, true);
 				sendMessage(boss, livingEntity);
 			}
+			useCooldown(boss);
 		}
 	}
 	
