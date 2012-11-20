@@ -17,10 +17,13 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import com.timvisee.manager.permissionsmanager.PermissionsManager;
+
 public class Likeaboss extends JavaPlugin {
 	public static Likeaboss instance;
 	public static Logger logger;
 	public static BukkitScheduler scheduler;
+	public PermissionsManager pm;
 	
 	public Likeaboss() {
 		instance = this;
@@ -33,6 +36,8 @@ public class Likeaboss extends JavaPlugin {
 		ConfigManager.Load();
 		LabPlayerManager.AddOnlinePlayers();
 		TaskManager.Start();
+		
+		setupPermissionsManager();
 		
 		PluginManager pluginManager = getServer().getPluginManager();
 		pluginManager.registerEvents(new LabEntityListener(), this);
@@ -52,6 +57,23 @@ public class Likeaboss extends JavaPlugin {
 		}
 		
 		logger.info("[Likeaboss] Disabled.");
+	}
+	
+	/**
+	 * Setup the permissions manager
+	 */
+	public void setupPermissionsManager() {
+		// Setup the permissions manager
+		this.pm = new PermissionsManager(this.getServer(), this);
+		this.pm.setup();
+	}
+	
+	/**
+	 * Get the permissions manager
+	 * @return permissions manager
+	 */
+	public PermissionsManager getPermissionsManager() {
+		return this.pm;
 	}
 	
 	@Override
