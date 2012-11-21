@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -107,7 +106,7 @@ public abstract class Ability {
 		return Utility.parseMessage(msg, boss);
 	}
 	
-	public abstract void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss);
+	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss){}
 	
 	public class AbilityReactivator implements Runnable {
 		private Boss boss;

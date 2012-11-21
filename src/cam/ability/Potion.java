@@ -14,12 +14,7 @@ public class Potion extends Ability {
 	private boolean targetSelf = false;
 	protected double chance = 25.0;
 	
-	public Potion(String target) {
-		targetSelf = target.equalsIgnoreCase("self");
-		if (targetSelf)
-			activationConditions.add(ActivationCondition.ONDEFENSE);
-		else
-			activationConditions.add(ActivationCondition.ONATTACK);	
+	public Potion() {
 	}
 	
 	@Override
@@ -51,5 +46,9 @@ public class Potion extends Ability {
 	
 	public void setTarget(String target){
 		targetSelf = target.equalsIgnoreCase("self");
+		if (targetSelf)
+			activationConditions.add(ActivationCondition.ONDEFENSE);
+		else
+			activationConditions.add(ActivationCondition.ONATTACK);
 	}
 }

@@ -18,9 +18,7 @@ public abstract class BaseCommand {
 			return false;
 		}
 		
-		
-		
-		if (!Likeaboss.instance.pm.hasPermission((Player) sender, permission)) {
+		if (sender instanceof Player && !((Player) sender).isOp() && !Likeaboss.instance.pm.hasPermission((Player) sender, permission)) {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "You don't have the permission for this command.");
 			sender.sendMessage(ChatColor.GRAY + permission + ChatColor.WHITE + " is needed.");
 			return false;

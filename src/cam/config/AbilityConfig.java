@@ -151,8 +151,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				break;
 				
 			case POTION:
+				Potion potion = new Potion();
+				
 				entryKey = "Target";		
-				Potion potion = new Potion((abilityEntries.containsKey(entryKey))?(String)abilityEntries.get(entryKey):"other");
+				potion.setTarget((abilityEntries.containsKey(entryKey))?(String)abilityEntries.get(entryKey):"other");
 				
 				entryKey = "Message";
 				if (abilityEntries.containsKey(entryKey))
