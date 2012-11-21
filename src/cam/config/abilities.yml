@@ -14,15 +14,7 @@ KB2:
   Probability: 25.0
   VerticalCoef: 2.0
   HorizontalCoef: 3.0
-MN4:
-  Type: Minions
-  Message: "&4{BOSSNAME} Boss spawned minions."
-  Probability: 20.0
-  Cooldown: 7.5
-  EntityType: Silverfish
-  Amount: 3
-  Range: 2
-SL3:
+PO3:
   Type: Potion
   Message: "&4{BOSSNAME} Boss used slowness."
   Effect: slow
