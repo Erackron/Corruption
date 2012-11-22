@@ -13,6 +13,8 @@ import java.util.TreeSet;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import cam.entity.Boss;
 
@@ -38,6 +40,17 @@ public abstract class Utility {
 			return true;
 		
 		return false;
+	}
+	
+	public static boolean hasPermission(CommandSender sender, String permission){
+		if(sender instanceof Player)
+			return ((Player) sender).isOp() || hasPermission((Player) sender, permission);
+		else
+			return true;
+	}
+	
+	public static boolean hasPermission(Player player, String permission){
+		return Likeaboss.instance.pm.hasPermission(player, permission);
 	}
 	
 	public static String parseMessage(String msg, Boss boss){

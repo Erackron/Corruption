@@ -3,7 +3,7 @@ package cam.command;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import cam.Likeaboss;
+import cam.Utility;
 
 public abstract class BaseCommand {
 	protected static boolean processed;
@@ -18,7 +18,7 @@ public abstract class BaseCommand {
 			return false;
 		}
 		
-		if (sender instanceof Player && !((Player) sender).isOp() && !Likeaboss.instance.pm.hasPermission((Player) sender, permission)) {
+		if (!Utility.hasPermission(sender, permission)) {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "You don't have the permission for this command.");
 			sender.sendMessage(ChatColor.GRAY + permission + ChatColor.WHITE + " is needed.");
 			return false;
