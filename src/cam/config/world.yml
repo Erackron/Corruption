@@ -12,7 +12,6 @@ Boss:
 - Spider
 - Zombie
 Ability:
-- SL3
 Loot:
   FirstRoll:
     FirstItem: 264:0 10.0 1 2
