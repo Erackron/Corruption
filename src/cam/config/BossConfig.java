@@ -86,7 +86,10 @@ public class BossConfig extends BaseConfig {
 			Likeaboss.logger.warning("[Likeaboss] Missing values for '" + bossName + ".Spawn' in bosses config file");
 			return false;
 		} else if (spawnValues.length < 3){
-			spawnValues[2] = "256";
+			String[] temp = new String[spawnValues.length + 1];
+		    System.arraycopy(spawnValues, 0, temp, 0, spawnValues.length);
+		    temp[spawnValues.length] = "256";
+		    spawnValues = temp;
 		}
 	
 		bossData.setSpawnData(Double.valueOf(spawnValues[0]), Double.valueOf(spawnValues[1]), Double.valueOf(spawnValues[2]));
