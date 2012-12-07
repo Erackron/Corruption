@@ -34,7 +34,7 @@ The basic settings
 	    Max: 50
 	
 	#You can use color codes. {PLAYER}, {BOSSNAME} and {DAMAGE} are the possible keywords.
-	#{Player} can only be used in the ToOthers messages, {BOSSNAME} only in the ToPlayer, ToOthers and the Viewer messages and {DAMAGE} only in the ViewerMessage.
+	#{PLAYER} can only be used in the ToOthers messages, {BOSSNAME} only in the ToPlayer, ToOthers and the Viewer messages and {DAMAGE} only in the ViewerMessage.
 	Message:
 	  PlayerFoundBoss:
 	    ToPlayer: "&cOh noes, that's a {BOSSNAME} boss!"
