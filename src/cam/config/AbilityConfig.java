@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 import cam.Likeaboss;
 import cam.ability.Ability;
 import cam.ability.Ability.AbilityType;
