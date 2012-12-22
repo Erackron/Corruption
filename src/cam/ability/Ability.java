@@ -25,7 +25,6 @@ public abstract class Ability {
 		ARMORPIERCE,
 		FIREPUNCH,
 		KNOCKBACK,
-		MINIONS,
 		POTION,
 		UNKNOWN,
 		BOMB;
@@ -88,7 +87,7 @@ public abstract class Ability {
 		String message = parseMsg(msg, boss);
 		for (LabPlayer labPlayer : LabPlayerManager.getLabPlayers()) {
 			Player player = labPlayer.getPlayer();
-			if (Utility.IsNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, radius)) {
+			if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, radius)) {
 				player.sendMessage(message);
 			}
 		}

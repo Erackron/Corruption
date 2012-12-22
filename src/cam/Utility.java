@@ -26,7 +26,7 @@ public abstract class Utility {
 		return result;
 	}
 	
-	public static boolean IsNear(Location first, Location second, int minDistance, int maxDistance) {
+	public static boolean isNear(Location first, Location second, int minDistance, int maxDistance) {
 		if(first.getWorld()!=second.getWorld())
 			return false;
 		

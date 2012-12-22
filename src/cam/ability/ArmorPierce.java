@@ -58,6 +58,7 @@ public class ArmorPierce extends Ability {
 			this.value = value;
 	}
 	
+	
 	private static int HelmetDefense(ItemStack helmet) {
 		if (helmet != null) {
 			switch (helmet.getType()) {
@@ -69,6 +70,8 @@ public class ArmorPierce extends Ability {
 				return 8;
 			case LEATHER_HELMET:
 				return 4;
+			default:
+				return 0;
 			}
 		}
 		
@@ -87,6 +90,8 @@ public class ArmorPierce extends Ability {
 				return 20;
 			case LEATHER_CHESTPLATE:
 				return 12;
+			default:
+				return 0;
 			}
 		}
 		
@@ -106,6 +111,8 @@ public class ArmorPierce extends Ability {
 				return 12;
 			case LEATHER_LEGGINGS:
 				return 8;
+			default:
+				return 0;
 			}
 		}
 		
@@ -123,6 +130,8 @@ public class ArmorPierce extends Ability {
 			case GOLD_BOOTS:
 			case LEATHER_BOOTS:
 				return 4;
+			default:
+				return 0;
 			}
 		}
 		

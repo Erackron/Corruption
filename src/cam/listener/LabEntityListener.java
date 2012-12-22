@@ -19,6 +19,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.LazyMetadataValue;
 
 import cam.Likeaboss;
 import cam.Utility;
@@ -34,6 +36,8 @@ import cam.player.LabPlayer;
 import cam.player.LabPlayerManager;
 
 public class LabEntityListener implements Listener {
+	private final LazyMetadataValue isBoss = new FixedMetadataValue(Likeaboss.instance, true);
+	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		if (event.getSpawnReason() == SpawnReason.CUSTOM)
@@ -63,8 +67,8 @@ public class LabEntityListener implements Listener {
 		}
 		else if (chance < bossData.getChance()) {
 			Boss boss = new Boss(livingEntity, bossData);
-			
 			LabEntityManager.AddBoss(boss);
+			livingEntity.setMetadata("isBoss", isBoss);
 		}
 	}
 	
@@ -297,7 +301,7 @@ public class LabEntityListener implements Listener {
 			for (LabPlayer labPlayerTemp : LabPlayerManager.getLabPlayers()) {
 				if(labPlayerTemp != null && labPlayerTemp.getLabPlayerData().getViewer()){
 					player = labPlayerTemp.getPlayer();
-					if (Utility.IsNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, 16)){
+					if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, 16)){
 						player.sendMessage(viewerMsg);
 					}
 				}

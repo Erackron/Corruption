@@ -207,7 +207,7 @@ Below I will try to explain you how I would do it myself.
 *If you want, you can run Likeaboss without your config files first to let it create the default ones.*
 
 1. The first thing you'll notice, is that all the world config files are no longer stored as '\<worldname\>\\config.yml', but as 'Worlds\\\<worldname\>.yml', which unclutters your Likeaboss plugin folder. So first you will want to move all these files and rename them.  
-	For people running windows, I have made a batch script which will, if placed in the 'plugins\\Likeaboss' directory, do this for you. You can get the batch script [here](https://github.com/Erackron/Likeaboss/downloads) ([direct download](https://github.com/downloads/Erackron/Likeaboss/moveWorldConfigs.bat)).
+	For people running windows, I have made a batch script which will, if placed in the 'plugins\\Likeaboss' directory, do this for you. You can get the batch script [here](https://github.com/Erackron/Likeaboss/raw/PublicBuild/downloads/moveWorldConfigs.bat). ([Source](https://github.com/Erackron/Likeaboss/blob/PublicBuild/downloads/moveWorldConfigs.bat))
 
 2. The next step is to move all the bosses you have in each world config to the bosses.yml file. If you still want to distinguish between bosses with the same name from multiple worlds, it is advised to use the first three letters of the world name as a suffix to the bosses name (e.g.: in a world name AdventureWorld and a boss named Creeper use: Creeper#adv)  
 	This can take pretty long if you many bosses and/or worlds, unfortunately I don't have an automated method for this.

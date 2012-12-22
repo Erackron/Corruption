@@ -216,7 +216,7 @@ public abstract class LabPlayerManager {
 			for (LabPlayer otherLabPlayer : labPlayers) {
 				Player otherPlayer = otherLabPlayer.getPlayer();
 				
-				if (Utility.IsNear(otherPlayer.getLocation(), location, 0, 35))
+				if (Utility.isNear(otherPlayer.getLocation(), location, 0, 35))
 					otherPlayer.sendMessage(toOthers);
 			}
 			

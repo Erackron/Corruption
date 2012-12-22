@@ -6,14 +6,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
 import cam.Likeaboss;
 import cam.ability.Ability;
 import cam.ability.Ability.AbilityType;
 import cam.ability.ArmorPierce;
 import cam.ability.FirePunch;
 import cam.ability.Knockback;
-import cam.ability.Minions;
 import cam.ability.Bomb;
 import cam.ability.Potion;
 
@@ -119,36 +117,6 @@ public abstract class AbilityConfig extends BaseConfig {
 				abilities.put(abilityName, knockback);
 				break;
 				
-			case MINIONS:
-				Minions minions = new Minions();
-				
-				entryKey = "Message";
-				if (abilityEntries.containsKey(entryKey))
-					minions.setMessage((String) abilityEntries.get(entryKey));
-				
-				entryKey = "Cooldown";
-				if (abilityEntries.containsKey(entryKey))
-					minions.setCooldown((Double) abilityEntries.get(entryKey));
-				
-				entryKey = "EntityType";
-				if (abilityEntries.containsKey(entryKey))
-					minions.setEntityType(EntityType.fromName(abilityEntries.get(entryKey).toString()));
-				
-				entryKey = "Amount";
-				if (abilityEntries.containsKey(entryKey))
-					minions.setAmount((Integer) abilityEntries.get(entryKey));
-				
-				entryKey = "Range";
-				if (abilityEntries.containsKey(entryKey))
-					minions.setAreaRadius((Integer) abilityEntries.get(entryKey));
-				
-				entryKey = "Probability";
-				if (abilityEntries.containsKey(entryKey))
-					minions.setChance((Double) abilityEntries.get(entryKey));
-				
-				abilities.put(abilityName, minions);
-				break;
-				
 			case POTION:
 				Potion potion = new Potion();
 				
@@ -195,12 +163,12 @@ public abstract class AbilityConfig extends BaseConfig {
 				
 				entryKey = "Fuse";
 				if (abilityEntries.containsKey(entryKey)){
-					bomb.setFuseTicks((int) abilityEntries.get(entryKey));
+					bomb.setFuseTicks((Integer)abilityEntries.get(entryKey));
 				}
 				
 				entryKey = "Radius";
 				if (abilityEntries.containsKey(entryKey))
-					bomb.setRadius((float)((int)abilityEntries.get(entryKey)));
+					bomb.setRadius((float)((Integer)abilityEntries.get(entryKey)));
 				
 				entryKey = "Probability";
 				if (abilityEntries.containsKey(entryKey))

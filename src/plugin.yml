@@ -1,6 +1,6 @@
 name: Likeaboss
 main: cam.Likeaboss
-version: 1.6.5
+version: 1.6.6
 author: bm01
 commands:
   lab:

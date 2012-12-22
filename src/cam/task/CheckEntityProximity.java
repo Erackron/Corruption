@@ -9,7 +9,6 @@ import cam.ability.Ability.ActivationCondition;
 import cam.config.GlobalConfig.MessageParam;
 import cam.entity.Boss;
 import cam.entity.LabEntityManager;
-import cam.entity.Minion;
 import cam.player.LabPlayer;
 import cam.player.LabPlayerManager;
 
@@ -22,7 +21,7 @@ public class CheckEntityProximity extends BaseTask {
 			for (Boss boss : LabEntityManager.getBosses()) {
 				LivingEntity livingEntity = boss.getLivingEntity();
 				
-				if (Utility.IsNear(player.getLocation(), livingEntity.getLocation(), 0, 16)) {
+				if (Utility.isNear(player.getLocation(), livingEntity.getLocation(), 0, 16)) {
 					boss.ActivateAbilities(null, livingEntity, ActivationCondition.ONPROXIMITY);
 					
 					if (!boss.getFound()) {
@@ -51,20 +50,6 @@ public class CheckEntityProximity extends BaseTask {
 						}
 					}
 				}
-			}
-			
-			for (Minion minion : LabEntityManager.getMinions()) {
-				Boss boss = minion.getBoss();
-				
-				if (!boss.IsEntityAlive()) {
-					continue;
-				}
-				
-				LivingEntity minionEntity = minion.getLivingEntity();
-				LivingEntity bossEntity = boss.getLivingEntity();
-				
-				if (!Utility.IsNear(minionEntity.getLocation(), bossEntity.getLocation(), 0, 17))
-					minionEntity.teleport(bossEntity);
 			}
 		}
 	}
