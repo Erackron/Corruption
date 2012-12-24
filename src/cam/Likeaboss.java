@@ -7,6 +7,7 @@ import cam.config.ConfigManager;
 import cam.listener.LabEntityListener;
 import cam.listener.LabPlayerListener;
 import cam.listener.LabWorldListener;
+import cam.listener.MagicSpellsListener;
 import cam.player.LabPlayerManager;
 import cam.task.TaskManager;
 
@@ -23,6 +24,7 @@ public class Likeaboss extends JavaPlugin {
 	public static Likeaboss instance;
 	public static Logger logger;
 	public static BukkitScheduler scheduler;
+	public static boolean msInstalled;
 	public PermissionsManager pm;
 	
 	public Likeaboss() {
@@ -33,16 +35,25 @@ public class Likeaboss extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		PluginManager pluginManager = getServer().getPluginManager();		
+		msInstalled = pluginManager.getPlugin("MagicSpells") != null;
+		
+		if(msInstalled){
+			logger.info("[Likeaboss] MagicSpells detected!");
+		}
+		
 		ConfigManager.Load();
 		LabPlayerManager.AddOnlinePlayers();
 		TaskManager.Start();
 		
-		setupPermissionsManager();
-		
-		PluginManager pluginManager = getServer().getPluginManager();
+		setupPermissionsManager();		
 		pluginManager.registerEvents(new LabEntityListener(), this);
 		pluginManager.registerEvents(new LabPlayerListener(), this);
 		pluginManager.registerEvents(new LabWorldListener(), this);
+		
+		if(msInstalled){
+			pluginManager.registerEvents(new MagicSpellsListener(), this);			
+		}
 		
 		logger.info("[Likeaboss] Enabled.");
 	}
