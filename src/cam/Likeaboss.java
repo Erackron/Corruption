@@ -55,7 +55,10 @@ public class Likeaboss extends JavaPlugin {
 		
 		try {
 		    LabMetrics metrics = new LabMetrics(this);
-		    metrics.start();
+		    if(metrics.start())
+		    	l.info("["+getName()+"] Sending metrics data");
+		    else
+		    	l.info("["+getName()+"] Disabled sending metrics data");
 		} catch (IOException e) {
 		   l.warning("["+getName()+"] Failed to contact mcstats.org");
 		}
