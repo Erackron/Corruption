@@ -143,7 +143,7 @@ public class LabAPI {
 		if(!e.hasMetadata(key))
 			return false;
 
-		LazyMetadataValue meta = new FixedMetadataValue(Likeaboss.instance, true);
+		LazyMetadataValue meta = new FixedMetadataValue(Likeaboss.in, true);
 		List<MetadataValue> list = e.getMetadata(key);
 		if (list.contains(meta))
             return true;
@@ -151,7 +151,7 @@ public class LabAPI {
         for (MetadataValue metaV : list) {
             if (!(metaV instanceof FixedMetadataValue))
                 continue;
-            else if (!metaV.getOwningPlugin().equals(Likeaboss.instance))
+            else if (!metaV.getOwningPlugin().equals(Likeaboss.in))
                 continue;
             else if (!metaV.value().equals(meta.value()))
                 continue;

@@ -37,7 +37,7 @@ public class Bomb extends Ability {
 	        Block b = world.getBlockAt(loc); 
 	        b.setType(Material.BEDROCK);
 	        
-	        Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.instance, new Runnable() {
+	        Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.in, new Runnable() {
 	            public void run() {
 	                world.getBlockAt(loc).breakNaturally();
 	                world.createExplosion(loc, radius);

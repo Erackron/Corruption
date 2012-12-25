@@ -36,7 +36,7 @@ public abstract class LabPlayerManager {
 	}
 	
 	public static void AddOnlinePlayers() {
-		Player[] players = Likeaboss.instance.getServer().getOnlinePlayers();
+		Player[] players = Likeaboss.in.getServer().getOnlinePlayers();
 		
 		for (Player player : players)
 			AddLabPlayer(player);

@@ -44,7 +44,7 @@ public abstract class ListCommand extends BaseCommand {
 			int x = (int) Math.round(location.getX());
 			int y = (int) Math.round(location.getY());
 			int z = (int) Math.round(location.getZ());
-			String message = ChatColor.GRAY + boss.getBossData().getName() + ":  ([" + location.getWorld().getName() + "], " + x + ", " + y + ", " + z + ")";
+			String message = ChatColor.GRAY + Utility.parseMessage("{BOSSNAME}", boss) + ":  ([" + location.getWorld().getName() + "], " + x + ", " + y + ", " + z + ")";
 			
 			if (distance > 0)
 				message += "  Dist: " + distance;

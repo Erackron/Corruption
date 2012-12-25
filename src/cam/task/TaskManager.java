@@ -15,12 +15,12 @@ public abstract class TaskManager {
 	private static void ScheduleSyncRepeatingTask(BaseTask baseTask, double period) {
 		if (period > 0) {
 			long periodInTicks = (long) (period * 20);
-			Likeaboss.scheduler.scheduleSyncRepeatingTask(Likeaboss.instance, baseTask, periodInTicks, periodInTicks);
+			Likeaboss.scheduler.scheduleSyncRepeatingTask(Likeaboss.in, baseTask, periodInTicks, periodInTicks);
 		}
 	}
 	
 	public static void Stop() {
-		Likeaboss.scheduler.cancelTasks(Likeaboss.instance);
+		Likeaboss.scheduler.cancelTasks(Likeaboss.in);
 	}
 	
 	public static void Restart() {

@@ -50,15 +50,23 @@ public abstract class Utility {
 	}
 	
 	public static boolean hasPermission(Player player, String permission){
-		return Likeaboss.instance.pm.hasPermission(player, permission);
+		return Likeaboss.in.pm.hasPermission(player, permission);
 	}
+	
 	
 	public static String parseMessage(String msg, Boss boss){
 		return parseMessage(msg, boss, 0, 0);
 	}
 	
+	public static String parseMessage(String msg, String bossName){
+		return parseMessage(msg, bossName, 0, 0);
+	}
+	
 	public static String parseMessage(String msg, Boss boss, int health, int damage){
-		String bossName = boss.getBossData().getName();
+		return parseMessage(msg, boss.getBossData().getName(), health, damage);
+	}
+	
+	public static String parseMessage(String msg, String bossName, int health, int damage){
 		bossName = (bossName.contains("#"))?bossName.split("#")[0]:bossName;
 		String[] bNameS = bossName.split("(?=\\p{Upper})");
 		if (bNameS.length>1){
@@ -68,7 +76,7 @@ public abstract class Utility {
 		}
 		return msg.replace('&', ChatColor.COLOR_CHAR).replace("{BOSSNAME}", bossName).replace(
 				"{HEALTH}",
-				"" + ChatColor.GRAY + boss.getHealth()
+				"" + ChatColor.GRAY + health
 			).replace(
 				"{DAMAGE}",
 				"" + damage

@@ -39,7 +39,7 @@ public abstract class AbilityConfig extends BaseConfig {
 			node += "." + entryKey;
 			
 			if (!abilityEntries.containsKey(entryKey)) {
-				Likeaboss.logger.warning("[Likeaboss] '" + node + "' in abilities config file is missing.");
+				Likeaboss.l.warning("[Likeaboss] '" + node + "' in abilities config file is missing.");
 				continue;
 			}
 			
@@ -178,7 +178,7 @@ public abstract class AbilityConfig extends BaseConfig {
 				break;
 				
 			case UNKNOWN:
-				Likeaboss.logger.warning("[Likeaboss] '" + entryValue + "' in abilities config file isn't a valid ability.");
+				Likeaboss.l.warning("[Likeaboss] '" + entryValue + "' in abilities config file isn't a valid ability.");
 				continue;
 			}
 		}

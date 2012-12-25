@@ -39,7 +39,7 @@ public class BossConfig extends BaseConfig {
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(bossName);
 			
 			if (configurationSection == null) {
-				Likeaboss.logger.warning("[Likeaboss] '" + bossName + "' in bosses config file is invalid.");
+				Likeaboss.l.warning("[Likeaboss] '" + bossName + "' in bosses config file is invalid.");
 				continue;
 			}
 			
@@ -47,7 +47,7 @@ public class BossConfig extends BaseConfig {
 			EntityType entityType = EntityType.fromName(entityTypeString);
 			
 			if (entityType == null) {
-				Likeaboss.logger.warning("[Likeaboss] '" + entityTypeString + "' in bosses config file isn't a valid EntityType.");
+				Likeaboss.l.warning("[Likeaboss] '" + entityTypeString + "' in bosses config file isn't a valid EntityType.");
 				continue;
 			}
 			
@@ -71,7 +71,7 @@ public class BossConfig extends BaseConfig {
 	
 	private static boolean LoadSpawnValues(BossData bossData, String spawnString, String bossName) {
 		if (spawnString == null) {
-			Likeaboss.logger.warning("[Likeaboss] '" + bossName + ".Spawn' in bosses config file is missing.");
+			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Spawn' in bosses config file is missing.");
 			return false;
 		}
 		
@@ -83,7 +83,7 @@ public class BossConfig extends BaseConfig {
 		String[] spawnValues = spawnString.split(" ");
 		
 		if (spawnValues.length < 2) {
-			Likeaboss.logger.warning("[Likeaboss] Missing values for '" + bossName + ".Spawn' in bosses config file");
+			Likeaboss.l.warning("[Likeaboss] Missing values for '" + bossName + ".Spawn' in bosses config file");
 			return false;
 		} else if (spawnValues.length < 3){
 			String[] temp = new String[spawnValues.length + 1];
@@ -98,7 +98,7 @@ public class BossConfig extends BaseConfig {
 	
 	private static boolean LoadStats(BossData bossData, String statsString, String bossName) {
 		if (statsString == null) {
-			Likeaboss.logger.warning("[Likeaboss] '" + bossName + ".Stats' in bosses config file is missing.");
+			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Stats' in bosses config file is missing.");
 			return false;
 		}
 		
@@ -110,7 +110,7 @@ public class BossConfig extends BaseConfig {
 		String[] statsValues = statsString.split(" ");
 		
 		if (statsValues.length < 3) {
-			Likeaboss.logger.warning("[Likeaboss] Missing values for '" + bossName + ".Stats' in bosses config file");
+			Likeaboss.l.warning("[Likeaboss] Missing values for '" + bossName + ".Stats' in bosses config file");
 			return false;
 		}
 		
@@ -123,7 +123,7 @@ public class BossConfig extends BaseConfig {
 		
 		for (String abilityName : abilityNames) {
 			if (!abilities.containsKey(abilityName)) {
-				Likeaboss.logger.warning("[Likeaboss] '" + bossName + ".Ability." + abilityName + "' in bosses config file isn't a valid ability.");
+				Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Ability." + abilityName + "' in bosses config file isn't a valid ability.");
 				continue;
 			}
 			
@@ -133,7 +133,7 @@ public class BossConfig extends BaseConfig {
 	
 	private static void LoadLoots(BossData bossData, ConfigurationSection lootSection, String bossName) {
 		if (lootSection == null) {
-			Likeaboss.logger.warning("[Likeaboss] '" + bossName + ".Loot" + "' in bosses config file is invalid.");
+			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Loot" + "' in bosses config file is invalid.");
 			return;
 		}
 		
@@ -143,7 +143,7 @@ public class BossConfig extends BaseConfig {
 			ConfigurationSection rollSection = lootSection.getConfigurationSection(rollString);
 			
 			if (rollSection == null) {
-				Likeaboss.logger.warning("[Likeaboss] '" + bossName + ".Loot." + rollString + "' in bosses config file is invalid.");
+				Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Loot." + rollString + "' in bosses config file is invalid.");
 				continue;
 			}
 			
@@ -161,7 +161,7 @@ public class BossConfig extends BaseConfig {
 				String[] dropValues = dropString.split(" ");
 				
 				if (dropValues.length < 4) {
-					Likeaboss.logger.warning("[Likeaboss] Missing values for '" + bossName + ".Loot." + rollString + "." + dropEntry.getKey() + "' in bosses config file.");
+					Likeaboss.l.warning("[Likeaboss] Missing values for '" + bossName + ".Loot." + rollString + "." + dropEntry.getKey() + "' in bosses config file.");
 					continue;
 				}
 				

@@ -14,7 +14,7 @@ public abstract class ConfigManager {
 			MagicSpellsConfig.Load();
 		}
 		
-		for (World world : Likeaboss.instance.getServer().getWorlds()) {
+		for (World world : Likeaboss.in.getServer().getWorlds()) {
 			WorldConfig.Load(world);
 		}
 	}

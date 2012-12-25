@@ -5,6 +5,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.LivingEntity;
@@ -19,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 
@@ -36,7 +38,7 @@ import cam.player.LabPlayer;
 import cam.player.LabPlayerManager;
 
 public class LabEntityListener implements Listener {
-	private final LazyMetadataValue isBoss = new FixedMetadataValue(Likeaboss.instance, true);
+	private final LazyMetadataValue isBoss = new FixedMetadataValue(Likeaboss.in, true);
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
@@ -120,7 +122,12 @@ public class LabEntityListener implements Listener {
 					
 					if (labPlayer != null) {
 						if (labPlayer.getLabPlayerData().getIgnore()) {
-							LabEntityManager.RemoveBoss(boss);
+							if(damager instanceof Creature){
+								((Creature)damager).setTarget((LivingEntity)damager);
+								((Creature)damager).setTarget(null);
+							}
+							if(!event.isCancelled())
+								event.setCancelled(true);
 							return;
 						}
 					}
@@ -173,13 +180,6 @@ public class LabEntityListener implements Listener {
 				
 				labPlayer = LabPlayerManager.getLabPlayer(player);
 				
-				//Remove the boss and return if the player has Ignore
-				if (labPlayer.getLabPlayerData().getIgnore()) {
-					LabEntityManager.RemoveBoss(boss);
-					event.setCancelled(true);
-					return;
-				}
-				
 				//Player notifications
 				if (!boss.getFound()) {
 					boss.setFound(true);
@@ -200,7 +200,7 @@ public class LabEntityListener implements Listener {
 					Map<Enchantment, Integer> enchants = player.getItemInHand().getEnchantments();
 					
 					if (enchants.containsKey(Enchantment.FIRE_ASPECT))
-						Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new GetFireEnchantTicks(boss), 0);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.in, new GetFireEnchantTicks(boss), 0);
 				}
 				break;
 			case PROJECTILE:
@@ -212,7 +212,7 @@ public class LabEntityListener implements Listener {
 					Map<Enchantment, Integer> enchants = player.getItemInHand().getEnchantments();
 					
 					if (enchants.containsKey(Enchantment.ARROW_FIRE))
-						Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new GetFireEnchantTicks(boss), 0);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.in, new GetFireEnchantTicks(boss), 0);
 				}
 				break;
 			case BLOCK_EXPLOSION:
@@ -288,16 +288,12 @@ public class LabEntityListener implements Listener {
 			} catch(ClassCastException e){}
 			
 			
-			//Viewer message
-			String viewerMsg = null;
-			if (boss.getHealth()>0)
-				viewerMsg = MessageParam.VIEWERMESSAGE.getMessage();
-			else
-				viewerMsg = MessageParam.VIEWERDEFEATED.getMessage();
-			
-			viewerMsg = Utility.parseMessage(viewerMsg, boss, boss.getHealth(), damage);
-			
-				
+			//Viewer message	
+			String viewerMsg = Utility.parseMessage((boss.getHealth()>0)?
+													   MessageParam.VIEWERMESSAGE.getMessage():
+													   MessageParam.VIEWERDEFEATED.getMessage(),
+													 boss, boss.getHealth(), damage);
+
 			for (LabPlayer labPlayerTemp : LabPlayerManager.getLabPlayers()) {
 				if(labPlayerTemp != null && labPlayerTemp.getLabPlayerData().getViewer()){
 					player = labPlayerTemp.getPlayer();
@@ -314,6 +310,20 @@ public class LabEntityListener implements Listener {
 			}
 			else
 				event.setDamage(0);
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onEntityTargetLivingEntity(EntityTargetLivingEntityEvent event) {
+		Boss boss = LabEntityManager.getBoss(event.getEntity());
+		
+		if (boss != null) {
+			if(event.getTarget() instanceof Player) {
+				LabPlayer labPlayer = LabPlayerManager.getLabPlayer((Player) event.getTarget());
+				if (labPlayer != null && labPlayer.getLabPlayerData().getIgnore()) {
+					event.setTarget(null);
+				}
+			}
 		}
 	}
 	

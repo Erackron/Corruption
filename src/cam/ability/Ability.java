@@ -78,7 +78,7 @@ public abstract class Ability {
 		if(cooldown==0.0)
 			return;
 		boss.ChangeAbilityStatus(this, false);
-		Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.instance, new AbilityReactivator(boss, this), (long) (cooldown * 20));
+		Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.in, new AbilityReactivator(boss, this), (long) (cooldown * 20));
 	}
 	
 	public void sendMessage(Boss boss){

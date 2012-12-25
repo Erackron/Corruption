@@ -34,9 +34,9 @@ public class MagicSpellsConfig extends BaseConfig {
 		
 		if(!allEnabled){
 			if (useWhitelist && enabledSpells.isEmpty()) {
-				Likeaboss.logger.warning("[Likeaboss] 'whitelist' in MagicSpells config file is empty.");
+				Likeaboss.l.warning("[Likeaboss] 'whitelist' in MagicSpells config file is empty.");
 			} else if(!(useWhitelist) && disabledSpells.isEmpty()){
-				Likeaboss.logger.warning("[Likeaboss] 'blacklist' in MagicSpells config is empty.");
+				Likeaboss.l.warning("[Likeaboss] 'blacklist' in MagicSpells config is empty.");
 			} 
 						
 		}

@@ -132,7 +132,7 @@ public abstract class GlobalConfig extends BaseConfig {
 			String node = commandParam.getNode();
 			
 			if (!yamlConfig.contains(node)) {
-				Likeaboss.logger.warning("[Likeaboss] Adding '" + node + "' in config file.");
+				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, commandParam.getValue());
 				continue;
 			}
@@ -146,7 +146,7 @@ public abstract class GlobalConfig extends BaseConfig {
 			String node = messageParam.getNode();
 			
 			if (!yamlConfig.contains(node)) {
-				Likeaboss.logger.warning("[Likeaboss] Adding '" + node + "' in config file.");
+				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, messageParam.getMessage());
 				continue;
 			}
@@ -160,7 +160,7 @@ public abstract class GlobalConfig extends BaseConfig {
 			String node = taskParam.getNode();
 				
 			if (!yamlConfig.contains(node)) {
-				Likeaboss.logger.warning("[Likeaboss] Adding '" + node + "' in config file.");
+				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, taskParam.getValue());
 				continue;
 			}
@@ -174,7 +174,7 @@ public abstract class GlobalConfig extends BaseConfig {
 			String node = bossParam.getNode();
 			
 			if (!yamlConfig.contains(node)) {
-				Likeaboss.logger.warning("[Likeaboss] Adding '" + node + "' in config file.");
+				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, bossParam.getValue());
 				continue;
 			}

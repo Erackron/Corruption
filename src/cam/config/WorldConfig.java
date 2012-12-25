@@ -43,7 +43,7 @@ public abstract class WorldConfig extends BaseConfig {
 		
 		for (String bossName : bossNames) {
 			if (!bossesData.containsKey(bossName)) {
-				Likeaboss.logger.warning("[Likeaboss] '" + bossName + "' in '" + worldName + "' + config file isn't a valid boss.");
+				Likeaboss.l.warning("[Likeaboss] '" + bossName + "' in '" + worldName + "' + config file isn't a valid boss.");
 				continue;
 			}
 			
@@ -56,7 +56,7 @@ public abstract class WorldConfig extends BaseConfig {
 		
 		for (String abilityName : abilityNames) {
 			if (!abilities.containsKey(abilityName)) {
-				Likeaboss.logger.warning("[Likeaboss] '" + abilityName + "' in '" + worldName + "' + config file isn't a valid ability.");
+				Likeaboss.l.warning("[Likeaboss] '" + abilityName + "' in '" + worldName + "' + config file isn't a valid ability.");
 				continue;
 			}
 			
@@ -66,7 +66,7 @@ public abstract class WorldConfig extends BaseConfig {
 	
 	private static void LoadLoots(WorldData worldData, ConfigurationSection lootSection, String worldName) {
 		if (lootSection == null) {
-			Likeaboss.logger.warning("[Likeaboss] 'Loot' in '" + worldName + "' config file is invalid.");
+			Likeaboss.l.warning("[Likeaboss] 'Loot' in '" + worldName + "' config file is invalid.");
 			return;
 		}
 		
@@ -76,7 +76,7 @@ public abstract class WorldConfig extends BaseConfig {
 			ConfigurationSection rollSection = lootSection.getConfigurationSection(rollString);
 			
 			if (rollSection == null) {
-				Likeaboss.logger.warning("[Likeaboss] 'Loot." + rollString + "' in '" + worldName + "' config file is invalid.");
+				Likeaboss.l.warning("[Likeaboss] 'Loot." + rollString + "' in '" + worldName + "' config file is invalid.");
 				continue;
 			}
 			
@@ -94,7 +94,7 @@ public abstract class WorldConfig extends BaseConfig {
 				String[] dropValues = dropString.split(" ");
 				
 				if (dropValues.length < 4) {
-					Likeaboss.logger.warning("[Likeaboss] Missing values for '" + "Loot." + rollString + "." + dropEntry.getKey() + "' in '" + worldName + "' config file.");
+					Likeaboss.l.warning("[Likeaboss] Missing values for '" + "Loot." + rollString + "." + dropEntry.getKey() + "' in '" + worldName + "' config file.");
 					continue;
 				}
 				

@@ -1,5 +1,6 @@
 package cam;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import cam.command.CommandManager;
@@ -7,7 +8,7 @@ import cam.config.ConfigManager;
 import cam.listener.LabEntityListener;
 import cam.listener.LabPlayerListener;
 import cam.listener.LabWorldListener;
-import cam.listener.MagicSpellsListener;
+import cam.listener.LabMagicSpellsListener;
 import cam.player.LabPlayerManager;
 import cam.task.TaskManager;
 
@@ -21,15 +22,15 @@ import org.bukkit.scheduler.BukkitScheduler;
 import com.timvisee.manager.permissionsmanager.PermissionsManager;
 
 public class Likeaboss extends JavaPlugin {
-	public static Likeaboss instance;
-	public static Logger logger;
+	public static Likeaboss in;
+	public static Logger l;
 	public static BukkitScheduler scheduler;
 	public static boolean msInstalled;
 	public PermissionsManager pm;
 	
 	public Likeaboss() {
-		instance = this;
-		logger = Bukkit.getLogger();
+		in = this;
+		l = Bukkit.getLogger();
 		scheduler = Bukkit.getScheduler();
 	}
 	
@@ -37,10 +38,6 @@ public class Likeaboss extends JavaPlugin {
 	public void onEnable() {
 		PluginManager pluginManager = getServer().getPluginManager();		
 		msInstalled = pluginManager.getPlugin("MagicSpells") != null;
-		
-		if(msInstalled){
-			logger.info("[Likeaboss] MagicSpells detected!");
-		}
 		
 		ConfigManager.Load();
 		LabPlayerManager.AddOnlinePlayers();
@@ -52,10 +49,18 @@ public class Likeaboss extends JavaPlugin {
 		pluginManager.registerEvents(new LabWorldListener(), this);
 		
 		if(msInstalled){
-			pluginManager.registerEvents(new MagicSpellsListener(), this);			
+			l.info("["+getName()+"] MagicSpells detected!");
+			pluginManager.registerEvents(new LabMagicSpellsListener(), this);	
 		}
 		
-		logger.info("[Likeaboss] Enabled.");
+		try {
+		    LabMetrics metrics = new LabMetrics(this);
+		    metrics.start();
+		} catch (IOException e) {
+		   l.warning("["+getName()+"] Failed to contact mcstats.org");
+		}
+		
+		l.info("["+getName()+"] Enabled");
 	}
 	
 	@Override
@@ -67,7 +72,7 @@ public class Likeaboss extends JavaPlugin {
 			e.printStackTrace();
 		}
 		
-		logger.info("[Likeaboss] Disabled.");
+		l.info("["+getName()+"] Disabled");
 	}
 	
 	/**
@@ -75,8 +80,8 @@ public class Likeaboss extends JavaPlugin {
 	 */
 	public void setupPermissionsManager() {
 		// Setup the permissions manager
-		this.pm = new PermissionsManager(this.getServer(), this);
-		this.pm.setup();
+		pm = new PermissionsManager(getServer(), this);
+		pm.setup();
 	}
 	
 	/**
@@ -84,7 +89,7 @@ public class Likeaboss extends JavaPlugin {
 	 * @return permissions manager
 	 */
 	public PermissionsManager getPermissionsManager() {
-		return this.pm;
+		return pm;
 	}
 	
 	@Override

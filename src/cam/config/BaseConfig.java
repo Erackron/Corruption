@@ -16,14 +16,14 @@ public abstract class BaseConfig {
 			file.getParentFile().mkdirs();
 			
 			try {
-				InputStream inputStream = Likeaboss.instance.getResource(resourcePath);
+				InputStream inputStream = Likeaboss.in.getResource(resourcePath);
 				
 				if (inputStream == null) {
-					Likeaboss.logger.severe("[Likeaboss] Missing ressource file: '" + resourcePath + "', please notify the plugin author");
+					Likeaboss.l.severe("[Likeaboss] Missing ressource file: '" + resourcePath + "', please notify the plugin author");
 					return null;
 				}
 				else {
-					Likeaboss.logger.info("[Likeaboss] Creating default config file: " + file.getName());
+					Likeaboss.l.info("[Likeaboss] Creating default config file: " + file.getName());
 					Utility.StreamToFile(inputStream, file);
 				}
 			} catch (Exception e) {

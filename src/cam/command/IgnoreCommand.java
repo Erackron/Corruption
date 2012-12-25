@@ -33,7 +33,7 @@ public abstract class IgnoreCommand extends BaseCommand {
 				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Canceled");
 			}
 			else {
-				labPlayer.setIgnoreTaskId(Likeaboss.scheduler.scheduleAsyncDelayedTask(Likeaboss.instance, new IgnoreCommandTask(labPlayer), delay * 20));
+				labPlayer.setIgnoreTaskId(Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.in, new IgnoreCommandTask(labPlayer), delay * 20));
 				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Applied in " + ChatColor.GREEN + delay + ChatColor.GRAY + " second(s)");
 			}
 		}
