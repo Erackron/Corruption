@@ -1,6 +1,8 @@
 package cam.command;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import cam.Likeaboss;
@@ -44,7 +46,11 @@ public abstract class IgnoreCommand extends BaseCommand {
 	public static void Apply(LabPlayer labPlayer) {
 		LabPlayerData labPlayerData = labPlayer.getLabPlayerData();
 		boolean ignore = labPlayerData.getIgnore();
-		
+		if(!ignore)
+			for(Entity e :labPlayer.getPlayer().getNearbyEntities(32, 32, 32))
+				if(e instanceof Creature)
+					((Creature) e).setTarget(null);
+					
 		labPlayerData.setIgnore(!ignore);
 		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Ignore: " + ChatColor.GREEN + !ignore);
 	}

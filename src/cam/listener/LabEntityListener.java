@@ -20,7 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 
@@ -313,15 +313,14 @@ public class LabEntityListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onEntityTargetLivingEntity(EntityTargetLivingEntityEvent event) {
-		Boss boss = LabEntityManager.getBoss(event.getEntity());
-		
-		if (boss != null) {
-			if(event.getTarget() instanceof Player) {
-				LabPlayer labPlayer = LabPlayerManager.getLabPlayer((Player) event.getTarget());
+	@EventHandler
+	public void onEntityTarget(EntityTargetEvent event) {
+		Entity t = event.getTarget();
+		if(event.getEntity() instanceof LivingEntity){
+			if(t instanceof Player) {
+				LabPlayer labPlayer = LabPlayerManager.getLabPlayer((Player) t);
 				if (labPlayer != null && labPlayer.getLabPlayerData().getIgnore()) {
-					event.setTarget(null);
+					event.setCancelled(true);
 				}
 			}
 		}
