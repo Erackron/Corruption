@@ -11,7 +11,7 @@ Message:
     ToPlayer: "&cSneaky {BOSSNAME} boss."
     ToOthers: "&cA {BOSSNAME} boss found {PLAYER}!"
   Proximity: "&4You feel an evil presence..."
-  ViewerMessage: '{BOSSNAME} Boss Health: {HEALT} (-{DAMAGE})'
+  ViewerMessage: '{BOSSNAME} Boss Health: {HEALTH} (-{DAMAGE})'
   ViewerDefeated: '{BOSSNAME} boss has been defeated.'
 Task:
   DrawBossEffect: 1.0
