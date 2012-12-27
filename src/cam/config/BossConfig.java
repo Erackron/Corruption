@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 
 import cam.Likeaboss;
 import cam.ability.Ability;
@@ -39,7 +40,7 @@ public class BossConfig extends BaseConfig {
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(bossName);
 			
 			if (configurationSection == null) {
-				Likeaboss.l.warning("[Likeaboss] '" + bossName + "' in bosses config file is invalid.");
+				Likeaboss.logger.warning("[Likeaboss] '" + bossName + "' in bosses config file is invalid.");
 				continue;
 			}
 			
@@ -47,7 +48,7 @@ public class BossConfig extends BaseConfig {
 			EntityType entityType = EntityType.fromName(entityTypeString);
 			
 			if (entityType == null) {
-				Likeaboss.l.warning("[Likeaboss] '" + entityTypeString + "' in bosses config file isn't a valid EntityType.");
+				Likeaboss.logger.warning("[Likeaboss] '" + entityTypeString + "' in bosses config file isn't a valid EntityType.");
 				continue;
 			}
 			
@@ -58,7 +59,8 @@ public class BossConfig extends BaseConfig {
 			if (!LoadStats(bossData, yamlConfig.getString(bossName + ".Stats"), bossName))
 				continue;
 			LoadAbilities(bossData, yamlConfig.getStringList(bossName + ".Ability"), bossName);
-			LoadLoots(bossData, yamlConfig.getConfigurationSection(bossName + ".Loot"), bossName);	
+			LoadLoots(bossData, yamlConfig.getConfigurationSection(bossName + ".Loot"), bossName);
+			loadEquipment(bossData, yamlConfig.getConfigurationSection(bossName + ".Equipment"), bossName);
 			
 			String [] bossNameS = bossName.split("_");
 			bossName = bossNameS[0];
@@ -71,7 +73,7 @@ public class BossConfig extends BaseConfig {
 	
 	private static boolean LoadSpawnValues(BossData bossData, String spawnString, String bossName) {
 		if (spawnString == null) {
-			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Spawn' in bosses config file is missing.");
+			Likeaboss.logger.warning("[Likeaboss] '" + bossName + ".Spawn' in bosses config file is missing.");
 			return false;
 		}
 		
@@ -83,7 +85,7 @@ public class BossConfig extends BaseConfig {
 		String[] spawnValues = spawnString.split(" ");
 		
 		if (spawnValues.length < 2) {
-			Likeaboss.l.warning("[Likeaboss] Missing values for '" + bossName + ".Spawn' in bosses config file");
+			Likeaboss.logger.warning("[Likeaboss] Missing values for '" + bossName + ".Spawn' in bosses config file");
 			return false;
 		} else if (spawnValues.length < 3){
 			String[] temp = new String[spawnValues.length + 1];
@@ -98,7 +100,7 @@ public class BossConfig extends BaseConfig {
 	
 	private static boolean LoadStats(BossData bossData, String statsString, String bossName) {
 		if (statsString == null) {
-			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Stats' in bosses config file is missing.");
+			Likeaboss.logger.warning("[Likeaboss] '" + bossName + ".Stats' in bosses config file is missing.");
 			return false;
 		}
 		
@@ -110,7 +112,7 @@ public class BossConfig extends BaseConfig {
 		String[] statsValues = statsString.split(" ");
 		
 		if (statsValues.length < 3) {
-			Likeaboss.l.warning("[Likeaboss] Missing values for '" + bossName + ".Stats' in bosses config file");
+			Likeaboss.logger.warning("[Likeaboss] Missing values for '" + bossName + ".Stats' in bosses config file");
 			return false;
 		}
 		
@@ -123,7 +125,7 @@ public class BossConfig extends BaseConfig {
 		
 		for (String abilityName : abilityNames) {
 			if (!abilities.containsKey(abilityName)) {
-				Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Ability." + abilityName + "' in bosses config file isn't a valid ability.");
+				Likeaboss.logger.warning("[Likeaboss] '" + bossName + ".Ability." + abilityName + "' in bosses config file isn't a valid ability.");
 				continue;
 			}
 			
@@ -133,7 +135,7 @@ public class BossConfig extends BaseConfig {
 	
 	private static void LoadLoots(BossData bossData, ConfigurationSection lootSection, String bossName) {
 		if (lootSection == null) {
-			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Loot" + "' in bosses config file is invalid.");
+			Likeaboss.logger.warning("[Likeaboss] '" + bossName + ".Loot" + "' in bosses config file is invalid.");
 			return;
 		}
 		
@@ -143,7 +145,7 @@ public class BossConfig extends BaseConfig {
 			ConfigurationSection rollSection = lootSection.getConfigurationSection(rollString);
 			
 			if (rollSection == null) {
-				Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Loot." + rollString + "' in bosses config file is invalid.");
+				Likeaboss.logger.warning("[Likeaboss] '" + bossName + ".Loot." + rollString + "' in bosses config file is invalid.");
 				continue;
 			}
 			
@@ -161,7 +163,7 @@ public class BossConfig extends BaseConfig {
 				String[] dropValues = dropString.split(" ");
 				
 				if (dropValues.length < 4) {
-					Likeaboss.l.warning("[Likeaboss] Missing values for '" + bossName + ".Loot." + rollString + "." + dropEntry.getKey() + "' in bosses config file.");
+					Likeaboss.logger.warning("[Likeaboss] Missing values for '" + bossName + ".Loot." + rollString + "." + dropEntry.getKey() + "' in bosses config file.");
 					continue;
 				}
 				
@@ -185,7 +187,60 @@ public class BossConfig extends BaseConfig {
 		}
 	}
 	
+	public static void loadEquipment(BossData data, ConfigurationSection equipmentSection, String bossName){
+		if (equipmentSection == null) {			
+			return;
+		}
+		String helmet = equipmentSection.getString("Helmet");
+		String chestplate = equipmentSection.getString("Chestplate");
+		String leggings = equipmentSection.getString("Leggings");
+		String boots = equipmentSection.getString("Boots");
+		
+		ItemStack helmetStack = null, chestplateStack = null, leggingsStack = null, bootsStack = null;
+		
+		if(helmet != null) helmetStack = getArmorItemStack(helmet , 1);
+		if(chestplate != null) chestplateStack = getArmorItemStack(chestplate , 2);
+		if(leggings != null) leggingsStack = getArmorItemStack(leggings , 3);
+		if(boots != null) bootsStack = getArmorItemStack(boots , 4);
+		
+		data.setEquipment(helmetStack, chestplateStack, leggingsStack, bootsStack, equipmentSection.getInt("Weapon"));
+		
+	}
+	
+	private static ItemStack getArmorItemStack(String material, int type){		
+		//1 = helmet, 2 = chestplate, 3 = leggings, 4 = boots		
+		switch(type){
+		case 1:
+			if(material.equals("leather")) return new ItemStack(298);
+			if(material.equals("chain")) return new ItemStack(302);
+			if(material.equals("iron")) return new ItemStack(306);
+			if(material.equals("gold")) return new ItemStack(314);
+			if(material.equals("diamond")) return new ItemStack(310);
+		case 2:
+			if(material.equals("leather")) return new ItemStack(299);
+			if(material.equals("chain")) return new ItemStack(303);
+			if(material.equals("iron")) return new ItemStack(307);
+			if(material.equals("gold")) return new ItemStack(315);
+			if(material.equals("diamond")) return new ItemStack(311);
+		case 3:
+			if(material.equals("leather")) return new ItemStack(300);
+			if(material.equals("chain")) return new ItemStack(304);
+			if(material.equals("iron")) return new ItemStack(308);
+			if(material.equals("gold")) return new ItemStack(316);
+			if(material.equals("diamond")) return new ItemStack(312);
+		case 4:
+			if(material.equals("leather")) return new ItemStack(299);
+			if(material.equals("chain")) return new ItemStack(303);
+			if(material.equals("iron")) return new ItemStack(307);
+			if(material.equals("gold")) return new ItemStack(315);
+			if(material.equals("diamond")) return new ItemStack(311);
+		default:
+			return null;
+		}
+	}
+	
 	public static Map<String, BossData> getBossesData() {
 		return bossesData;
-	}
+	}	
 }
+

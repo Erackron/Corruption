@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 
 import cam.ability.Ability;
 import cam.drop.Roll;
@@ -13,6 +14,8 @@ public class BossData {
 	private List<Roll> rolls = new ArrayList<Roll>();
 	private String name;
 	private EntityType entityType;
+	private ItemStack[] armor;
+	private ItemStack weapon;
 	private double chance;
 	private double chanceFromSpawner;
 	private double healthCoef;
@@ -63,7 +66,7 @@ public class BossData {
 	
 	public double getDamageCoef() {
 		return damageCoef;
-	}
+	}	
 	
 	public double getExpCoef() {
 		return expCoef;
@@ -71,6 +74,14 @@ public class BossData {
 	
 	public double getMaxSpawnLevel(){
 		return maxSpawnLevel;
+	}
+	
+	public ItemStack[] getArmor(){
+		return armor;
+	}
+	
+	public ItemStack getWeapon(){
+		return weapon;
 	}
 	
 	public void setSpawnData(double chance, double chanceFromSpawner, double maxSpawnLevel) {
@@ -83,5 +94,11 @@ public class BossData {
 		this.healthCoef = healthCoef;
 		this.damageCoef = damageCoef;
 		this.expCoef = expCoef;
+	}
+	
+	public void setEquipment(ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, int weapon){
+		ItemStack[] eq = {boots, leggings, chestplate, helmet};
+		armor = eq;
+		this.weapon = new ItemStack(weapon);
 	}
 }
