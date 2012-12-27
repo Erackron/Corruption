@@ -51,13 +51,8 @@ public class Boss extends LabEntity {
 	private void addArmor(ItemStack[] armor, ItemStack weapon){
 		switch(livingEntity.getType()){
 		case PIG_ZOMBIE:
-			livingEntity.getEquipment().setArmorContents(armor);
-			livingEntity.getEquipment().setItemInHand(weapon);
-			break;
 		case SKELETON:
-			livingEntity.getEquipment().setArmorContents(armor);			
-			livingEntity.getEquipment().setItemInHand(weapon);
-			break;
+			if(weapon==null) weapon = new ItemStack(261);
 		case ZOMBIE:
 			livingEntity.getEquipment().setArmorContents(armor);
 			livingEntity.getEquipment().setItemInHand(weapon);
