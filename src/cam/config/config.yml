@@ -35,5 +35,8 @@ Boss:
     Drowning: true
     Lightning: false
     Suffocation: true
+    
+    # This is the immunity for PotionEffects!
     Magic: false
+    
     Poison: false
