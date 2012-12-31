@@ -1,18 +1,23 @@
 package com.mcdr.likeaboss;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.logging.Logger;
 
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import com.mcdr.likeaboss.LabMetrics.Graph;
 import com.mcdr.likeaboss.command.CommandManager;
+import com.mcdr.likeaboss.config.BossConfig;
 import com.mcdr.likeaboss.config.ConfigManager;
+import com.mcdr.likeaboss.entity.LabEntityManager;
 import com.mcdr.likeaboss.listener.LabEntityListener;
 import com.mcdr.likeaboss.listener.LabMagicSpellsListener;
 import com.mcdr.likeaboss.listener.LabPlayerListener;
@@ -55,6 +60,19 @@ public class Likeaboss extends JavaPlugin {
 		
 		try {
 		    LabMetrics metrics = new LabMetrics(this);
+		    
+		    Graph graph = metrics.createGraph("Active bosses");
+		    for(final EntityType type : BossConfig.getEntityTypesUsed()){
+		    	
+			    graph.addPlotter(new LabMetrics.Plotter(type.getName()){		    
+						
+					@Override
+					public int getValue() {
+						return Collections.frequency(LabEntityManager.getBossEntityTypes(), type);
+					}
+				});
+		    	
+		    }
 		    if(metrics.start())
 		    	l.info("["+getName()+"] Sending metrics data");
 		    else

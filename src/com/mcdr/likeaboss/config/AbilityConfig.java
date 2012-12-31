@@ -13,6 +13,7 @@ import com.mcdr.likeaboss.ability.ArmorPierce;
 import com.mcdr.likeaboss.ability.Bomb;
 import com.mcdr.likeaboss.ability.FirePunch;
 import com.mcdr.likeaboss.ability.Knockback;
+import com.mcdr.likeaboss.ability.LightningAura;
 import com.mcdr.likeaboss.ability.Potion;
 import com.mcdr.likeaboss.ability.Ability.AbilityType;
 
@@ -181,6 +182,29 @@ public abstract class AbilityConfig extends BaseConfig {
 			case UNKNOWN:
 				Likeaboss.l.warning("[Likeaboss] '" + entryValue + "' in abilities config file isn't a valid ability.");
 				continue;
+			case LIGHTNINGAURA:
+				LightningAura aura = new LightningAura();
+				
+				entryKey = "Message";
+				if (abilityEntries.containsKey(entryKey))
+					aura.setMessage((String) abilityEntries.get(entryKey));
+				
+				entryKey = "Cooldown";
+				if (abilityEntries.containsKey(entryKey))
+					aura.setCooldown((Double) abilityEntries.get(entryKey));
+				
+				entryKey = "Radius";
+				if (abilityEntries.containsKey(entryKey))
+					aura.setRadius((float)((Integer)abilityEntries.get(entryKey)));
+				
+				entryKey = "Probability";
+				if (abilityEntries.containsKey(entryKey))
+					aura.setChance((Double) abilityEntries.get(entryKey));
+				
+				abilities.put(abilityName, aura);
+				break;
+			default:
+				break;
 			}
 		}
 	}

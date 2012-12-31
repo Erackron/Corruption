@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
 public abstract class LabEntityManager {
 	private static List<Boss> bosses = new ArrayList<Boss>();
+	private static List<EntityType> bossEntityTypes = new ArrayList<EntityType>();
 	
 	public static void AddBoss(Boss boss) {
 		bosses.add(boss);
@@ -42,6 +44,12 @@ public abstract class LabEntityManager {
 	
 	public static List<Boss> getBosses() {
 		return bosses;
+	}
+	
+	public static List<EntityType> getBossEntityTypes(){
+		for(Boss boss : bosses)
+			bossEntityTypes.add(boss.getLivingEntity().getType());
+		return bossEntityTypes;
 	}
 	
 	public static LabEntity getEntity(LivingEntity livingEntity) {

@@ -28,7 +28,8 @@ public abstract class Ability {
 		KNOCKBACK,
 		POTION,
 		UNKNOWN,
-		BOMB;
+		BOMB,
+		LIGHTNINGAURA;
 		
 		public static AbilityType FromString(String string) {
 			for (AbilityType abilityType : AbilityType.values()) {

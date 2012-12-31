@@ -2,6 +2,7 @@ package com.mcdr.likeaboss.config;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,6 +22,7 @@ import com.mcdr.likeaboss.entity.BossData;
 
 public class BossConfig extends BaseConfig {
 	private static Map<String, BossData> bossesData = new HashMap<String, BossData>();
+	private static Set<EntityType> usedBossEntityTypes;
 	
 	public static void Load() {
 		File file = LoadFile("plugins/Likeaboss/bosses.yml", "cam/config/bosses.yml");
@@ -35,6 +37,7 @@ public class BossConfig extends BaseConfig {
 	
 	private static void LoadBosses(YamlConfiguration yamlConfig) {
 		Set<String> bossNames = yamlConfig.getKeys(false);
+		usedBossEntityTypes = new HashSet<EntityType>();
 
 		for (String bossName : bossNames) {
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(bossName);
@@ -51,6 +54,8 @@ public class BossConfig extends BaseConfig {
 				Likeaboss.l.warning("[Likeaboss] '" + entityTypeString + "' in bosses config file isn't a valid EntityType.");
 				continue;
 			}
+			
+			usedBossEntityTypes.add(entityType);
 			
 			BossData bossData = new BossData(bossName, entityType);
 
@@ -199,6 +204,10 @@ public class BossConfig extends BaseConfig {
 	
 	public static Map<String, BossData> getBossesData() {
 		return bossesData;
-	}	
+	}
+	
+	public static Set<EntityType> getEntityTypesUsed(){
+		return usedBossEntityTypes;
+	}
 }
 

@@ -29,3 +29,9 @@ B2:
   Cooldown: 7.5
   Fuse: 80
   Radius: 3
+LA10:
+  Type: LightningAura
+  Message: "&4{BOSSNAME} Boss struck his enemies by lightning"
+  Probability: 5.0
+  Cooldown: 10.0
+  Radius: 10
