@@ -9,8 +9,8 @@ public abstract class ConfigManager {
 	public static void Load() {
 		GlobalConfig.Load();
 		AbilityConfig.Load();
-		BossConfig.Load();
 		EquipmentConfig.Load();
+		BossConfig.Load();
 		
 		if(Likeaboss.msInstalled){
 			MagicSpellsConfig.Load();
