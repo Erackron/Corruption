@@ -1,5 +1,6 @@
 package com.mcdr.likeaboss.entity;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -114,7 +115,7 @@ public class EquipmentSet {
 			item.setDurability((short)itemData[2][0]);
 		
 		if(enchantments[0]!=null){
-			int enchAmount = enchantments[0].length;
+			int enchAmount = enchantments.length;
 			for(int i = 0; i < enchAmount; i++){
 				if(enchantments[i][0]>0 && enchantments[i][1]>0)
 					item.addUnsafeEnchantment(Enchantment.getById(enchantments[i][0]), enchantments[i][1]);
@@ -172,7 +173,7 @@ public class EquipmentSet {
 			return empty;
 		}
 		
-		List<Integer[]> entries = new LinkedList<Integer[]>();
+		ArrayList<Integer[]> entries = new ArrayList<Integer[]>();
 		int amount = data[5].length;
 		
 		for(int i = 0; i < amount; i++){
@@ -183,11 +184,14 @@ public class EquipmentSet {
 		}
 		
 		int size = entries.size();
-		int[][] output = new int[2][size];
-		for(int i = 0; i < 2; i++)
-			for(int j = 0; j < size; j++)
-				output[i][j] = (int)entries.get(i)[j];
-		return output;
+		if(size>0){
+			int[][] output = new int[size][2];
+			for(int i = 0; i < size; i++)
+				for(int j = 0; j < 2; j++)
+					output[i][j] = (int)entries.get(i)[j];
+			return output;
+		} else
+			return empty;
 	}
 	
 	/**

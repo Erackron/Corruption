@@ -1,5 +1,6 @@
 package com.mcdr.likeaboss.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map.Entry;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
 import com.mcdr.likeaboss.ability.Ability;
@@ -118,8 +120,21 @@ public class Boss extends LabEntity {
 		
 		//Update drops and exp
 		List<ItemStack> originalDrops = event.getDrops();
-		if (BossParam.OVERWRITE_DROPS.getValue())
-			originalDrops.clear();
+		if (BossParam.OVERWRITE_DROPS.getValue()){
+			if(getBossData().hasEquipment()){
+				EntityEquipment equips = event.getEntity().getEquipment();
+				ArrayList<ItemStack> items = new ArrayList<ItemStack>();
+				items.add(equips.getHelmet());
+				items.add(equips.getChestplate());
+				items.add(equips.getLeggings());
+				items.add(equips.getBoots());
+				items.add(equips.getItemInHand());
+				originalDrops.retainAll(items);
+			} else 
+				originalDrops.clear();
+			
+		}
+		
 		originalDrops.addAll(drops);
 		event.setDroppedExp(exp);
 		
