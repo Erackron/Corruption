@@ -104,9 +104,4 @@ Zombie:
   Loot:
     FirstRoll:
       FirstItem: 288:0 20.0 1 3
-  Equipment:
-    Helmet: diamond
-    Chestplate: diamond
-    Leggings: diamond
-    Boots: diamond
-    Weapon: 276
+  EquipmentSet: "diamond"
