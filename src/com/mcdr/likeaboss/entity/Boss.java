@@ -34,7 +34,8 @@ public class Boss extends LabEntity {
 		health = (int) (livingEntity.getMaxHealth() * bossData.getHealthCoef());
 		
 		AddAbilities();
-		addArmor(this.bossData.getArmor(), this.bossData.getWeapon());
+		if(bossData.hasEquipment())
+			bossData.setRandomEquipment(livingEntity);
 	}
 	
 	private void AddAbilities() {
@@ -47,21 +48,6 @@ public class Boss extends LabEntity {
 			//if (Utility.random.nextInt(100) < ability.getChance())
 				abilities.put(ability, true);
 		}
-	}
-	
-	private void addArmor(ItemStack[] armor, ItemStack weapon){
-		switch(livingEntity.getType()){
-		case PIG_ZOMBIE:
-		case SKELETON:
-			if(weapon==null) weapon = new ItemStack(261);
-		case ZOMBIE:
-			livingEntity.getEquipment().setArmorContents(armor);
-			livingEntity.getEquipment().setItemInHand(weapon);
-			break;
-		default:
-			break;		
-		}
-				
 	}
 	
 	public void ActivateAbilities(EntityDamageEvent event, LivingEntity livingEntity, ActivationCondition activationCondition) {

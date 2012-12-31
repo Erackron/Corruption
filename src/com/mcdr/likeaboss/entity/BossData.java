@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
-
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.EntityEquipment;
 import com.mcdr.likeaboss.ability.Ability;
 import com.mcdr.likeaboss.drop.Roll;
 
@@ -15,8 +15,7 @@ public class BossData {
 	private List<Roll> rolls = new ArrayList<Roll>();
 	private String name;
 	private EntityType entityType;
-	private ItemStack[] armor;
-	private ItemStack weapon;
+	private EquipmentSet bossEquipment = null;
 	private double chance;
 	private double chanceFromSpawner;
 	private double healthCoef;
@@ -77,14 +76,6 @@ public class BossData {
 		return maxSpawnLevel;
 	}
 	
-	public ItemStack[] getArmor(){
-		return armor;
-	}
-	
-	public ItemStack getWeapon(){
-		return weapon;
-	}
-	
 	public void setSpawnData(double chance, double chanceFromSpawner, double maxSpawnLevel) {
 		this.chance = chance;
 		this.chanceFromSpawner = chanceFromSpawner;
@@ -97,9 +88,15 @@ public class BossData {
 		this.expCoef = expCoef;
 	}
 	
-	public void setEquipment(ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, int weapon){
-		ItemStack[] eq = {boots, leggings, chestplate, helmet};
-		armor = eq;
-		this.weapon = new ItemStack(weapon);
+	public void setEquipment(EquipmentSet eqS){
+		bossEquipment = eqS;
+	}
+	
+	public boolean hasEquipment(){
+		return bossEquipment!=null;
+	}
+	
+	public EntityEquipment setRandomEquipment(LivingEntity e){
+		return bossEquipment.setRandomEquipment(e);
 	}
 }

@@ -11,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
 
 import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.ability.Ability;
@@ -61,12 +60,12 @@ public class BossConfig extends BaseConfig {
 				continue;
 			LoadAbilities(bossData, yamlConfig.getStringList(bossName + ".Ability"), bossName);
 			LoadLoots(bossData, yamlConfig.getConfigurationSection(bossName + ".Loot"), bossName);
-			loadEquipment(bossData, yamlConfig.getConfigurationSection(bossName + ".Equipment"), bossName);
+			LoadEquipment(bossData, yamlConfig.getConfigurationSection(bossName));
 			
 			String [] bossNameS = bossName.split("_");
 			bossName = bossNameS[0];
 			for(int i = 1;i<bossNameS.length;i++){
-				bossName += " "+bossNameS[i]; 
+				bossName += " "+bossNameS[i];
 			}
 			bossesData.put(bossName, bossData);
 		}
@@ -188,49 +187,14 @@ public class BossConfig extends BaseConfig {
 		}
 	}
 	
-	public static void loadEquipment(BossData data, ConfigurationSection equipmentSection, String bossName){
-		if (equipmentSection == null) {			
+	public static void LoadEquipment(BossData bossData, ConfigurationSection section){
+		String equipmentSetName = section.getString("EquipmentSet");
+		if(equipmentSetName == null)
 			return;
-		}
-		String helmet = equipmentSection.getString("Helmet");
-		String chestplate = equipmentSection.getString("Chestplate");
-		String leggings = equipmentSection.getString("Leggings");
-		String boots = equipmentSection.getString("Boots");
-		
-		data.setEquipment(getArmorItemStack(helmet , 1), getArmorItemStack(chestplate , 2), getArmorItemStack(leggings , 3), getArmorItemStack(boots , 4), equipmentSection.getInt("Weapon"));		
-	}
-	
-	private static ItemStack getArmorItemStack(String material, int type){
-		if(material == null) return null;
-		//1 = helmet, 2 = chestplate, 3 = leggings, 4 = boots		
-		switch(type){
-		case 1:
-			if(material.equals("leather")) return new ItemStack(298);
-			if(material.equals("chain")) return new ItemStack(302);
-			if(material.equals("iron")) return new ItemStack(306);
-			if(material.equals("gold")) return new ItemStack(314);
-			if(material.equals("diamond")) return new ItemStack(310);
-		case 2:
-			if(material.equals("leather")) return new ItemStack(299);
-			if(material.equals("chain")) return new ItemStack(303);
-			if(material.equals("iron")) return new ItemStack(307);
-			if(material.equals("gold")) return new ItemStack(315);
-			if(material.equals("diamond")) return new ItemStack(311);
-		case 3:
-			if(material.equals("leather")) return new ItemStack(300);
-			if(material.equals("chain")) return new ItemStack(304);
-			if(material.equals("iron")) return new ItemStack(308);
-			if(material.equals("gold")) return new ItemStack(316);
-			if(material.equals("diamond")) return new ItemStack(312);
-		case 4:
-			if(material.equals("leather")) return new ItemStack(299);
-			if(material.equals("chain")) return new ItemStack(303);
-			if(material.equals("iron")) return new ItemStack(307);
-			if(material.equals("gold")) return new ItemStack(315);
-			if(material.equals("diamond")) return new ItemStack(311);
-		default:
-			return null;
-		}
+		if(EquipmentConfig.equipmentSets.containsKey(equipmentSetName))
+			bossData.setEquipment(EquipmentConfig.equipmentSets.get(equipmentSetName));
+		else
+			Likeaboss.l.warning("[Likeaboss] '" + section.getName() + ".EquipmentSet' in bosses config file is invalid or doesn't exist.");
 	}
 	
 	public static Map<String, BossData> getBossesData() {
