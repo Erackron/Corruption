@@ -176,7 +176,7 @@ public class EquipmentSet {
 		int amount = data[5].length;
 		
 		for(int i = 0; i < amount; i++){
-			if(Utility.Random(0, data[6][i])<=data[6][i]){
+			if(Utility.Random(0, 100)<=data[6][i]){
 				Integer[] temp = {data[5][i], data[7][i]};
 				entries.add(temp);
 			}
