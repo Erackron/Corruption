@@ -1,0 +1,42 @@
+Command:
+  Ignore:
+    Delay: 120
+  Spawn:
+    Max: 50
+Message:
+  PlayerFoundBoss:
+    ToPlayer: "&cOh noes, that's a {BOSSNAME} boss!"
+    ToOthers: "&c{PLAYER} found a {BOSSNAME} boss!"
+  BossFoundPlayer:
+    ToPlayer: "&cSneaky {BOSSNAME} boss."
+    ToOthers: "&cA {BOSSNAME} boss found {PLAYER}!"
+  Proximity: "&4You feel an evil presence..."
+  ViewerMessage: '{BOSSNAME} Boss Health: {HEALTH} (-{DAMAGE})'
+  ViewerDefeated: '{BOSSNAME} boss has been defeated.'
+Task:
+  DrawBossEffect: 1.0
+  CheckEntityProximity: 0.5
+  CheckEntityHealth: 2.0
+  CheckEntityExistence: 5.0
+  SavePlayerData: 600.0
+Boss:
+  OverwriteDrops: false
+  Immunity:
+    Attack: false
+    Projectile : false
+    BlockExplosion: false
+    EntityExplosion: false
+    Fire: true
+    Lava: true
+    EnchantFireTick: false
+    EnvironmentalFireTick: true
+    Fall: true
+    Contact: true
+    Drowning: true
+    Lightning: false
+    Suffocation: true
+    
+    # This is the immunity for PotionEffects!
+    Magic: false
+    
+    Poison: false
