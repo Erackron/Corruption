@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/com/mcdr/likeaboss/command/ReloadCommand.java
 package com.mcdr.likeaboss.command;
 
 import org.bukkit.ChatColor;
@@ -18,24 +17,3 @@ public abstract class ReloadCommand extends BaseCommand {
 		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Reloaded");
 	}
 }
-=======
-package com.mcdr.likeaboss.command;
-
-import org.bukkit.ChatColor;
-
-import com.mcdr.likeaboss.config.ConfigManager;
-import com.mcdr.likeaboss.task.TaskManager;
-
-
-public abstract class ReloadCommand extends BaseCommand {
-	public static void Process() {
-		if (!CheckPermission("lab.reload", true))
-			return;
-		
-		ConfigManager.Load();
-		TaskManager.Restart();
-		
-		sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Reloaded");
-	}
-}
->>>>>>> origin/EquipmentExpansion:src/com/mcdr/likeaboss/command/ReloadCommand.java
