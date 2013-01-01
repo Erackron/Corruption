@@ -5,19 +5,19 @@ Command:
     Max: 50
 Message:
   PlayerFoundBoss:
-    ToPlayer: "&cOh noes, that's a {BOSSNAME} boss!"
-    ToOthers: "&c{PLAYER} found a {BOSSNAME} boss!"
+    ToPlayer: "&cYou attacked a Corrupted {BOSSNAME} boss!"
+    ToOthers: "&c{PLAYER} found a Corrupted {BOSSNAME}!"
   BossFoundPlayer:
-    ToPlayer: "&cSneaky {BOSSNAME} boss."
-    ToOthers: "&cA {BOSSNAME} boss found {PLAYER}!"
+    ToPlayer: "&cA Corrupted {BOSSNAME}!"
+    ToOthers: "&cA Corrupted {BOSSNAME} found {PLAYER}!"
   Proximity: "&4You feel an evil presence..."
-  ViewerMessage: '{BOSSNAME} Boss Health: {HEALTH} (-{DAMAGE})'
-  ViewerDefeated: '{BOSSNAME} boss has been defeated.'
+  ViewerMessage: 'Corrupted {BOSSNAME} Health: {HEALTH} (-{DAMAGE})'
+  ViewerDefeated: 'Corrupted {BOSSNAME} has been defeated.'
 Task:
   DrawBossEffect: 1.0
   CheckEntityProximity: 0.5
   CheckEntityHealth: 2.0
-  CheckEntityExistence: 5.0
+  CheckEntityExistence: 2.0
   SavePlayerData: 600.0
 Boss:
   OverwriteDrops: false

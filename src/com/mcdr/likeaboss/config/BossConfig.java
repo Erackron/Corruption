@@ -25,7 +25,7 @@ public class BossConfig extends BaseConfig {
 	private static Set<EntityType> usedBossEntityTypes;
 	
 	public static void Load() {
-		File file = LoadFile("plugins/Likeaboss/bosses.yml", "cam/config/bosses.yml");
+		File file = LoadFile("plugins/Likeaboss/bosses.yml", "com/mcdr/likeaboss/config/bosses.yml");
 		
 		if (file == null)
 			return;

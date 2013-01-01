@@ -12,8 +12,15 @@ import com.mcdr.likeaboss.Utility;
 
 public class EquipmentSet {
 
-	private String name;
-	private int[][][] helmetsData, chestplatesData, leggingsData, bootsData, weaponsData;
+	private String name = "empty";
+	private int[][][] helmetsData, chestplatesData, leggingsData, bootsData, weaponsData, empty = {{{0},{0},{0},{0},{0},{0},{0},{0}}};
+	
+	/**
+	 * Empty EquipmentSet
+	 */
+	public EquipmentSet(){
+		helmetsData = chestplatesData = leggingsData = bootsData = weaponsData = empty;
+	}
 	
 	public EquipmentSet(int[][][] helmets, int[][][] chestplates, int[][][] leggings, int[][][] boots, int[][][] weapons, String setName){
 		helmetsData = helmets;
@@ -57,26 +64,28 @@ public class EquipmentSet {
 				bootsEnch = getRandomEnchantments(boots),
 				weapon = getRandomEntry(weaponsData),
 				weaponEnch = getRandomEnchantments(weapon);
-		ItemStack[] armor = {processEquipment(helmet, helmetEnch),processEquipment(chestplate, chestplateEnch),processEquipment(leggings, leggingsEnch), processEquipment(boots,bootsEnch)};
+		ItemStack[] armor = {processEquipment(boots,bootsEnch),processEquipment(leggings, leggingsEnch),processEquipment(chestplate, chestplateEnch),processEquipment(helmet, helmetEnch)};
 		ItemStack weaponI = processEquipment(weapon, weaponEnch);
 		
 		// Set default weapon if none is present
-		switch(le.getType()){
-			case PIG_ZOMBIE:
-				if(weaponI==null) weaponI = new ItemStack(283);
-				break;
-			case SKELETON:
-				switch(((Skeleton) le).getSkeletonType()){
-				case NORMAL:
-					if(weaponI==null) weaponI = new ItemStack(261);
+		if(weaponI==null){
+			switch(le.getType()){
+				case PIG_ZOMBIE:
+					weaponI = new ItemStack(283);
 					break;
-				case WITHER:
-					if(weaponI==null) weaponI = new ItemStack(272);
-					break;				
-				}			
-				break;
-			default:
-				break;		
+				case SKELETON:
+					switch(((Skeleton) le).getSkeletonType()){
+					case NORMAL:
+						weaponI = new ItemStack(261);
+						break;
+					case WITHER:
+						weaponI = new ItemStack(272);
+						break;				
+					}			
+					break;
+				default:
+					break;	
+			}
 		}
 		
 		// Apply the weapon/armour to the LivingEntity
@@ -84,18 +93,16 @@ public class EquipmentSet {
 		eq.setItemInHand(weaponI);
 		
 		// Set the drop chances if applicable
-		if(helmet[4][0]>0)
+		if(armor[0]!=null && helmet[4][0]>0)
 			eq.setHelmetDropChance((float)(helmet[4][0]/100));
-		if(chestplate[4][0]>0)
+		if(armor[1]!=null && chestplate[4][0]>0)
 			eq.setChestplateDropChance((float)(chestplate[4][0]/100));
-		if(leggings[4][0]>0)
+		if(armor[2]!=null && leggings[4][0]>0)
 			eq.setLeggingsDropChance((float)(leggings[4][0]/100));
-		if(boots[4][0]>0)
+		if(armor[3]!=null && boots[4][0]>0)
 			eq.setBootsDropChance((float)(boots[4][0]/100));
-		if(weapon[4][0]>0)
+		if(weaponI!=null && weapon[4][0]>0)
 			eq.setItemInHandDropChance((float)(weapon[4][0]/100));
-		
-		
 		
 		//Return the EntityEquipment object for manual changes
 		return eq;
@@ -150,20 +157,19 @@ public class EquipmentSet {
 	 * @return the index of the randomly chosen entry
 	 */
 	public int[][] getRandomEntry(int[][][] data){
-		int maxChance = getMaxChance(data);
-		if(maxChance<=0){
-			int[][] empty = {{0}};
-			return empty;
-		}
-			
-		int random = Utility.Random(0, maxChance);
-		int	curChance = 0, curEntry = 0;
+		int maxChance = getMaxChance(data);	
+		if(maxChance<=0)
+			return empty[0];
+		
+		int	curChance = 0, curEntry = 0, random = (maxChance<100)?Utility.Random(0, 100):Utility.Random(0, maxChance);
 		for(int[][] tempData: data){
 			curChance += tempData[1][0];
 			if(random <= curChance)
 				break;
 			curEntry++;
 		}
+		if(random > curChance)
+			return empty[0];
 		return data[curEntry];
 	}
 	

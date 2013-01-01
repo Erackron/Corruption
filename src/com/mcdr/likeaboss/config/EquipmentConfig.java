@@ -68,7 +68,7 @@ public class EquipmentConfig extends BaseConfig {
 		// Process all the different items
 		for(String equip: equipment){
 			eSPath = equipSectionPath+equip;
-			// Check if the config section acutally exists
+			// Check if the config section actually exists
 			if (yamlConfig.getConfigurationSection(eSPath) == null) {
 				Likeaboss.l.warning("[Likeaboss] '" + equipSection.getCurrentPath() + equip + "' in the equipment config file is invalid.");
 				continue;
@@ -84,11 +84,11 @@ public class EquipmentConfig extends BaseConfig {
 			dropProb = yamlConfig.getInt(eSPath+".DropProbability");
 			
 			// Actual sanity checks
-			if(itemId<=0){
+			if(itemId<0){
 				Likeaboss.l.warning("[Likeaboss] '" + eSPath + ".ItemId' in the equipment config file is invalid.");
 				continue;
 			}
-			if(prob<=0 || prob>100){
+			if(prob<=0){
 				Likeaboss.l.warning("[Likeaboss] '" + eSPath + ".Probability' in the equipment config file is invalid.");
 				continue;
 			}
@@ -111,7 +111,7 @@ public class EquipmentConfig extends BaseConfig {
 			probabilities[i] = yamlConfig.getInt(eSPath+".Probability");
 			itemData[i] = yamlConfig.getInt(eSPath+".ItemData");
 			durability[i] = yamlConfig.getInt(eSPath+".ItemDurability");
-			dropChances[i]= yamlConfig.getInt(eSPath+".DropProbability");
+			dropChances[i] = yamlConfig.getInt(eSPath+".DropProbability");
 			
 			// And now for the enchantments
 			eSPath += ".Enchantments";

@@ -16,7 +16,7 @@ public class MagicSpellsConfig extends BaseConfig {
 	public static String castFailMsg;
 
 	public static void Load(){
-		File file = LoadFile("plugins/Likeaboss/magicspells.yml", "cam/config/magicspells.yml");
+		File file = LoadFile("plugins/Likeaboss/magicspells.yml", "com/mcdr/likeaboss/config/magicspells.yml");
 		
 		if (file == null)
 			return;
