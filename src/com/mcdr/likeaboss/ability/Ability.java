@@ -27,9 +27,9 @@ public abstract class Ability {
 		FIREPUNCH,
 		KNOCKBACK,
 		POTION,
-		UNKNOWN,
 		BOMB,
-		LIGHTNINGAURA;
+		LIGHTNINGAURA,
+		UNKNOWN;
 		
 		public static AbilityType FromString(String string) {
 			for (AbilityType abilityType : AbilityType.values()) {

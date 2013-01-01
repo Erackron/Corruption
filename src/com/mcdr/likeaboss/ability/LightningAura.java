@@ -1,35 +1,49 @@
 package com.mcdr.likeaboss.ability;
 
-import java.util.List;
-
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
+import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import com.mcdr.likeaboss.Utility;
 import com.mcdr.likeaboss.entity.Boss;
+import com.mcdr.likeaboss.player.LabPlayer;
+import com.mcdr.likeaboss.player.LabPlayerManager;
 
 public class LightningAura extends Ability{
-	private float radius;
+	private int radius;
+	private int damage;
 
 	public LightningAura() {
 		activationConditions.add(ActivationCondition.ONATTACK);
-		activationConditions.add(ActivationCondition.ONDEFENSE);
 	}
 	
-	public void setRadius(float radius){
+	public void setRadius(int radius){
 		this.radius = radius;
 	}
 	
+	public void setDamage(int damage){
+		this.damage = damage;
+	}
+	
 	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss){
-		if(checkChance()){
-			List<Entity> entitylist = livingEntity.getNearbyEntities(radius, radius, radius);
-			for(Entity e : entitylist){
-				if(e.getType() == EntityType.PLAYER){
-					livingEntity.getWorld().strikeLightning(e.getLocation());
+		if(checkChance()){			
+			for (LabPlayer labPlayer : LabPlayerManager.getLabPlayers()) {
+				Player player = labPlayer.getPlayer();
+				World world = player.getWorld();
+				
+				if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, radius)) {
+					sendMessage(boss, livingEntity);
+					world.strikeLightningEffect(player.getLocation());
+					
+					if(damage >= player.getHealth()){
+						player.setHealth(0);
+					}
+					else{
+						player.setHealth(player.getHealth() - damage);
+					}				
 				}
 			}
 		}
 	}
-
 }

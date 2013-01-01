@@ -179,9 +179,6 @@ public abstract class AbilityConfig extends BaseConfig {
 				abilities.put(abilityName, bomb);
 				break;
 				
-			case UNKNOWN:
-				Likeaboss.l.warning("[Likeaboss] '" + entryValue + "' in abilities config file isn't a valid ability.");
-				continue;
 			case LIGHTNINGAURA:
 				LightningAura aura = new LightningAura();
 				
@@ -195,7 +192,11 @@ public abstract class AbilityConfig extends BaseConfig {
 				
 				entryKey = "Radius";
 				if (abilityEntries.containsKey(entryKey))
-					aura.setRadius((float)((Integer)abilityEntries.get(entryKey)));
+					aura.setRadius((Integer) abilityEntries.get(entryKey));
+				
+				entryKey = "Damage";
+				if(abilityEntries.containsKey(entryKey))
+					aura.setDamage((Integer) abilityEntries.get(entryKey));
 				
 				entryKey = "Probability";
 				if (abilityEntries.containsKey(entryKey))
@@ -203,6 +204,10 @@ public abstract class AbilityConfig extends BaseConfig {
 				
 				abilities.put(abilityName, aura);
 				break;
+				
+			case UNKNOWN:
+				Likeaboss.l.warning("[Likeaboss] '" + entryValue + "' in abilities config file isn't a valid ability.");
+				continue;			
 			default:
 				break;
 			}
