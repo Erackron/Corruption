@@ -1,11 +1,9 @@
 package com.mcdr.likeaboss.entity;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -68,7 +66,14 @@ public class EquipmentSet {
 				if(weaponI==null) weaponI = new ItemStack(283);
 				break;
 			case SKELETON:
-				if(weaponI==null) weaponI = new ItemStack(261);
+				switch(((Skeleton) le).getSkeletonType()){
+				case NORMAL:
+					if(weaponI==null) weaponI = new ItemStack(261);
+					break;
+				case WITHER:
+					if(weaponI==null) weaponI = new ItemStack(272);
+					break;				
+				}			
 				break;
 			default:
 				break;		
