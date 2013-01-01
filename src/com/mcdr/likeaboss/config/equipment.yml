@@ -3,7 +3,7 @@
     "diamond_helmet":
       Enabled: true
       ItemId: 310
-      Probability: 100
+      Probability: 50
       ItemData: 0
       ItemDurability: 0
       DropProbability: 50
@@ -27,7 +27,7 @@
     "diamond_boots":
       Enabled: true
       ItemId: 313
-      Probability: 100
+      Probability: 50
       ItemData: 0
       ItemDurability: 0
       DropProbability: 50

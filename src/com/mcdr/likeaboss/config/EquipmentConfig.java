@@ -63,10 +63,11 @@ public class EquipmentConfig extends BaseConfig {
 		Enchantment ench;
 		int chance, lvl, enchAmount;
 		// The counters
-		int i = -1, j = -1;
+		int i = -1, j;
 		
 		// Process all the different items
 		for(String equip: equipment){
+			j = -1;
 			eSPath = equipSectionPath+equip;
 			// Check if the config section actually exists
 			if (yamlConfig.getConfigurationSection(eSPath) == null) {

@@ -101,7 +101,7 @@ Zombie:
   Spawn: 3.0 1.0
   Stats: 5.5 2.0 8.0
   Ability:
+  EquipmentSet: "diamond"
   Loot:
     FirstRoll:
       FirstItem: 288:0 20.0 1 3
-  EquipmentSet: "diamond"
