@@ -20,7 +20,7 @@ import com.mcdr.likeaboss.ability.Ability.AbilityType;
 public abstract class AbilityConfig extends BaseConfig {
 	private static Map<String, Ability> abilities = new HashMap<String, Ability>();
 	public static void Load() {
-		File file = LoadFile("plugins/Likeaboss/abilities.yml", "com/mcdr/likeaboss/abilities.yml");
+		File file = LoadFile("plugins/Likeaboss/abilities.yml", "com/mcdr/likeaboss/config/abilities.yml");
 		
 		if (file == null)
 			return;
