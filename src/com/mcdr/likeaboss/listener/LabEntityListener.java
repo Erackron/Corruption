@@ -192,7 +192,7 @@ public class LabEntityListener implements Listener {
 			int damage = event.getDamage();
 			
 			switch (event.getCause()) {
-			case ENTITY_ATTACK:
+			case ENTITY_ATTACK:				
 				if (BossParam.ATTACK_IMMUNE.getValue()) {
 					event.setCancelled(true);
 					break;

@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
+
 import com.mcdr.likeaboss.ability.Ability;
 import com.mcdr.likeaboss.drop.Roll;
 
@@ -16,6 +17,7 @@ public class BossData {
 	private String name;
 	private EntityType entityType;
 	private EquipmentSet bossEquipment = null;
+	private List<BossImmunity> immunities;
 	private double chance;
 	private double chanceFromSpawner;
 	private double healthCoef;
@@ -26,6 +28,7 @@ public class BossData {
 	public BossData(String name, EntityType entityType) {
 		this.name = name;
 		this.entityType = entityType;
+		immunities = new ArrayList<BossImmunity>();
 	}
 	
 	public void AddAbility(Ability ability) {
@@ -98,5 +101,41 @@ public class BossData {
 	
 	public EntityEquipment setRandomEquipment(LivingEntity e){
 		return bossEquipment.setRandomEquipment(e);
+	}
+	
+	public void setImmunity(String immunityName, boolean isEnabled){
+		for(BossImmunity immunity : BossImmunity.values()){
+			if(isEnabled && immunityName.equals(immunity.getNode())){
+				immunities.add(immunity);				
+			}
+		}
+	}
+	
+	public List<BossImmunity> getImmunities(){
+		return immunities;
+	}
+	
+	public enum BossImmunity {
+		ATTACK_IMMUNE {@Override public String getNode() {return "Attack";}},
+		PROJECTILE_IMMUNE {@Override public String getNode() {return "Projectile";}},
+		BLOCK_EXPLOSION_IMMUNE {@Override public String getNode() {return "BlockExplosion";}},
+		ENTITY_EXPLOSION_IMMUNE {@Override public String getNode() {return "EntityExplosion";}},
+		FIRE_IMMUNE {@Override public String getNode() {return "Fire";}},
+		LAVA_IMMUNE {@Override public String getNode() {return "Lava";}},
+		ENCHANT_FIRETICK_IMMUNE {@Override public String getNode() {return "EnchantFireTick";}},
+		ENVIRONMENTAL_FIRETICK_IMMUNE {@Override public String getNode() {return "EnvironmentalFireTick";}},
+		FALL_IMMUNE {@Override public String getNode() {return "Fall";}},
+		CONTACT_IMMUNE {@Override public String getNode() {return "Contact";}},
+		DROWNING_IMMUNE {@Override public String getNode() {return "Drowning";}},
+		LIGHTNING_IMMUNE {@Override public String getNode() {return "Lightning";}},
+		SUFFOCATION_IMMUNE {@Override public String getNode() {return "Suffocation";}},
+		MAGIC_IMMUNE {@Override public String getNode() {return "Magic";}},
+		POISON_IMMUNE {@Override public String getNode() {return "Poison";}};
+		
+		private BossImmunity() {
+			
+		}
+		
+		public abstract String getNode();
 	}
 }

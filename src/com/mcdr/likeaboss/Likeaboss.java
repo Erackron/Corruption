@@ -23,6 +23,7 @@ import com.mcdr.likeaboss.listener.LabMagicSpellsListener;
 import com.mcdr.likeaboss.listener.LabPlayerListener;
 import com.mcdr.likeaboss.listener.LabWorldListener;
 import com.mcdr.likeaboss.player.LabPlayerManager;
+import com.mcdr.likeaboss.stats.StatsManager;
 import com.mcdr.likeaboss.task.TaskManager;
 import com.timvisee.manager.permissionsmanager.PermissionsManager;
 
@@ -58,28 +59,7 @@ public class Likeaboss extends JavaPlugin {
 			pluginManager.registerEvents(new LabMagicSpellsListener(), this);	
 		}
 		
-		try {
-		    LabMetrics metrics = new LabMetrics(this);
-		    
-		    Graph graph = metrics.createGraph("Active bosses");
-		    for(final EntityType type : BossConfig.getEntityTypesUsed()){
-		    	
-			    graph.addPlotter(new LabMetrics.Plotter(type.getName()){		    
-						
-					@Override
-					public int getValue() {
-						return Collections.frequency(LabEntityManager.getBossEntityTypes(), type);
-					}
-				});
-		    	
-		    }
-		    if(metrics.start())
-		    	l.info("["+getName()+"] Sending metrics data");
-		    else
-		    	l.info("["+getName()+"] Disabled sending metrics data");
-		} catch (IOException e) {
-		   l.warning("["+getName()+"] Failed to contact mcstats.org");
-		}
+		setupMetrics();
 		
 		l.info("["+getName()+"] Enabled");
 	}
@@ -111,6 +91,39 @@ public class Likeaboss extends JavaPlugin {
 	 */
 	public PermissionsManager getPermissionsManager() {
 		return pm;
+	}
+	
+	private void setupMetrics(){
+		try {
+		    LabMetrics metrics = new LabMetrics(this);
+		    
+		    Graph graphActive = metrics.createGraph("Active bosses");
+		    for(final EntityType type : BossConfig.getEntityTypesUsed()){
+		    	
+			    graphActive.addPlotter(new LabMetrics.Plotter(type.getName()){		    
+						
+					@Override
+					public int getValue() {
+						return Collections.frequency(LabEntityManager.getBossEntityTypes(), type);
+					}
+			    });
+			    
+			    Graph graphKilled = metrics.createGraph("Bosses killed");
+			    graphKilled.addPlotter(new LabMetrics.Plotter() {
+				
+			    	@Override
+			    	public int getValue() {
+			    		return StatsManager.getBossesKilled();
+			    	}
+			    });
+		    }
+		    if(metrics.start())
+		    	l.info("["+getName()+"] Sending metrics data");
+		    else
+		    	l.info("["+getName()+"] Disabled sending metrics data");
+		} catch (IOException e) {
+		   l.warning("["+getName()+"] Failed to contact mcstats.org");
+		}
 	}
 	
 	@Override

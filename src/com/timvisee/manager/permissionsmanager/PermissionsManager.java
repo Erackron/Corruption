@@ -234,6 +234,7 @@ public class PermissionsManager {
 		}
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<String> getGroups(Player p) {
 		if(!isEnabled()) {
 			// No permissions system is used, return an empty list

@@ -18,6 +18,7 @@ import com.mcdr.likeaboss.ability.Ability;
 import com.mcdr.likeaboss.drop.Drop;
 import com.mcdr.likeaboss.drop.Roll;
 import com.mcdr.likeaboss.entity.BossData;
+import com.mcdr.likeaboss.entity.BossData.BossImmunity;
 
 
 public class BossConfig extends BaseConfig {
@@ -66,6 +67,7 @@ public class BossConfig extends BaseConfig {
 			LoadAbilities(bossData, yamlConfig.getStringList(bossName + ".Ability"), bossName);
 			LoadLoots(bossData, yamlConfig.getConfigurationSection(bossName + ".Loot"), bossName);
 			LoadEquipment(bossData, yamlConfig.getConfigurationSection(bossName));
+			LoadImmunities(bossData, yamlConfig.getConfigurationSection(bossName + ".Immunity"), bossName);
 			
 			String [] bossNameS = bossName.split("_");
 			bossName = bossNameS[0];
@@ -202,12 +204,27 @@ public class BossConfig extends BaseConfig {
 			Likeaboss.l.warning("[Likeaboss] '" + section.getName() + ".EquipmentSet' in bosses config file is invalid or doesn't exist.");
 	}
 	
+	public static void LoadImmunities(BossData bossData, ConfigurationSection section, String bossName){
+		if(section == null){
+			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Immunity" + "' in bosses config file is empty or doesn't exist.");
+			return;
+		}
+		
+		for(BossImmunity immunities : BossImmunity.values()){
+			if(immunities.getNode() != null){
+				boolean immunityNode = section.getBoolean(immunities.getNode());
+				bossData.setImmunity(immunities.getNode(), immunityNode);
+			}			
+		}
+		
+	}
+	
 	public static Map<String, BossData> getBossesData() {
 		return bossesData;
 	}
 	
 	public static Set<EntityType> getEntityTypesUsed(){
 		return usedBossEntityTypes;
-	}
+	}	
 }
 
