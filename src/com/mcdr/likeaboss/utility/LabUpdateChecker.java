@@ -14,6 +14,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import com.mcdr.likeaboss.Likeaboss;
 
 public class LabUpdateChecker {
+	private static final String LAST_VERSION_URL = "http://127.0.0.1/index.php";
 
 	public LabUpdateChecker() {
 	}
@@ -29,7 +30,7 @@ public class LabUpdateChecker {
 	public String getLastVersion() {
 		try {
 		    // Create a URL for the desired page
-		    URL url = new URL("http://127.0.0.1/index.php");
+		    URL url = new URL(LAST_VERSION_URL);
 
 		    URLConnection con = url.openConnection();
 		    con.setConnectTimeout(2000);
