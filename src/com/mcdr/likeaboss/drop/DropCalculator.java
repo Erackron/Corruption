@@ -6,9 +6,9 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import com.mcdr.likeaboss.Utility;
 import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.stats.StatsManager;
+import com.mcdr.likeaboss.utility.Utility;
 import com.mcdr.likeaboss.world.WorldData;
 
 

@@ -1,4 +1,4 @@
-package com.mcdr.likeaboss;
+package com.mcdr.likeaboss.utility;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.entity.Boss;
 
 

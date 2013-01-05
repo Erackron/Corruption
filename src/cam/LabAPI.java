@@ -11,9 +11,9 @@ import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
 import com.mcdr.likeaboss.Likeaboss;
-import com.mcdr.likeaboss.Utility;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.LabEntityManager;
+import com.mcdr.likeaboss.utility.Utility;
 
 /**
  * @deprecated Moved to com.mcdr.likeaboss.LabAPI, this will be removed in the future

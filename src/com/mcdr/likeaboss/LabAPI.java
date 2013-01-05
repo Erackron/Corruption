@@ -12,6 +12,7 @@ import org.bukkit.metadata.MetadataValue;
 
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.LabEntityManager;
+import com.mcdr.likeaboss.utility.Utility;
 
 
 public class LabAPI {

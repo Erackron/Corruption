@@ -25,6 +25,7 @@ import com.mcdr.likeaboss.listener.LabWorldListener;
 import com.mcdr.likeaboss.player.LabPlayerManager;
 import com.mcdr.likeaboss.stats.StatsManager;
 import com.mcdr.likeaboss.task.TaskManager;
+import com.mcdr.likeaboss.utility.LabUpdateChecker;
 import com.timvisee.manager.permissionsmanager.PermissionsManager;
 
 public class Likeaboss extends JavaPlugin {
@@ -60,6 +61,8 @@ public class Likeaboss extends JavaPlugin {
 		}
 		
 		setupMetrics();
+		
+		checkUpdates();
 		
 		l.info("["+getName()+"] Enabled");
 	}
@@ -124,6 +127,22 @@ public class Likeaboss extends JavaPlugin {
 		} catch (IOException e) {
 		   l.warning("["+getName()+"] Failed to contact mcstats.org");
 		}
+	}
+	
+	public boolean checkUpdates() {
+		LabUpdateChecker checker = new LabUpdateChecker();
+		
+		boolean isUpdateAvailable;
+		String newestVersion;
+		
+		isUpdateAvailable = checker.checkUpdates();
+		newestVersion = checker.getLastVersion();
+
+		if(isUpdateAvailable) {
+			l.info("[Likeaboss] New version available, version " + newestVersion + ".");
+		}
+
+		return isUpdateAvailable;
 	}
 	
 	@Override

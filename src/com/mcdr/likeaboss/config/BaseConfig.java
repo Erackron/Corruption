@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.mcdr.likeaboss.Likeaboss;
-import com.mcdr.likeaboss.Utility;
+import com.mcdr.likeaboss.utility.Utility;
 
 
 public abstract class BaseConfig {

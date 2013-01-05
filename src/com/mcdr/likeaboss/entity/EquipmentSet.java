@@ -8,7 +8,7 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-import com.mcdr.likeaboss.Utility;
+import com.mcdr.likeaboss.utility.Utility;
 
 public class EquipmentSet {
 

@@ -10,9 +10,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.mcdr.likeaboss.Utility;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.LabEntityManager;
+import com.mcdr.likeaboss.utility.Utility;
 
 
 public abstract class ListCommand extends BaseCommand {

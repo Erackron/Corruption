@@ -5,10 +5,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import com.mcdr.likeaboss.Utility;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;
+import com.mcdr.likeaboss.utility.Utility;
 
 public class LightningAura extends Ability{
 	private int radius;

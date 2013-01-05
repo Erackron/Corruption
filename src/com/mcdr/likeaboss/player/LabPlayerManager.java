@@ -19,8 +19,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.mcdr.likeaboss.Likeaboss;
-import com.mcdr.likeaboss.Utility;
 import com.mcdr.likeaboss.config.GlobalConfig.MessageParam;
+import com.mcdr.likeaboss.utility.Utility;
 
 
 public abstract class LabPlayerManager {

@@ -4,13 +4,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.mcdr.likeaboss.Utility;
 import com.mcdr.likeaboss.ability.Ability.ActivationCondition;
 import com.mcdr.likeaboss.config.GlobalConfig.MessageParam;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.LabEntityManager;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;
+import com.mcdr.likeaboss.utility.Utility;
 
 
 public class CheckEntityProximity extends BaseTask {

@@ -14,9 +14,9 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import com.mcdr.likeaboss.Utility;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;
+import com.mcdr.likeaboss.utility.Utility;
 
 
 

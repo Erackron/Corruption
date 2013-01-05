@@ -25,7 +25,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 
 import com.mcdr.likeaboss.Likeaboss;
-import com.mcdr.likeaboss.Utility;
 import com.mcdr.likeaboss.ability.Ability.ActivationCondition;
 import com.mcdr.likeaboss.config.WorldConfig;
 import com.mcdr.likeaboss.config.GlobalConfig.BossParam;
@@ -36,6 +35,7 @@ import com.mcdr.likeaboss.entity.LabEntity;
 import com.mcdr.likeaboss.entity.LabEntityManager;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;
+import com.mcdr.likeaboss.utility.Utility;
 
 
 public class LabEntityListener implements Listener {
