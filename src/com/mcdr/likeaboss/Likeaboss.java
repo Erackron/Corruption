@@ -25,7 +25,7 @@ import com.mcdr.likeaboss.listener.LabWorldListener;
 import com.mcdr.likeaboss.player.LabPlayerManager;
 import com.mcdr.likeaboss.stats.StatsManager;
 import com.mcdr.likeaboss.task.TaskManager;
-import com.mcdr.likeaboss.utility.LabUpdateChecker;
+import com.mcdr.likeaboss.util.LabUpdateChecker;
 import com.timvisee.manager.permissionsmanager.PermissionsManager;
 
 public class Likeaboss extends JavaPlugin {

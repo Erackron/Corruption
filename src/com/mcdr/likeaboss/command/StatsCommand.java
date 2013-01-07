@@ -16,7 +16,7 @@ import org.bukkit.ChatColor;
 
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;
-import com.mcdr.likeaboss.utility.Utility;
+import com.mcdr.likeaboss.util.Utility;
 
 
 

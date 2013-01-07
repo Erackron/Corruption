@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;
-import com.mcdr.likeaboss.utility.Utility;
+import com.mcdr.likeaboss.util.Utility;
 
 public class LightningAura extends Ability{
 	private int radius;

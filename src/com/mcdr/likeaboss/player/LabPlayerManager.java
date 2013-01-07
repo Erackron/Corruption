@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 
 import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.config.GlobalConfig.MessageParam;
-import com.mcdr.likeaboss.utility.Utility;
+import com.mcdr.likeaboss.util.Utility;
 
 
 public abstract class LabPlayerManager {

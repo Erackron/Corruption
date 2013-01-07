@@ -35,8 +35,14 @@ public class Bomb extends Ability {
 	        final World world = livingEntity.getWorld();
 	        final Location loc = livingEntity.getLocation();
 	        
-	        Block b = world.getBlockAt(loc); 
-	        b.setType(Material.BEDROCK);
+	        Block b = null;
+			try {
+				b = world.getBlockAt(loc);
+			} catch (NullPointerException e) {
+				return;
+			} 
+	        
+			b.setType(Material.BEDROCK);
 	        
 	        Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.in, new Runnable() {
 	            public void run() {

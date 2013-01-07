@@ -1,4 +1,4 @@
-package com.mcdr.likeaboss.utility;
+package com.mcdr.likeaboss.util;
 
 import java.io.File;
 import java.io.FileInputStream;

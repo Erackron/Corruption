@@ -35,7 +35,7 @@ import com.mcdr.likeaboss.entity.LabEntity;
 import com.mcdr.likeaboss.entity.LabEntityManager;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;
-import com.mcdr.likeaboss.utility.Utility;
+import com.mcdr.likeaboss.util.Utility;
 
 
 public class LabEntityListener implements Listener {

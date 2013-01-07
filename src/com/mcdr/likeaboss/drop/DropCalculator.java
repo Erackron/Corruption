@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.stats.StatsManager;
-import com.mcdr.likeaboss.utility.Utility;
+import com.mcdr.likeaboss.util.Utility;
 import com.mcdr.likeaboss.world.WorldData;
 
 
