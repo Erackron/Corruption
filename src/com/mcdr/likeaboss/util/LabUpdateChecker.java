@@ -2,6 +2,8 @@ package com.mcdr.likeaboss.util;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.regex.Pattern;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -42,6 +44,33 @@ public class LabUpdateChecker {
 		    return version;
 		} catch (Exception e) {}
 		return Likeaboss.in.getDescription().getVersion();
+	}
+	
+	// Readded, because this will probably still be needed for updating config files,
+	// and because it is better than just checking if the versions are the same
+	@SuppressWarnings("unused")
+	private boolean isNewerVersion(String current, String lastCheck) {
+        String s1 = normalisedVersion(current);
+        String s2 = normalisedVersion(lastCheck);
+        int cmp = s1.compareTo(s2);
+        //String cmpStr = cmp < 0 ? "<" : cmp > 0 ? ">" : "==";
+        if(cmp < 0) {
+        	return true;
+        }
+        return false;
+    }
+
+	private String normalisedVersion(String version) {
+        return normalisedVersion(version, ".", 4);
+    }
+
+	private String normalisedVersion(String version, String sep, int maxWidth) {
+        String[] split = Pattern.compile(sep, Pattern.LITERAL).split(version);
+        StringBuilder sb = new StringBuilder();
+        for (String s : split) {
+            sb.append(String.format("%" + maxWidth + 's', s));
+        }
+        return sb.toString();
 	}
 
 }
