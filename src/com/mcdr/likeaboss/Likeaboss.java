@@ -129,20 +129,11 @@ public class Likeaboss extends JavaPlugin {
 		}
 	}
 	
-	public boolean checkUpdates() {
+	private void checkUpdates() {
 		LabUpdateChecker checker = new LabUpdateChecker();
-		
-		boolean isUpdateAvailable;
-		String newestVersion;
-		
-		isUpdateAvailable = checker.checkUpdates();
-		newestVersion = checker.getLastVersion();
-
-		if(isUpdateAvailable) {
-			l.info("[Likeaboss] New version available, version " + newestVersion + ".");
+		if(checker.updateNeeded()){
+			l.info("["+getName()+"] New version available, version " + checker.getLastVersion());
 		}
-
-		return isUpdateAvailable;
 	}
 	
 	@Override

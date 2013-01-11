@@ -14,6 +14,8 @@ public class Bomb extends Ability {
 	
 	private int fuse = 80;
 	private float radius = 3F;
+	private boolean destroyWorld = true;
+	private boolean fire = true;
 	protected double chance = 10.0;
 	
     public Bomb(){
@@ -27,6 +29,14 @@ public class Bomb extends Ability {
     
     public void setRadius(float radius){
     	this.radius = radius;
+    }
+    
+    public void setDestroyWorld(boolean destroyWorld){
+    	this.destroyWorld = destroyWorld;
+    }
+    
+    public void setFire(boolean fire){
+    	this.fire = fire;
     }
     
     public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
@@ -47,7 +57,7 @@ public class Bomb extends Ability {
 	        Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.in, new Runnable() {
 	            public void run() {
 	                world.getBlockAt(loc).breakNaturally();
-	                world.createExplosion(loc, radius);
+	                world.createExplosion(loc.getX(), loc.getY(), loc.getZ(), radius, fire, destroyWorld);
 	            }
 	        }, fuse);
 	        

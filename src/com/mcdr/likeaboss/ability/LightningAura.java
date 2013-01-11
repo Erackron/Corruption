@@ -11,8 +11,11 @@ import com.mcdr.likeaboss.player.LabPlayerManager;
 import com.mcdr.likeaboss.util.Utility;
 
 public class LightningAura extends Ability{
-	private int radius;
-	private int damage;
+	
+	private int radius = 5;
+	private int damage = 2;
+	private boolean noFire = false;
+	private boolean armorPierce = false;
 
 	public LightningAura() {
 		activationConditions.add(ActivationCondition.ONATTACK);
@@ -23,7 +26,15 @@ public class LightningAura extends Ability{
 	}
 	
 	public void setDamage(int damage){
-		this.damage = damage;
+		this.damage = damage - 1;
+	}
+	
+	public void setNoFire(boolean noFire){
+		this.noFire = noFire;
+	}
+	
+	public void setArmorPierce(boolean armorPierce){
+		this.armorPierce = armorPierce;
 	}
 	
 	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss){
@@ -34,14 +45,17 @@ public class LightningAura extends Ability{
 				
 				if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, radius)) {
 					sendMessage(boss, livingEntity);
-					world.strikeLightningEffect(player.getLocation());
+					world.strikeLightning(player.getLocation());
 					
-					if(damage >= player.getHealth()){
-						player.setHealth(0);
+					if(armorPierce){
+						player.damage(ArmorPierce.getNewDamage(player, damage, 100));
+					} else{
+						player.damage(damage);
 					}
-					else{
-						player.setHealth(player.getHealth() - damage);
-					}				
+					
+					if(noFire){
+						player.setFireTicks(0);
+					}
 				}
 			}
 		}

@@ -22,29 +22,7 @@ public class ArmorPierce extends Ability {
 			if (!(livingEntity instanceof Player))
 				return;
 			
-			PlayerInventory playerInventory = ((Player) livingEntity).getInventory();
-			int damage = event.getDamage();
-			double absorption = 0.0;
-			absorption += HelmetDefense(playerInventory.getHelmet());
-			absorption += ChestplateDefense(playerInventory.getChestplate());
-			absorption += LeggingsDefense(playerInventory.getLeggings());
-			absorption += BootsDefense(playerInventory.getBoots());
-			int newDamage = 0;
-			
-			if (absorption < 100)
-				newDamage = (int) (damage * (1 - absorption * (1 - value / 100) / 100) / (1 - absorption / 100));
-			
-			short baseDurabilityLoss = (short) (damage / 4);
-			
-			if (baseDurabilityLoss < 1)
-				baseDurabilityLoss = 1;
-			
-			short durabilityLossSurplus = (short) (newDamage / 4 - baseDurabilityLoss);
-			
-			for (ItemStack armor : playerInventory.getArmorContents())
-				armor.setDurability((short) (armor.getDurability() - durabilityLossSurplus));
-			
-			event.setDamage(newDamage);
+			event.setDamage(getNewDamage(((Player) livingEntity), event.getDamage(), value));
 			useCooldown(boss);
 			sendMessage(boss, livingEntity);
 		}
@@ -137,5 +115,29 @@ public class ArmorPierce extends Ability {
 		}
 		
 		return 0;
+	}
+	
+	public static int getNewDamage(Player p, int damage, double value){
+		PlayerInventory playerInventory = p.getInventory();
+		double absorption = 0.0;
+		absorption += HelmetDefense(playerInventory.getHelmet());
+		absorption += ChestplateDefense(playerInventory.getChestplate());
+		absorption += LeggingsDefense(playerInventory.getLeggings());
+		absorption += BootsDefense(playerInventory.getBoots());
+		int newDamage = 0;
+		
+		if (absorption < 100)
+			newDamage = (int) (damage * (1 - absorption * (1 - value / 100) / 100) / (1 - absorption / 100));
+		
+		short baseDurabilityLoss = (short) (damage / 4);
+		
+		if (baseDurabilityLoss < 1)
+			baseDurabilityLoss = 1;
+		
+		short durabilityLossSurplus = (short) (newDamage / 4 - baseDurabilityLoss);
+		
+		for (ItemStack armor : playerInventory.getArmorContents())
+			armor.setDurability((short) (armor.getDurability() - durabilityLossSurplus));
+		return newDamage;
 	}
 }

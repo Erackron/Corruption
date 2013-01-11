@@ -164,9 +164,16 @@ public abstract class AbilityConfig extends BaseConfig {
 					bomb.setCooldown((Double) abilityEntries.get(entryKey));
 				
 				entryKey = "Fuse";
-				if (abilityEntries.containsKey(entryKey)){
+				if (abilityEntries.containsKey(entryKey))
 					bomb.setFuseTicks((Integer)abilityEntries.get(entryKey));
-				}
+				
+				entryKey = "DestroyWorld";
+				if(abilityEntries.containsKey(entryKey))
+					bomb.setDestroyWorld((Boolean) abilityEntries.get(entryKey));
+				
+				entryKey = "Fire";
+				if(abilityEntries.containsKey(entryKey))
+					bomb.setFire((Boolean) abilityEntries.get(entryKey));
 				
 				entryKey = "Radius";
 				if (abilityEntries.containsKey(entryKey))
@@ -201,6 +208,15 @@ public abstract class AbilityConfig extends BaseConfig {
 				entryKey = "Probability";
 				if (abilityEntries.containsKey(entryKey))
 					aura.setChance((Double) abilityEntries.get(entryKey));
+				
+				entryKey = "NoFire";
+				if(abilityEntries.containsKey(entryKey))
+					aura.setNoFire((Boolean) abilityEntries.get(entryKey));
+				
+				entryKey = "ArmorPierce";
+				if(abilityEntries.containsKey(entryKey)){
+					aura.setArmorPierce((Boolean) abilityEntries.get(entryKey));
+				}
 				
 				abilities.put(abilityName, aura);
 				break;
