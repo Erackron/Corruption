@@ -11,13 +11,17 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
+import org.bukkit.entity.Zombie;
 
 import com.mcdr.likeaboss.config.BossConfig;
 import com.mcdr.likeaboss.config.GlobalConfig.CommandParam;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.entity.LabEntityManager;
+import com.mcdr.likeaboss.entity.ZombieBossData;
+import com.mcdr.likeaboss.entity.SkeletonBossData;
 
 
 public abstract class SpawnCommand extends BaseCommand {
@@ -80,6 +84,19 @@ public abstract class SpawnCommand extends BaseCommand {
 			if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
 				Slime slime = (Slime) spawnedCreature;
 				slime.setSize(4);
+			}
+			
+			//Check and set if it has to be a baby or villager zombie
+			if (Zombie.class.isAssignableFrom(entityType.getEntityClass())) {
+				Zombie zombie = (Zombie) spawnedCreature;
+				zombie.setBaby(((ZombieBossData) bossData).isBaby());
+				zombie.setVillager(((ZombieBossData) bossData).isVillager());
+			}
+			
+			//Check and set if it has to be a normal or wither skeleton
+			if (Skeleton.class.isAssignableFrom(entityType.getEntityClass())) {
+				Skeleton skeleton = (Skeleton) spawnedCreature;
+				skeleton.setSkeletonType(((SkeletonBossData) bossData).getSkeletonType());
 			}
 			
 			Boss boss = new Boss(spawnedCreature, bossData);

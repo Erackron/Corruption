@@ -19,6 +19,8 @@ import com.mcdr.likeaboss.drop.Drop;
 import com.mcdr.likeaboss.drop.Roll;
 import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.entity.BossData.BossImmunity;
+import com.mcdr.likeaboss.entity.SkeletonBossData;
+import com.mcdr.likeaboss.entity.ZombieBossData;
 
 
 public class BossConfig extends BaseConfig {
@@ -39,7 +41,6 @@ public class BossConfig extends BaseConfig {
 	private static void LoadBosses(YamlConfiguration yamlConfig) {
 		Set<String> bossNames = yamlConfig.getKeys(false);
 		usedBossEntityTypes = new HashSet<EntityType>();
-
 		for (String bossName : bossNames) {
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(bossName);
 			
@@ -58,7 +59,18 @@ public class BossConfig extends BaseConfig {
 			
 			usedBossEntityTypes.add(entityType);
 			
-			BossData bossData = new BossData(bossName, entityType);
+			BossData bossData;
+			if(entityType==EntityType.ZOMBIE){
+				boolean isBaby = yamlConfig.getBoolean(bossName + ".Baby"), isVillager = yamlConfig.getBoolean(bossName + ".Villager");
+				bossData = new ZombieBossData(bossName, entityType, isBaby, isVillager);
+			} else if(entityType==EntityType.SKELETON) {
+				boolean isWitherSkeleton = yamlConfig.getBoolean(bossName + ".WitherSkeleton");
+				bossData = new SkeletonBossData(bossName, entityType, isWitherSkeleton);
+			} else {
+				bossData = new BossData(bossName, entityType);
+			}
+			
+			
 
 			if (!LoadSpawnValues(bossData, yamlConfig.getString(bossName + ".Spawn"), bossName))
 				continue;
@@ -206,7 +218,7 @@ public class BossConfig extends BaseConfig {
 	
 	public static void LoadImmunities(BossData bossData, ConfigurationSection section, String bossName){
 		if(section == null){
-			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Immunity" + "' in bosses config file is empty or doesn't exist.");
+			//Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Immunities" + "' in bosses config file is empty or doesn't exist.");
 			return;
 		}
 		

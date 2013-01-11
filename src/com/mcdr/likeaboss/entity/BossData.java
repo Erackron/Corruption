@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.inventory.EntityEquipment;
 
 import com.mcdr.likeaboss.ability.Ability;
@@ -114,7 +115,7 @@ public class BossData {
 	public List<BossImmunity> getImmunities(){
 		return immunities;
 	}
-	
+
 	public enum BossImmunity {
 		ATTACK_IMMUNE {@Override public String getNode() {return "Attack";}},
 		PROJECTILE_IMMUNE {@Override public String getNode() {return "Projectile";}},

@@ -27,13 +27,13 @@ public class WorldData {
 		abilities.add(ability);
 	}
 	
-	public BossData getBossData(EntityType entityType) {
+	public ArrayList<BossData> getBossData(EntityType entityType) {
+		ArrayList<BossData> bosses = new ArrayList<BossData>();
 		for (BossData bossData : bossDatas) {
 			if (bossData.getEntityType() == entityType)
-				return bossData;
+				bosses.add(bossData);
 		}
-		
-		return null;
+		return bosses.size()>0?bosses:null;
 	}
 	
 	public List<Roll> getRolls() {

@@ -1,5 +1,6 @@
 package com.mcdr.likeaboss.listener;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -7,10 +8,12 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -31,6 +34,8 @@ import com.mcdr.likeaboss.config.GlobalConfig.BossParam;
 import com.mcdr.likeaboss.config.GlobalConfig.MessageParam;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.BossData;
+import com.mcdr.likeaboss.entity.ZombieBossData;
+import com.mcdr.likeaboss.entity.SkeletonBossData;
 import com.mcdr.likeaboss.entity.LabEntity;
 import com.mcdr.likeaboss.entity.LabEntityManager;
 import com.mcdr.likeaboss.player.LabPlayer;
@@ -41,38 +46,58 @@ import com.mcdr.likeaboss.util.Utility;
 public class LabEntityListener implements Listener {
 	private final LazyMetadataValue isBoss = new FixedMetadataValue(Likeaboss.in, true);
 	
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		if (event.getSpawnReason() == SpawnReason.CUSTOM)
 			return;
 		
 		LivingEntity livingEntity = event.getEntity();
-		BossData bossData = WorldConfig.getWorldData(livingEntity.getWorld()).getBossData(livingEntity.getType());			
 		
-		if (bossData == null)
+		ArrayList<BossData> bossDatas = WorldConfig.getWorldData(livingEntity.getWorld()).getBossData(livingEntity.getType());	
+		
+		if (bossDatas == null)
 			return;
 		
-		if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY())
-			return;
+		double chance = Utility.random.nextInt(100), curChance = 0;
 		
-		if(event.getSpawnReason() == SpawnReason.SLIME_SPLIT)
+		if(livingEntity instanceof Slime)
 			if(((Slime) livingEntity).getSize()==1)
 				return;
 		
-		double chance = Utility.random.nextInt(100);
-		
-		if (event.getSpawnReason() == SpawnReason.SPAWNER) {
-			if (chance < bossData.getChanceFromSpawner()) {
-				Boss boss = new Boss(livingEntity, bossData);
-				
-				LabEntityManager.AddBoss(boss);
+		for(BossData bossData: bossDatas){
+			if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY())
+				return;
+
+			if(bossData instanceof ZombieBossData){
+				ZombieBossData zBossData = (ZombieBossData) bossData;
+				Zombie zombie = (Zombie) livingEntity;
+				if(zombie.isBaby()!=zBossData.isBaby() || zombie.isVillager()!=zBossData.isVillager())
+					return;
+			} else if(bossData instanceof SkeletonBossData){
+				SkeletonBossData sBossData = (SkeletonBossData) bossData;
+				Skeleton skeleton = (Skeleton) livingEntity;
+				if(skeleton.getSkeletonType()!=sBossData.getSkeletonType())
+					return;
+			}
+			
+			if(event.getSpawnReason() == SpawnReason.SPAWNER){
+				if (chance < bossData.getChanceFromSpawner()+curChance) {
+					addBoss(livingEntity, bossData);
+				} else {
+					curChance += bossData.getChanceFromSpawner();
+				}
+			} else if(chance < bossData.getChance()+curChance){
+				addBoss(livingEntity, bossData);
+			} else {
+				curChance += bossData.getChance();
 			}
 		}
-		else if (chance < bossData.getChance()) {
-			Boss boss = new Boss(livingEntity, bossData);
-			LabEntityManager.AddBoss(boss);
-			livingEntity.setMetadata("isBoss", isBoss);
-		}
+	}
+	
+	private void addBoss(LivingEntity livingEntity, BossData bossData){
+		Boss boss = new Boss(livingEntity, bossData);
+		LabEntityManager.AddBoss(boss);
+		livingEntity.setMetadata("isBoss", isBoss);
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
