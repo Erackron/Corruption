@@ -62,7 +62,7 @@ public class Bomb extends Ability {
 	        }, fuse);
 	        
 	        useCooldown(boss);
-	        sendMessage(boss);
+	        sendAreaMessage(boss, livingEntity);
 		}
         
     }

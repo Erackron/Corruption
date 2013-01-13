@@ -83,12 +83,25 @@ public abstract class Ability {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.in, new AbilityReactivator(boss, this), (long) (cooldown * 20));
 	}
 	
-	public void sendMessage(Boss boss){
+	public void sendAreaMessage(Boss boss){
+		sendAreaMessage(boss, null);
+	}
+	
+	public void sendAreaMessage(Boss boss, LivingEntity fixedTarget){
 		if(msg=="")
 			return;
+		
 		String message = parseMsg(msg, boss);
+		
+		Player target = null;
+		if(fixedTarget!=null && fixedTarget instanceof Player){
+			target = (Player) fixedTarget;
+			target.sendMessage(message);
+		}
 		for (LabPlayer labPlayer : LabPlayerManager.getLabPlayers()) {
 			Player player = labPlayer.getPlayer();
+			if(player.equals(target))
+				continue;
 			if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, radius)) {
 				player.sendMessage(message);
 			}

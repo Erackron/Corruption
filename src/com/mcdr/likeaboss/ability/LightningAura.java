@@ -5,6 +5,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;
@@ -14,8 +15,9 @@ public class LightningAura extends Ability{
 	
 	private int radius = 5;
 	private int damage = 2;
-	private boolean noFire = false;
+	private boolean fire = false;
 	private boolean armorPierce = false;
+	protected double chance = 50.0;
 
 	public LightningAura() {
 		activationConditions.add(ActivationCondition.ONATTACK);
@@ -29,8 +31,8 @@ public class LightningAura extends Ability{
 		this.damage = damage - 1;
 	}
 	
-	public void setNoFire(boolean noFire){
-		this.noFire = noFire;
+	public void setFire(boolean fire){
+		this.fire = fire;
 	}
 	
 	public void setArmorPierce(boolean armorPierce){
@@ -38,7 +40,7 @@ public class LightningAura extends Ability{
 	}
 	
 	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss){
-		if(checkChance()){			
+		if(checkChance()){
 			for (LabPlayer labPlayer : LabPlayerManager.getLabPlayers()) {
 				Player player = labPlayer.getPlayer();
 				World world = player.getWorld();
@@ -53,11 +55,12 @@ public class LightningAura extends Ability{
 						player.damage(damage);
 					}
 					
-					if(noFire){
-						player.setFireTicks(0);
+					if(!fire){
+						player.setFireTicks(-20);
 					}
 				}
 			}
+			useCooldown(boss);
 		}
 	}
 }

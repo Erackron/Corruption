@@ -209,9 +209,9 @@ public abstract class AbilityConfig extends BaseConfig {
 				if (abilityEntries.containsKey(entryKey))
 					aura.setChance((Double) abilityEntries.get(entryKey));
 				
-				entryKey = "NoFire";
+				entryKey = "Fire";
 				if(abilityEntries.containsKey(entryKey))
-					aura.setNoFire((Boolean) abilityEntries.get(entryKey));
+					aura.setFire((Boolean) abilityEntries.get(entryKey));
 				
 				entryKey = "ArmorPierce";
 				if(abilityEntries.containsKey(entryKey)){

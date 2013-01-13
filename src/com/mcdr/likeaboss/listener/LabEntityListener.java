@@ -314,15 +314,22 @@ public class LabEntityListener implements Listener {
 			} catch(ClassCastException e){}
 			
 			
-			//Viewer message	
+			// Generating viewer message	
 			String viewerMsg = Utility.parseMessage((boss.getHealth()>0)?
 													   MessageParam.VIEWERMESSAGE.getMessage():
 													   MessageParam.VIEWERDEFEATED.getMessage(),
 													 boss, boss.getHealth(), damage);
-
+			
+			//Sending viewer message to attacker
+			if (labPlayer != null && labPlayer.getLabPlayerData().getViewer())
+				player.sendMessage(viewerMsg);
+			
+			//Sending viewer message to nearby players
 			for (LabPlayer labPlayerTemp : LabPlayerManager.getLabPlayers()) {
 				if(labPlayerTemp != null && labPlayerTemp.getLabPlayerData().getViewer()){
 					player = labPlayerTemp.getPlayer();
+					if(labPlayer!=null && player.equals(labPlayer.getPlayer()))
+						continue;
 					if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, 16)){
 						player.sendMessage(viewerMsg);
 					}
