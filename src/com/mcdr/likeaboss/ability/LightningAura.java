@@ -5,7 +5,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;

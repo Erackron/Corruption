@@ -24,7 +24,7 @@ public class LabUpdateChecker {
 		String curVer = pdf.getVersion();
 		String lastVersion = getLastVersion();
 		
-		return !curVer.equals(lastVersion);
+		return isNewerVersion(curVer, lastVersion);
 	}
 	
 	public String getLastVersion() {
@@ -48,7 +48,6 @@ public class LabUpdateChecker {
 	
 	// Readded, because this will probably still be needed for updating config files,
 	// and because it is better than just checking if the versions are the same
-	@SuppressWarnings("unused")
 	private boolean isNewerVersion(String current, String lastCheck) {
         String s1 = normalisedVersion(current);
         String s2 = normalisedVersion(lastCheck);
