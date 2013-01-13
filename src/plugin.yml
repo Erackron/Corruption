@@ -1,6 +1,6 @@
 name: Likeaboss
 main: com.mcdr.likeaboss.Likeaboss
-version: 1.7.0
+version: 1.7.1
 author: bm01
 commands:
   lab:
