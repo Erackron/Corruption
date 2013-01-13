@@ -133,6 +133,8 @@ public class Likeaboss extends JavaPlugin {
 		LabUpdateChecker checker = new LabUpdateChecker();
 		if(checker.updateNeeded()){
 			l.info("["+getName()+"] New version available, version " + checker.getLastVersion());
+		} else {
+			l.info("["+getName()+"] No update needed, running the latest version (" + in.getDescription().getVersion() + ")");
 		}
 	}
 	

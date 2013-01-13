@@ -83,11 +83,13 @@ public class LabEntityListener implements Listener {
 			if(event.getSpawnReason() == SpawnReason.SPAWNER){
 				if (chance < bossData.getChanceFromSpawner()+curChance) {
 					addBoss(livingEntity, bossData);
+					break;
 				} else {
 					curChance += bossData.getChanceFromSpawner();
 				}
 			} else if(chance < bossData.getChance()+curChance){
 				addBoss(livingEntity, bossData);
+				break;
 			} else {
 				curChance += bossData.getChance();
 			}
