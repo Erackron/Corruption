@@ -34,11 +34,13 @@ public class Boss extends LabEntity {
 		this.livingEntity = livingEntity;
 		this.bossData = bossData;
 		health = (int) (livingEntity.getMaxHealth() * bossData.getHealthCoef());
-		
+		livingEntity.setMaxHealth(health);
+		livingEntity.setHealth(health);
 		AddAbilities();
 		if(!bossData.hasEquipment())
 			bossData.setEquipment(new EquipmentSet());
 		bossData.setRandomEquipment(livingEntity);
+		
 	}
 	
 	private void AddAbilities() {

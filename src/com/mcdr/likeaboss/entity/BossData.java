@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.inventory.EntityEquipment;
 
 import com.mcdr.likeaboss.ability.Ability;

@@ -23,6 +23,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
@@ -343,8 +344,39 @@ public class LabEntityListener implements Listener {
 				event.setDamage(livingEntity.getMaxHealth()); //Kill the entity
 				livingEntity.setHealth(1); //Needed for armored foes (must not be set to 0 otherwise Bukkit starts to do weird things)
 			}
-			else
-				event.setDamage(0);
+			else {
+				livingEntity.setHealth(boss.getHealth()+damage);
+				event.setDamage(damage);
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
+	public void onEntityRegainHealth(EntityRegainHealthEvent event){
+		if(event.getEntity() instanceof Player)
+			return;
+		Boss boss = LabEntityManager.getBoss(event.getEntity());
+		if(boss==null)
+			return;
+		LivingEntity livingEntity = boss.getLivingEntity();
+		
+		int regainAmount = event.getAmount();
+		
+		switch(event.getRegainReason()){
+			case CUSTOM:
+			case MAGIC:
+			case MAGIC_REGEN:
+			case WITHER_SPAWN:
+				if(boss.getHealth() + regainAmount > livingEntity.getMaxHealth())
+					regainAmount = livingEntity.getMaxHealth() - boss.getHealth();
+				if(livingEntity.getHealth()!=boss.getHealth())
+					livingEntity.setHealth(boss.getHealth());
+				event.setAmount(regainAmount);
+				boss.setHealth(boss.getHealth()+regainAmount);
+				break;
+			default:
+				event.setCancelled(true);
+				break;
 		}
 	}
 	
