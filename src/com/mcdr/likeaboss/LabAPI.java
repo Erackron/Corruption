@@ -6,16 +6,28 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.LabEntityManager;
+import com.mcdr.likeaboss.player.LabPlayer;
+import com.mcdr.likeaboss.player.LabPlayerManager;
 import com.mcdr.likeaboss.util.Utility;
 
 
 public class LabAPI {
+		
+	/**
+	 * @param p The player to get the LabPlayer object of
+	 * @return LabPlayer the LabPlayer object belonging to the player
+	 */
+	public static LabPlayer getLabPlayer(Player p){
+		LabPlayer labPlayer = LabPlayerManager.getLabPlayer(p);	
+		return labPlayer!=null?labPlayer:LabPlayerManager.AddLabPlayer(p);
+	}
 	
 	/**
 	 * @param e Entity to get the boss object of

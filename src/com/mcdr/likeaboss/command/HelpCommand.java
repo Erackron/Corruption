@@ -15,6 +15,7 @@ public abstract class HelpCommand extends BaseCommand {
 		sender.sendMessage("/lab reload: " + ChatColor.GRAY + "Reload configuration files.");
 		sender.sendMessage("/lab spawn [type] <amount>: " + ChatColor.GRAY + "Spawn one or multiple bosses on the targeted block.");
 		sender.sendMessage("/lab stats <player>: " + ChatColor.GRAY + "Display the leaderboard, or player stats.");
+		sender.sendMessage("/lab update <check/install>: " + ChatColor.GRAY + "Check for updates or install one if available.");
 		sender.sendMessage("/lab viewer: " + ChatColor.GRAY + "Toggle viewer state, which allows to see boss healths.");
 	}
 }

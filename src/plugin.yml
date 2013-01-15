@@ -19,6 +19,7 @@ permissions:
       lab.list: true
       lab.spawn: true
       lab.stats: true
+      lab.update: true
       lab.viewer: true
     default: op
   lab:
@@ -56,6 +57,9 @@ permissions:
     default: false
   lab.stats:
     description: Display the leaderboard, or player stats.
+    default: false
+  lab.update:
+    description: Check for updates and install them if available.
     default: false
   lab.viewer:
     description: Toggle viewer state, which allows to see boss healths.

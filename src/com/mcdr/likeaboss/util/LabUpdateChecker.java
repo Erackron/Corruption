@@ -15,11 +15,9 @@ import com.mcdr.likeaboss.Likeaboss;
 
 public class LabUpdateChecker {
 	private static final String LAST_VERSION_URL = "http://dev.bukkit.org/server-mods/likeaboss-mcdr/files.rss";
-
-	public LabUpdateChecker() {
-	}
+	public static String lastVer;
 	
-	public boolean updateNeeded() {
+	public static boolean updateNeeded() {
 		PluginDescriptionFile pdf = Likeaboss.in.getDescription();
 		String curVer = pdf.getVersion();
 		String lastVersion = getLastVersion();
@@ -27,7 +25,7 @@ public class LabUpdateChecker {
 		return isNewerVersion(curVer, lastVersion);
 	}
 	
-	public String getLastVersion() {
+	public static String getLastVersion() {
 		try {
 		    // Create a URL for the desired page
 		    URL url = new URL(LAST_VERSION_URL);
@@ -48,7 +46,7 @@ public class LabUpdateChecker {
 	
 	// Readded, because this will probably still be needed for updating config files,
 	// and because it is better than just checking if the versions are the same
-	private boolean isNewerVersion(String current, String lastCheck) {
+	private static boolean isNewerVersion(String current, String lastCheck) {
         String s1 = normalisedVersion(current);
         String s2 = normalisedVersion(lastCheck);
         int cmp = s1.compareTo(s2);
@@ -59,11 +57,11 @@ public class LabUpdateChecker {
         return false;
     }
 
-	private String normalisedVersion(String version) {
+	private static String normalisedVersion(String version) {
         return normalisedVersion(version, ".", 4);
     }
 
-	private String normalisedVersion(String version, String sep, int maxWidth) {
+	private static String normalisedVersion(String version, String sep, int maxWidth) {
         String[] split = Pattern.compile(sep, Pattern.LITERAL).split(version);
         StringBuilder sb = new StringBuilder();
         for (String s : split) {
