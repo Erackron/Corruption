@@ -142,15 +142,15 @@ public class EquipmentConfig extends BaseConfig {
 				
 				// Actual sanity checks
 				if(ench==null || enchName==null){
-					Likeaboss.l.warning("[Likeaboss] '" + eSPath + ".Enchantment' in the equipment config file is invalid.");
+					Likeaboss.l.warning("[Likeaboss] '" + eSPath+"."+enchantment + ".Enchantment' in the equipment config file is invalid.");
 					continue;
 				}
 				if(chance<=0){
-					Likeaboss.l.warning("[Likeaboss] '" + eSPath + ".Probability' in the equipment config file is invalid.");
+					Likeaboss.l.warning("[Likeaboss] '" + eSPath+"."+enchantment + ".Probability' in the equipment config file is invalid.");
 					continue;
 				}
 				if(lvl<=0){
-					Likeaboss.l.warning("[Likeaboss] '" + eSPath + ".Level' in the equipment config file is invalid.");
+					Likeaboss.l.warning("[Likeaboss] '" + eSPath+"."+enchantment + ".Level' in the equipment config file is invalid.");
 					continue;
 				}
 				//End of sanity checks, the values are probably valid so increment the array counter
