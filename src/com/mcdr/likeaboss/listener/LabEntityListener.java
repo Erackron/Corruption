@@ -35,6 +35,7 @@ import com.mcdr.likeaboss.config.GlobalConfig.BossParam;
 import com.mcdr.likeaboss.config.GlobalConfig.MessageParam;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.BossData;
+import com.mcdr.likeaboss.entity.BossData.BossImmunity;
 import com.mcdr.likeaboss.entity.ZombieBossData;
 import com.mcdr.likeaboss.entity.SkeletonBossData;
 import com.mcdr.likeaboss.entity.LabEntity;
@@ -221,11 +222,11 @@ public class LabEntityListener implements Listener {
 			
 			switch (event.getCause()) {
 			case ENTITY_ATTACK:				
-				if (BossParam.ATTACK_IMMUNE.getValue()) {
+				if (boss.getBossData().getImmunities().contains(BossImmunity.ATTACK_IMMUNE)) {
 					event.setCancelled(true);
 					break;
 				}
-				if (player != null && !BossParam.ENCHANT_FIRETICK_IMMUNE.getValue()) {
+				if (player != null && !boss.getBossData().getImmunities().contains(BossImmunity.ENCHANT_FIRETICK_IMMUNE)) {
 					Map<Enchantment, Integer> enchants = player.getItemInHand().getEnchantments();
 					
 					if (enchants.containsKey(Enchantment.FIRE_ASPECT))
@@ -233,7 +234,7 @@ public class LabEntityListener implements Listener {
 				}
 				break;
 			case PROJECTILE:
-				if (BossParam.PROJECTILE_IMMUNE.getValue()) {
+				if (boss.getBossData().getImmunities().contains(BossImmunity.PROJECTILE_IMMUNE)) {
 					event.setCancelled(true);
 					break;
 				}
@@ -245,62 +246,62 @@ public class LabEntityListener implements Listener {
 				}
 				break;
 			case BLOCK_EXPLOSION:
-				if (BossParam.BLOCK_EXPLOSION_IMMUNE.getValue())
+				if (boss.getBossData().getImmunities().contains(BossImmunity.BLOCK_EXPLOSION_IMMUNE))
 					event.setCancelled(true);
 				else
 					damage /= 2;
 				break;
 			case ENTITY_EXPLOSION:
-				if (BossParam.ENTITY_EXPLOSION_IMMUNE.getValue())
+				if (boss.getBossData().getImmunities().contains(BossImmunity.ENTITY_EXPLOSION_IMMUNE))
 					event.setCancelled(true);
 				else
 					damage /= 2;
 				break;
 			case FIRE:
-				if (BossParam.FIRE_IMMUNE.getValue())
+				if (boss.getBossData().getImmunities().contains(BossImmunity.FIRE_IMMUNE))
 					event.setCancelled(true);
 				break;
 			case LAVA:
-				if (BossParam.LAVA_IMMUNE.getValue())
+				if (boss.getBossData().getImmunities().contains(BossImmunity.LAVA_IMMUNE))
 					event.setCancelled(true);
 				break;
 			case FIRE_TICK:
 				//Handle fire enchants
 				if (boss.getFireEnchantTick() > 0)
 					boss.setFireEnchantTick(boss.getFireEnchantTick() - 1);
-				else if (BossParam.ENVIRONMENTAL_FIRETICK_IMMUNE.getValue()) {
+				else if (boss.getBossData().getImmunities().contains(BossImmunity.ENVIRONMENTAL_FIRETICK_IMMUNE)) {
 					livingEntity.setFireTicks(0);
 					event.setCancelled(true);
 				}
 				break;
 			case FALL:
-				if (BossParam.FALL_IMMUNE.getValue())
+				if (boss.getBossData().getImmunities().contains(BossImmunity.FALL_IMMUNE))
 					event.setCancelled(true);
 				break;
 			case DROWNING:
-				if (BossParam.DROWNING_IMMUNE.getValue())
+				if (boss.getBossData().getImmunities().contains(BossImmunity.DROWNING_IMMUNE))
 					event.setCancelled(true);
 				break;
 			case CONTACT:
-				if (BossParam.CONTACT_IMMUNE.getValue())
+				if (boss.getBossData().getImmunities().contains(BossImmunity.CONTACT_IMMUNE))
 					event.setCancelled(true);
 				break;
 			case LIGHTNING:
-				if (BossParam.LIGHTNING_IMMUNE.getValue())
+				if (boss.getBossData().getImmunities().contains(BossImmunity.LIGHTNING_IMMUNE))
 					event.setCancelled(true);
 				break;
 			case SUFFOCATION:
-				if (BossParam.SUFFOCATION_IMMUNE.getValue())
+				if (boss.getBossData().getImmunities().contains(BossImmunity.SUFFOCATION_IMMUNE))
 					event.setCancelled(true);
 				break;
 			case MAGIC:
-				if (BossParam.MAGIC_IMMUNE.getValue())
+				if (boss.getBossData().getImmunities().contains(BossImmunity.MAGIC_IMMUNE))
 					event.setCancelled(true);
 				else
 					damage *= 1.25;
 				break;
 			case POISON:
-				if (BossParam.POISON_IMMUNE.getValue() || boss.getHealth() - damage <= 0)
+				if (boss.getBossData().getImmunities().contains(BossImmunity.POISON_IMMUNE) || boss.getHealth() - damage <= 0)
 					event.setCancelled(true);
 				break;
 			default:

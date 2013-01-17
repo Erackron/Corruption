@@ -29,7 +29,7 @@ public class EquipmentConfig extends BaseConfig {
 	
 	public static void loadEquipmentSets(YamlConfiguration yamlConfig){
 		Set<String> equipmentSetNames = yamlConfig.getKeys(false);
-		
+		equipmentSetNames.remove("version");
 		for(String equipmentSetName: equipmentSetNames){
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(equipmentSetName);
 			

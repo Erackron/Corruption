@@ -46,7 +46,7 @@ public class LabUpdateChecker {
 	
 	// Readded, because this will probably still be needed for updating config files,
 	// and because it is better than just checking if the versions are the same
-	private static boolean isNewerVersion(String current, String lastCheck) {
+	public static boolean isNewerVersion(String current, String lastCheck) {
         String s1 = normalisedVersion(current);
         String s2 = normalisedVersion(lastCheck);
         int cmp = s1.compareTo(s2);

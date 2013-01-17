@@ -33,7 +33,7 @@ public abstract class AbilityConfig extends BaseConfig {
 	
 	private static void LoadAbilities(YamlConfiguration yamlConfig) {
 		Set<String> abilityNames = yamlConfig.getKeys(false);
-		
+		abilityNames.remove("version");
 		for (String abilityName : abilityNames) {
 			String node = abilityName;
 			Map<String, Object> abilityEntries = yamlConfig.getConfigurationSection(node).getValues(false);

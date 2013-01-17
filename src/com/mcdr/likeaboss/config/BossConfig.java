@@ -75,7 +75,7 @@ public class BossConfig extends BaseConfig {
 
 			if (!LoadSpawnValues(bossData, yamlConfig.getConfigurationSection(bossName + ".Spawn"), bossName))
 				continue;
-			if (!LoadStats(bossData, yamlConfig.getString(bossName + ".Stats"), bossName))
+			if (!LoadStats(bossData, yamlConfig.getConfigurationSection(bossName + ".Stats"), bossName))
 				continue;
 			LoadAbilities(bossData, yamlConfig.getStringList(bossName + ".Ability"), bossName);
 			LoadLoots(bossData, yamlConfig.getConfigurationSection(bossName + ".Loot"), bossName);
@@ -97,34 +97,29 @@ public class BossConfig extends BaseConfig {
 			return false;
 		}
 		
-		if(!(spawnSection.isSet("Probability") || spawnSection.isSet("SpawnerProbability") || spawnSection.isSet("MaxSpawnHeight"))){
+		if(!(spawnSection.isSet("Probability") && spawnSection.isSet("SpawnerProbability"))){
 			Likeaboss.l.warning("[Likaboss] '" + bossName + ".Spawn' in bosses config file is invalid.");
 			return false;
 		}
+		
+		double height;
+		if(spawnSection.isSet("MaxSpawnHeight"))
+			height = spawnSection.getDouble("MaxSpawnHeight");
+		else
+			height = 256;
 	
-		bossData.setSpawnData(spawnSection.getDouble("Probability"), spawnSection.getDouble("SpawnerProbability"), spawnSection.getInt("MaxSpawnHeight"));
+		bossData.setSpawnData(spawnSection.getDouble("Probability"), spawnSection.getDouble("SpawnerProbability"), height);
 		return true;
 	}
 	
-	private static boolean LoadStats(BossData bossData, String statsString, String bossName) {
-		if (statsString == null) {
-			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Stats' in bosses config file is missing.");
+	private static boolean LoadStats(BossData bossData, ConfigurationSection statsSection, String bossName) {
+		
+		if(!(statsSection.isSet("Health") && statsSection.isSet("Damage") && statsSection.isSet("Experience"))){
+			Likeaboss.l.info("[Likeaboss] Missing values in '" + bossName + ".Stats'");
 			return false;
 		}
 		
-//		if (!IsValidString(statsString)) {
-//			Likeaboss.logger.warning("[Likeaboss] Invalid values for '" + node + ".Stats' in '" + worldName + "' config file");
-//			continue;
-//		}
-		
-		String[] statsValues = statsString.split(" ");
-		
-		if (statsValues.length < 3) {
-			Likeaboss.l.warning("[Likeaboss] Missing values for '" + bossName + ".Stats' in bosses config file");
-			return false;
-		}
-		
-		bossData.setStatData(Double.valueOf(statsValues[0]), Double.valueOf(statsValues[1]), Double.valueOf(statsValues[2]));
+		bossData.setStatData(statsSection.getDouble("Health"), statsSection.getDouble("Damage"), statsSection.getDouble("Experience"));
 		return true;
 	}
 	
@@ -207,13 +202,17 @@ public class BossConfig extends BaseConfig {
 	
 	public static void LoadImmunities(BossData bossData, ConfigurationSection section, String bossName){
 		if(section == null){
-			//Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Immunities" + "' in bosses config file is empty or doesn't exist.");
+			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Immunities" + "' in bosses config file is empty or doesn't exist.");
 			return;
 		}
 		
 		for(BossImmunity immunities : BossImmunity.values()){
 			if(immunities.getNode() != null){
-				boolean immunityNode = section.getBoolean(immunities.getNode());
+				boolean immunityNode;
+				if(section.isSet(immunities.getNode()))
+					immunityNode = section.getBoolean(immunities.getNode());
+				else
+					immunityNode = false;
 				bossData.setImmunity(immunities.getNode(), immunityNode);
 			}			
 		}

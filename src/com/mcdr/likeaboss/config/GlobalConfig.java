@@ -125,7 +125,6 @@ public abstract class GlobalConfig extends BaseConfig {
 		LoadCommandParams(yamlConfig);
 		LoadMessageParams(yamlConfig);
 		LoadTaskParams(yamlConfig);
-		LoadBossParams(yamlConfig);
 	}
 	
 	private static void LoadCommandParams(YamlConfiguration yamlConfig) {
@@ -167,20 +166,6 @@ public abstract class GlobalConfig extends BaseConfig {
 			}
 			
 			taskParam.setValue(yamlConfig.getDouble(node));
-		}
-	}
-	
-	private static void LoadBossParams(YamlConfiguration yamlConfig) {
-		for (BossParam bossParam : BossParam.values()) {
-			String node = bossParam.getNode();
-			
-			if (!yamlConfig.contains(node)) {
-				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
-				yamlConfig.set(node, bossParam.getValue());
-				continue;
-			}
-			
-			bossParam.setValue(yamlConfig.getBoolean(node));
 		}
 	}
 }
