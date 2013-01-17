@@ -279,7 +279,7 @@ public class LabConfigUpdater {
 		else{
 			configVersion = "1.7.0";
 		}
-		if(!isOlderVersion(latestVersion, configVersion))
+		if(!isOlderVersion(configVersion, latestVersion))
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of magicspells.yml");
@@ -291,7 +291,7 @@ public class LabConfigUpdater {
 		copy(configFile, backupFile);
 		Likeaboss.l.info("[Likeaboss] MagicSpells config backup created");
 		
-		if(isOlderVersion("2.0", configVersion)){
+		if(isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating magicspells.yml");
 			try {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter("plugins/Likeaboss/magicspells.yml", true)));
@@ -367,12 +367,12 @@ public class LabConfigUpdater {
 	
 	/**
 	 * Check if a version number is older than the current plugin version number
-	 * @param pluginVer the current plugin version
-	 * @param checkVer the version to check
-	 * @return true if the version number is older
+	 * @param configVer the version to check
+	 * @param pluginVer the current version to check against
+	 * @return true if the second version is older
 	 */
-	private boolean isOlderVersion(String pluginVer, String checkVer) {
-		return LabUpdateChecker.isNewerVersion(pluginVer, checkVer) && pluginVer.equals(checkVer);
+	private boolean isOlderVersion(String configVer, String pluginVer) {
+		return LabUpdateChecker.isNewerVersion(pluginVer, configVer);
 	}
       
 	

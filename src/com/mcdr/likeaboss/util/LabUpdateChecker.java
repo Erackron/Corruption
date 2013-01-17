@@ -44,17 +44,18 @@ public class LabUpdateChecker {
 		return Likeaboss.in.getDescription().getVersion();
 	}
 	
-	// Readded, because this will probably still be needed for updating config files,
-	// and because it is better than just checking if the versions are the same
+	/**
+	 * Checks if the second input is a newer version than the first input
+	 * @param current the current version used
+	 * @param lastCheck the latest version available
+	 * @return true if second input is a newer version, false if it isn't
+	 */
 	public static boolean isNewerVersion(String current, String lastCheck) {
         String s1 = normalisedVersion(current);
         String s2 = normalisedVersion(lastCheck);
         int cmp = s1.compareTo(s2);
         //String cmpStr = cmp < 0 ? "<" : cmp > 0 ? ">" : "==";
-        if(cmp < 0) {
-        	return true;
-        }
-        return false;
+        return cmp<0;
     }
 
 	private static String normalisedVersion(String version) {
