@@ -40,6 +40,7 @@ public class BossConfig extends BaseConfig {
 	
 	private static void LoadBosses(YamlConfiguration yamlConfig) {
 		Set<String> bossNames = yamlConfig.getKeys(false);
+		bossNames.remove("version");
 		usedBossEntityTypes = new HashSet<EntityType>();
 		for (String bossName : bossNames) {
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(bossName);
@@ -72,7 +73,7 @@ public class BossConfig extends BaseConfig {
 			
 			
 
-			if (!LoadSpawnValues(bossData, yamlConfig.getString(bossName + ".Spawn"), bossName))
+			if (!LoadSpawnValues(bossData, yamlConfig.getConfigurationSection(bossName + ".Spawn"), bossName))
 				continue;
 			if (!LoadStats(bossData, yamlConfig.getString(bossName + ".Stats"), bossName))
 				continue;
@@ -90,30 +91,18 @@ public class BossConfig extends BaseConfig {
 		}
 	}
 	
-	private static boolean LoadSpawnValues(BossData bossData, String spawnString, String bossName) {
-		if (spawnString == null) {
+	private static boolean LoadSpawnValues(BossData bossData, ConfigurationSection spawnSection, String bossName) {
+		if (spawnSection == null) {
 			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Spawn' in bosses config file is missing.");
 			return false;
 		}
 		
-//		if (!IsValidString(spawnString)) {
-//			Likeaboss.logger.warning("[Likeaboss] Invalid values for '" + node + ".Spawn' in '" + worldName + "' config file");
-//			continue;
-//		}
-		
-		String[] spawnValues = spawnString.split(" ");
-		
-		if (spawnValues.length < 2) {
-			Likeaboss.l.warning("[Likeaboss] Missing values for '" + bossName + ".Spawn' in bosses config file");
+		if(!(spawnSection.isSet("Probability") || spawnSection.isSet("SpawnerProbability") || spawnSection.isSet("MaxSpawnHeight"))){
+			Likeaboss.l.warning("[Likaboss] '" + bossName + ".Spawn' in bosses config file is invalid.");
 			return false;
-		} else if (spawnValues.length < 3){
-			String[] temp = new String[spawnValues.length + 1];
-		    System.arraycopy(spawnValues, 0, temp, 0, spawnValues.length);
-		    temp[spawnValues.length] = "256";
-		    spawnValues = temp;
 		}
 	
-		bossData.setSpawnData(Double.valueOf(spawnValues[0]), Double.valueOf(spawnValues[1]), Double.valueOf(spawnValues[2]));
+		bossData.setSpawnData(spawnSection.getDouble("Probability"), spawnSection.getDouble("SpawnerProbability"), spawnSection.getInt("MaxSpawnHeight"));
 		return true;
 	}
 	

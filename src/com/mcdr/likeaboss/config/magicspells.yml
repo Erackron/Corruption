@@ -1,3 +1,6 @@
+# DO NOT TOUCH THIS VARIABLE!
+version: 1.7.1
+
 # If this is set to true, the other parts of the config file will be ignored
 enable-all-spells: true
 # If true, use a whitelist, if false, use a blacklist

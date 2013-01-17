@@ -1,3 +1,6 @@
+# DO NOT TOUCH THIS VARIABLE!
+version: 1.7.1
+
 "diamond":
   Helmet:
     "diamond_helmet":

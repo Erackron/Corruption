@@ -25,6 +25,7 @@ import com.mcdr.likeaboss.listener.LabWorldListener;
 import com.mcdr.likeaboss.player.LabPlayerManager;
 import com.mcdr.likeaboss.stats.StatsManager;
 import com.mcdr.likeaboss.task.TaskManager;
+import com.mcdr.likeaboss.util.LabConfigUpdater;
 import com.mcdr.likeaboss.util.LabUpdateChecker;
 import com.timvisee.manager.permissionsmanager.PermissionsManager;
 
@@ -46,6 +47,7 @@ public class Likeaboss extends JavaPlugin {
 		PluginManager pluginManager = getServer().getPluginManager();		
 		msInstalled = pluginManager.getPlugin("MagicSpells") != null;
 		
+		updateConfigs();
 		ConfigManager.Load();
 		LabPlayerManager.AddOnlinePlayers();
 		TaskManager.Start();
@@ -137,6 +139,11 @@ public class Likeaboss extends JavaPlugin {
 		} else {
 			l.info("["+getName()+"] No update needed, running the latest version (" + in.getDescription().getVersion() + ")");
 		}
+	}
+	
+	private void updateConfigs(){
+		LabConfigUpdater updater = new LabConfigUpdater();
+		updater.updateFiles();
 	}
 	
 	@Override

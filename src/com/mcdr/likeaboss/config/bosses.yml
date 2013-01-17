@@ -1,3 +1,6 @@
+# DO NOT TOUCH THIS VARIABLE!
+version: 1.7.1
+
 Blaze:
   EntityType: Blaze
   Spawn: 3.0 1.0

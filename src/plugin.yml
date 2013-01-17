@@ -1,7 +1,8 @@
 name: Likeaboss
 main: com.mcdr.likeaboss.Likeaboss
-version: 1.7.1
-author: bm01
+version: 2.0
+authors: [Erackron, Pyriphlegethon]
+softdepend: [Vault]
 commands:
   lab:
     description: Likeaboss base command

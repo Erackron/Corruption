@@ -1,3 +1,6 @@
+# DO NOT TOUCH THIS VARIABLE!
+version: 1.7.1
+
 AP25:
   Type: ArmorPierce
   Message: "&4Corrupted {BOSSNAME} used Armor Pierce."
