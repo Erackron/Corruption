@@ -51,7 +51,9 @@ public class UpdateCommand extends BaseCommand {
 		
 		if(LabAutoUpdater.update())
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Updated successfully.");
-		else
+		else {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Update failed.");
+			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Check the console/logs for more information.");
+		}
 	}
 }
