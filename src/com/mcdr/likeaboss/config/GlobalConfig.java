@@ -1,6 +1,7 @@
 package com.mcdr.likeaboss.config;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -81,29 +82,30 @@ public abstract class GlobalConfig extends BaseConfig {
 	
 	public enum BossParam {
 		OVERWRITE_DROPS (false) {@Override public String getNode() {return "Boss.OverwriteDrops";}},
+		MCMMO_EXTRA_BOSS_XP (0) {@Override public String getNode() {return "Boss.ExtraMCMMOXP";}},
 		USE_HEALTH_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetHealthAsMultiplier";}},
 		USE_DAMAGE_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetDamageAsMultiplier";}},
 		USE_EXPERIENCE_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetExperienceAsMultiplier";}};
 		
-		private boolean value;
+		private Object value;
 		
-		private BossParam(boolean value) {
+		private BossParam(Object value) {
 			this.value = value;
 		}
 		
-		public boolean getValue() {
+		public Object getValue() {
 			return value;
 		}
 		
 		public abstract String getNode();
 		
-		public void setValue(boolean value) {
+		public void setValue(Object value) {
 			this.value = value;
 		}
 	}
 	
 	public static void Load() {
-		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + File.separator + "config.yml", "com" + File.separator + "mcdr" + File.separator + "likeaboss" + File.separator + "config" + File.separator + "config.yml");
+		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + "/config.yml", "com/mcdr/likeaboss/config/config.yml");
 		
 		if (file == null)
 			return;
@@ -165,10 +167,17 @@ public abstract class GlobalConfig extends BaseConfig {
 			if (!yamlConfig.contains(node)) {
 				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, bossParam.getValue());
+				try {
+					yamlConfig.save(new File(Likeaboss.in.getDataFolder().getPath() + "/config.yml"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				continue;
 			}
 
-			bossParam.setValue(yamlConfig.getBoolean(node));
+			bossParam.setValue(yamlConfig.get(node));
 		}
 	}
 }

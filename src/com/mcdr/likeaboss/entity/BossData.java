@@ -8,6 +8,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 
 import com.mcdr.likeaboss.ability.Ability;
+import com.mcdr.likeaboss.config.GlobalConfig.BossParam;
 import com.mcdr.likeaboss.drop.Roll;
 
 
@@ -24,6 +25,7 @@ public class BossData {
 	private double damageCoef;
 	private double expCoef;
 	private double maxSpawnLevel;
+	private int mcMMOXPBonus;
 	private boolean useHealthMultiplier;
 	private boolean useDamageMultiplier;
 	private boolean useExperienceMultiplier;
@@ -31,6 +33,8 @@ public class BossData {
 	public BossData(String name, EntityType entityType) {
 		this.name = name;
 		this.entityType = entityType;
+		setStatsMultipliers(BossParam.USE_HEALTH_MULTIPLIER.getValue(), BossParam.USE_DAMAGE_MULTIPLIER.getValue(), BossParam.USE_EXPERIENCE_MULTIPLIER.getValue());
+		setMCMMOXPBonus(BossParam.MCMMO_EXTRA_BOSS_XP.getValue());
 		immunities = new ArrayList<BossImmunity>();
 	}
 	
@@ -82,6 +86,10 @@ public class BossData {
 		return maxSpawnLevel;
 	}
 	
+	public int getMCMMOXPBonus(){
+		return mcMMOXPBonus;
+	}
+	
 	public boolean useHealthMultiplier(){
 		return useHealthMultiplier;
 	}
@@ -94,10 +102,10 @@ public class BossData {
 		return useExperienceMultiplier;
 	}
 	
-	public void setStatsMultipliers(boolean health, boolean damage, boolean experience){
-		useHealthMultiplier = health;
-		useDamageMultiplier = damage;
-		useExperienceMultiplier = experience;
+	public void setStatsMultipliers(Object health, Object damage, Object experience){
+		useHealthMultiplier = (boolean) health;
+		useDamageMultiplier = (boolean) damage;
+		useExperienceMultiplier = (boolean) experience;
 	}
 	
 	public void setSpawnData(double chance, double chanceFromSpawner, double maxSpawnLevel) {
@@ -110,6 +118,10 @@ public class BossData {
 		this.healthCoef = healthCoef;
 		this.damageCoef = damageCoef;
 		this.expCoef = expCoef;
+	}
+	
+	public void setMCMMOXPBonus(Object bonus){
+		mcMMOXPBonus = (int) bonus;
 	}
 	
 	public void setEquipment(EquipmentSet eqS){

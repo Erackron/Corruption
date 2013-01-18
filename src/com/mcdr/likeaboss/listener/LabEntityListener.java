@@ -25,9 +25,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 
+import com.gmail.nossr50.api.ExperienceAPI;
+import com.gmail.nossr50.datatypes.SkillType;
 import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.ability.Ability.ActivationCondition;
 import com.mcdr.likeaboss.config.WorldConfig;
@@ -233,6 +236,29 @@ public class LabEntityListener implements Listener {
 					if (enchants.containsKey(Enchantment.FIRE_ASPECT))
 						Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.in, new GetFireEnchantTicks(boss), 0);
 				}
+				
+				if(player != null && Likeaboss.mcMMOInstalled){
+					ItemStack weapon = player.getItemInHand();
+					if(weapon == null){
+						ExperienceAPI.addXP(player, SkillType.UNARMED, boss.getBossData().getMCMMOXPBonus());
+					}
+					switch(weapon.getTypeId()){
+					case 267:
+					case 268:
+					case 272:
+					case 276:
+					case 283:
+						ExperienceAPI.addXP(player, SkillType.SWORDS, boss.getBossData().getMCMMOXPBonus());
+						break;
+					case 271:
+					case 275:
+					case 279:
+					case 286:
+					case 258:
+						ExperienceAPI.addXP(player, SkillType.AXES, boss.getBossData().getMCMMOXPBonus());
+						break;
+					}
+				}
 				break;
 			case PROJECTILE:
 				if (boss.getBossData().getImmunities().contains(BossImmunity.PROJECTILE_IMMUNE)) {
@@ -244,6 +270,9 @@ public class LabEntityListener implements Listener {
 					
 					if (enchants.containsKey(Enchantment.ARROW_FIRE))
 						Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.in, new GetFireEnchantTicks(boss), 0);
+				}
+				if(player != null){
+					ExperienceAPI.addXP(player, SkillType.ARCHERY, boss.getBossData().getMCMMOXPBonus());
 				}
 				break;
 			case BLOCK_EXPLOSION:

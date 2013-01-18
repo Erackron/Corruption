@@ -33,7 +33,7 @@ public class Likeaboss extends JavaPlugin {
 	public static Likeaboss in;
 	public static Logger l;
 	public static BukkitScheduler scheduler;
-	public static boolean msInstalled;
+	public static boolean msInstalled, mcMMOInstalled;
 	public PermissionsManager pm;
 	
 	public Likeaboss() {
@@ -46,6 +46,7 @@ public class Likeaboss extends JavaPlugin {
 	public void onEnable() {
 		PluginManager pluginManager = getServer().getPluginManager();		
 		msInstalled = pluginManager.getPlugin("MagicSpells") != null;
+		mcMMOInstalled = pluginManager.getPlugin("mcMMO") != null;
 		
 		updateConfigs();
 		ConfigManager.Load();
