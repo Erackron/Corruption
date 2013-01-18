@@ -24,6 +24,9 @@ public class BossData {
 	private double damageCoef;
 	private double expCoef;
 	private double maxSpawnLevel;
+	private boolean useHealthMultiplier;
+	private boolean useDamageMultiplier;
+	private boolean useExperienceMultiplier;
 	
 	public BossData(String name, EntityType entityType) {
 		this.name = name;
@@ -77,6 +80,24 @@ public class BossData {
 	
 	public double getMaxSpawnLevel(){
 		return maxSpawnLevel;
+	}
+	
+	public boolean useHealthMultiplier(){
+		return useHealthMultiplier;
+	}
+	
+	public boolean useDamageMultiplier(){
+		return useDamageMultiplier;
+	}
+	
+	public boolean useExperienceMultiplier(){
+		return useExperienceMultiplier;
+	}
+	
+	public void setStatsMultipliers(boolean health, boolean damage, boolean experience){
+		useHealthMultiplier = health;
+		useDamageMultiplier = damage;
+		useExperienceMultiplier = experience;
 	}
 	
 	public void setSpawnData(double chance, double chanceFromSpawner, double maxSpawnLevel) {

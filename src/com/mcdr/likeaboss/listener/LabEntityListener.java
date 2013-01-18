@@ -31,7 +31,6 @@ import org.bukkit.metadata.LazyMetadataValue;
 import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.ability.Ability.ActivationCondition;
 import com.mcdr.likeaboss.config.WorldConfig;
-import com.mcdr.likeaboss.config.GlobalConfig.BossParam;
 import com.mcdr.likeaboss.config.GlobalConfig.MessageParam;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.BossData;
@@ -170,8 +169,10 @@ public class LabEntityListener implements Listener {
 				default:
 					break;
 				}
-				
-				event.setDamage((int) (event.getDamage() * boss.getBossData().getDamageCoef()));
+				if(boss.getBossData().useDamageMultiplier())
+					event.setDamage((int) (event.getDamage() * boss.getBossData().getDamageCoef()));
+				else
+					event.setDamage((int) boss.getBossData().getDamageCoef());
 				boss.ActivateAbilities(event, livingEntity, ActivationCondition.ONATTACK);
 			}
 		}
@@ -238,7 +239,7 @@ public class LabEntityListener implements Listener {
 					event.setCancelled(true);
 					break;
 				}
-				if (player != null && !BossParam.ENCHANT_FIRETICK_IMMUNE.getValue()) {
+				if (player != null && !boss.getBossData().getImmunities().contains(BossImmunity.ENCHANT_FIRETICK_IMMUNE)) {
 					Map<Enchantment, Integer> enchants = player.getItemInHand().getEnchantments();
 					
 					if (enchants.containsKey(Enchantment.ARROW_FIRE))

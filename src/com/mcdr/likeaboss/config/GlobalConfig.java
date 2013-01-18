@@ -81,21 +81,9 @@ public abstract class GlobalConfig extends BaseConfig {
 	
 	public enum BossParam {
 		OVERWRITE_DROPS (false) {@Override public String getNode() {return "Boss.OverwriteDrops";}},
-		ATTACK_IMMUNE (false) {@Override public String getNode() {return "Boss.Immunity.Attack";}},
-		PROJECTILE_IMMUNE (false) {@Override public String getNode() {return "Boss.Immunity.Projectile";}},
-		BLOCK_EXPLOSION_IMMUNE (false) {@Override public String getNode() {return "Boss.Immunity.BlockExplosion";}},
-		ENTITY_EXPLOSION_IMMUNE (false) {@Override public String getNode() {return "Boss.Immunity.EntityExplosion";}},
-		FIRE_IMMUNE (true) {@Override public String getNode() {return "Boss.Immunity.Fire";}},
-		LAVA_IMMUNE (true) {@Override public String getNode() {return "Boss.Immunity.Lava";}},
-		ENCHANT_FIRETICK_IMMUNE (false) {@Override public String getNode() {return "Boss.Immunity.EnchantFireTick";}},
-		ENVIRONMENTAL_FIRETICK_IMMUNE (true) {@Override public String getNode() {return "Boss.Immunity.EnvironmentalFireTick";}},
-		FALL_IMMUNE (true) {@Override public String getNode() {return "Boss.Immunity.Fall";}},
-		CONTACT_IMMUNE (true) {@Override public String getNode() {return "Boss.Immunity.Contact";}},
-		DROWNING_IMMUNE (true) {@Override public String getNode() {return "Boss.Immunity.Drowning";}},
-		LIGHTNING_IMMUNE (false) {@Override public String getNode() {return "Boss.Immunity.Lightning";}},
-		SUFFOCATION_IMMUNE (true) {@Override public String getNode() {return "Boss.Immunity.Suffocation";}},
-		MAGIC_IMMUNE (false) {@Override public String getNode() {return "Boss.Immunity.Magic";}},
-		POISON_IMMUNE (false) {@Override public String getNode() {return "Boss.Immunity.Poison";}};
+		USE_HEALTH_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetHealthAsMultiplier";}},
+		USE_DAMAGE_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetDamageAsMultiplier";}},
+		USE_EXPERIENCE_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetExperienceAsMultiplier";}};
 		
 		private boolean value;
 		
@@ -125,6 +113,7 @@ public abstract class GlobalConfig extends BaseConfig {
 		LoadCommandParams(yamlConfig);
 		LoadMessageParams(yamlConfig);
 		LoadTaskParams(yamlConfig);
+		LoadBossParams(yamlConfig);
 	}
 	
 	private static void LoadCommandParams(YamlConfiguration yamlConfig) {
@@ -166,6 +155,20 @@ public abstract class GlobalConfig extends BaseConfig {
 			}
 			
 			taskParam.setValue(yamlConfig.getDouble(node));
+		}
+	}
+	
+	private static void LoadBossParams(YamlConfiguration yamlConfig) {
+		for (BossParam bossParam : BossParam.values()) {
+			String node = bossParam.getNode();
+
+			if (!yamlConfig.contains(node)) {
+				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
+				yamlConfig.set(node, bossParam.getValue());
+				continue;
+			}
+
+			bossParam.setValue(yamlConfig.getBoolean(node));
 		}
 	}
 }

@@ -33,7 +33,11 @@ public class Boss extends LabEntity {
 	public Boss(LivingEntity livingEntity, BossData bossData) {
 		this.livingEntity = livingEntity;
 		this.bossData = bossData;
-		health = (int) (livingEntity.getMaxHealth() * bossData.getHealthCoef());
+		if(bossData.useHealthMultiplier())
+			health = (int) (livingEntity.getMaxHealth() * bossData.getHealthCoef());
+		else
+			health = (int) bossData.getHealthCoef();
+		
 		livingEntity.setMaxHealth(health);
 		livingEntity.setHealth(health);
 		AddAbilities();
@@ -119,7 +123,11 @@ public class Boss extends LabEntity {
 	public void OnDeath(EntityDeathEvent event) {
 		//Prepare drops and exp
 		List<ItemStack> drops = DropCalculator.CreateDrops(getBossData(), WorldConfig.getWorldData(livingEntity.getWorld()));
-		int exp = (int) (event.getDroppedExp() * getBossData().getExpCoef());
+		int exp;
+		if(getBossData().useExperienceMultiplier())
+			exp = (int) (event.getDroppedExp() * getBossData().getExpCoef());
+		else
+			exp = (int) getBossData().getExpCoef();
 		
 		//Update drops and exp
 		List<ItemStack> originalDrops = event.getDrops();
