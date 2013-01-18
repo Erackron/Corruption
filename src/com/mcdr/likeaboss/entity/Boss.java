@@ -131,7 +131,7 @@ public class Boss extends LabEntity {
 		
 		//Update drops and exp
 		List<ItemStack> originalDrops = event.getDrops();
-		if ((boolean) BossParam.OVERWRITE_DROPS.getValue()){
+		if (BossParam.OVERWRITE_DROPS.getValue()==1){
 			if(getBossData().hasEquipment()){
 				EntityEquipment equips = event.getEntity().getEquipment();
 				ArrayList<ItemStack> items = new ArrayList<ItemStack>();

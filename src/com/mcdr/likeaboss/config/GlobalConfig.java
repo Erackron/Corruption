@@ -81,25 +81,25 @@ public abstract class GlobalConfig extends BaseConfig {
 	}
 	
 	public enum BossParam {
-		OVERWRITE_DROPS (false) {@Override public String getNode() {return "Boss.OverwriteDrops";}},
+		OVERWRITE_DROPS (0) {@Override public String getNode() {return "Boss.OverwriteDrops";}},
 		MCMMO_EXTRA_BOSS_XP (0) {@Override public String getNode() {return "Boss.ExtraMCMMOXP";}},
-		USE_HEALTH_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetHealthAsMultiplier";}},
-		USE_DAMAGE_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetDamageAsMultiplier";}},
-		USE_EXPERIENCE_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetExperienceAsMultiplier";}};
+		USE_HEALTH_AS_MULTIPLIER (1) {@Override public String getNode() {return "Boss.SetHealthAsMultiplier";}},
+		USE_DAMAGE_AS_MULTIPLIER (1) {@Override public String getNode() {return "Boss.SetDamageAsMultiplier";}},
+		USE_EXPERIENCE_AS_MULTIPLIER (1) {@Override public String getNode() {return "Boss.SetExperienceAsMultiplier";}};
 		
-		private Object value;
+		private int value;
 		
-		private BossParam(Object value) {
+		private BossParam(int value) {
 			this.value = value;
 		}
 		
-		public Object getValue() {
+		public int getValue() {
 			return value;
 		}
 		
 		public abstract String getNode();
 		
-		public void setValue(Object value) {
+		public void setValue(int value) {
 			this.value = value;
 		}
 	}
@@ -170,14 +170,14 @@ public abstract class GlobalConfig extends BaseConfig {
 				try {
 					yamlConfig.save(new File(Likeaboss.in.getDataFolder().getPath() + "/config.yml"));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 				continue;
 			}
-
-			bossParam.setValue(yamlConfig.get(node));
+			if(node==BossParam.MCMMO_EXTRA_BOSS_XP.getNode())
+				bossParam.setValue(yamlConfig.getInt(node));
+			else
+				bossParam.setValue(yamlConfig.getBoolean(node)?1:0);
 		}
 	}
 }
