@@ -18,7 +18,7 @@ public class EquipmentConfig extends BaseConfig {
 	public static Map<String, EquipmentSet> equipmentSets = new HashMap<String, EquipmentSet>();
 	
 	public static void Load(){
-		File file = LoadFile("plugins/Likeaboss/equipment.yml", "com/mcdr/likeaboss/config/equipment.yml");
+		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + File.separator + "equipment.yml", "com" + File.separator + "mcdr" + File.separator + "likeaboss" + File.separator + "config" + File.separator + "equipment.yml");
 		
 		if (file == null)
 			return;

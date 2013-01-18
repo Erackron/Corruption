@@ -28,7 +28,7 @@ public class BossConfig extends BaseConfig {
 	private static Set<EntityType> usedBossEntityTypes;
 	
 	public static void Load() {
-		File file = LoadFile("plugins/Likeaboss/bosses.yml", "com/mcdr/likeaboss/config/bosses.yml");
+		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + File.separator + "bosses.yml", "com" + File.separator + "mcdr" + File.separator + "likeaboss" + File.separator + "config" + File.separator + "bosses.yml");
 		
 		if (file == null)
 			return;

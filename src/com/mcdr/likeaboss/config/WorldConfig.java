@@ -25,7 +25,7 @@ public abstract class WorldConfig extends BaseConfig {
 		
 	public static void Load(World world) {
 		String worldName = world.getName();
-		File file = LoadFile("plugins/Likeaboss/Worlds/" + worldName + ".yml", "com/mcdr/likeaboss/config/world.yml");
+		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + File.separator + "Worlds" + File.separator + worldName + ".yml", "com" + File.separator + "mcdr" + File.separator + "likeaboss" + File.separator + "config" + File.separator + "world.yml");
 		
 		if (file == null)
 			return;

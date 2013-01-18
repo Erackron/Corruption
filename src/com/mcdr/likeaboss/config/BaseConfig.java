@@ -20,7 +20,7 @@ public abstract class BaseConfig {
 				InputStream inputStream = Likeaboss.in.getResource(resourcePath);
 				
 				if (inputStream == null) {
-					Likeaboss.l.severe("[Likeaboss] Missing ressource file: '" + resourcePath + "', please notify the plugin author");
+					Likeaboss.l.severe("[Likeaboss] Missing resource file: '" + resourcePath + "', please notify the plugin author");
 					return null;
 				}
 				else {

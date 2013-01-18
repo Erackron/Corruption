@@ -2,13 +2,8 @@ package com.mcdr.likeaboss.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -35,7 +30,7 @@ public class LabConfigUpdater {
 	}
 	
 	private void updateAbilityConfig(){
-		YamlConfiguration ability = getYamlConfig("plugins/Likeaboss/abilities.yml");
+		YamlConfiguration ability = getYamlConfig(getFile("abilities.yml"));
 		
 		if(ability == null)
 			return;
@@ -46,23 +41,27 @@ public class LabConfigUpdater {
 		else{
 			configVersion = "1.7.0";
 		}
-		if(!isOlderVersion(latestVersion, configVersion))
+		if(!isOlderVersion(configVersion, latestVersion))
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of abilities.yml!");
-		File configFile = new File("plugins/Likeaboss/abilities.yml");
-		File backupFile = new File("plugins/Likeaboss", "old_files" + File.separator + "v" + configVersion + File.separator + "abilities.yml");
+		File configFile = getFile("abilities.yml");
+		File backupFile = new File(Likeaboss.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "abilities.yml");
 		
 		((File) new File(backupFile.getParent())).mkdirs();
 		
-		copy(configFile, backupFile);
+		try {
+			Utility.FileToFile(configFile, backupFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		Likeaboss.l.info("[Likeaboss] Ability config backup created");
 		
-		if(isOlderVersion("2.0", configVersion)){
+		if(isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating abilities.yml");
 			try {
-				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter("plugins/Likeaboss/abilities.yml", true)));
+				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("abilities.yml"), true)));
 				stream.println();
 				stream.println();
 				stream.println("# Do not touch this variable");
@@ -77,7 +76,7 @@ public class LabConfigUpdater {
 	}
 	
 	private void updateGlobalConfig(){
-		YamlConfiguration global = getYamlConfig("plugins/Likeaboss/config.yml");
+		YamlConfiguration global = getYamlConfig(getFile("config.yml"));
 		
 		if(global == null)
 			return;
@@ -88,28 +87,33 @@ public class LabConfigUpdater {
 		else{
 			configVersion = "1.7.0";
 		}
-		if(!isOlderVersion(latestVersion, configVersion))
+		if(!isOlderVersion(configVersion, latestVersion))
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of config.yml");
-		File configFile = new File("plugins/Likeaboss/config.yml");
-		File backupFile = new File("plugins/Likeaboss", "old_files" + File.separator + "v" + configVersion + File.separator + "config.yml");
+		File configFile = getFile("config.yml");
+		File backupFile = new File(Likeaboss.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "config.yml");
 		
 		((File) new File(backupFile.getParent())).mkdirs();
 		
-		copy(configFile, backupFile);
+		try {
+			Utility.FileToFile(configFile, backupFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		Likeaboss.l.info("[Likeaboss] Global config backup created");
 		
-		if(isOlderVersion("2.0", configVersion)){
+		if(isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating config.yml");
 			global.set("Boss.Immunity", null);
 			try {
-				global.save("plugins/Likeaboss/config.yml");
+				global.save(getFile("config.yml"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			try {
-				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter("plugins/Likeaboss/config.yml", true)));
+				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("config.yml"), true)));
 				stream.println();
 				stream.println();
 				stream.println("# Do not touch this variable!");
@@ -124,7 +128,7 @@ public class LabConfigUpdater {
 	}
 	
 	private void updateBossConfig(){
-		YamlConfiguration bosses = getYamlConfig("plugins/Likeaboss/bosses.yml");
+		YamlConfiguration bosses = getYamlConfig(getFile("bosses.yml"));
 		
 		if(bosses == null)
 			return;
@@ -135,22 +139,27 @@ public class LabConfigUpdater {
 		else{
 			configVersion = "1.7.0";
 		}
-		if(!isOlderVersion(latestVersion, configVersion))
+		if(!isOlderVersion(configVersion, latestVersion))
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of bosses.yml");
 		
-		File configFile = new File("plugins/Likeaboss/bosses.yml");
-		File backupFile = new File("plugins/Likeaboss", "old_files" + File.separator + "v" + configVersion + File.separator + "bosses.yml");
+		File configFile = getFile("bosses.yml");
+		File backupFile = new File(Likeaboss.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "bosses.yml");
 		
 		((File) new File(backupFile.getParent())).mkdirs();
 		
-		copy(configFile, backupFile);
+		try {
+			Utility.FileToFile(configFile, backupFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		Likeaboss.l.info("[Likeaboss] Bosses config backup created");
 				
-		if(isOlderVersion("2.0", configVersion)){
+		if(isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating bosses.yml");
-			YamlConfiguration global = getYamlConfig("plugins/Likeaboss/config.yml");
+			YamlConfiguration global = getYamlConfig(getFile("config.yml"));
 			ConfigurationSection immunity = global.getConfigurationSection("Boss.Immunity");
 			
 			for(String node : bosses.getKeys(false)){
@@ -206,13 +215,13 @@ public class LabConfigUpdater {
 			}			
 			
 			try {
-				bosses.save("plugins/Likeaboss/bosses.yml");				
+				bosses.save(getFile("bosses.yml"));				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
 			try {
-				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter("plugins/Likeaboss/bosses.yml", true)));
+				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("bosses.yml"), true)));
 				stream.println();
 				stream.println();
 				stream.println("# Do not touch this variable!");
@@ -227,7 +236,7 @@ public class LabConfigUpdater {
 	}
 	
 	private void updateEquipmentConfig(){
-		YamlConfiguration equipment = getYamlConfig("plugins/Likeaboss/equipment.yml");
+		YamlConfiguration equipment = getYamlConfig(getFile("equipment.yml"));
 		
 		if(equipment == null)
 			return;
@@ -238,22 +247,27 @@ public class LabConfigUpdater {
 		else{
 			configVersion = "1.7.0";
 		}
-		if(!isOlderVersion(latestVersion, configVersion))
+		if(!isOlderVersion(configVersion, latestVersion))
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of equipment.yml");
-		File configFile = new File("plugins/Likeaboss/equipment.yml");
-		File backupFile = new File("plugins/Likeaboss", "old_files" + File.separator + "v" + configVersion + File.separator + "equipment.yml");
+		File configFile = getFile("equipment.yml");
+		File backupFile = new File(Likeaboss.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "equipment.yml");
 		
 		((File) new File(backupFile.getParent())).mkdirs();
 		
-		copy(configFile, backupFile);
+		try {
+			Utility.FileToFile(configFile, backupFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		Likeaboss.l.info("[Likeaboss] Equipment config backup created");
 		
-		if(isOlderVersion("2.0", configVersion)){
+		if(isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating equipment.yml");
 			try {
-				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter("plugins/Likeaboss/equipment.yml", true)));
+				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("equipment.yml"), true)));
 				stream.println();
 				stream.println();
 				stream.println("# Do not touch this variable!");
@@ -268,7 +282,7 @@ public class LabConfigUpdater {
 	}
 	
 	private void updateMagicSpellsConfig(){
-		YamlConfiguration magicSpells = getYamlConfig("plugins/Likeaboss/magicspells.yml");
+		YamlConfiguration magicSpells = getYamlConfig(getFile("magicspells.yml"));
 		
 		if(magicSpells == null)
 			return;
@@ -283,18 +297,23 @@ public class LabConfigUpdater {
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of magicspells.yml");
-		File configFile = new File("plugins/Likeaboss/magicspells.yml");
-		File backupFile = new File("plugins/Likeaboss", "old_files" + File.separator + "v" + configVersion + File.separator + "magicspells.yml");
+		File configFile = getFile("magicspells.yml");
+		File backupFile = new File(Likeaboss.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "magicspells.yml");
 		
 		((File) new File(backupFile.getParent())).mkdirs();
 		
-		copy(configFile, backupFile);
+		try {
+			Utility.FileToFile(configFile, backupFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		Likeaboss.l.info("[Likeaboss] MagicSpells config backup created");
 		
 		if(isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating magicspells.yml");
 			try {
-				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter("plugins/Likeaboss/magicspells.yml", true)));
+				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("magicspells.yml"), true)));
 				stream.println();
 				stream.println();
 				stream.println("# Do not touch this variable!");
@@ -310,7 +329,7 @@ public class LabConfigUpdater {
 	
 	private void updateWorldConfig(){
 		for(World world : Bukkit.getServer().getWorlds()){
-			YamlConfiguration worldConfig = getYamlConfig("plugins/Likeaboss/Worlds/" + world.getName() + ".yml");
+			YamlConfiguration worldConfig = getYamlConfig(getFile("Worlds" + File.separator + world.getName() + ".yml"));
 			
 			if(worldConfig == null)
 				continue;
@@ -321,23 +340,28 @@ public class LabConfigUpdater {
 			else{
 				configVersion = "1.7.0";
 			}
-			if(!isOlderVersion(latestVersion, configVersion))
+			if(!isOlderVersion(configVersion, latestVersion))
 				continue;
 			
 			Likeaboss.l.info("[Likeaboss] Creating backup of " + world.getName() + ".yml");
-			File configFile = new File("plugins/Likeaboss/Worlds/" + world.getName() + ".yml");
-			File backupFile = new File("plugins/Likeaboss", "old_files" + File.separator +  "v" + configVersion + File.separator + "Worlds" + File.separator + world.getName() + ".yml");
+			File configFile = getFile("Worlds" + File.separator + world.getName() + ".yml");
+			File backupFile = new File(Likeaboss.in.getDataFolder().getPath(), "old_files" + File.separator +  "v" + configVersion + File.separator + "Worlds" + File.separator + world.getName() + ".yml");
 			
 			((File) new File(backupFile.getParent())).mkdirs();
 			
-			copy(configFile, backupFile);
+			try {
+				Utility.FileToFile(configFile, backupFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			Likeaboss.l.info("[Likeaboss] World " + world.getName() + "config backup created");
 			
 			
-			if(isOlderVersion("2.0", configVersion)){
+			if(isOlderVersion(configVersion, "2.0")){
 				Likeaboss.l.info("[Likeaboss] Updating " + world.getName() + ".yml");
 				try {
-					PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter("plugins/Likeaboss/Worlds/" + world.getName() + ".yml", true)));
+					PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("Worlds" + File.separator + world.getName() + ".yml"), true)));
 					stream.println();
 					stream.println();
 					stream.println("# Do not touch this variable!");
@@ -352,8 +376,7 @@ public class LabConfigUpdater {
 		}
 	}
 	
-	private YamlConfiguration getYamlConfig(String path){
-		File file = new File(path);
+	private YamlConfiguration getYamlConfig(File file){		
 		YamlConfiguration yamlConfig = new YamlConfiguration();
 		
 		try {
@@ -365,44 +388,17 @@ public class LabConfigUpdater {
 		return yamlConfig;		
 	}
 	
+	private File getFile(String name){
+		return ((File) new File(Likeaboss.in.getDataFolder().getPath() + File.separator + name));
+	}
+	
 	/**
 	 * Check if a version number is older than the current plugin version number
 	 * @param configVer the version to check
 	 * @param pluginVer the current version to check against
-	 * @return true if the second version is older
+	 * @return true if the first version is older
 	 */
 	private boolean isOlderVersion(String configVer, String pluginVer) {
 		return LabUpdateChecker.isNewerVersion(pluginVer, configVer);
-	}
-      
-	
-	private void copy(File f1, File f2) {
-		InputStream in = null;
-		try {
-			in = new FileInputStream(f1);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		copy(in, f2);
-	}
-
-	private void copy(InputStream in, File file) {
-		// Make sure the input isn't null
-		if(in == null)
-			return;
-		
-	    try {
-	        OutputStream out = new FileOutputStream(file);
-	        byte[] buf = new byte[1024];
-	        int len;
-	        while((len=in.read(buf))>0){
-	            out.write(buf,0,len);
-	        }
-	        out.close();
-	        in.close();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	}
-	
+	}	
 }

@@ -29,7 +29,7 @@ public abstract class LabPlayerManager {
 	private static Pattern pattern = Pattern.compile(StringConst.SEPARATOR.getString());
 	
 	private enum StringConst {
-		FILEPATH {@Override public String getString() {return "plugins/Likeaboss/players.dat";}},
+		FILEPATH {@Override public String getString() {return Likeaboss.in.getDataFolder().getPath() + File.separator + "players.dat";}},
 		SEPARATOR {@Override public String getString() {return ":";}},
 		ENDLINE {@Override public String getString() {return System.getProperty("line.separator");}};
 		

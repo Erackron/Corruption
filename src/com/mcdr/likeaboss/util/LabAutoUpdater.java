@@ -92,7 +92,7 @@ public class LabAutoUpdater {
 			fos.close();
 			try{
 				String md5 = calculateMd5Hash(origFile);
-				if(!md5.equalsIgnoreCase(md5Hash+"fdasljkfd")){
+				if(!md5.equalsIgnoreCase(md5Hash)){
 					Likeaboss.l.warning("[Likeaboss] Download failed, hashes did not match: " + md5 + " != " + md5Hash);
 					Likeaboss.l.warning("[Likeaboss] This means the file wasn't correctly downloaded, please try again.");
 					copyFile(bakFile, origFile);

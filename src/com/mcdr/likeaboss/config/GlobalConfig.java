@@ -115,7 +115,7 @@ public abstract class GlobalConfig extends BaseConfig {
 	}
 	
 	public static void Load() {
-		File file = LoadFile("plugins/Likeaboss/config.yml", "com/mcdr/likeaboss/config/config.yml");
+		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + File.separator + "config.yml", "com" + File.separator + "mcdr" + File.separator + "likeaboss" + File.separator + "config" + File.separator + "config.yml");
 		
 		if (file == null)
 			return;
