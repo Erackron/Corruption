@@ -1,25 +1,22 @@
-# DO NOT TOUCH THIS VARIABLE!
-version: 1.7.1
-
 AP25:
   Type: ArmorPierce
-  Message: "&4Corrupted {BOSSNAME} used Armor Pierce."
+  Message: "&4{BOSSNAME} Boss used Armor Pierce."
   Probability: 10.0
   Value: 25.0
 FP2:
   Type: FirePunch
-  Message: "&4Corrupted {BOSSNAME} used Fire Punch."
+  Message: "&4{BOSSNAME} Boss used Fire Punch."
   Probability: 15.0
   Ticks: 2
 KB2:
   Type: Knockback
-  Message: "&4Corrupted {BOSSNAME} used Knockback."
+  Message: "&4{BOSSNAME} Boss used Knockback."
   Probability: 25.0
   VerticalCoef: 2.0
   HorizontalCoef: 3.0
 PO3:
   Type: Potion
-  Message: "&4Corrupted {BOSSNAME} used slowness."
+  Message: "&4{BOSSNAME} Boss used slowness."
   Effect: slow
   Target: other
   Probability: 25.0
@@ -27,18 +24,17 @@ PO3:
   Duration: 3.0
 B2:
   Type: Bomb
-  Message: "&4Corrupted {BOSSNAME} planted a bomb."
-  DestroyWorld: false
-  Fire: true
+  Message: "&4{BOSSNAME} Boss planted a bomb."
   Probability: 15.0
   Cooldown: 7.5
   Fuse: 80
   Radius: 3
 LA10:
   Type: LightningAura
-  Message: "&4Corrupted {BOSSNAME} struck his enemies by lightning"
-  Fire: false
+  Message: "&4{BOSSNAME} Boss struck his enemies by lightning"
   Probability: 5.0
   Cooldown: 10.0
   Radius: 10
   Damage: 2
+
+version: 2.0

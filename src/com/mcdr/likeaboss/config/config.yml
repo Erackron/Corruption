@@ -1,6 +1,3 @@
-# DO NOT TOUCH THIS VARIABLE!
-version: 1.7.1
-
 Command:
   Ignore:
     Delay: 120
@@ -8,14 +5,14 @@ Command:
     Max: 50
 Message:
   PlayerFoundBoss:
-    ToPlayer: "&cYou attacked a Corrupted {BOSSNAME} boss!"
-    ToOthers: "&c{PLAYER} found a Corrupted {BOSSNAME}!"
+    ToPlayer: '&cYou attacked a Corrupted {BOSSNAME} boss!'
+    ToOthers: '&c{PLAYER} found a Corrupted {BOSSNAME}!'
   BossFoundPlayer:
-    ToPlayer: "&cA Corrupted {BOSSNAME}!"
-    ToOthers: "&cA Corrupted {BOSSNAME} found {PLAYER}!"
-  Proximity: "&4You feel an evil presence..."
+    ToPlayer: '&cA Corrupted {BOSSNAME}!'
+    ToOthers: '&cA Corrupted {BOSSNAME} found {PLAYER}!'
+  Proximity: '&4You feel an evil presence...'
   ViewerMessage: 'Corrupted {BOSSNAME} Health: {HEALTH} (-{DAMAGE})'
-  ViewerDefeated: 'Corrupted {BOSSNAME} has been defeated.'
+  ViewerDefeated: Corrupted {BOSSNAME} has been defeated.
 Task:
   DrawBossEffect: 1.0
   CheckEntityProximity: 0.5
@@ -24,22 +21,8 @@ Task:
   SavePlayerData: 600.0
 Boss:
   OverwriteDrops: false
-  Immunity:
-    Attack: false
-    Projectile : false
-    BlockExplosion: false
-    EntityExplosion: false
-    Fire: true
-    Lava: true
-    EnchantFireTick: false
-    EnvironmentalFireTick: true
-    Fall: true
-    Contact: true
-    Drowning: true
-    Lightning: false
-    Suffocation: true
-    
-    # This is the immunity for PotionEffects!
-    Magic: false
-    
-    Poison: false
+  ExtraMCMMOXP: 0
+  SetHealthAsMultiplier: true
+  SetDamageAsMultiplier: true
+  SetExperienceAsMultiplier: true
+version: 2.0

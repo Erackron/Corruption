@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -64,7 +66,6 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("abilities.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("# Do not touch this variable");
 				stream.println("version: " + latestVersion);
 				
 				stream.close();
@@ -116,7 +117,6 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("config.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("# Do not touch this variable!");
 				stream.println("version: " + latestVersion);
 				
 				stream.close();
@@ -210,8 +210,10 @@ public class LabConfigUpdater {
 				bosses.set(node + ".Stats.Health", Double.parseDouble(statsValues[0]));
 				bosses.set(node + ".Stats.Damage", Double.parseDouble(statsValues[1]));
 				bosses.set(node + ".Stats.Experience", Double.parseDouble(statsValues[2]));
-				
-				bosses.set(node + ".Immunity", immunity.getValues(true));				
+				for(String s: immunity.getKeys(true)){
+					if(immunity.getBoolean(s))
+						bosses.set(node + ".Immunity." +s, immunity.getBoolean(s));
+				}			
 			}			
 			
 			try {
@@ -224,7 +226,6 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("bosses.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("# Do not touch this variable!");
 				stream.println("version: " + latestVersion);
 				
 				stream.close();
@@ -270,7 +271,6 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("equipment.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("# Do not touch this variable!");
 				stream.println("version: " + latestVersion);
 				
 				stream.close();
@@ -316,7 +316,6 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("magicspells.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("# Do not touch this variable!");
 				stream.println("version: " + latestVersion);
 				
 				stream.close();
@@ -364,7 +363,6 @@ public class LabConfigUpdater {
 					PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("Worlds" + File.separator + world.getName() + ".yml"), true)));
 					stream.println();
 					stream.println();
-					stream.println("# Do not touch this variable!");
 					stream.println("version: " + latestVersion);
 					
 					stream.close();

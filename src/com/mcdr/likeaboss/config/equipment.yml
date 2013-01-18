@@ -1,6 +1,3 @@
-# DO NOT TOUCH THIS VARIABLE!
-version: 1.7.1
-
 "diamond":
   Helmet:
     "diamond_helmet":
@@ -53,3 +50,5 @@ version: 1.7.1
             Enchantment: "Damage All"
             Probability: 50
             Level: 3
+
+version: 2.0

@@ -1,6 +1,3 @@
-# DO NOT TOUCH THIS VARIABLE!
-version: 1.7.1
-
 Boss:
   {}
 Ability:
@@ -20,3 +17,5 @@ Loot:
     FirstItem: 280:0 3.0 1 3
     SecondItem: 374:0 3.0 1 2
     ThirdItem: 281:0 3.0 1 1
+
+version: 2.0
