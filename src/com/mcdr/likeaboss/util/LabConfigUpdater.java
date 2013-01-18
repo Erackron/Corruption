@@ -41,7 +41,7 @@ public class LabConfigUpdater {
 		else{
 			configVersion = "1.7.0";
 		}
-		if(!isOlderVersion(configVersion, latestVersion))
+		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of abilities.yml!");
@@ -58,7 +58,7 @@ public class LabConfigUpdater {
 		
 		Likeaboss.l.info("[Likeaboss] Ability config backup created");
 		
-		if(isOlderVersion(configVersion, "2.0")){
+		if(Utility.isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating abilities.yml");
 			try {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("abilities.yml"), true)));
@@ -87,7 +87,7 @@ public class LabConfigUpdater {
 		else{
 			configVersion = "1.7.0";
 		}
-		if(!isOlderVersion(configVersion, latestVersion))
+		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of config.yml");
@@ -104,7 +104,7 @@ public class LabConfigUpdater {
 		
 		Likeaboss.l.info("[Likeaboss] Global config backup created");
 		
-		if(isOlderVersion(configVersion, "2.0")){
+		if(Utility.isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating config.yml");
 			global.set("Boss.Immunity", null);
 			try {
@@ -139,7 +139,7 @@ public class LabConfigUpdater {
 		else{
 			configVersion = "1.7.0";
 		}
-		if(!isOlderVersion(configVersion, latestVersion))
+		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of bosses.yml");
@@ -157,7 +157,7 @@ public class LabConfigUpdater {
 		
 		Likeaboss.l.info("[Likeaboss] Bosses config backup created");
 				
-		if(isOlderVersion(configVersion, "2.0")){
+		if(Utility.isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating bosses.yml");
 			YamlConfiguration global = getYamlConfig(getFile("config.yml"));
 			ConfigurationSection immunity = global.getConfigurationSection("Boss.Immunity");
@@ -247,7 +247,7 @@ public class LabConfigUpdater {
 		else{
 			configVersion = "1.7.0";
 		}
-		if(!isOlderVersion(configVersion, latestVersion))
+		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of equipment.yml");
@@ -264,7 +264,7 @@ public class LabConfigUpdater {
 		
 		Likeaboss.l.info("[Likeaboss] Equipment config backup created");
 		
-		if(isOlderVersion(configVersion, "2.0")){
+		if(Utility.isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating equipment.yml");
 			try {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("equipment.yml"), true)));
@@ -293,7 +293,7 @@ public class LabConfigUpdater {
 		else{
 			configVersion = "1.7.0";
 		}
-		if(!isOlderVersion(configVersion, latestVersion))
+		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
 		Likeaboss.l.info("[Likeaboss] Creating backup of magicspells.yml");
@@ -310,7 +310,7 @@ public class LabConfigUpdater {
 		
 		Likeaboss.l.info("[Likeaboss] MagicSpells config backup created");
 		
-		if(isOlderVersion(configVersion, "2.0")){
+		if(Utility.isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating magicspells.yml");
 			try {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("magicspells.yml"), true)));
@@ -340,7 +340,7 @@ public class LabConfigUpdater {
 			else{
 				configVersion = "1.7.0";
 			}
-			if(!isOlderVersion(configVersion, latestVersion))
+			if(!Utility.isOlderVersion(configVersion, latestVersion))
 				continue;
 			
 			Likeaboss.l.info("[Likeaboss] Creating backup of " + world.getName() + ".yml");
@@ -358,7 +358,7 @@ public class LabConfigUpdater {
 			Likeaboss.l.info("[Likeaboss] World " + world.getName() + "config backup created");
 			
 			
-			if(isOlderVersion(configVersion, "2.0")){
+			if(Utility.isOlderVersion(configVersion, "2.0")){
 				Likeaboss.l.info("[Likeaboss] Updating " + world.getName() + ".yml");
 				try {
 					PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("Worlds" + File.separator + world.getName() + ".yml"), true)));
@@ -391,14 +391,4 @@ public class LabConfigUpdater {
 	private File getFile(String name){
 		return ((File) new File(Likeaboss.in.getDataFolder().getPath() + File.separator + name));
 	}
-	
-	/**
-	 * Check if a version number is older than the current plugin version number
-	 * @param configVer the version to check
-	 * @param pluginVer the current version to check against
-	 * @return true if the first version is older
-	 */
-	private boolean isOlderVersion(String configVer, String pluginVer) {
-		return LabUpdateChecker.isNewerVersion(pluginVer, configVer);
-	}	
 }

@@ -2,8 +2,6 @@ package com.mcdr.likeaboss.util;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.regex.Pattern;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -22,7 +20,7 @@ public class LabUpdateChecker {
 		String curVer = pdf.getVersion();
 		String lastVersion = getLastVersion();
 		
-		return isNewerVersion(curVer, lastVersion);
+		return Utility.isNewerVersion(lastVersion, curVer);
 	}
 	
 	public static String getLastVersion() {
@@ -43,32 +41,4 @@ public class LabUpdateChecker {
 		} catch (Exception e) {}
 		return Likeaboss.in.getDescription().getVersion();
 	}
-	
-	/**
-	 * Checks if the second input is a newer version than the first input
-	 * @param current the current version used
-	 * @param lastCheck the latest version available
-	 * @return true if second input is a newer version, false if it isn't
-	 */
-	public static boolean isNewerVersion(String current, String lastCheck) {
-        String s1 = normalisedVersion(current);
-        String s2 = normalisedVersion(lastCheck);
-        int cmp = s1.compareTo(s2);
-        //String cmpStr = cmp < 0 ? "<" : cmp > 0 ? ">" : "==";
-        return cmp<0;
-    }
-
-	private static String normalisedVersion(String version) {
-        return normalisedVersion(version, ".", 4);
-    }
-
-	private static String normalisedVersion(String version, String sep, int maxWidth) {
-        String[] split = Pattern.compile(sep, Pattern.LITERAL).split(version);
-        StringBuilder sb = new StringBuilder();
-        for (String s : split) {
-            sb.append(String.format("%" + maxWidth + 's', s));
-        }
-        return sb.toString();
-	}
-
 }
