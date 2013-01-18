@@ -118,7 +118,7 @@ public abstract class LabPlayerManager {
 		File file = getFile();
 		File tempFile = new File(file.getPath() + ".temp");
 		
-		Utility.FileToFile(file, tempFile);
+		Utility.fileToFile(file, tempFile);
 		
 		//Copy file A to B and overwrite A.
 		Scanner scanner = new Scanner(new FileInputStream(tempFile));

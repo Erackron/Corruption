@@ -2,9 +2,15 @@ package com.mcdr.likeaboss.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
+import java.nio.channels.FileChannel;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -112,20 +118,44 @@ public abstract class Utility {
 		return sortedEntries;
 	}
 	
-	public static void StreamToFile(InputStream resource, File file) throws Exception {
+	public static void streamToFile(InputStream resource, File file) throws Exception {
 		OutputStream outputStream = new FileOutputStream(file);
 		
-		Copy(resource, outputStream);
+		copy(resource, outputStream);
 	}
 	
-	public static void FileToFile(File source, File dest) throws Exception {
-		InputStream inputStream = new FileInputStream(source);
-		OutputStream outputStream = new FileOutputStream(dest);
-		
-		Copy(inputStream, outputStream);
+	public static void fileToFile(File sourceFile, File destFile) throws IOException {
+	    if(!destFile.exists()) {
+	        destFile.createNewFile();
+	    }
+	    FileChannel source = null;
+	    FileChannel destination = null;
+	    FileInputStream fis = null;
+	    FileOutputStream fos = null;
+	    try {
+	    	fis = new FileInputStream(sourceFile);
+		    fos = new FileOutputStream(destFile);
+	        source = fis.getChannel();
+	        destination = fos.getChannel();
+
+	        // previous code: destination.transferFrom(source, 0, source.size());
+	        // to avoid infinite loops, should be:
+	        long count = 0;
+	        long size = source.size();              
+				while((count += destination.transferFrom(source, count, size-count))<size);
+	    } finally {
+	        if(source != null)
+				source.close();
+	        if(destination != null)
+	            destination.close();
+	        if(fis != null)
+	        	fis.close();
+	        if(fos != null)
+	        	fos.close();
+	    }
 	}
 	
-	private static void Copy(InputStream inputStream, OutputStream outputStream) throws Exception {
+	private static void copy(InputStream inputStream, OutputStream outputStream) throws Exception {
 		int read = 0;
 		byte[] bytes = new byte[1024];
 		
@@ -171,5 +201,35 @@ public abstract class Utility {
             sb.append(String.format("%" + maxWidth + 's', s));
         }
         return sb.toString();
+	}
+	
+	public static String calculateMd5Hash(File f){
+		try{MessageDigest digest = MessageDigest.getInstance("MD5");
+			InputStream is = new FileInputStream(f);                
+			byte[] buffer = new byte[8192];
+			int read = 0;
+			try {
+			    while( (read = is.read(buffer)) > 0) {
+			        digest.update(buffer, 0, read);
+			    }       
+			    byte[] md5sum = digest.digest();
+			    BigInteger bigInt = new BigInteger(1, md5sum);
+			    String output = bigInt.toString(16);
+			    return output;
+			} catch(IOException e) {
+			    throw new RuntimeException("Unable to process file for MD5", e);
+			} finally {
+			    try {
+			        is.close();
+			    }
+			    catch(IOException e) {
+			        throw new RuntimeException("Unable to close input stream for MD5 calculation", e);
+			    }
+			}
+		} catch(NoSuchAlgorithmException e) {
+			throw new RuntimeException("The md5 algorithm doesn't seem to be available on your system", e);
+		} catch(FileNotFoundException e) {
+			throw new RuntimeException("The file to hash was not found, are you sure you have the right File object?", e);
+		}
 	}
 }

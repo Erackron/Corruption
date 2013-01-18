@@ -25,7 +25,7 @@ public abstract class BaseConfig {
 				}
 				else {
 					Likeaboss.l.info("[Likeaboss] Creating default config file: " + file.getName());
-					Utility.StreamToFile(inputStream, file);
+					Utility.streamToFile(inputStream, file);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

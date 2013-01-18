@@ -51,7 +51,7 @@ public class LabConfigUpdater {
 		((File) new File(backupFile.getParent())).mkdirs();
 		
 		try {
-			Utility.FileToFile(configFile, backupFile);
+			Utility.fileToFile(configFile, backupFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -97,7 +97,7 @@ public class LabConfigUpdater {
 		((File) new File(backupFile.getParent())).mkdirs();
 		
 		try {
-			Utility.FileToFile(configFile, backupFile);
+			Utility.fileToFile(configFile, backupFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -150,7 +150,7 @@ public class LabConfigUpdater {
 		((File) new File(backupFile.getParent())).mkdirs();
 		
 		try {
-			Utility.FileToFile(configFile, backupFile);
+			Utility.fileToFile(configFile, backupFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -257,7 +257,7 @@ public class LabConfigUpdater {
 		((File) new File(backupFile.getParent())).mkdirs();
 		
 		try {
-			Utility.FileToFile(configFile, backupFile);
+			Utility.fileToFile(configFile, backupFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -303,7 +303,7 @@ public class LabConfigUpdater {
 		((File) new File(backupFile.getParent())).mkdirs();
 		
 		try {
-			Utility.FileToFile(configFile, backupFile);
+			Utility.fileToFile(configFile, backupFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -350,7 +350,7 @@ public class LabConfigUpdater {
 			((File) new File(backupFile.getParent())).mkdirs();
 			
 			try {
-				Utility.FileToFile(configFile, backupFile);
+				Utility.fileToFile(configFile, backupFile);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
