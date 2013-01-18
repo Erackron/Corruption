@@ -21,7 +21,7 @@ public class LabUpdateChecker {
 	public static long timeStamp = -1;
 	
 	public static boolean updateNeeded() {
-		if(LabAutoUpdater.timeStamp==-1 || System.currentTimeMillis()-LabAutoUpdater.timeStamp>1000*60*30){
+		if(timeStamp==-1 || System.currentTimeMillis()-timeStamp>1000*60*30){
 			PluginDescriptionFile pdf = Likeaboss.in.getDescription();
 			String curVer = pdf.getVersion();
 			String lastVersion = getLastVersion();

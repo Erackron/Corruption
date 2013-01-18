@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
@@ -136,7 +137,8 @@ public class Likeaboss extends JavaPlugin {
 		if(LabUpdateChecker.updateNeeded()){
 			String lastVer = LabUpdateChecker.getLastVersion();
 			l.info("["+getName()+"] New version available, version " + lastVer);
-			getServer().broadcast("["+getName()+"] New version available, version " + lastVer +"\n To update, use /lab update install", "lab.update");
+			getServer().broadcast(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + " New version available, version " + lastVer, "lab.update");
+			getServer().broadcast(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + " To update, use " + ChatColor.GREEN + "/lab update install", "lab.update");
 		} else {
 			l.info("["+getName()+"] No update needed, running the latest version (" + in.getDescription().getVersion() + ")");
 		}

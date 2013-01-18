@@ -49,10 +49,8 @@ public class UpdateCommand extends BaseCommand {
 		if(LabUpdateChecker.timeStamp==-1)
 			return;
 		
-		long timeStamp = LabAutoUpdater.timeStamp;
-		//Get the download link if not previously done or if it was done more than half an hour ago (1000*60*30 ms)
-		if(timeStamp==-1 || System.currentTimeMillis()-timeStamp>1000*60*30)
-			LabAutoUpdater.getDownloadUrl();
+		//Get the download Url
+		LabAutoUpdater.getDownloadUrl();
 		
 		//If something went wrong, return. Errors will be handled in the LabAutoUpdater class
 		if(LabAutoUpdater.timeStamp==-1)
