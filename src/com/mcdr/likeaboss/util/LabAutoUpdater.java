@@ -3,7 +3,9 @@ package com.mcdr.likeaboss.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Scanner;
@@ -24,7 +26,11 @@ public class LabAutoUpdater {
 		String link = "";
 		try {
 			URL rss = new URL(LAST_VERSION_URL);
-			ReadableByteChannel rbc = Channels.newChannel(rss.openStream());
+			URLConnection con = rss.openConnection();
+		    con.setConnectTimeout(1000*2);
+		    con.setReadTimeout(1000*60);
+		    
+			ReadableByteChannel rbc = Channels.newChannel(con.getInputStream());
 			Likeaboss.in.getDataFolder().mkdir();
 			File outputFile = new File(Likeaboss.in.getDataFolder(), Likeaboss.in.getDescription().getName() + ".tmp");
 			outputFile.createNewFile();
@@ -46,40 +52,56 @@ public class LabAutoUpdater {
 			}
 			s.close();
 			outputFile.delete();
+		} catch(SocketTimeoutException e){
+			Likeaboss.l.info("["+Likeaboss.in.getName()+"] Failed to reach dev.bukkit.org to find the download page. Is it down?");
+			timeStamp = -1;
+			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		downloadUrl = downloadSite(link);
+		downloadUrl = getFileDownloadUrl(link);
 		timeStamp = System.currentTimeMillis();
 		return downloadUrl;
 	}
 	
-	public static String downloadSite(String url) {
-	  String link = "";
-	  try {   
-	    Document doc = Jsoup.connect(url).get();
+	private static String getFileDownloadUrl(String url) {
+		String link = "";
+		try {   
+			Document doc = Jsoup.connect(url).timeout(1000*2).get();
+			
+			Element element = doc.select("dt:containsOwn(md5) + dd").first();
+			if(element!=null)
+				md5Hash = element.html();
 	    
-	    Element element = doc.select("dt:containsOwn(md5) + dd").first();
-	    if(element!=null)
-	    	md5Hash = element.html();
-	    
-	    element = doc.getElementsByClass("user-action-download").first();
-	    link = element.getElementsByTag("a").attr("href");
-	  } catch (Exception e) {
-	    e.printStackTrace();
-	  }
-	  return link;
+			element = doc.getElementsByClass("user-action-download").first();
+			link = element.getElementsByTag("a").attr("href");
+		} catch(IOException e){ 
+			Likeaboss.l.info("["+Likeaboss.in.getName()+"] Failed to reach dev.bukkit.org to find the download link. Is it down?");
+			timeStamp = -1;
+			return null;  
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return link;
 	}
 	
 	public static boolean update() {
 		if(timeStamp==-1)
 			getDownloadUrl();
+		if(downloadUrl==null){
+			Likeaboss.l.info("["+Likeaboss.in.getName()+"] No download link found, please try again.");
+		}
+			
 		File origFile = new File("plugins", "Likeaboss.jar"),
 			 bakFile = new File("plugins", "Likeaboss.jar.bak");
 		try {
 			Utility.fileToFile(origFile, bakFile);
 			URL website = new URL(downloadUrl);
-			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+			URLConnection con = website.openConnection();
+		    con.setConnectTimeout(1000*2);
+		    con.setReadTimeout(1000*60*5);
+		    
+			ReadableByteChannel rbc = Channels.newChannel(con.getInputStream());
 			FileOutputStream fos = new FileOutputStream(origFile);
 			fos.getChannel().transferFrom(rbc, 0, 1 << 24);
 			fos.close();

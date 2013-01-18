@@ -34,7 +34,7 @@ public class UpdateCommand extends BaseCommand {
 		if(LabUpdateChecker.updateNeeded()){
 			String lastVer = LabUpdateChecker.getLastVersion();
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "New version available, version " + ChatColor.GRAY +lastVer);
-			sender.sendMessage(ChatColor.WHITE + "To update, use " + ChatColor.GREEN + "/lab update install");
+			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "To update, use " + ChatColor.GREEN + "/lab update install");
 		} else {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "No update needed, running the latest version (" + ChatColor.GRAY + Likeaboss.in.getDescription().getVersion() + ChatColor.WHITE + ")");
 		}
@@ -45,9 +45,18 @@ public class UpdateCommand extends BaseCommand {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "No update needed, running the latest version (" + ChatColor.GRAY + Likeaboss.in.getDescription().getVersion() + ChatColor.WHITE + ")");
 			return;
 		}
+		//If something went wrong, return. Errors will be handled in the LabUpdateChecker class
+		if(LabUpdateChecker.timeStamp==-1)
+			return;
+		
+		long timeStamp = LabAutoUpdater.timeStamp;
 		//Get the download link if not previously done or if it was done more than half an hour ago (1000*60*30 ms)
-		if(LabAutoUpdater.timeStamp==-1 || System.currentTimeMillis()-LabAutoUpdater.timeStamp>1000*60*30)
+		if(timeStamp==-1 || System.currentTimeMillis()-timeStamp>1000*60*30)
 			LabAutoUpdater.getDownloadUrl();
+		
+		//If something went wrong, return. Errors will be handled in the LabAutoUpdater class
+		if(LabAutoUpdater.timeStamp==-1)
+			return;
 		
 		if(LabAutoUpdater.update())
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Updated successfully.");
