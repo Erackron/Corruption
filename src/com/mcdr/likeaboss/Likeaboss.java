@@ -64,6 +64,9 @@ public class Likeaboss extends JavaPlugin {
 			pluginManager.registerEvents(new LabMagicSpellsListener(), this);	
 		}
 		
+		if(mcMMOInstalled)
+			l.info("["+getName()+"] mcMMO detected!");
+		
 		setupMetrics();
 		
 		checkUpdates();

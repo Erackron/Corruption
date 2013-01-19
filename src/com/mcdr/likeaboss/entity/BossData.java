@@ -33,8 +33,8 @@ public class BossData {
 	public BossData(String name, EntityType entityType) {
 		this.name = name;
 		this.entityType = entityType;
-		setStatsMultipliers(BossParam.USE_HEALTH_AS_MULTIPLIER.getValue(), BossParam.USE_DAMAGE_AS_MULTIPLIER.getValue(), BossParam.USE_EXPERIENCE_AS_MULTIPLIER.getValue());
-		setMCMMOXPBonus(BossParam.MCMMO_EXTRA_BOSS_XP.getValue());
+		setStatsMultipliers(BossParam.USE_HEALTH_AS_MULTIPLIER.getBoolValue(), BossParam.USE_DAMAGE_AS_MULTIPLIER.getBoolValue(), BossParam.USE_EXPERIENCE_AS_MULTIPLIER.getBoolValue());
+		setMCMMOXPBonus(BossParam.MCMMO_EXTRA_BOSS_XP.getIntValue());
 		immunities = new ArrayList<BossImmunity>();
 	}
 	
@@ -102,10 +102,10 @@ public class BossData {
 		return useExperienceAsMultiplier;
 	}
 	
-	public void setStatsMultipliers(int health, int damage, int experience){
-		useHealthAsMultiplier = health==1?true:false;
-		useDamageAsMultiplier = damage==1?true:false;
-		useExperienceAsMultiplier = experience==1?true:false;
+	public void setStatsMultipliers(boolean health, boolean damage, boolean experience){
+		useHealthAsMultiplier = health;
+		useDamageAsMultiplier = damage;
+		useExperienceAsMultiplier = experience;
 	}
 	
 	public void setSpawnData(double chance, double chanceFromSpawner, double maxSpawnLevel) {

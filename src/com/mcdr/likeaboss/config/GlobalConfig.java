@@ -59,7 +59,7 @@ public abstract class GlobalConfig extends BaseConfig {
 	public enum TaskParam {
 		DRAW_BOSS_EFFECT (1.0) {@Override public String getNode() {return "Task.DrawBossEffect";}},
 		CHECK_ENTITY_HEALTH (2.0) {@Override public String getNode() {return "Task.CheckEntityHealth";}},
-		CHECK_ENTITY_EXISTENCE (5.0) {@Override public String getNode() {return "Task.CheckEntityExistence";}},
+		CHECK_ENTITY_EXISTENCE (2.0) {@Override public String getNode() {return "Task.CheckEntityExistence";}},
 		CHECK_ENTITY_PROXIMITY (0.5) {@Override public String getNode() {return "Task.CheckEntityProximity";}},
 		SAVE_PLAYER_DATA (600.0) {@Override public String getNode() {return "Task.SavePlayerData";}};
 		
@@ -81,26 +81,49 @@ public abstract class GlobalConfig extends BaseConfig {
 	}
 	
 	public enum BossParam {
-		OVERWRITE_DROPS (0) {@Override public String getNode() {return "Boss.OverwriteDrops";}},
+		OVERWRITE_DROPS (false) {@Override public String getNode() {return "Boss.OverwriteDrops";}},
 		MCMMO_EXTRA_BOSS_XP (0) {@Override public String getNode() {return "Boss.ExtraMCMMOXP";}},
-		USE_HEALTH_AS_MULTIPLIER (1) {@Override public String getNode() {return "Boss.SetHealthAsMultiplier";}},
-		USE_DAMAGE_AS_MULTIPLIER (1) {@Override public String getNode() {return "Boss.SetDamageAsMultiplier";}},
-		USE_EXPERIENCE_AS_MULTIPLIER (1) {@Override public String getNode() {return "Boss.SetExperienceAsMultiplier";}};
+		USE_HEALTH_AS_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetHealthAsMultiplier";}},
+		USE_DAMAGE_AS_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetDamageAsMultiplier";}},
+		USE_EXPERIENCE_AS_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetExperienceAsMultiplier";}};
 		
-		private int value;
+		private int intValue;
+		private boolean boolValue;
 		
-		private BossParam(int value) {
-			this.value = value;
+		private BossParam(boolean value){
+			setValue(value);
 		}
 		
-		public int getValue() {
-			return value;
+		private BossParam(int value) {
+			setValue(value);
+		}
+		
+		public boolean useBoolValue(){
+			return !useIntValue();
+		}
+		
+		public boolean useIntValue(){
+			return this==MCMMO_EXTRA_BOSS_XP;
+		}
+		
+		public int getIntValue() {
+			return intValue;
+		}
+		
+		public boolean getBoolValue(){
+			return boolValue;
 		}
 		
 		public abstract String getNode();
 		
 		public void setValue(int value) {
-			this.value = value;
+			this.intValue = value;
+			this.boolValue = value>0?true:false;
+		}
+		
+		public void setValue(boolean value){
+			this.boolValue = value;
+			this.intValue = boolValue?1:0;
 		}
 	}
 	
@@ -166,7 +189,7 @@ public abstract class GlobalConfig extends BaseConfig {
 
 			if (!yamlConfig.contains(node)) {
 				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
-				yamlConfig.set(node, bossParam.getValue());
+				yamlConfig.set(node, bossParam.useIntValue()?bossParam.getIntValue():bossParam.getBoolValue());
 				try {
 					yamlConfig.save(new File(Likeaboss.in.getDataFolder().getPath() + "/config.yml"));
 				} catch (IOException e) {
@@ -174,10 +197,10 @@ public abstract class GlobalConfig extends BaseConfig {
 				}
 				continue;
 			}
-			if(node==BossParam.MCMMO_EXTRA_BOSS_XP.getNode())
+			if(bossParam.useIntValue())
 				bossParam.setValue(yamlConfig.getInt(node));
 			else
-				bossParam.setValue(yamlConfig.getBoolean(node)?1:0);
+				bossParam.setValue(yamlConfig.getBoolean(node));
 		}
 	}
 }
