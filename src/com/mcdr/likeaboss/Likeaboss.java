@@ -119,7 +119,7 @@ public class Likeaboss extends JavaPlugin {
 			    });
 			    
 			    Graph graphKilled = metrics.createGraph("Bosses killed");
-			    graphKilled.addPlotter(new LabMetrics.Plotter() {
+			    graphKilled.addPlotter(new LabMetrics.Plotter("Bosses killed") {
 				
 			    	@Override
 			    	public int getValue() {
