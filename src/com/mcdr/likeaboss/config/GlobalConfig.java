@@ -128,10 +128,10 @@ public abstract class GlobalConfig extends BaseConfig {
 	}
 	
 	public static void Load() {
-		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + "/config.yml", "com/mcdr/likeaboss/config/config.yml");
+		File file = new File(Likeaboss.in.getDataFolder().getPath(), "config.yml");
 		
-		if (file == null)
-			return;
+		if (!file.exists())
+			CopyResource(file, "com/mcdr/likeaboss/config/config.yml");
 		
 		YamlConfiguration yamlConfig = LoadConfig(file);
 		
@@ -188,6 +188,11 @@ public abstract class GlobalConfig extends BaseConfig {
 			String node = bossParam.getNode();
 
 			if (!yamlConfig.contains(node)) {
+				if(bossParam.equals(BossParam.MCMMO_EXTRA_BOSS_XP)){
+					if(!Likeaboss.mcMMOInstalled){
+						continue;
+					}
+				}
 				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, bossParam.useIntValue()?bossParam.getIntValue():bossParam.getBoolValue());
 				try {

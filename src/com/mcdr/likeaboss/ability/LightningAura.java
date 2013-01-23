@@ -3,8 +3,6 @@ package com.mcdr.likeaboss.ability;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
-
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;
@@ -38,28 +36,27 @@ public class LightningAura extends Ability{
 		this.armorPierce = armorPierce;
 	}
 	
-	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss){
-		if(checkChance()){
-			for (LabPlayer labPlayer : LabPlayerManager.getLabPlayers()) {
-				Player player = labPlayer.getPlayer();
-				World world = player.getWorld();
+	public void Execute(LivingEntity livingEntity, Boss boss){
+		super.Execute(livingEntity, boss);
+		for (LabPlayer labPlayer : LabPlayerManager.getLabPlayers()) {
+			Player player = labPlayer.getPlayer();
+			World world = player.getWorld();
+			
+			if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, radius)) {
+				sendMessage(boss, livingEntity);
+				world.strikeLightning(player.getLocation());
 				
-				if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, radius)) {
-					sendMessage(boss, livingEntity);
-					world.strikeLightning(player.getLocation());
-					
-					if(armorPierce){
-						player.damage(ArmorPierce.getNewDamage(player, damage, 100));
-					} else{
-						player.damage(damage);
-					}
-					
-					if(!fire){
-						player.setFireTicks(-20);
-					}
+				if(armorPierce){
+					player.damage(ArmorPierce.getNewDamage(player, damage, 100));
+				} else{
+					player.damage(damage);
+				}
+				
+				if(!fire){
+					player.setFireTicks(-20);
 				}
 			}
-			useCooldown(boss);
 		}
+		useCooldown(boss);		
 	}
 }

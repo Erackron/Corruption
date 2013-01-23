@@ -28,19 +28,17 @@ public class BossConfig extends BaseConfig {
 	private static Set<EntityType> usedBossEntityTypes;
 	
 	public static void Load() {
-		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + "/bosses.yml", "com/mcdr/likeaboss/config/bosses.yml");
+		File file = new File(Likeaboss.in.getDataFolder(), "bosses.yml");
 		
-		if (file == null)
-			return;
+		if(!file.exists())
+			CopyResource(file, "com/mcdr/likeaboss/config/bosses.yml");
 		
-		YamlConfiguration yamlConfig = LoadConfig(file);
-		
-		LoadBosses(yamlConfig);
+		LoadBosses(LoadConfig(file));
 	}
 	
 	private static void LoadBosses(YamlConfiguration yamlConfig) {
 		Set<String> bossNames = yamlConfig.getKeys(false);
-		bossNames.remove("version");
+		bossNames.remove("ConfigVersion");
 		usedBossEntityTypes = new HashSet<EntityType>();
 		for (String bossName : bossNames) {
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(bossName);

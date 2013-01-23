@@ -25,4 +25,6 @@ Boss:
   SetHealthAsMultiplier: true
   SetDamageAsMultiplier: true
   SetExperienceAsMultiplier: true
-version: 2.0
+
+
+ConfigVersion: 2.0

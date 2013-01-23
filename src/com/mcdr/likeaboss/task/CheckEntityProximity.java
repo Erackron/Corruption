@@ -23,7 +23,7 @@ public class CheckEntityProximity extends BaseTask {
 				LivingEntity livingEntity = boss.getLivingEntity();
 				
 				if (Utility.isNear(player.getLocation(), livingEntity.getLocation(), 0, 16)) {
-					boss.ActivateAbilities(null, livingEntity, ActivationCondition.ONPROXIMITY);
+					boss.ActivateAbilities(livingEntity, ActivationCondition.ONPROXIMITY);
 					
 					if (!boss.getFound()) {
 						if (labPlayer.getLabPlayerData().getIgnore())

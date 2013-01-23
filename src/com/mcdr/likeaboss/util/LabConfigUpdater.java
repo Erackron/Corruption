@@ -36,8 +36,8 @@ public class LabConfigUpdater {
 			return;
 		
 		String configVersion;
-		if(ability.isSet("version"))
-			configVersion = ability.getString("version");
+		if(ability.isSet("ConfigVersion"))
+			configVersion = ability.getString("ConfigVersion");
 		else{
 			configVersion = "1.7.0";
 		}
@@ -81,8 +81,8 @@ public class LabConfigUpdater {
 			return;
 		
 		String configVersion;
-		if(global.isSet("version"))
-			configVersion = global.getString("version");
+		if(global.isSet("ConfigVersion"))
+			configVersion = global.getString("ConfigVersion");
 		else{
 			configVersion = "1.7.0";
 		}
@@ -132,8 +132,8 @@ public class LabConfigUpdater {
 			return;
 		
 		String configVersion;
-		if(bosses.isSet("version"))
-			configVersion = bosses.getString("version");
+		if(bosses.isSet("ConfigVersion"))
+			configVersion = bosses.getString("ConfigVersion");
 		else{
 			configVersion = "1.7.0";
 		}
@@ -241,8 +241,8 @@ public class LabConfigUpdater {
 			return;
 		
 		String configVersion;
-		if(equipment.isSet("version"))
-			configVersion = equipment.getString("version");
+		if(equipment.isSet("ConfigVersion"))
+			configVersion = equipment.getString("ConfigVersion");
 		else{
 			configVersion = "1.7.0";
 		}
@@ -286,8 +286,8 @@ public class LabConfigUpdater {
 			return;
 		
 		String configVersion;
-		if(magicSpells.isSet("version"))
-			configVersion = magicSpells.getString("version");
+		if(magicSpells.isSet("ConfigVersion"))
+			configVersion = magicSpells.getString("ConfigVersion");
 		else{
 			configVersion = "1.7.0";
 		}
@@ -332,8 +332,8 @@ public class LabConfigUpdater {
 				continue;
 			
 			String configVersion;
-			if(worldConfig.isSet("version"))
-				configVersion = worldConfig.getString("version");
+			if(worldConfig.isSet("ConfigVersion"))
+				configVersion = worldConfig.getString("ConfigVersion");
 			else{
 				configVersion = "1.7.0";
 			}
@@ -385,6 +385,6 @@ public class LabConfigUpdater {
 	}
 	
 	private File getFile(String name){
-		return ((File) new File(Likeaboss.in.getDataFolder().getPath() + File.separator + name));
+		return ((File) new File(Likeaboss.in.getDataFolder().getPath() + "/" + name));
 	}
 }

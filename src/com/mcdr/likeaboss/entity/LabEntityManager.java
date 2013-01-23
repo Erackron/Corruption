@@ -15,10 +15,6 @@ public abstract class LabEntityManager {
 		bosses.add(boss);
 	}
 	
-	public static void RemoveBoss(Boss boss) {
-		bosses.remove(boss);
-	}
-	
 	public static void DamageBoss(Boss boss, int damage) {
 		boss.setHealth(boss.getHealth() - damage);
 	}

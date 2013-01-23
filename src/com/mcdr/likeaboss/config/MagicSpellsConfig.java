@@ -16,14 +16,12 @@ public class MagicSpellsConfig extends BaseConfig {
 	public static String castFailMsg;
 
 	public static void Load(){
-		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + "/magicspells.yml", "com/mcdr/likeaboss/config/magicspells.yml");
+		File file = new File(Likeaboss.in.getDataFolder().getPath(), "magicspells.yml");
 		
-		if (file == null)
-			return;
+		if (!file.exists())
+			CopyResource(file, "com/mcdr/likeaboss/config/magicspells.yml");
 		
-		YamlConfiguration yamlConfig = LoadConfig(file);
-		
-		LoadMagicSpells(yamlConfig);
+		LoadMagicSpells(LoadConfig(file));
 	}
 	
 	private static void LoadMagicSpells(YamlConfiguration yamlConfig){

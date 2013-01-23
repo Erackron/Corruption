@@ -1,17 +1,20 @@
 AP25:
   Type: ArmorPierce
   Message: "&4{BOSSNAME} Boss used Armor Pierce."
-  Probability: 10.0
+  ActivationChance: 10.0
+  AssignationChance: 100.0
   Value: 25.0
 FP2:
   Type: FirePunch
   Message: "&4{BOSSNAME} Boss used Fire Punch."
-  Probability: 15.0
+  ActivationChance: 15.0
+  AssignationChance: 100.0
   Ticks: 2
 KB2:
   Type: Knockback
   Message: "&4{BOSSNAME} Boss used Knockback."
-  Probability: 25.0
+  ActivationChance: 25.0
+  AssignationChance: 100.0
   VerticalCoef: 2.0
   HorizontalCoef: 3.0
 PO3:
@@ -19,22 +22,25 @@ PO3:
   Message: "&4{BOSSNAME} Boss used slowness."
   Effect: slow
   Target: other
-  Probability: 25.0
+  ActivationChance: 25.0
+  AssignationChance: 100.0
   Amplifier: 2
   Duration: 3.0
 B2:
   Type: Bomb
   Message: "&4{BOSSNAME} Boss planted a bomb."
-  Probability: 15.0
+  ActivationChance: 15.0
+  AssignationChance: 100.0
   Cooldown: 7.5
   Fuse: 80
-  Radius: 3
+  ExplosionRadius: 3
 LA10:
   Type: LightningAura
   Message: "&4{BOSSNAME} Boss struck his enemies by lightning"
-  Probability: 5.0
+  ActivationChance: 5.0
+  AssignationChance: 100.0
   Cooldown: 10.0
-  Radius: 10
+  AttackRadius: 10
   Damage: 2
 
-version: 2.0
+ConfigVersion: 2.0

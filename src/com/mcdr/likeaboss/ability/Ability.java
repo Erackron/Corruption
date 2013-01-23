@@ -6,8 +6,6 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
-
 import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.player.LabPlayer;
@@ -28,8 +26,7 @@ public abstract class Ability {
 		KNOCKBACK,
 		POTION,
 		BOMB,
-		LIGHTNINGAURA,
-		UNKNOWN;
+		LIGHTNINGAURA;
 		
 		public static AbilityType FromString(String string) {
 			for (AbilityType abilityType : AbilityType.values()) {
@@ -37,13 +34,14 @@ public abstract class Ability {
 					return abilityType;
 			}
 			
-			return UNKNOWN;
+			return null;
 		}
 	}
 	
 	protected List<ActivationCondition> activationConditions = new ArrayList<ActivationCondition>();
 	protected AbilityType abilityType;
-	protected double chance = 100.0;
+	protected double assignationChance = 100.0;
+	protected double activationChance = 100.0;
 	private int radius = 16;
 	private String msg = "";
 	private double cooldown = 0.0;
@@ -52,20 +50,32 @@ public abstract class Ability {
 		return activationConditions;
 	}
 	
-	public double getChance() {
-		return chance;
+	public double getAssignationChance() {
+		return assignationChance;
+	}
+
+	public double getActivationChance() {
+		return activationChance;
+	}
+	
+	public int getActivationRadius(){
+		return radius;
 	}
 	
 	public boolean checkChance() {
-		return (Utility.random.nextInt(100) < this.getChance())? true : false;
+		return (Utility.random.nextInt(100) < this.getActivationChance());
 	}
 	
 	public void AddActivationCondition(ActivationCondition activationCondition) {
 		activationConditions.add(activationCondition);
 	}
 	
-	public void setChance(double chance) {
-		this.chance = chance;
+	public void setAssignationChance(double assignationChance) {
+		this.assignationChance = assignationChance;
+	}
+
+	public void setActivationChance(double activationChance) {
+		this.activationChance = activationChance;
 	}
 	
 	public void setMessage(String msg){
@@ -74,6 +84,10 @@ public abstract class Ability {
 	
 	public void setCooldown(double cooldown) {
 		this.cooldown = cooldown;
+	}
+	
+	public void setActivationRadius(int radius){
+		this.radius = radius;
 	}
 	
 	public void useCooldown(Boss boss){
@@ -120,7 +134,13 @@ public abstract class Ability {
 		return Utility.parseMessage(msg, boss);
 	}
 	
-	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss){}
+	public void Execute(LivingEntity livingEntity, Boss boss){
+		if(!checkChance())
+			return;
+		
+		if (!(livingEntity instanceof Player))
+			return;
+	}
 	
 	public class AbilityReactivator implements Runnable {
 		private Boss boss;

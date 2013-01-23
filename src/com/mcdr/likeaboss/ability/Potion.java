@@ -1,7 +1,6 @@
 package com.mcdr.likeaboss.ability;
 
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -19,8 +18,9 @@ public class Potion extends Ability {
 	}
 	
 	@Override
-	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
-		if(checkChance() && effect != ""){
+	public void Execute(LivingEntity livingEntity, Boss boss) {
+		super.Execute(livingEntity, boss);
+		if(effect != ""){
 			PotionEffect potionEffect = new PotionEffect(PotionEffectType.getByName(effect), duration, amplifier);
 			if (targetSelf) {
 				boss.getLivingEntity().addPotionEffect(potionEffect, true);

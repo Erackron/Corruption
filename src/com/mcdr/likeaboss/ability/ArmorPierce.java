@@ -17,15 +17,13 @@ public class ArmorPierce extends Ability {
 	}
 	
 	@Override
-	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
-		if(checkChance()){
-			if (!(livingEntity instanceof Player))
-				return;
+	public void Execute(LivingEntity livingEntity, Boss boss) {
+		super.Execute(livingEntity, boss);
+		EntityDamageEvent entityDamageEvent = livingEntity.getLastDamageCause();
 			
-			event.setDamage(getNewDamage(((Player) livingEntity), event.getDamage(), value));
-			useCooldown(boss);
-			sendMessage(boss, livingEntity);
-		}
+		entityDamageEvent.setDamage(getNewDamage(((Player) livingEntity), entityDamageEvent.getDamage(), value));
+		useCooldown(boss);
+		sendMessage(boss, livingEntity);
 	}
 	
 	public void setValue(double value) {
@@ -119,15 +117,9 @@ public class ArmorPierce extends Ability {
 	
 	public static int getNewDamage(Player p, int damage, double value){
 		PlayerInventory playerInventory = p.getInventory();
-		double absorption = 0.0;
-		absorption += HelmetDefense(playerInventory.getHelmet());
-		absorption += ChestplateDefense(playerInventory.getChestplate());
-		absorption += LeggingsDefense(playerInventory.getLeggings());
-		absorption += BootsDefense(playerInventory.getBoots());
-		int newDamage = 0;
-		
-		if (absorption < 100)
-			newDamage = (int) (damage * (1 - absorption * (1 - value / 100) / 100) / (1 - absorption / 100));
+		double absorption = HelmetDefense(playerInventory.getHelmet()) + ChestplateDefense(playerInventory.getChestplate()) + LeggingsDefense(playerInventory.getLeggings()) + BootsDefense(playerInventory.getBoots());
+	 	
+	    int newDamage =  (int) (damage * (1 - absorption * (1 - value / 100) / 100) / (1 - absorption / 100));
 		
 		short baseDurabilityLoss = (short) (damage / 4);
 		

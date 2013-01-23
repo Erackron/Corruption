@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
@@ -19,6 +18,7 @@ import com.mcdr.likeaboss.config.GlobalConfig.BossParam;
 import com.mcdr.likeaboss.drop.DropCalculator;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.stats.StatsManager;
+import com.mcdr.likeaboss.util.Utility;
 
 
 public class Boss extends LabEntity {
@@ -49,25 +49,25 @@ public class Boss extends LabEntity {
 	
 	private void AddAbilities() {
 		for (Ability ability : WorldConfig.getWorldData(livingEntity.getWorld()).getAbilities()) {
-			//if (Utility.random.nextInt(100) < ability.getChance())
+			if (Utility.random.nextInt(100) < ability.getAssignationChance())
 				abilities.put(ability, true);
 		}
-		
+
 		for (Ability ability : bossData.getAbilities()) {
-			//if (Utility.random.nextInt(100) < ability.getChance())
+			if (Utility.random.nextInt(100) < ability.getAssignationChance())
 				abilities.put(ability, true);
 		}
 	}
 	
-	public void ActivateAbilities(EntityDamageEvent event, LivingEntity livingEntity, ActivationCondition activationCondition) {
+	public void ActivateAbilities(LivingEntity livingEntity, ActivationCondition activationCondition) {
 		for (Entry<Ability, Boolean> entry : abilities.entrySet()) {
 			if (entry.getValue() == false)
 				continue;
 			
 			Ability ability = entry.getKey();
 			
-			if (ability.getActivationConditions().contains(activationCondition))
-				ability.Execute(event, livingEntity, this);
+			if (Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), 0, ability.getActivationRadius()) && ability.getActivationConditions().contains(activationCondition))
+				ability.Execute(livingEntity, this);
 		}
 	}
 	
@@ -149,7 +149,7 @@ public class Boss extends LabEntity {
 		originalDrops.addAll(drops);
 		event.setDroppedExp(exp);
 		
-		LabEntityManager.RemoveBoss(this);
+		LabEntityManager.getBosses().remove(this);
 		
 		if (killer != null) {
 			killer.AddBossKilled(bossData.getName(), 1);

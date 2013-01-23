@@ -8,4 +8,4 @@ whitelist:
     - etc
 blacklist:
 
-version: 2.0
+ConfigVersion: 2.0

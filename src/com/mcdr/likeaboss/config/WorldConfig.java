@@ -25,10 +25,10 @@ public abstract class WorldConfig extends BaseConfig {
 		
 	public static void Load(World world) {
 		String worldName = world.getName();
-		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + "/Worlds/" + worldName + ".yml", "com/mcdr/likeaboss/config/world.yml");
+		File file = new File(Likeaboss.in.getDataFolder().getPath() + "/Worlds/", worldName + ".yml");
 		
-		if (file == null)
-			return;
+		if (!file.exists())
+			CopyResource(file, "com/mcdr/likeaboss/config/world.yml");
 		
 		YamlConfiguration yamlConfig = LoadConfig(file);
 		WorldData worldData = new WorldData();
@@ -44,7 +44,7 @@ public abstract class WorldConfig extends BaseConfig {
 		
 		for (String bossName : bossNames) {
 			if (!bossesData.containsKey(bossName)) {
-				Likeaboss.l.warning("[Likeaboss] '" + bossName + "' in '" + worldName + "' + config file isn't a valid boss.");
+				Likeaboss.l.warning("[Likeaboss] '" + bossName + "' in '" + worldName + "' config file isn't a valid boss.");
 				continue;
 			}
 			
@@ -57,7 +57,7 @@ public abstract class WorldConfig extends BaseConfig {
 		
 		for (String abilityName : abilityNames) {
 			if (!abilities.containsKey(abilityName)) {
-				Likeaboss.l.warning("[Likeaboss] '" + abilityName + "' in '" + worldName + "' + config file isn't a valid ability.");
+				Likeaboss.l.warning("[Likeaboss] '" + abilityName + "' in '" + worldName + " config file isn't a valid ability.");
 				continue;
 			}
 			

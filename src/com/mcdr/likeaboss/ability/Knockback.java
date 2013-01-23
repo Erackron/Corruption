@@ -1,7 +1,6 @@
 package com.mcdr.likeaboss.ability;
 
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
 
 import com.mcdr.likeaboss.Likeaboss;
@@ -17,12 +16,12 @@ public class Knockback extends Ability {
 	}
 	
 	@Override
-	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
-		if(checkChance()){
-			Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.in, new VelocityMultiplier(livingEntity));
-			useCooldown(boss);
-			sendMessage(boss, livingEntity);
-		}
+	public void Execute(LivingEntity livingEntity, Boss boss) {
+		super.Execute(livingEntity, boss);
+		Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.in, new VelocityMultiplier(livingEntity));
+		useCooldown(boss);
+		sendMessage(boss, livingEntity);
+		
 	}
 	
 	public void setHorizontalCoef(double horizontalCoef) {

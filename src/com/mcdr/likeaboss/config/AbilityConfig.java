@@ -20,20 +20,18 @@ import com.mcdr.likeaboss.ability.Ability.AbilityType;
 public abstract class AbilityConfig extends BaseConfig {
 	private static Map<String, Ability> abilities = new HashMap<String, Ability>();
 	public static void Load() {
-		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + "/abilities.yml", "com/mcdr/likeaboss/config/abilities.yml");
+		File file = new File(Likeaboss.in.getDataFolder(), "abilities.yml");
 		
-		if (file == null)
-			return;
+		if (!file.exists())
+			CopyResource(file, "com/mcdr/likeaboss/config/abilities.yml");
 		
-		YamlConfiguration yamlConfig = LoadConfig(file);
-		
-		LoadAbilities(yamlConfig);
+		LoadAbilities(LoadConfig(file));
 		
 	}
 	
 	private static void LoadAbilities(YamlConfiguration yamlConfig) {
 		Set<String> abilityNames = yamlConfig.getKeys(false);
-		abilityNames.remove("version");
+		abilityNames.remove("ConfigVersion");
 		for (String abilityName : abilityNames) {
 			String node = abilityName;
 			Map<String, Object> abilityEntries = yamlConfig.getConfigurationSection(node).getValues(false);
@@ -48,184 +46,120 @@ public abstract class AbilityConfig extends BaseConfig {
 			String entryValue = yamlConfig.getString(node);
 			AbilityType abilityType = AbilityType.FromString(entryValue);
 			
+			Ability ability = null;
+			
 			switch (abilityType) {
 			case ARMORPIERCE:
-				ArmorPierce armorPierce = new ArmorPierce();
-				
-				entryKey = "Message";
-				if (abilityEntries.containsKey(entryKey))
-					armorPierce.setMessage((String) abilityEntries.get(entryKey));
-				
-				entryKey = "Cooldown";
-				if (abilityEntries.containsKey(entryKey))
-					armorPierce.setCooldown((Double) abilityEntries.get(entryKey));
+				ability = new ArmorPierce();
 				
 				entryKey = "Value";
 				if (abilityEntries.containsKey(entryKey))
-					armorPierce.setValue((Double) abilityEntries.get(entryKey));
-				
-				entryKey = "Probability";
-				if (abilityEntries.containsKey(entryKey))
-					armorPierce.setChance((Double) abilityEntries.get(entryKey));
-					
-				abilities.put(abilityName, armorPierce);
+					((ArmorPierce) ability).setValue((Double) abilityEntries.get(entryKey));
 				break;
 				
 			case FIREPUNCH:
-				FirePunch firePunch = new FirePunch();
+				ability = new FirePunch();
 				
-				entryKey = "Message";
-				if (abilityEntries.containsKey(entryKey))
-					firePunch.setMessage((String) abilityEntries.get(entryKey));
-				
-				entryKey = "Cooldown";
-				if (abilityEntries.containsKey(entryKey))
-					firePunch.setCooldown((Double) abilityEntries.get(entryKey));
-					
 				entryKey = "Ticks";
 				if (abilityEntries.containsKey(entryKey))
-					firePunch.setTicks((Integer) abilityEntries.get(entryKey));
-				
-				entryKey = "Probability";
-				if (abilityEntries.containsKey(entryKey))
-					firePunch.setChance((Double) abilityEntries.get(entryKey));
-					
-				abilities.put(abilityName, firePunch);
+					((FirePunch) ability).setTicks((Integer) abilityEntries.get(entryKey));				
 				break;
 				
 			case KNOCKBACK:
-				Knockback knockback = new Knockback();
-				
-				entryKey = "Message";
-				if (abilityEntries.containsKey(entryKey))
-					knockback.setMessage((String) abilityEntries.get(entryKey));
-				
-				entryKey = "Cooldown";
-				if (abilityEntries.containsKey(entryKey))
-					knockback.setCooldown((Double) abilityEntries.get(entryKey));
+				ability = new Knockback();
 				
 				entryKey = "VerticalCoef";
 				if (abilityEntries.containsKey(entryKey))
-					knockback.setVerticalCoef((Double) abilityEntries.get(entryKey));
+					((Knockback) ability).setVerticalCoef((Double) abilityEntries.get(entryKey));
 				
 				entryKey = "HorizontalCoef";
 				if (abilityEntries.containsKey(entryKey))
-					knockback.setHorizontalCoef((Double) abilityEntries.get(entryKey));
-				
-				entryKey = "Probability";
-				if (abilityEntries.containsKey(entryKey))
-					knockback.setChance((Double) abilityEntries.get(entryKey));
-				
-				abilities.put(abilityName, knockback);
+					((Knockback) ability).setHorizontalCoef((Double) abilityEntries.get(entryKey));
 				break;
 				
 			case POTION:
-				Potion potion = new Potion();
+				ability = new Potion();
 				
 				entryKey = "Target";		
-				potion.setTarget((abilityEntries.containsKey(entryKey))?(String)abilityEntries.get(entryKey):"other");
+				((Potion) ability).setTarget((abilityEntries.containsKey(entryKey))?(String)abilityEntries.get(entryKey):"other");
 				
-				entryKey = "Message";
-				if (abilityEntries.containsKey(entryKey))
-					potion.setMessage((String) abilityEntries.get(entryKey));
-				
-				entryKey = "Cooldown";
-				if (abilityEntries.containsKey(entryKey))
-					potion.setCooldown((Double) abilityEntries.get(entryKey));
-					
 				entryKey = "Amplifier";
 				if (abilityEntries.containsKey(entryKey))
-					potion.setAmplifier((Integer) abilityEntries.get(entryKey));
+					((Potion) ability).setAmplifier((Integer) abilityEntries.get(entryKey));
 				
 				entryKey = "Duration";
 				if (abilityEntries.containsKey(entryKey))
-					potion.setDuration(((Double) abilityEntries.get(entryKey)).intValue() * 20);
-				
-				entryKey = "Probability";
-				if (abilityEntries.containsKey(entryKey))
-					potion.setChance((Double) abilityEntries.get(entryKey));
+					((Potion) ability).setDuration(((Double) abilityEntries.get(entryKey)).intValue() * 20);
 				
 				entryKey = "Effect";
 				if (abilityEntries.containsKey(entryKey))
-					potion.setEffect((String) abilityEntries.get(entryKey));
-				
-				abilities.put(abilityName, potion);
+					((Potion) ability).setEffect((String) abilityEntries.get(entryKey));
 				break;
 			
 			case BOMB:
-				Bomb bomb = new Bomb();
-				
-				entryKey = "Message";
-				if (abilityEntries.containsKey(entryKey))
-					bomb.setMessage((String) abilityEntries.get(entryKey));
-				
-				entryKey = "Cooldown";
-				if (abilityEntries.containsKey(entryKey))
-					bomb.setCooldown((Double) abilityEntries.get(entryKey));
+				ability = new Bomb();
 				
 				entryKey = "Fuse";
 				if (abilityEntries.containsKey(entryKey))
-					bomb.setFuseTicks((Integer)abilityEntries.get(entryKey));
+					((Bomb) ability).setFuseTicks((Integer)abilityEntries.get(entryKey));
 				
 				entryKey = "DestroyWorld";
 				if(abilityEntries.containsKey(entryKey))
-					bomb.setDestroyWorld((Boolean) abilityEntries.get(entryKey));
+					((Bomb) ability).setDestroyWorld((Boolean) abilityEntries.get(entryKey));
 				
 				entryKey = "Fire";
 				if(abilityEntries.containsKey(entryKey))
-					bomb.setFire((Boolean) abilityEntries.get(entryKey));
+					((Bomb) ability).setFire((Boolean) abilityEntries.get(entryKey));
 				
-				entryKey = "Radius";
+				entryKey = "ExplosionRadius";
 				if (abilityEntries.containsKey(entryKey))
-					bomb.setRadius((float)((Integer)abilityEntries.get(entryKey)));
-				
-				entryKey = "Probability";
-				if (abilityEntries.containsKey(entryKey))
-					bomb.setChance((Double) abilityEntries.get(entryKey));
-				
-				abilities.put(abilityName, bomb);
+					((Bomb) ability).setRadius((float)((Integer)abilityEntries.get(entryKey)));				
 				break;
 				
 			case LIGHTNINGAURA:
-				LightningAura aura = new LightningAura();
+				ability = new LightningAura();
 				
-				entryKey = "Message";
+				entryKey = "AttackRadius";
 				if (abilityEntries.containsKey(entryKey))
-					aura.setMessage((String) abilityEntries.get(entryKey));
-				
-				entryKey = "Cooldown";
-				if (abilityEntries.containsKey(entryKey))
-					aura.setCooldown((Double) abilityEntries.get(entryKey));
-				
-				entryKey = "Radius";
-				if (abilityEntries.containsKey(entryKey))
-					aura.setRadius((Integer) abilityEntries.get(entryKey));
+					((LightningAura) ability).setRadius((Integer) abilityEntries.get(entryKey));
 				
 				entryKey = "Damage";
 				if(abilityEntries.containsKey(entryKey))
-					aura.setDamage((Integer) abilityEntries.get(entryKey));
-				
-				entryKey = "Probability";
-				if (abilityEntries.containsKey(entryKey))
-					aura.setChance((Double) abilityEntries.get(entryKey));
+					((LightningAura) ability).setDamage((Integer) abilityEntries.get(entryKey));
 				
 				entryKey = "Fire";
 				if(abilityEntries.containsKey(entryKey))
-					aura.setFire((Boolean) abilityEntries.get(entryKey));
+					((LightningAura) ability).setFire((Boolean) abilityEntries.get(entryKey));
 				
 				entryKey = "ArmorPierce";
 				if(abilityEntries.containsKey(entryKey)){
-					aura.setArmorPierce((Boolean) abilityEntries.get(entryKey));
+					((LightningAura) ability).setArmorPierce((Boolean) abilityEntries.get(entryKey));
 				}
-				
-				abilities.put(abilityName, aura);
 				break;
+			}
+			
+			if(ability != null){
+				entryKey = "Message";
+				if(abilityEntries.containsKey(entryKey))
+					ability.setMessage((String) abilityEntries.get(entryKey));
 				
-			case UNKNOWN:
-				Likeaboss.l.warning("[Likeaboss] '" + entryValue + "' in abilities config file isn't a valid ability.");
-				continue;			
-			default:
-				break;
+				entryKey = "Cooldown";
+				if (abilityEntries.containsKey(entryKey))
+					ability.setCooldown((Double) abilityEntries.get(entryKey));
+
+				entryKey = "AssignationChance";
+				if (abilityEntries.containsKey(entryKey))
+					ability.setAssignationChance((Double) abilityEntries.get(entryKey));
+
+				entryKey = "ActivationChance";
+				if (abilityEntries.containsKey(entryKey))
+					ability.setActivationChance((Double) abilityEntries.get(entryKey));
+				
+				entryKey = "ActivationRadius";
+				if(abilityEntries.containsKey(entryKey))
+					ability.setActivationRadius((Integer) abilityEntries.get(entryKey));
+
+				abilities.put(abilityName, ability);
 			}
 		}
 	}

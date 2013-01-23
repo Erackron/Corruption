@@ -18,18 +18,17 @@ public class EquipmentConfig extends BaseConfig {
 	public static Map<String, EquipmentSet> equipmentSets = new HashMap<String, EquipmentSet>();
 	
 	public static void Load(){
-		File file = LoadFile(Likeaboss.in.getDataFolder().getPath() + "/equipment.yml", "com/mcdr/likeaboss/config/equipment.yml");
+		File file = new File(Likeaboss.in.getDataFolder().getPath(), "equipment.yml");
 		
-		if (file == null)
-			return;
+		if (!file.exists())
+			CopyResource(file, "com/mcdr/likeaboss/config/equipment.yml");
 		
-		YamlConfiguration yamlConfig = LoadConfig(file);
-		loadEquipmentSets(yamlConfig);
+		loadEquipmentSets(LoadConfig(file));
 	}
 	
 	public static void loadEquipmentSets(YamlConfiguration yamlConfig){
 		Set<String> equipmentSetNames = yamlConfig.getKeys(false);
-		equipmentSetNames.remove("version");
+		equipmentSetNames.remove("ConfigVersion");
 		for(String equipmentSetName: equipmentSetNames){
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(equipmentSetName);
 			

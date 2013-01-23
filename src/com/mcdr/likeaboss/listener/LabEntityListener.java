@@ -119,7 +119,7 @@ public class LabEntityListener implements Listener {
 		Boss boss = LabEntityManager.getBoss(event.getEntity());
 		
 		if (boss != null)
-			LabEntityManager.RemoveBoss(boss);
+			LabEntityManager.getBosses().remove(boss);
 	}
 		
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -176,7 +176,7 @@ public class LabEntityListener implements Listener {
 					event.setDamage((int) (event.getDamage() * boss.getBossData().getDamageCoef()));
 				else
 					event.setDamage((int) boss.getBossData().getDamageCoef());
-				boss.ActivateAbilities(event, livingEntity, ActivationCondition.ONATTACK);
+				boss.ActivateAbilities((LivingEntity) livingEntity, ActivationCondition.ONATTACK);
 			}
 		}
 		
@@ -239,10 +239,11 @@ public class LabEntityListener implements Listener {
 				
 				if(player != null && Likeaboss.mcMMOInstalled){
 					ItemStack weapon = player.getItemInHand();
-					if(weapon == null){
-						ExperienceAPI.addXP(player, SkillType.UNARMED, boss.getBossData().getMCMMOXPBonus());
-					}
+					
 					switch(weapon.getTypeId()){
+					case 0:
+						ExperienceAPI.addXP(player, SkillType.UNARMED, boss.getBossData().getMCMMOXPBonus());
+						break;
 					case 267:
 					case 268:
 					case 272:
@@ -344,7 +345,7 @@ public class LabEntityListener implements Listener {
 			
 			LabEntityManager.DamageBoss(boss, damage);
 			try{
-				boss.ActivateAbilities(event, (LivingEntity) damager, ActivationCondition.ONDEFENSE);
+				boss.ActivateAbilities((LivingEntity) damager, ActivationCondition.ONDEFENSE);
 			} catch(ClassCastException e){}
 			
 			

@@ -1,8 +1,6 @@
 package com.mcdr.likeaboss.ability;
 
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageEvent;
-
 import com.mcdr.likeaboss.entity.Boss;
 
 
@@ -14,19 +12,19 @@ public class FirePunch extends Ability {
 	}
 	
 	@Override
-	public void Execute(EntityDamageEvent event, LivingEntity livingEntity, Boss boss) {
-		if(checkChance()){
-			int fireTicks = livingEntity.getFireTicks();
+	public void Execute(LivingEntity livingEntity, Boss boss) {
+		super.Execute(livingEntity, boss);
+		int fireTicks = livingEntity.getFireTicks();
 			
-			//Somehow getFireTicks returns -20 when not on fire
-			if (fireTicks < 0)
-				livingEntity.setFireTicks(ticks * 20);
-			else
-				livingEntity.setFireTicks(fireTicks + ticks * 20);
+		//Somehow getFireTicks returns -20 when not on fire
+		if (fireTicks < 0)
+			livingEntity.setFireTicks(ticks * 20);
+		else
+			livingEntity.setFireTicks(fireTicks + ticks * 20);
 			
-			useCooldown(boss);
-			sendMessage(boss, livingEntity);
-		}
+		useCooldown(boss);
+		sendMessage(boss, livingEntity);
+		
 	}
 	
 	public void setTicks(int ticks) {
