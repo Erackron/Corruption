@@ -168,7 +168,7 @@ public abstract class AbilityConfig extends BaseConfig {
 				if(abilityEntries.containsKey(entryKey))
 					ability.setMinRange((Integer) abilityEntries.get(entryKey));
 				
-				entryKey = "MaximalActivationRange";
+				entryKey = "MaximumRange";
 				if(abilityEntries.containsKey(entryKey))
 					ability.setMaxRange((Integer) abilityEntries.get(entryKey));
 

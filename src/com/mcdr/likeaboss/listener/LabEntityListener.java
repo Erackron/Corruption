@@ -272,7 +272,7 @@ public class LabEntityListener implements Listener {
 					if (enchants.containsKey(Enchantment.ARROW_FIRE))
 						Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.in, new GetFireEnchantTicks(boss), 0);
 				}
-				if(player != null){
+				if(player != null && Likeaboss.mcMMOInstalled){
 					ExperienceAPI.addXP(player, SkillType.ARCHERY, boss.getBossData().getMCMMOXPBonus());
 				}
 				break;

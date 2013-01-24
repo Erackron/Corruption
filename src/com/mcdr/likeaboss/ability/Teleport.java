@@ -5,13 +5,12 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.util.Vector;
 
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.util.Utility;
 
 public class Teleport extends Ability {
-    private int minRange;
-    private int maxRange;
     private boolean centeredOnFoe;
     
     public Teleport() {
@@ -25,14 +24,22 @@ public class Teleport extends Ability {
         if (centeredOnFoe)
             location = livingEntity.getLocation();
         else
-            location = boss.getLivingEntity().getLocation();
+        	location = boss.getLivingEntity().getLocation();
         
-        List<Block> validBlocks = findValidBlocks(location, minRange, maxRange);
+        List<Block> validBlocks = findValidBlocks(location, 1, 5);
         
         if (!validBlocks.isEmpty()) {
             Block block = validBlocks.get(Utility.random.nextInt(validBlocks.size()));
             
-            boss.getLivingEntity().teleport(block.getLocation());
+            if(centeredOnFoe){
+            	boss.getLivingEntity().teleport(block.getLocation());
+            	Vector v = livingEntity.getEyeLocation().clone().add(.5, .0, .5).subtract(boss.getLivingEntity().getEyeLocation()).toVector().normalize();
+                Utility.setFacing(boss.getLivingEntity(), v);
+            } else {
+            	livingEntity.teleport(block.getLocation());
+            	Vector v = boss.getLivingEntity().getEyeLocation().clone().add(.5, .0, .5).subtract(livingEntity.getEyeLocation()).toVector().normalize();
+                Utility.setFacing(livingEntity, v);
+            }
             useCooldown(boss);
         }
     }

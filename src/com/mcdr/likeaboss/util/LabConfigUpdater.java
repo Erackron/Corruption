@@ -67,40 +67,40 @@ public class LabConfigUpdater {
 				if(section == null)
 					continue;
 				
-				if(!section.isSet(node + ".Probability")){
-					Likeaboss.l.warning("[Likeaboss] Missing values for ability '" + node + "' in abilities.yml");
+				if(!ability.isSet(node + ".Probability")){
+					Likeaboss.l.warning("[Likeaboss] Missing values for ability '" + node + ".Probability' in abilities.yml");
 					continue;
 				}
 				double d = section.getDouble(node + ".Probability");
-				section.set(node + ".Probability", null);
-				section.set(node + ".ActivationChance", d);
+				ability.set(node + ".Probability", null);
+				ability.set(node + ".ActivationChance", d);
 				
-				section.set(node + ".AssignationChance", 100.0D);
-				section.set(node + ".MinimumRange", 0);
-				section.set(node + ".MaximumRange", 16);
+				ability.set(node + ".AssignationChance", 100.0D);
+				ability.set(node + ".MinimumRange", 0);
+				ability.set(node + ".MaximumRange", 16);
 				
-				if(section.getString(node + ".Type").equals("Bomb")){
-					if(!section.isSet(node + ".Radius")){
+				if(ability.getString(node + ".Type").equals("Bomb")){
+					if(!ability.isSet(node + ".Radius")){
 						Likeaboss.l.warning("[Likeaboss] Missing values for ability '" + node + "' in abilities.yml");
 						continue;
 					}
-					int i = section.getInt(node + ".Radius");
-					section.set(node + ".Radius", null);
-					section.set(node + ".ExplosionRadius", i);
+					int i = ability.getInt(node + ".Radius");
+					ability.set(node + ".Radius", null);
+					ability.set(node + ".ExplosionRadius", i);
 				}
 				
-				if(section.getString(node + ".Type").equals("LightningAura")){
-					if(!section.isSet(node + ".Radius")){
+				if(ability.getString(node + ".Type").equals("LightningAura")){
+					if(!ability.isSet(node + ".Radius")){
 						Likeaboss.l.warning("[Likeaboss] Missing values for ability '" + node + "' in abilities.yml");
 						continue;
 					}
-					int i = section.getInt(node + ".Radius");
-					section.set(node + ".Radius", null);
-					section.set(node + ".AttackRadius", i);
+					int i = ability.getInt(node + ".Radius");
+					ability.set(node + ".Radius", null);
+					ability.set(node + ".AttackRadius", i);
 				}
 				
 				try {
-					ability.save(getFile("ability.yml"));
+					ability.save(getFile("abilities.yml"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -110,7 +110,7 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("abilities.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("ConfigVersion: " + latestVersion);
+				stream.print("ConfigVersion: " + latestVersion);
 				
 				stream.close();
 			} catch (IOException e) {
@@ -161,7 +161,7 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("config.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("ConfigVersion: " + latestVersion);
+				stream.print("ConfigVersion: " + latestVersion);
 				
 				stream.close();
 			} catch (IOException e) {
@@ -269,7 +269,7 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("bosses.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("ConfigVersion: " + latestVersion);
+				stream.print("ConfigVersion: " + latestVersion);
 				
 				stream.close();
 			} catch (IOException e) {
@@ -314,7 +314,7 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("equipment.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("ConfigVersion: " + latestVersion);
+				stream.print("ConfigVersion: " + latestVersion);
 				
 				stream.close();
 			} catch (IOException e) {
@@ -359,7 +359,7 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("magicspells.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("ConfigVersion: " + latestVersion);
+				stream.print("ConfigVersion: " + latestVersion);
 				
 				stream.close();
 			} catch (IOException e) {
@@ -406,7 +406,7 @@ public class LabConfigUpdater {
 					PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("Worlds" + File.separator + world.getName() + ".yml"), true)));
 					stream.println();
 					stream.println();
-					stream.println("ConfigVersion: " + latestVersion);
+					stream.print("ConfigVersion: " + latestVersion);
 					
 					stream.close();
 				} catch (IOException e) {

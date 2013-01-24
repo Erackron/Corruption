@@ -21,7 +21,9 @@ import java.util.TreeSet;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.entity.Boss;
@@ -49,6 +51,17 @@ public abstract class Utility {
 			return true;
 		
 		return false;
+	}
+	
+	public static void setFacing(LivingEntity le, Vector vector) {
+        double yaw = Math.toDegrees(Math.atan2(-vector.getX(), vector.getZ()));
+        double pitch = Math.toDegrees(-Math.asin(vector.getY()));
+                        
+        Location loc = le.getLocation();
+        loc.setYaw((float)yaw);
+        loc.setPitch((float)pitch);
+        
+        le.teleport(loc);
 	}
 	
 	public static boolean hasPermission(CommandSender sender, String permission){
