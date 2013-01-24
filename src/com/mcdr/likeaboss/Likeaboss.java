@@ -123,7 +123,7 @@ public class Likeaboss extends JavaPlugin {
 				
 			    	@Override
 			    	public int getValue() {
-			    		return StatsManager.getBossesKilled();
+			    		return StatsManager.getBossesKilledStats();
 			    	}
 			    });
 		    }
