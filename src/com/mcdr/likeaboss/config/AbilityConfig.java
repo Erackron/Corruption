@@ -16,6 +16,7 @@ import com.mcdr.likeaboss.ability.Knockback;
 import com.mcdr.likeaboss.ability.LightningAura;
 import com.mcdr.likeaboss.ability.Potion;
 import com.mcdr.likeaboss.ability.Ability.AbilityType;
+import com.mcdr.likeaboss.ability.Teleport;
 
 public abstract class AbilityConfig extends BaseConfig {
 	private static Map<String, Ability> abilities = new HashMap<String, Ability>();
@@ -136,6 +137,14 @@ public abstract class AbilityConfig extends BaseConfig {
 					((LightningAura) ability).setArmorPierce((Boolean) abilityEntries.get(entryKey));
 				}
 				break;
+			case TELEPORT:
+				ability = new Teleport();
+				
+				entryKey = "CenteredOnFoe";
+				if (abilityEntries.containsKey(entryKey))
+					((Teleport) ability).setCenteredOnFoe((Boolean) abilityEntries.get(entryKey));
+				
+				break;
 			}
 			
 			if(ability != null){
@@ -155,9 +164,13 @@ public abstract class AbilityConfig extends BaseConfig {
 				if (abilityEntries.containsKey(entryKey))
 					ability.setActivationChance((Double) abilityEntries.get(entryKey));
 				
-				entryKey = "ActivationRadius";
+				entryKey = "MinimalActivationRange";
 				if(abilityEntries.containsKey(entryKey))
-					ability.setActivationRadius((Integer) abilityEntries.get(entryKey));
+					ability.setMinActivationRange((Integer) abilityEntries.get(entryKey));
+				
+				entryKey = "MaximalActivationRange";
+				if(abilityEntries.containsKey(entryKey))
+					ability.setMaxActivationRange((Integer) abilityEntries.get(entryKey));
 
 				abilities.put(abilityName, ability);
 			}

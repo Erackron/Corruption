@@ -60,11 +60,54 @@ public class LabConfigUpdater {
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
 			Likeaboss.l.info("[Likeaboss] Updating abilities.yml");
+			
+			for(String node : ability.getKeys(false)){
+				ConfigurationSection section = ability.getConfigurationSection(node);
+				
+				if(!section.isSet(node + ".Probability")){
+					Likeaboss.l.warning("[Likeaboss] Missing values for ability '" + node + "' in abilities.yml");
+					continue;
+				}
+				double d = section.getDouble(node + ".Probability");
+				section.set(node + ".Probability", null);
+				section.set(node + ".ActivationChance", d);
+				
+				section.set(node + ".AssignationChance", 100.0D);
+				section.set(node + ".MinimalActivationRadius", 0);
+				section.set(node + ".MaximalActivationRadius", 16);
+				
+				if(section.getString(node + ".Type").equals("Bomb")){
+					if(!section.isSet(node + ".Radius")){
+						Likeaboss.l.warning("[Likeaboss] Missing values for ability '" + node + "' in abilities.yml");
+						continue;
+					}
+					int i = section.getInt(node + ".Radius");
+					section.set(node + ".Radius", null);
+					section.set(node + ".ExplosionRadius", i);
+				}
+				
+				if(section.getString(node + ".Type").equals("LightningAura")){
+					if(!section.isSet(node + ".Radius")){
+						Likeaboss.l.warning("[Likeaboss] Missing values for ability '" + node + "' in abilities.yml");
+						continue;
+					}
+					int i = section.getInt(node + ".Radius");
+					section.set(node + ".Radius", null);
+					section.set(node + ".AttackRadius", i);
+				}
+				
+				try {
+					ability.save(getFile("ability.yml"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			try {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("abilities.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("version: " + latestVersion);
+				stream.println("ConfigVersion: " + latestVersion);
 				
 				stream.close();
 			} catch (IOException e) {
@@ -115,7 +158,7 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("config.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("version: " + latestVersion);
+				stream.println("ConfigVersion: " + latestVersion);
 				
 				stream.close();
 			} catch (IOException e) {
@@ -186,14 +229,13 @@ public class LabConfigUpdater {
 				bosses.set(node + ".Spawn.Probability", Double.parseDouble(spawnValues[0]));
 				bosses.set(node + ".Spawn.SpawnerProbability", Double.parseDouble(spawnValues[1]));
 				bosses.set(node + ".Spawn.MaxSpawnHeight", Double.parseDouble(spawnValues[2]));
-				
-				String statsString = bosses.getString(node + ".Stats");
-				
-				if (statsString == null) {
+								
+				if (!bosses.isSet(node + ".Stats")) {
 					Likeaboss.l.warning("[Likeaboss] '" + node + ".Stats' in bosses config file is missing.");
 					return;
 				}
 				
+				String statsString = bosses.getString(node + ".Stats");				
 				String[] statsValues = statsString.split(" ");
 				
 				if (statsValues.length < 3) {
@@ -224,7 +266,7 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("bosses.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("version: " + latestVersion);
+				stream.println("ConfigVersion: " + latestVersion);
 				
 				stream.close();
 			} catch (IOException e) {
@@ -269,7 +311,7 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("equipment.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("version: " + latestVersion);
+				stream.println("ConfigVersion: " + latestVersion);
 				
 				stream.close();
 			} catch (IOException e) {
@@ -314,7 +356,7 @@ public class LabConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("magicspells.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.println("version: " + latestVersion);
+				stream.println("ConfigVersion: " + latestVersion);
 				
 				stream.close();
 			} catch (IOException e) {
@@ -361,7 +403,7 @@ public class LabConfigUpdater {
 					PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("Worlds" + File.separator + world.getName() + ".yml"), true)));
 					stream.println();
 					stream.println();
-					stream.println("version: " + latestVersion);
+					stream.println("ConfigVersion: " + latestVersion);
 					
 					stream.close();
 				} catch (IOException e) {

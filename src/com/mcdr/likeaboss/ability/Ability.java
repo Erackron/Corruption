@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import com.mcdr.likeaboss.Likeaboss;
@@ -26,7 +31,8 @@ public abstract class Ability {
 		KNOCKBACK,
 		POTION,
 		BOMB,
-		LIGHTNINGAURA;
+		LIGHTNINGAURA,
+		TELEPORT;
 		
 		public static AbilityType FromString(String string) {
 			for (AbilityType abilityType : AbilityType.values()) {
@@ -42,7 +48,9 @@ public abstract class Ability {
 	protected AbilityType abilityType;
 	protected double assignationChance = 100.0;
 	protected double activationChance = 100.0;
-	private int radius = 16;
+	private int messageRadius = 16;
+	private int minActivationRange = 0;
+	private int maxActivationRange = 16;
 	private String msg = "";
 	private double cooldown = 0.0;
 	
@@ -58,8 +66,12 @@ public abstract class Ability {
 		return activationChance;
 	}
 	
-	public int getActivationRadius(){
-		return radius;
+	public int getMinActivationRange(){
+		return minActivationRange;
+	}
+	
+	public int getMaxActivationRange(){
+		return maxActivationRange;
 	}
 	
 	public boolean checkChance() {
@@ -86,8 +98,12 @@ public abstract class Ability {
 		this.cooldown = cooldown;
 	}
 	
-	public void setActivationRadius(int radius){
-		this.radius = radius;
+	public void setMinActivationRange(int range){
+		this.minActivationRange = range;
+	}
+	
+	public void setMaxActivationRange(int range){
+		this.maxActivationRange = range;
 	}
 	
 	public void useCooldown(Boss boss){
@@ -116,7 +132,7 @@ public abstract class Ability {
 			Player player = labPlayer.getPlayer();
 			if(player.equals(target))
 				continue;
-			if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, radius)) {
+			if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, messageRadius)) {
 				player.sendMessage(message);
 			}
 		}
@@ -140,6 +156,40 @@ public abstract class Ability {
 		
 		if (!(livingEntity instanceof Player))
 			return;
+	}
+	
+	protected static List<Block> FindValidBlocks(Location location, int minRange, int maxRange) {
+		List<Block> validBlocks = new ArrayList<Block>();
+		World world = location.getWorld();
+
+		for (int x = -maxRange ; x <= maxRange ; x++) {
+			for (int z = -maxRange ; z <= maxRange ; z++) {
+				if (x > -minRange && x < minRange && z > -minRange && z < minRange)
+					continue;
+
+				Block block = world.getBlockAt((int) location.getX() + x, (int) location.getY(), (int) location.getZ() + z);
+
+				if (block.isEmpty() && block.getRelative(BlockFace.UP).isEmpty() && !block.getRelative(BlockFace.DOWN).isEmpty()) {
+					validBlocks.add(block);
+					block.setType(Material.IRON_BLOCK);
+				}
+				else {
+					Block nextBlock = block.getRelative(BlockFace.DOWN, maxRange);
+
+					do {
+						if (nextBlock.isEmpty() && nextBlock.getRelative(BlockFace.UP).isEmpty() && !nextBlock.getRelative(BlockFace.DOWN).isEmpty()) {
+							validBlocks.add(nextBlock);
+							nextBlock.setType(Material.IRON_BLOCK);
+							break;
+						}
+
+						nextBlock = nextBlock.getRelative(BlockFace.UP);
+					} while (nextBlock.getY() - block.getY() < maxRange);
+				}
+			}
+		}
+
+		return validBlocks;
 	}
 	
 	public class AbilityReactivator implements Runnable {
