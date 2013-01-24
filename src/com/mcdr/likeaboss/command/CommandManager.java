@@ -13,40 +13,27 @@ public abstract class CommandManager {
 		
 		String firstArg = args[0].toLowerCase();
 		
-		switch(firstArg){
-			case "clear":
-				ClearCommand.Process();
-				break;
-			case "help":
-				HelpCommand.Process();
-				break;
-			case "ignore":
-				IgnoreCommand.Process();
-				break;
-			case "info":
-				InfoCommand.Process();
-				break;
-			case "list":
-				ListCommand.Process();
-				break;
-			case "reload":
-				ReloadCommand.Process();
-				break;
-			case "spawn":
-				SpawnCommand.Process();
-				break;
-			case "stats":
-				StatsCommand.Process();
-				break;
-			case "viewer":
-				ViewerCommand.Process();
-				break;
-			case "update":
-				UpdateCommand.Process();
-				break;
-			default:
-		}
-		
+		if(firstArg.equalsIgnoreCase("clear"))
+			ClearCommand.Process();
+		else if(firstArg.equalsIgnoreCase("help"))
+			HelpCommand.Process();
+		else if(firstArg.equalsIgnoreCase("ignore"))
+			IgnoreCommand.Process();
+		else if(firstArg.equalsIgnoreCase("info"))
+			InfoCommand.Process();
+		else if(firstArg.equalsIgnoreCase("list"))
+			ListCommand.Process();
+		else if(firstArg.equalsIgnoreCase("reload"))
+			ReloadCommand.Process();
+		else if(firstArg.equalsIgnoreCase("spawn"))
+			SpawnCommand.Process();
+		else if(firstArg.equalsIgnoreCase("stats"))
+			StatsCommand.Process();
+		else if(firstArg.equalsIgnoreCase("viewer"))
+			ViewerCommand.Process();
+		else if(firstArg.equalsIgnoreCase("update"))
+			UpdateCommand.Process();
+
 		return BaseCommand.processed;
 	}
 }

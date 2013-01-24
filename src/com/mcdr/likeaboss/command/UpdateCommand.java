@@ -1,6 +1,7 @@
 package com.mcdr.likeaboss.command;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.util.LabAutoUpdater;
@@ -15,18 +16,11 @@ public class UpdateCommand extends BaseCommand {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.GRAY + "Usage: " + ChatColor.WHITE + "/lab update <check/install>.");
 			return;
 		}
-		
-		switch(args[1].toLowerCase()){
-			case "c":
-			case "check":
-				checkCommand();
-				break;
-			case "i":
-			case "install":
-				installCommand();
-				break;
-			default:
-		}
+		String arg = args[1].toLowerCase();
+		if(arg.equalsIgnoreCase("c")||arg.equalsIgnoreCase("check"))
+			checkCommand();
+		else if(arg.equalsIgnoreCase("i")||arg.equalsIgnoreCase("install"))
+			installCommand();
 		return;
 	}
 	
@@ -60,7 +54,8 @@ public class UpdateCommand extends BaseCommand {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Updated successfully.");
 		else {
 			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Update failed.");
-			sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Check the console/logs for more information.");
+			if(sender instanceof Player)
+				sender.sendMessage(ChatColor.GOLD + "[LAB] " + ChatColor.WHITE + "Check the console/logs for more information.");
 		}
 	}
 }

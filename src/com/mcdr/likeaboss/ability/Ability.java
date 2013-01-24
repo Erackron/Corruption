@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -171,7 +170,6 @@ public abstract class Ability {
 
 				if (block.isEmpty() && block.getRelative(BlockFace.UP).isEmpty() && !block.getRelative(BlockFace.DOWN).isEmpty()) {
 					validBlocks.add(block);
-					block.setType(Material.IRON_BLOCK);
 				}
 				else {
 					Block nextBlock = block.getRelative(BlockFace.DOWN, maxRange);
@@ -179,7 +177,6 @@ public abstract class Ability {
 					do {
 						if (nextBlock.isEmpty() && nextBlock.getRelative(BlockFace.UP).isEmpty() && !nextBlock.getRelative(BlockFace.DOWN).isEmpty()) {
 							validBlocks.add(nextBlock);
-							nextBlock.setType(Material.IRON_BLOCK);
 							break;
 						}
 

@@ -1,88 +1,71 @@
 package com.mcdr.likeaboss.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.SocketTimeoutException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.util.Scanner;
 import org.bukkit.Bukkit;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import com.mcdr.likeaboss.Likeaboss;
 
 public class LabAutoUpdater {
-	private static final String LAST_VERSION_URL = "http://dev.bukkit.org/server-mods/likeaboss-mcdr/files.rss";
+	private static final String LAST_VERSION_URL = "http://api.bukget.org/3/plugins/bukkit/likeaboss-mcdr/latest";
+	private static String jsonResponse = "";
 	public static String downloadUrl = "";
 	public static String md5Hash = "";
 	public static long timeStamp = -1;
 	
 	public static String getDownloadUrl(){
-		String link = "";
 		try {
-			URL rss = new URL(LAST_VERSION_URL);
-			URLConnection con = rss.openConnection();
+			URL jsonURL = new URL(LAST_VERSION_URL);
+			URLConnection con = jsonURL.openConnection();
 		    con.setConnectTimeout(1000*2);
 		    con.setReadTimeout(1000*60);
-		    
-			ReadableByteChannel rbc = Channels.newChannel(con.getInputStream());
-			Likeaboss.in.getDataFolder().mkdir();
-			File outputFile = new File(Likeaboss.in.getDataFolder(), Likeaboss.in.getDescription().getName() + ".tmp");
-			outputFile.createNewFile();
-			FileOutputStream fos = new FileOutputStream(outputFile);
-			fos.getChannel().transferFrom(rbc, 0, 1 << 24);
-			fos.close();
-			Scanner s = new Scanner(outputFile);
-			int line = 0;
-			while(s.hasNextLine()) {
-				link = s.nextLine();
-		    	if(link.contains("<link>")) {
-		    		line++;
-		    	}
-		    	if(line == 2) {
-		    		link = link.substring(link.indexOf(">") + 1);
-		    		link = link.substring(0, link.indexOf("<"));
-		    		break;
-		    	}
-			}
-			s.close();
-			outputFile.delete();
-		} catch(SocketTimeoutException e){
-			Likeaboss.l.info("["+Likeaboss.in.getName()+"] Failed to reach dev.bukkit.org to find the download page. Is it down?");
-			timeStamp = -1;
-			return null;
-		} catch (IOException e) {
+		    //con.connect();
+		    InputStream ins = con.getInputStream();
+		    BufferedReader in = new BufferedReader(new InputStreamReader(ins));
+		    String line = in.readLine();
+		    jsonResponse = line!=null?line:jsonResponse;
+		    in.close();
+		} catch (MalformedURLException e) {
 			e.printStackTrace();
-		}
-		downloadUrl = getFileDownloadUrl(link);
+		} catch (IOException e) {e.printStackTrace();}
+		if(jsonResponse=="")
+			return "";
+		downloadUrl = getFileDownloadUrl(jsonResponse);
+		
 		timeStamp = System.currentTimeMillis();
 		return downloadUrl;
 	}
 	
-	private static String getFileDownloadUrl(String url) {
-		String link = "";
-		try {   
-			Document doc = Jsoup.connect(url).timeout(1000*2).get();
-			
-			Element element = doc.select("dt:containsOwn(md5) + dd").first();
-			if(element!=null)
-				md5Hash = element.html();
-	    
-			element = doc.getElementsByClass("user-action-download").first();
-			link = element.getElementsByTag("a").attr("href");
-		} catch(IOException e){ 
-			Likeaboss.l.info("["+Likeaboss.in.getName()+"] Failed to reach dev.bukkit.org to find the download link. Is it down?");
-			timeStamp = -1;
-			return null;  
-		} catch (Exception e) {
+	private static String getFileDownloadUrl(String jsonString){
+		try {
+			JSONObject json = (JSONObject) new JSONParser().parse(jsonString);
+			JSONArray jsonArray = (JSONArray) json.get("versions");
+			jsonString = jsonArray.toJSONString();
+			json = (JSONObject) new JSONParser().parse(jsonString.substring(1, jsonString.length()-1));
+			md5Hash = (String) json.get("md5");
+			return (String) json.get("download");
+		} catch (ParseException e) {
 			e.printStackTrace();
+			return null;
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			return null;
+		} catch (NullPointerException e){
+			System.out.println(jsonString);
+			return null;
 		}
-		return link;
 	}
 	
 	public static boolean update() {
