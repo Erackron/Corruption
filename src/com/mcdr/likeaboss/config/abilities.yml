@@ -3,24 +3,24 @@ AP25:
   Message: "&4{BOSSNAME} Boss used Armor Pierce."
   ActivationChance: 10.0
   AssignationChance: 100.0
-  MinimalActivationRange: 0
-  MaximalActivationRange: 16
+  MinimumRange: 0
+  MaximumRange: 16
   Value: 25.0
 FP2:
   Type: FirePunch
   Message: "&4{BOSSNAME} Boss used Fire Punch."
   ActivationChance: 15.0
   AssignationChance: 100.0
-  MinimalActivationRange: 0
-  MaximalActivationRange: 16
+  MinimumRange: 0
+  MaximumRange: 16
   Ticks: 2
 KB2:
   Type: Knockback
   Message: "&4{BOSSNAME} Boss used Knockback."
   ActivationChance: 25.0
   AssignationChance: 100.0
-  MinimalActivationRange: 0
-  MaximalActivationRange: 16
+  MinimumRange: 0
+  MaximumRange: 16
   VerticalCoef: 2.0
   HorizontalCoef: 3.0
 PO3:
@@ -30,8 +30,8 @@ PO3:
   Target: other
   ActivationChance: 25.0
   AssignationChance: 100.0
-  MinimalActivationRange: 0
-  MaximalActivationRange: 16
+  MinimumRange: 0
+  MaximumRange: 16
   Amplifier: 2
   Duration: 3.0
 B2:
@@ -39,8 +39,8 @@ B2:
   Message: "&4{BOSSNAME} Boss planted a bomb."
   ActivationChance: 15.0
   AssignationChance: 100.0
-  MinimalActivationRange: 0
-  MaximalActivationRange: 16
+  MinimumRange: 0
+  MaximumRange: 16
   Cooldown: 7.5
   Fuse: 80
   ExplosionRadius: 3
@@ -49,8 +49,8 @@ LA10:
   Message: "&4{BOSSNAME} Boss struck his enemies by lightning"
   ActivationChance: 5.0
   AssignationChance: 100.0
-  MinimalActivationRange: 0
-  MaximalActivationRange: 16
+  MinimumRange: 0
+  MaximumRange: 16
   Cooldown: 10.0
   AttackRadius: 10
   Damage: 2
@@ -59,8 +59,8 @@ TP:
   Message: "&4{BOSSNAME} Boss teleported you"
   ActivationChance: 5.0
   AssignationChance: 100.0
-  MinimalActivationRange: 0
-  MaximalActivationRange: 16
+  MinimumRange: 0
+  MaximumRange: 16
   Cooldown: 2.0
 
   

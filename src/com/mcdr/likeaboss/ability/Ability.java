@@ -49,8 +49,8 @@ public abstract class Ability {
 	protected double assignationChance = 100.0;
 	protected double activationChance = 100.0;
 	private int messageRadius = 16;
-	private int minActivationRange = 0;
-	private int maxActivationRange = 16;
+	private int minRange = 0;
+	private int maxRange = 16;
 	private String msg = "";
 	private double cooldown = 0.0;
 	
@@ -66,12 +66,12 @@ public abstract class Ability {
 		return activationChance;
 	}
 	
-	public int getMinActivationRange(){
-		return minActivationRange;
+	public int getMinRange(){
+		return minRange;
 	}
 	
-	public int getMaxActivationRange(){
-		return maxActivationRange;
+	public int getMaxRange(){
+		return maxRange;
 	}
 	
 	public boolean checkChance() {
@@ -98,12 +98,12 @@ public abstract class Ability {
 		this.cooldown = cooldown;
 	}
 	
-	public void setMinActivationRange(int range){
-		this.minActivationRange = range;
+	public void setMinRange(int range){
+		this.minRange = range;
 	}
 	
-	public void setMaxActivationRange(int range){
-		this.maxActivationRange = range;
+	public void setMaxRange(int range){
+		this.maxRange = range;
 	}
 	
 	public void useCooldown(Boss boss){
@@ -158,7 +158,7 @@ public abstract class Ability {
 			return;
 	}
 	
-	protected static List<Block> FindValidBlocks(Location location, int minRange, int maxRange) {
+	protected static List<Block> findValidBlocks(Location location, int minRange, int maxRange) {
 		List<Block> validBlocks = new ArrayList<Block>();
 		World world = location.getWorld();
 

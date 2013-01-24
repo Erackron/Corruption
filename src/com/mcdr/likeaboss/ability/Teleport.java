@@ -27,7 +27,7 @@ public class Teleport extends Ability {
         else
             location = boss.getLivingEntity().getLocation();
         
-        List<Block> validBlocks = FindValidBlocks(location, minRange, maxRange);
+        List<Block> validBlocks = findValidBlocks(location, minRange, maxRange);
         
         if (!validBlocks.isEmpty()) {
             Block block = validBlocks.get(Utility.random.nextInt(validBlocks.size()));

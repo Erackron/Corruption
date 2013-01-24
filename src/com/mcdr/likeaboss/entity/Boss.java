@@ -66,7 +66,7 @@ public class Boss extends LabEntity {
 			
 			Ability ability = entry.getKey();
 			
-			if (Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), ability.getMinActivationRange(), ability.getMaxActivationRange()) && ability.getActivationConditions().contains(activationCondition))
+			if (Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), ability.getMinRange(), ability.getMaxRange()) && ability.getActivationConditions().contains(activationCondition))
 				ability.Execute(livingEntity, this);
 		}
 	}

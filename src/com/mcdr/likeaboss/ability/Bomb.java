@@ -1,5 +1,7 @@
 package com.mcdr.likeaboss.ability;
 
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -7,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.entity.Boss;
+import com.mcdr.likeaboss.util.Utility;
 
 public class Bomb extends Ability {
 	
@@ -39,19 +42,19 @@ public class Bomb extends Ability {
     
     public void Execute(LivingEntity livingEntity, Boss boss) {
 		super.Execute(livingEntity, boss);
-	   	// Grab the target, or a random player.      
-	    final World world = livingEntity.getWorld();
-	    final Location loc = livingEntity.getLocation();
-	      
-	    Block b = null;
-		try {
-			b = world.getBlockAt(loc);
-		} catch (NullPointerException e) {
-			return;
-		} 
+	    final List<Block> validBlocks = findValidBlocks(livingEntity.getLocation(), 0, 3);
+	    
+	    if (validBlocks.isEmpty())
+	    	return;
+	    
+        Block block = validBlocks.get(Utility.random.nextInt(validBlocks.size()));  
+        boss.getLivingEntity().teleport(block.getLocation());
+        useCooldown(boss);
+
 	        
-		b.setType(Material.BEDROCK);
-	        
+		block.setType(Material.BEDROCK);
+		final Location loc = block.getLocation();
+	    final World world = block.getWorld();    
 	    Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.in, new Runnable() {
 	        public void run() {
 	            world.getBlockAt(loc).setType(Material.AIR);

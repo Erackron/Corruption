@@ -164,13 +164,13 @@ public abstract class AbilityConfig extends BaseConfig {
 				if (abilityEntries.containsKey(entryKey))
 					ability.setActivationChance((Double) abilityEntries.get(entryKey));
 				
-				entryKey = "MinimalActivationRange";
+				entryKey = "MinimumRange";
 				if(abilityEntries.containsKey(entryKey))
-					ability.setMinActivationRange((Integer) abilityEntries.get(entryKey));
+					ability.setMinRange((Integer) abilityEntries.get(entryKey));
 				
 				entryKey = "MaximalActivationRange";
 				if(abilityEntries.containsKey(entryKey))
-					ability.setMaxActivationRange((Integer) abilityEntries.get(entryKey));
+					ability.setMaxRange((Integer) abilityEntries.get(entryKey));
 
 				abilities.put(abilityName, ability);
 			}

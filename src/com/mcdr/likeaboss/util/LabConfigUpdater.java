@@ -64,6 +64,9 @@ public class LabConfigUpdater {
 			for(String node : ability.getKeys(false)){
 				ConfigurationSection section = ability.getConfigurationSection(node);
 				
+				if(section == null)
+					continue;
+				
 				if(!section.isSet(node + ".Probability")){
 					Likeaboss.l.warning("[Likeaboss] Missing values for ability '" + node + "' in abilities.yml");
 					continue;
@@ -73,8 +76,8 @@ public class LabConfigUpdater {
 				section.set(node + ".ActivationChance", d);
 				
 				section.set(node + ".AssignationChance", 100.0D);
-				section.set(node + ".MinimalActivationRadius", 0);
-				section.set(node + ".MaximalActivationRadius", 16);
+				section.set(node + ".MinimumRange", 0);
+				section.set(node + ".MaximumRange", 16);
 				
 				if(section.getString(node + ".Type").equals("Bomb")){
 					if(!section.isSet(node + ".Radius")){
