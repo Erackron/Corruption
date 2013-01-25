@@ -19,6 +19,7 @@ import com.mcdr.likeaboss.drop.Drop;
 import com.mcdr.likeaboss.drop.Roll;
 import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.entity.BossData.BossImmunity;
+import com.mcdr.likeaboss.entity.PigZombieBossData;
 import com.mcdr.likeaboss.entity.SkeletonBossData;
 import com.mcdr.likeaboss.entity.ZombieBossData;
 
@@ -62,6 +63,9 @@ public class BossConfig extends BaseConfig {
 			if(entityType==EntityType.ZOMBIE){
 				boolean isBaby = yamlConfig.getBoolean(bossName + ".Baby"), isVillager = yamlConfig.getBoolean(bossName + ".Villager");
 				bossData = new ZombieBossData(bossName, entityType, isBaby, isVillager);
+			} else if(entityType==EntityType.PIG_ZOMBIE){
+				boolean isBaby = yamlConfig.getBoolean(bossName + ".Baby"), isAngry = yamlConfig.isSet(bossName + ".Aggressive")?yamlConfig.getBoolean(bossName + ".Aggressive"):true;
+				bossData = new PigZombieBossData(bossName, entityType, isBaby, isAngry);
 			} else if(entityType==EntityType.SKELETON) {
 				boolean isWitherSkeleton = yamlConfig.getBoolean(bossName + ".WitherSkeleton");
 				bossData = new SkeletonBossData(bossName, entityType, isWitherSkeleton);

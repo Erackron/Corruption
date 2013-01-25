@@ -256,8 +256,14 @@ public class LabConfigUpdater {
 				for(String s: immunity.getKeys(true)){
 					if(immunity.getBoolean(s))
 						bosses.set(node + ".Immunity." +s, immunity.getBoolean(s));
-				}			
+				}
+				
+				if(bosses.getString(node+".EntityType").equalsIgnoreCase("pigzombie") && !bosses.isSet(node + ".Aggressive")){
+					bosses.set(node + ".Aggressive", true);
+				}
 			}			
+			
+			
 			
 			try {
 				bosses.save(getFile("bosses.yml"));				

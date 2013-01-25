@@ -8,6 +8,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.LivingEntity;
@@ -39,6 +40,7 @@ import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.entity.BossData.BossImmunity;
 import com.mcdr.likeaboss.entity.ZombieBossData;
+import com.mcdr.likeaboss.entity.PigZombieBossData;
 import com.mcdr.likeaboss.entity.SkeletonBossData;
 import com.mcdr.likeaboss.entity.LabEntity;
 import com.mcdr.likeaboss.entity.LabEntityManager;
@@ -77,6 +79,11 @@ public class LabEntityListener implements Listener {
 				Zombie zombie = (Zombie) livingEntity;
 				if(zombie.isBaby()!=zBossData.isBaby() || zombie.isVillager()!=zBossData.isVillager())
 					return;
+				if(bossData instanceof PigZombieBossData){
+					PigZombieBossData pzBossData = (PigZombieBossData) zBossData;
+					PigZombie pigZombie = (PigZombie) zombie;
+					pigZombie.setAngry(pzBossData.isAngry());
+				}
 			} else if(bossData instanceof SkeletonBossData){
 				SkeletonBossData sBossData = (SkeletonBossData) bossData;
 				Skeleton skeleton = (Skeleton) livingEntity;

@@ -10,6 +10,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
@@ -20,6 +21,7 @@ import com.mcdr.likeaboss.config.GlobalConfig.CommandParam;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.entity.LabEntityManager;
+import com.mcdr.likeaboss.entity.PigZombieBossData;
 import com.mcdr.likeaboss.entity.ZombieBossData;
 import com.mcdr.likeaboss.entity.SkeletonBossData;
 
@@ -91,6 +93,10 @@ public abstract class SpawnCommand extends BaseCommand {
 				Zombie zombie = (Zombie) spawnedCreature;
 				zombie.setBaby(((ZombieBossData) bossData).isBaby());
 				zombie.setVillager(((ZombieBossData) bossData).isVillager());
+				if(PigZombie.class.isAssignableFrom(entityType.getEntityClass())){
+					PigZombie pigZombie = (PigZombie) zombie;
+					pigZombie.setAngry(((PigZombieBossData) bossData).isAngry());
+				}
 			}
 			
 			//Check and set if it has to be a normal or wither skeleton
