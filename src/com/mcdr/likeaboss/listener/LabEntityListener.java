@@ -401,9 +401,9 @@ public class LabEntityListener implements Listener {
 		
 		int regainAmount = -1;
 		switch(event.getRegainReason()){
-			case CUSTOM:
 			case WITHER_SPAWN:
 				regainAmount = event.getAmount()==10?livingEntity.getMaxHealth()/30:boss.getRegenPerSecond();
+			case CUSTOM:
 			case WITHER:
 			case MAGIC:
 			case MAGIC_REGEN:
