@@ -48,9 +48,6 @@ public class Bomb extends Ability {
 	    	return;
 	    
         Block block = validBlocks.get(Utility.random.nextInt(validBlocks.size()));  
-        boss.getLivingEntity().teleport(block.getLocation());
-        useCooldown(boss);
-
 	        
 		block.setType(Material.BEDROCK);
 		final Location loc = block.getLocation();
@@ -63,6 +60,6 @@ public class Bomb extends Ability {
 	    }, fuse);
 	        
 	    useCooldown(boss);
-	    sendAreaMessage(boss, livingEntity);        
+	    sendAreaMessage(boss, livingEntity);
     }
 }

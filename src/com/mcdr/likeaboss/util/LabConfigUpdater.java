@@ -96,7 +96,7 @@ public class LabConfigUpdater {
 					}
 					int i = ability.getInt(node + ".Radius");
 					ability.set(node + ".Radius", null);
-					ability.set(node + ".AttackRadius", i);
+					ability.set(node + ".MaximumRange", i);
 				}
 				
 				try {
@@ -258,8 +258,23 @@ public class LabConfigUpdater {
 						bosses.set(node + ".Immunity." +s, immunity.getBoolean(s));
 				}
 				
-				if(bosses.getString(node+".EntityType").equalsIgnoreCase("pigzombie") && !bosses.isSet(node + ".Aggressive")){
-					bosses.set(node + ".Aggressive", true);
+				String entityType = bosses.getString(node+".EntityType");
+				if(entityType.equalsIgnoreCase("pigzombie")){
+					if(!bosses.isSet(node + ".Aggressive"))
+						bosses.set(node + ".Aggressive", true);
+					if(!bosses.isSet(node + ".Baby"))
+						bosses.set(node + ".Baby", false);
+				} else if(entityType.equalsIgnoreCase("zombie")){
+					if(!bosses.isSet(node + ".Baby"))
+						bosses.set(node + ".Baby", false);
+					if(!bosses.isSet(node + ".Villager"))
+						bosses.set(node + ".Villager", false);
+				} else if(entityType.equalsIgnoreCase("skeleton")){
+					if(!bosses.isSet(node + ".WitherSkeleton"))
+						bosses.set(node + ".WitherSkeleton", false);
+				} else if(entityType.equalsIgnoreCase("witherboss")){
+					if(!bosses.isSet(node + ".HealthRegenPerSecond"))
+						bosses.set(node + ".HealthRegenPerSecond", 2);
 				}
 			}			
 			

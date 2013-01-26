@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.EntityEquipment;
@@ -39,7 +40,14 @@ public class Boss extends LabEntity {
 			health = (int) bossData.getHealthCoef();
 		
 		livingEntity.setMaxHealth(health);
-		livingEntity.setHealth(health);
+		
+		//Set the start health if this is a Wither, so it can regenerate like a vanilla Wither
+		if(livingEntity.getType()==EntityType.WITHER){
+			int startHealth = (int)(health/3.75);
+			livingEntity.setHealth(startHealth);
+			setHealth(startHealth);
+		}
+		
 		AddAbilities();
 		if(!bossData.hasEquipment())
 			bossData.setEquipment(new EquipmentSet());
@@ -60,13 +68,15 @@ public class Boss extends LabEntity {
 	}
 	
 	public void ActivateAbilities(LivingEntity livingEntity, ActivationCondition activationCondition) {
+		if(livingEntity==null)
+			return;
 		for (Entry<Ability, Boolean> entry : abilities.entrySet()) {
 			if (entry.getValue() == false)
 				continue;
 			
 			Ability ability = entry.getKey();
-			
-			if (Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), ability.getMinRange(), ability.getMaxRange()) && ability.getActivationConditions().contains(activationCondition))
+			if (Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), ability.getMinRange(), ability.getMaxRange()) 
+					&& ability.getActivationConditions().contains(activationCondition))
 				ability.Execute(livingEntity, this);
 		}
 	}
@@ -165,5 +175,12 @@ public class Boss extends LabEntity {
 			entry.setValue(status);
 			return;
 		}
+	}
+	
+	public int getRegenPerSecond(){
+		if(bossData instanceof WitherBossData){
+			return ((WitherBossData) bossData).getRegenPerSecond();
+		} else
+			return 0;
 	}
 }

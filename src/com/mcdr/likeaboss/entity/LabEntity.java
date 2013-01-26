@@ -10,6 +10,8 @@ public abstract class LabEntity {
 	public abstract void OnDeath(EntityDeathEvent event);
 	
 	//Sometimes Entity.isDead() isn't enough, most certainly a MC/CraftBukkit bug.
+	//FIXME This method seems to make Likeaboss lose track of bosses if used,
+	//it works in the CheckEntityExistance task, but if (also) used elsewhere, it causes trouble
 	public boolean IsEntityAlive() {
 		int currentTicksLived = livingEntity.getTicksLived();
 		

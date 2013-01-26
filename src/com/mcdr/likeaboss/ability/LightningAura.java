@@ -10,7 +10,6 @@ import com.mcdr.likeaboss.util.Utility;
 
 public class LightningAura extends Ability{
 	
-	private int radius = 5;
 	private int damage = 2;
 	private boolean fire = false;
 	private boolean armorPierce = false;
@@ -18,10 +17,6 @@ public class LightningAura extends Ability{
 
 	public LightningAura() {
 		activationConditions.add(ActivationCondition.ONATTACK);
-	}
-	
-	public void setRadius(int radius){
-		this.radius = radius;
 	}
 	
 	public void setDamage(int damage){
@@ -38,6 +33,7 @@ public class LightningAura extends Ability{
 	
 	public void Execute(LivingEntity livingEntity, Boss boss){
 		super.Execute(livingEntity, boss);
+		int radius = getMaxRange();
 		for (LabPlayer labPlayer : LabPlayerManager.getLabPlayers()) {
 			Player player = labPlayer.getPlayer();
 			World world = player.getWorld();

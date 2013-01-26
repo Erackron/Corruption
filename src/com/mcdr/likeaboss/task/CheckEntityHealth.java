@@ -12,11 +12,10 @@ public class CheckEntityHealth extends BaseTask {
 		for (Boss boss : LabEntityManager.getBosses()) {
 			LivingEntity livingEntity = boss.getLivingEntity();
 			int entityHealth = livingEntity.getHealth();
-			int entityMaxHealth = livingEntity.getMaxHealth();
 			
 			//If the entity received damage not handled by the EntityDamageEvent listener.
-			if (entityHealth < entityMaxHealth && boss.getHealth() > 0)
-				livingEntity.setHealth(entityMaxHealth);
+			if (entityHealth < boss.getHealth() && boss.getHealth() > 0)
+				livingEntity.setHealth(boss.getHealth());
 		}
 	}
 }

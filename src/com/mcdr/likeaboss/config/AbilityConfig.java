@@ -120,10 +120,6 @@ public abstract class AbilityConfig extends BaseConfig {
 			case LIGHTNINGAURA:
 				ability = new LightningAura();
 				
-				entryKey = "AttackRadius";
-				if (abilityEntries.containsKey(entryKey))
-					((LightningAura) ability).setRadius((Integer) abilityEntries.get(entryKey));
-				
 				entryKey = "Damage";
 				if(abilityEntries.containsKey(entryKey))
 					((LightningAura) ability).setDamage((Integer) abilityEntries.get(entryKey));

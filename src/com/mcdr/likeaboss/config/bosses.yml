@@ -126,6 +126,8 @@ LavaSlime:
     Suffocation: true
 PigZombie:
   EntityType: PigZombie
+  Aggressive: true
+  Baby: false
   Loot:
     FirstRoll:
       FirstItem: 266:0 20.0 1 1
@@ -168,6 +170,7 @@ Silverfish:
     Suffocation: true
 Skeleton:
   EntityType: Skeleton
+  WitherSkeleton: false
   Loot:
     FirstRoll:
       FirstItem: 261:0 3.5 1 1
@@ -251,9 +254,35 @@ Witch:
     Contact: true
     Drowning: true
     Suffocation: true
+Wither
+  EntityType: WitherBoss
+  HealthRegenPerSecond: 2
+  Spawn:
+    Probability: 25.0
+    SpawnerProbability: 0.0
+    MaxSpawnHeight: 256
+  Stats:
+    Health: 5.0
+    Damage: 1.0
+    Experience: 180.0
+  Loot:
+    netherstar:
+        netherstar: 399:0 100 1 1
+    diamonds:
+        diamond: 264:0 100 20 30
+  Immunity:
+    BlockExplosion: true
+    EntityExplosion: true
+    Fire: false
+    EnvironmentalFireTick: true
+    Fall: true
+    Contact: true
+    Magic: true
 Zombie:
   EntityType: Zombie
   EquipmentSet: diamond
+  Baby: false
+  Villager: false
   Loot:
     FirstRoll:
       FirstItem: 288:0 20.0 1 3

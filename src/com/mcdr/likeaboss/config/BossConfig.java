@@ -21,6 +21,7 @@ import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.entity.BossData.BossImmunity;
 import com.mcdr.likeaboss.entity.PigZombieBossData;
 import com.mcdr.likeaboss.entity.SkeletonBossData;
+import com.mcdr.likeaboss.entity.WitherBossData;
 import com.mcdr.likeaboss.entity.ZombieBossData;
 
 
@@ -60,20 +61,26 @@ public class BossConfig extends BaseConfig {
 			usedBossEntityTypes.add(entityType);
 			
 			BossData bossData;
-			if(entityType==EntityType.ZOMBIE){
-				boolean isBaby = yamlConfig.getBoolean(bossName + ".Baby"), isVillager = yamlConfig.getBoolean(bossName + ".Villager");
-				bossData = new ZombieBossData(bossName, entityType, isBaby, isVillager);
-			} else if(entityType==EntityType.PIG_ZOMBIE){
-				boolean isBaby = yamlConfig.getBoolean(bossName + ".Baby"), isAngry = yamlConfig.isSet(bossName + ".Aggressive")?yamlConfig.getBoolean(bossName + ".Aggressive"):true;
-				bossData = new PigZombieBossData(bossName, entityType, isBaby, isAngry);
-			} else if(entityType==EntityType.SKELETON) {
-				boolean isWitherSkeleton = yamlConfig.getBoolean(bossName + ".WitherSkeleton");
-				bossData = new SkeletonBossData(bossName, entityType, isWitherSkeleton);
-			} else {
-				bossData = new BossData(bossName, entityType);
+			switch(entityType){
+				case ZOMBIE:
+					boolean isBaby = yamlConfig.getBoolean(bossName + ".Baby"), isVillager = yamlConfig.getBoolean(bossName + ".Villager");
+					bossData = new ZombieBossData(bossName, entityType, isBaby, isVillager);
+					break;
+				case PIG_ZOMBIE:
+					boolean isPigBaby = yamlConfig.getBoolean(bossName + ".Baby"), isAngry = yamlConfig.isSet(bossName + ".Aggressive")?yamlConfig.getBoolean(bossName + ".Aggressive"):true;
+					bossData = new PigZombieBossData(bossName, entityType, isPigBaby, isAngry);
+					break;
+				case SKELETON:
+					boolean isWitherSkeleton = yamlConfig.getBoolean(bossName + ".WitherSkeleton");
+					bossData = new SkeletonBossData(bossName, entityType, isWitherSkeleton);
+					break;
+				case WITHER:
+					int regenPerSecond = yamlConfig.getInt(bossName + ".HealthRegenPerSecond");
+					bossData = new WitherBossData(bossName, entityType, regenPerSecond>0?regenPerSecond:1);
+					break;
+				default:
+					bossData = new BossData(bossName, entityType);
 			}
-			
-			
 
 			if (!LoadSpawnValues(bossData, yamlConfig.getConfigurationSection(bossName + ".Spawn"), bossName))
 				continue;
