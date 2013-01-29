@@ -253,10 +253,13 @@ public class LabConfigUpdater {
 				bosses.set(node + ".Stats.Health", Double.parseDouble(statsValues[0]));
 				bosses.set(node + ".Stats.Damage", Double.parseDouble(statsValues[1]));
 				bosses.set(node + ".Stats.Experience", Double.parseDouble(statsValues[2]));
+				
 				for(String s: immunity.getKeys(true)){
 					if(immunity.getBoolean(s))
 						bosses.set(node + ".Immunity." +s, immunity.getBoolean(s));
 				}
+				
+				bosses.set(node + ".mcMMOXPBonus", 0);
 				
 				String entityType = bosses.getString(node+".EntityType");
 				if(entityType.equalsIgnoreCase("pigzombie")){

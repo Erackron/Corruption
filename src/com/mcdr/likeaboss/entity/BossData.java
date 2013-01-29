@@ -33,8 +33,7 @@ public class BossData {
 	public BossData(String name, EntityType entityType) {
 		this.name = name;
 		this.entityType = entityType;
-		setStatsMultipliers(BossParam.USE_HEALTH_AS_MULTIPLIER.getBoolValue(), BossParam.USE_DAMAGE_AS_MULTIPLIER.getBoolValue(), BossParam.USE_EXPERIENCE_AS_MULTIPLIER.getBoolValue());
-		setMCMMOXPBonus(BossParam.MCMMO_EXTRA_BOSS_XP.getIntValue());
+		setStatsMultipliers(BossParam.USE_HEALTH_AS_MULTIPLIER.getValue(), BossParam.USE_DAMAGE_AS_MULTIPLIER.getValue(), BossParam.USE_EXPERIENCE_AS_MULTIPLIER.getValue());
 		immunities = new ArrayList<BossImmunity>();
 	}
 	

@@ -90,6 +90,7 @@ public class BossConfig extends BaseConfig {
 			LoadLoots(bossData, yamlConfig.getConfigurationSection(bossName + ".Loot"), bossName);
 			LoadEquipment(bossData, yamlConfig.getConfigurationSection(bossName));
 			LoadImmunities(bossData, yamlConfig.getConfigurationSection(bossName + ".Immunity"), bossName);
+			LoadMCMMOXPBonus(bossData, yamlConfig.getInt(bossName + ".mcMMOXPBonus"));
 			
 			String [] bossNameS = bossName.split("_");
 			bossName = bossNameS[0];
@@ -226,6 +227,10 @@ public class BossConfig extends BaseConfig {
 			}			
 		}
 		
+	}
+	
+	public static void LoadMCMMOXPBonus(BossData bossData, int xp){
+		bossData.setMCMMOXPBonus(xp);
 	}
 	
 	public static Map<String, BossData> getBossesData() {

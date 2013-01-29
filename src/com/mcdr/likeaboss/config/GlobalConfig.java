@@ -82,48 +82,24 @@ public abstract class GlobalConfig extends BaseConfig {
 	
 	public enum BossParam {
 		OVERWRITE_DROPS (false) {@Override public String getNode() {return "Boss.OverwriteDrops";}},
-		MCMMO_EXTRA_BOSS_XP (0) {@Override public String getNode() {return "Boss.ExtraMCMMOXP";}},
 		USE_HEALTH_AS_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetHealthAsMultiplier";}},
 		USE_DAMAGE_AS_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetDamageAsMultiplier";}},
 		USE_EXPERIENCE_AS_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetExperienceAsMultiplier";}};
 		
-		private int intValue;
 		private boolean boolValue;
 		
 		private BossParam(boolean value){
 			setValue(value);
-		}
+		}		
 		
-		private BossParam(int value) {
-			setValue(value);
-		}
-		
-		public boolean useBoolValue(){
-			return !useIntValue();
-		}
-		
-		public boolean useIntValue(){
-			return this==MCMMO_EXTRA_BOSS_XP;
-		}
-		
-		public int getIntValue() {
-			return intValue;
-		}
-		
-		public boolean getBoolValue(){
+		public boolean getValue(){
 			return boolValue;
 		}
 		
 		public abstract String getNode();
 		
-		public void setValue(int value) {
-			this.intValue = value;
-			this.boolValue = value>0?true:false;
-		}
-		
-		public void setValue(boolean value){
+		public void setValue(boolean value) {
 			this.boolValue = value;
-			this.intValue = boolValue?1:0;
 		}
 	}
 	
@@ -188,13 +164,8 @@ public abstract class GlobalConfig extends BaseConfig {
 			String node = bossParam.getNode();
 
 			if (!yamlConfig.contains(node)) {
-				if(bossParam.equals(BossParam.MCMMO_EXTRA_BOSS_XP)){
-					if(!Likeaboss.mcMMOInstalled){
-						continue;
-					}
-				}
 				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
-				yamlConfig.set(node, bossParam.useIntValue()?bossParam.getIntValue():bossParam.getBoolValue());
+				yamlConfig.set(node, bossParam.getValue());
 				try {
 					yamlConfig.save(new File(Likeaboss.in.getDataFolder().getPath() + "/config.yml"));
 				} catch (IOException e) {
@@ -202,10 +173,8 @@ public abstract class GlobalConfig extends BaseConfig {
 				}
 				continue;
 			}
-			if(bossParam.useIntValue())
-				bossParam.setValue(yamlConfig.getInt(node));
-			else
-				bossParam.setValue(yamlConfig.getBoolean(node));
+			
+			bossParam.setValue(yamlConfig.getBoolean(node));
 		}
 	}
 }
