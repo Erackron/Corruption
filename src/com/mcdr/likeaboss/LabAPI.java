@@ -72,7 +72,7 @@ public class LabAPI {
 	public static int getMaxHealth(Entity e){
 		if(e instanceof LivingEntity){
 			if(isBoss(e))
-				return (int) (getHealthCoef(e)*((LivingEntity)e).getMaxHealth());
+				return (int) ((LivingEntity)e).getMaxHealth();
 			return ((LivingEntity)e).getMaxHealth();
 		} else
 			return 0;
