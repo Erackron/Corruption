@@ -259,7 +259,8 @@ public class LabConfigUpdater {
 						bosses.set(node + ".Immunity." +s, immunity.getBoolean(s));
 				}
 				
-				bosses.set(node + ".mcMMOXPBonus", 0);
+				if(Likeaboss.mcMMOInstalled)
+					bosses.set(node + ".mcMMOXPBonus", 0);
 				
 				String entityType = bosses.getString(node+".EntityType");
 				if(entityType.equalsIgnoreCase("pigzombie")){
