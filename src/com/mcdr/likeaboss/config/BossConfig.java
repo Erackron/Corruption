@@ -21,6 +21,7 @@ import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.entity.BossData.BossImmunity;
 import com.mcdr.likeaboss.entity.PigZombieBossData;
 import com.mcdr.likeaboss.entity.SkeletonBossData;
+import com.mcdr.likeaboss.entity.SlimeBossData;
 import com.mcdr.likeaboss.entity.WitherBossData;
 import com.mcdr.likeaboss.entity.ZombieBossData;
 
@@ -77,6 +78,11 @@ public class BossConfig extends BaseConfig {
 				case WITHER:
 					int regenPerSecond = yamlConfig.getInt(bossName + ".HealthRegenPerSecond");
 					bossData = new WitherBossData(bossName, entityType, regenPerSecond>0?regenPerSecond:1);
+					break;
+				case SLIME:
+				case MAGMA_CUBE:
+					int size = yamlConfig.isSet(bossName + ".Size")?yamlConfig.getInt(bossName + ".Size"):4;				
+					bossData = new SlimeBossData(bossName, entityType, size);
 					break;
 				default:
 					bossData = new BossData(bossName, entityType);
@@ -212,7 +218,7 @@ public class BossConfig extends BaseConfig {
 	
 	public static void LoadImmunities(BossData bossData, ConfigurationSection section, String bossName){
 		if(section == null){
-			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Immunities" + "' in bosses config file is empty or doesn't exist.");
+			Likeaboss.l.warning("[Likeaboss] '" + bossName + ".Immunities" + "' in bosses config file doesn't exist.");
 			return;
 		}
 		

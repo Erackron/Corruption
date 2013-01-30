@@ -22,6 +22,7 @@ import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.entity.LabEntityManager;
 import com.mcdr.likeaboss.entity.PigZombieBossData;
+import com.mcdr.likeaboss.entity.SlimeBossData;
 import com.mcdr.likeaboss.entity.ZombieBossData;
 import com.mcdr.likeaboss.entity.SkeletonBossData;
 
@@ -82,10 +83,10 @@ public abstract class SpawnCommand extends BaseCommand {
 			else
 				return false;
 			
-			//Slimes are always big
+			//Check and set the size of a slime
 			if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
 				Slime slime = (Slime) spawnedCreature;
-				slime.setSize(4);
+				slime.setSize(((SlimeBossData) bossData).getSize());
 			}
 			
 			//Check and set if it has to be a baby or villager zombie

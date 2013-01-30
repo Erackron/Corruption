@@ -55,14 +55,25 @@ public class LabAPI {
 		return -1;
 	}
 	
-	/**
+	/**	 
 	 * @param e Entity to get the health coefficient of
+	 * @see Use {@link #isUsingAbsoluteHealth(Entity e)} to check if this value is a multiplier or an absolute value
 	 * @return double The health coefficient of the boss or -1.0 if the entity is not a boss
 	 */
 	public static double getHealthCoef(Entity e){
 		if(isBoss(e))
 			return getBoss(e).getBossData().getHealthCoef();
 		return -1.0;
+	}
+	
+	/** 	 
+	 * @param e Entity to get to check if having an absolute health
+	 * @return True if this entity has an absolute health, false if it doesn't or the entity is not a boss 
+	 */
+	public static boolean isUsingAbsoluteHealth(Entity e){
+		if(isBoss(e))
+			return !getBoss(e).getBossData().useHealthMultiplier();
+		return false;
 	}
 	
 	/**

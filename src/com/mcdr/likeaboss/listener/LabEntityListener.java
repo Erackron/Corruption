@@ -39,6 +39,7 @@ import com.mcdr.likeaboss.config.GlobalConfig.MessageParam;
 import com.mcdr.likeaboss.entity.Boss;
 import com.mcdr.likeaboss.entity.BossData;
 import com.mcdr.likeaboss.entity.BossData.BossImmunity;
+import com.mcdr.likeaboss.entity.SlimeBossData;
 import com.mcdr.likeaboss.entity.ZombieBossData;
 import com.mcdr.likeaboss.entity.PigZombieBossData;
 import com.mcdr.likeaboss.entity.SkeletonBossData;
@@ -66,10 +67,6 @@ public class LabEntityListener implements Listener {
 		
 		double chance = Utility.random.nextInt(100), curChance = 0;
 		
-		if(livingEntity instanceof Slime)
-			if(((Slime) livingEntity).getSize()==1)
-				return;
-		
 		for(BossData bossData: bossDatas){
 			if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY())
 				return;
@@ -89,6 +86,12 @@ public class LabEntityListener implements Listener {
 				Skeleton skeleton = (Skeleton) livingEntity;
 				if(skeleton.getSkeletonType()!=sBossData.getSkeletonType())
 					return;
+			} else if (bossData instanceof SlimeBossData){
+				SlimeBossData slBossData = (SlimeBossData) bossData;
+				Slime slime = (Slime) livingEntity;
+				if(slime.getSize()!=slBossData.getSize())
+					return;
+				
 			}
 			
 			if(event.getSpawnReason() == SpawnReason.SPAWNER){
