@@ -89,7 +89,7 @@ public class LabEntityListener implements Listener {
 			} else if (bossData instanceof SlimeBossData){
 				SlimeBossData slBossData = (SlimeBossData) bossData;
 				Slime slime = (Slime) livingEntity;
-				if(slime.getSize()!=slBossData.getSize())
+				if(slime.getSize() < slBossData.getMinimalSize() || slime.getSize() > slBossData.getMaximalSize())
 					return;
 				
 			}

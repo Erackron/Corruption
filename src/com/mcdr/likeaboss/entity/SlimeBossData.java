@@ -4,18 +4,28 @@ import org.bukkit.entity.EntityType;
 
 public class SlimeBossData extends BossData{
 	
-	private int size;
+	private int minsize;
+	private int maxsize;
 
-	public SlimeBossData(String name, EntityType entityType, int size) {
+	public SlimeBossData(String name, EntityType entityType, int minsize, int maxsize) {
 		super(name, entityType);
-		this.size = size;
+		this.minsize = minsize;
+		this.maxsize = maxsize;
 	}
 	
-	public int getSize() {
-		return size;
+	public int getMinimalSize() {
+		return minsize;
 	}
 	
-	public void setSize(int size){
-		this.size = size;
+	public int getMaximalSize(){
+		return maxsize;
+	}
+	
+	public void setMinimalSize(int minsize){
+		this.minsize = minsize;
+	}
+	
+	public void setMaximalSize(int maxsize){
+		this.maxsize = maxsize;
 	}
 }

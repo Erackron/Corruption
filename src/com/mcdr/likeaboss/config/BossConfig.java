@@ -81,8 +81,9 @@ public class BossConfig extends BaseConfig {
 					break;
 				case SLIME:
 				case MAGMA_CUBE:
-					int size = yamlConfig.isSet(bossName + ".Size")?yamlConfig.getInt(bossName + ".Size"):4;				
-					bossData = new SlimeBossData(bossName, entityType, size);
+					int minsize = yamlConfig.isSet(bossName + ".MinimalSize")?yamlConfig.getInt(bossName + ".MinimalSize"):2;
+					int maxsize = yamlConfig.isSet(bossName + ".MaximalSize")?yamlConfig.getInt(bossName + ".MaximalSize"):4;
+					bossData = new SlimeBossData(bossName, entityType, minsize, maxsize);
 					break;
 				default:
 					bossData = new BossData(bossName, entityType);
