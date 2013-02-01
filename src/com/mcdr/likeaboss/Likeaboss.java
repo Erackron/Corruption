@@ -18,6 +18,7 @@ import com.mcdr.likeaboss.LabMetrics.Graph;
 import com.mcdr.likeaboss.command.CommandManager;
 import com.mcdr.likeaboss.config.BossConfig;
 import com.mcdr.likeaboss.config.ConfigManager;
+import com.mcdr.likeaboss.config.GlobalConfig;
 import com.mcdr.likeaboss.entity.LabEntityManager;
 import com.mcdr.likeaboss.listener.LabEntityListener;
 import com.mcdr.likeaboss.listener.LabMagicSpellsListener;
@@ -69,7 +70,8 @@ public class Likeaboss extends JavaPlugin {
 		
 		setupMetrics();
 		
-		checkUpdates();
+		if(GlobalConfig.checkUpdateOnStartup)
+			checkUpdates();
 		
 		l.info("["+getName()+"] Enabled");
 	}

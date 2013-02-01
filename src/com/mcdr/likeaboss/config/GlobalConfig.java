@@ -9,6 +9,8 @@ import com.mcdr.likeaboss.Likeaboss;
 
 
 public abstract class GlobalConfig extends BaseConfig {
+	public static boolean checkUpdateOnStartup = true;
+	
 	public enum CommandParam {
 		IGNORE_DELAY (120) {@Override public String getNode() {return "Command.Ignore.Delay";}},
 		SPAWN_MAX (50) {@Override public String getNode() {return "Command.Spawn.Max";}};
@@ -110,6 +112,11 @@ public abstract class GlobalConfig extends BaseConfig {
 			CopyResource(file, "com/mcdr/likeaboss/config/config.yml");
 		
 		YamlConfiguration yamlConfig = LoadConfig(file);
+		
+		if(yamlConfig.isSet("CheckUpdateOnStartup"))
+			checkUpdateOnStartup = yamlConfig.getBoolean("CheckUpdateOnStartup");
+		else
+			yamlConfig.set("CheckUpdateOnStartup", true);
 		
 		LoadCommandParams(yamlConfig);
 		LoadMessageParams(yamlConfig);
