@@ -13,19 +13,19 @@ public class SlimeBossData extends BossData{
 		this.maxsize = maxsize;
 	}
 	
-	public int getMinimalSize() {
+	public int getMinimumSize() {
 		return minsize;
 	}
 	
-	public int getMaximalSize(){
+	public int getMaximumSize(){
 		return maxsize;
 	}
 	
-	public void setMinimalSize(int minsize){
+	public void setMinimumSize(int minsize){
 		this.minsize = minsize;
 	}
 	
-	public void setMaximalSize(int maxsize){
+	public void setMaximumSize(int maxsize){
 		this.maxsize = maxsize;
 	}
 }

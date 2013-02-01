@@ -279,6 +279,11 @@ public class LabConfigUpdater {
 				} else if(entityType.equalsIgnoreCase("witherboss")){
 					if(!bosses.isSet(node + ".HealthRegenPerSecond"))
 						bosses.set(node + ".HealthRegenPerSecond", 2);
+				} else if(entityType.equalsIgnoreCase("slime") || entityType.equalsIgnoreCase("magmacube")){
+					if(!bosses.isSet(node + ".MinimumSize"))
+						bosses.set(node + ".MinimumSize", 2);
+					if(!bosses.isSet(node + ".MaximumSize"))
+						bosses.set(node + ".MaximumSize", 4);
 				}
 			}			
 			

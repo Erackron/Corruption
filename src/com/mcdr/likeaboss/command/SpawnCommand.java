@@ -86,7 +86,7 @@ public abstract class SpawnCommand extends BaseCommand {
 			//Check and set the size of a slime
 			if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
 				Slime slime = (Slime) spawnedCreature;
-				slime.setSize(((SlimeBossData) bossData).getMaximalSize());
+				slime.setSize(((SlimeBossData) bossData).getMaximumSize());
 			}
 			
 			//Check and set if it has to be a baby or villager zombie
