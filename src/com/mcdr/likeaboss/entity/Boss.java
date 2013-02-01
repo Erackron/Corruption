@@ -25,6 +25,7 @@ import com.mcdr.likeaboss.util.Utility;
 public class Boss extends LabEntity {
 	private BossData bossData;
 	private int health;
+	private int maxHealth;
 	private Map<Ability, Boolean> abilities = new HashMap<Ability, Boolean>();
 	private int fireEnchantTick;
 	private LabPlayer killer;
@@ -40,6 +41,7 @@ public class Boss extends LabEntity {
 			health = (int) bossData.getHealthCoef();
 		
 		livingEntity.setMaxHealth(health);
+		this.maxHealth = health;
 		
 		//Set the start health if this is a Wither, so it can regenerate like a vanilla Wither
 		if(livingEntity.getType()==EntityType.WITHER){
@@ -182,5 +184,9 @@ public class Boss extends LabEntity {
 			return ((WitherBossData) bossData).getRegenPerSecond();
 		} else
 			return 0;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
 	}
 }
