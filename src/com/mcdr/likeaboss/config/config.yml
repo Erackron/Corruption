@@ -12,7 +12,7 @@ Message:
     ToOthers: '&cA Corrupted {BOSSNAME} found {PLAYER}!'
   Proximity: '&4You feel an evil presence...'
   ViewerMessage: 'Corrupted {BOSSNAME} Health: {HEALTH} (-{DAMAGE})'
-  ViewerDefeated: Corrupted {BOSSNAME} has been defeated.
+  ViewerDefeated: 'Corrupted {BOSSNAME} has been defeated.'
 Task:
   DrawBossEffect: 1.0
   CheckEntityProximity: 0.5
@@ -21,7 +21,6 @@ Task:
   SavePlayerData: 600.0
 Boss:
   OverwriteDrops: false
-  ExtraMCMMOXP: 0
   SetHealthAsMultiplier: true
   SetDamageAsMultiplier: true
   SetExperienceAsMultiplier: true
