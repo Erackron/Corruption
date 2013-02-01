@@ -1,5 +1,6 @@
 Blaze:
   EntityType: Blaze
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 370:0 20.0 1 1
@@ -21,6 +22,7 @@ Blaze:
     Suffocation: true
 CaveSpider:
   EntityType: CaveSpider
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 376:0 20.0 1 2
@@ -42,6 +44,7 @@ CaveSpider:
     Suffocation: true
 Creeper:
   EntityType: Creeper
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 46:0 20.0 1 2
@@ -63,6 +66,7 @@ Creeper:
     Suffocation: true
 Enderman:
   EntityType: Enderman
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 121:0 20.0 1 2
@@ -84,6 +88,7 @@ Enderman:
     Suffocation: true
 Ghast:
   EntityType: Ghast
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 348:0 20.0 4 8
@@ -105,6 +110,7 @@ Ghast:
     Suffocation: true
 LavaSlime:
   EntityType: LavaSlime
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 341:0 20.0 1 3
@@ -128,6 +134,7 @@ PigZombie:
   EntityType: PigZombie
   Aggressive: true
   Baby: false
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 266:0 20.0 1 1
@@ -149,6 +156,7 @@ PigZombie:
     Suffocation: true
 Silverfish:
   EntityType: SilverFish
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 350:0 20.0 1 2
@@ -171,6 +179,7 @@ Silverfish:
 Skeleton:
   EntityType: Skeleton
   WitherSkeleton: false
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 261:0 3.5 1 1
@@ -195,6 +204,7 @@ Slime:
   EntityType: Slime
   MinimumSize: 2
   MaximumSize: 4
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 378:0 20.0 1 3
@@ -216,6 +226,7 @@ Slime:
     Suffocation: true
 Spider:
   EntityType: Spider
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 35:0 20.0 1 2
@@ -237,6 +248,7 @@ Spider:
     Suffocation: true
 Witch:
   EntityType: Witch
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 288:0 20.0 1 3
@@ -259,6 +271,7 @@ Witch:
 Wither
   EntityType: WitherBoss
   HealthRegenPerSecond: 2
+  mcMMOXPBonus: 0
   Spawn:
     Probability: 25.0
     SpawnerProbability: 0.0
@@ -285,6 +298,7 @@ Zombie:
   EquipmentSet: diamond
   Baby: false
   Villager: false
+  mcMMOXPBonus: 0
   Loot:
     FirstRoll:
       FirstItem: 288:0 20.0 1 3
@@ -305,5 +319,5 @@ Zombie:
     Drowning: true
     Suffocation: true
 
-
+#Do not touch this variable
 ConfigVersion: 2.0

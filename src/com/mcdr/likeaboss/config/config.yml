@@ -26,5 +26,5 @@ Boss:
   SetDamageAsMultiplier: true
   SetExperienceAsMultiplier: true
 
-
+#Do not touch this variable
 ConfigVersion: 2.0

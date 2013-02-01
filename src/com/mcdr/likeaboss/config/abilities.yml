@@ -73,5 +73,5 @@ TP2:
   MaximumRange: 25
   Cooldown: 2.0
 
-  
+#Do not touch this variable  
 ConfigVersion: 2.0

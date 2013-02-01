@@ -8,4 +8,5 @@ whitelist:
     - etc
 blacklist:
 
+#Do not touch this variable
 ConfigVersion: 2.0

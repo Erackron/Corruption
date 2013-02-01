@@ -18,4 +18,5 @@ Loot:
     SecondItem: 374:0 3.0 1 2
     ThirdItem: 281:0 3.0 1 1
 
+#Do not touch this variable
 ConfigVersion: 2.0
