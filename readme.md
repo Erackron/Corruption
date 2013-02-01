@@ -1,6 +1,8 @@
 ---
 #Likeaboss
 ---
+###To see up to date documentation, go to http://dev.bukkit.org/server-mods/likeaboss-mcdr/
+---
 ##Index
 * [Description](#description)
 * [Configuration files](#configuration-files)
