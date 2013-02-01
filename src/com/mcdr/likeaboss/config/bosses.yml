@@ -193,6 +193,8 @@ Skeleton:
     Suffocation: true
 Slime:
   EntityType: Slime
+  MinimumSize: 2
+  MaximumSize: 4
   Loot:
     FirstRoll:
       FirstItem: 378:0 20.0 1 3
