@@ -268,7 +268,7 @@ Witch:
     Contact: true
     Drowning: true
     Suffocation: true
-Wither
+Wither:
   EntityType: WitherBoss
   HealthRegenPerSecond: 2
   mcMMOXPBonus: 0
