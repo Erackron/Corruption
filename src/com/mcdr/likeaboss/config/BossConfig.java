@@ -31,12 +31,12 @@ public class BossConfig extends BaseConfig {
 	private static Set<EntityType> usedBossEntityTypes;
 	
 	public static void Load() {
-		File file = new File(Likeaboss.in.getDataFolder(), "bosses.yml");
+		File file = new File(DATAFOLDER, "bosses.yml");
 		
 		if(!file.exists())
-			CopyResource(file, "com/mcdr/likeaboss/config/bosses.yml");
+			copyResource(file, "com/mcdr/likeaboss/config/bosses.yml");
 		
-		LoadBosses(LoadConfig(file));
+		LoadBosses(loadConfig(file));
 	}
 	
 	private static void LoadBosses(YamlConfiguration yamlConfig) {

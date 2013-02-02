@@ -1,8 +1,6 @@
 package com.mcdr.likeaboss.config;
 
 import java.io.File;
-import java.io.IOException;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.mcdr.likeaboss.Likeaboss;
@@ -109,14 +107,16 @@ public abstract class GlobalConfig extends BaseConfig {
 		File file = new File(Likeaboss.in.getDataFolder().getPath(), "config.yml");
 		
 		if (!file.exists())
-			CopyResource(file, "com/mcdr/likeaboss/config/config.yml");
+			copyResource(file, "com/mcdr/likeaboss/config/config.yml");
 		
-		YamlConfiguration yamlConfig = LoadConfig(file);
+		YamlConfiguration yamlConfig = loadConfig(file);
 		
 		if(yamlConfig.isSet("CheckUpdateOnStartup"))
 			checkUpdateOnStartup = yamlConfig.getBoolean("CheckUpdateOnStartup");
-		else
+		else {
 			yamlConfig.set("CheckUpdateOnStartup", true);
+			saveConfig(yamlConfig, "config.yml");
+		}
 		
 		LoadCommandParams(yamlConfig);
 		LoadMessageParams(yamlConfig);
@@ -133,7 +133,7 @@ public abstract class GlobalConfig extends BaseConfig {
 				yamlConfig.set(node, commandParam.getValue());
 				continue;
 			}
-			
+			saveConfig(yamlConfig, "config.yml");
 			commandParam.setValue(yamlConfig.getInt(node));
 		}
 	}
@@ -147,7 +147,7 @@ public abstract class GlobalConfig extends BaseConfig {
 				yamlConfig.set(node, messageParam.getMessage());
 				continue;
 			}
-			
+			saveConfig(yamlConfig, "config.yml");
 			messageParam.setMessage(yamlConfig.getString(node));
 		}
 	}
@@ -161,7 +161,7 @@ public abstract class GlobalConfig extends BaseConfig {
 				yamlConfig.set(node, taskParam.getValue());
 				continue;
 			}
-			
+			saveConfig(yamlConfig, "config.yml");
 			taskParam.setValue(yamlConfig.getDouble(node));
 		}
 	}
@@ -173,14 +173,9 @@ public abstract class GlobalConfig extends BaseConfig {
 			if (!yamlConfig.contains(node)) {
 				Likeaboss.l.warning("[Likeaboss] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, bossParam.getValue());
-				try {
-					yamlConfig.save(new File(Likeaboss.in.getDataFolder().getPath() + "/config.yml"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 				continue;
 			}
-			
+			saveConfig(yamlConfig, "config.yml");
 			bossParam.setValue(yamlConfig.getBoolean(node));
 		}
 	}

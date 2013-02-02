@@ -25,12 +25,12 @@ public abstract class WorldConfig extends BaseConfig {
 		
 	public static void Load(World world) {
 		String worldName = world.getName();
-		File file = new File(Likeaboss.in.getDataFolder().getPath() + "/Worlds/", worldName + ".yml");
+		File file = new File(DATAFOLDER + SEPERATOR + "Worlds", worldName + ".yml");
 		
 		if (!file.exists())
-			CopyResource(file, "com/mcdr/likeaboss/config/world.yml");
+			copyResource(file, "com/mcdr/likeaboss/config/world.yml");
 		
-		YamlConfiguration yamlConfig = LoadConfig(file);
+		YamlConfiguration yamlConfig = loadConfig(file);
 		WorldData worldData = new WorldData();
 		
 		LoadBosses(worldData, yamlConfig.getStringList("Boss"), worldName);

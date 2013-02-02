@@ -18,12 +18,12 @@ public class EquipmentConfig extends BaseConfig {
 	public static Map<String, EquipmentSet> equipmentSets = new HashMap<String, EquipmentSet>();
 	
 	public static void Load(){
-		File file = new File(Likeaboss.in.getDataFolder().getPath(), "equipment.yml");
+		File file = new File(DATAFOLDER, "equipment.yml");
 		
 		if (!file.exists())
-			CopyResource(file, "com/mcdr/likeaboss/config/equipment.yml");
+			copyResource(file, "com/mcdr/likeaboss/config/equipment.yml");
 		
-		loadEquipmentSets(LoadConfig(file));
+		loadEquipmentSets(loadConfig(file));
 	}
 	
 	public static void loadEquipmentSets(YamlConfiguration yamlConfig){

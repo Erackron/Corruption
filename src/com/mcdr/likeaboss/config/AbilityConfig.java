@@ -21,12 +21,12 @@ import com.mcdr.likeaboss.ability.Teleport;
 public abstract class AbilityConfig extends BaseConfig {
 	private static Map<String, Ability> abilities = new HashMap<String, Ability>();
 	public static void Load() {
-		File file = new File(Likeaboss.in.getDataFolder(), "abilities.yml");
+		File file = new File(DATAFOLDER, "abilities.yml");
 		
 		if (!file.exists())
-			CopyResource(file, "com/mcdr/likeaboss/config/abilities.yml");
+			copyResource(file, "com/mcdr/likeaboss/config/abilities.yml");
 		
-		LoadAbilities(LoadConfig(file));
+		LoadAbilities(loadConfig(file));
 		
 	}
 	
