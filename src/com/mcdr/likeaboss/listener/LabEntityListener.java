@@ -26,12 +26,9 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 
-import com.gmail.nossr50.api.ExperienceAPI;
-import com.gmail.nossr50.datatypes.SkillType;
 import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.ability.Ability.ActivationCondition;
 import com.mcdr.likeaboss.config.WorldConfig;
@@ -45,6 +42,7 @@ import com.mcdr.likeaboss.entity.PigZombieBossData;
 import com.mcdr.likeaboss.entity.SkeletonBossData;
 import com.mcdr.likeaboss.entity.LabEntity;
 import com.mcdr.likeaboss.entity.LabEntityManager;
+import com.mcdr.likeaboss.handler.mcMMOHandler;
 import com.mcdr.likeaboss.player.LabPlayer;
 import com.mcdr.likeaboss.player.LabPlayerManager;
 import com.mcdr.likeaboss.util.Utility;
@@ -248,27 +246,7 @@ public class LabEntityListener implements Listener {
 				}
 				
 				if(player != null && Likeaboss.mcMMOInstalled){
-					ItemStack weapon = player.getItemInHand();
-					
-					switch(weapon.getTypeId()){
-					case 0:
-						ExperienceAPI.addXP(player, SkillType.UNARMED, boss.getBossData().getMCMMOXPBonus());
-						break;
-					case 267:
-					case 268:
-					case 272:
-					case 276:
-					case 283:
-						ExperienceAPI.addXP(player, SkillType.SWORDS, boss.getBossData().getMCMMOXPBonus());
-						break;
-					case 271:
-					case 275:
-					case 279:
-					case 286:
-					case 258:
-						ExperienceAPI.addXP(player, SkillType.AXES, boss.getBossData().getMCMMOXPBonus());
-						break;
-					}
+					mcMMOHandler.addMeleeXP(player, boss);
 				}
 				break;
 			case PROJECTILE:
@@ -283,7 +261,7 @@ public class LabEntityListener implements Listener {
 						Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.in, new GetFireEnchantTicks(boss), 0);
 				}
 				if(player != null && Likeaboss.mcMMOInstalled){
-					ExperienceAPI.addXP(player, SkillType.ARCHERY, boss.getBossData().getMCMMOXPBonus());
+					mcMMOHandler.addRangeXP(player, boss);
 				}
 				break;
 			case BLOCK_EXPLOSION:
