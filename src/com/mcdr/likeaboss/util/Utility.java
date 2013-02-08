@@ -53,6 +53,12 @@ public abstract class Utility {
 		return false;
 	}
 	
+	public static void setFacing(LivingEntity le, Location targetLoc){
+		if(!le.isValid() || targetLoc == null)
+			return;
+		setFacing(le, targetLoc.clone().add(.5, .0, .5).subtract(le.getEyeLocation()).toVector().normalize());
+	}
+	
 	public static void setFacing(LivingEntity le, Vector vector) {
         double yaw = Math.toDegrees(Math.atan2(-vector.getX(), vector.getZ()));
         double pitch = Math.toDegrees(-Math.asin(vector.getY()));
