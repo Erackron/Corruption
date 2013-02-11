@@ -11,7 +11,7 @@ import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.util.Utility;
 
 public abstract class BaseConfig {
-	protected final static char SEPERATOR = File.pathSeparatorChar;
+	protected final static char SEPERATOR = File.separatorChar;
 	protected final static String DATAFOLDER = Corruption.in.getDataFolder().getPath();
 	
 	protected static void copyResource(File file, String resourcePath) {

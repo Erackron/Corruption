@@ -44,7 +44,7 @@ public class CorConfigUpdater {
 		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
-		Corruption.l.info("[Likeaboss] Creating backup of abilities.yml!");
+		Corruption.l.info("["+Corruption.in.getName()+"] Creating backup of abilities.yml!");
 		File configFile = getFile("abilities.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "abilities.yml");
 		
@@ -56,10 +56,10 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("[Likeaboss] Ability config backup created");
+		Corruption.l.info("["+Corruption.in.getName()+"] Ability config backup created");
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
-			Corruption.l.info("[Likeaboss] Updating abilities.yml");
+			Corruption.l.info("["+Corruption.in.getName()+"] Updating abilities.yml");
 			
 			for(String node : ability.getKeys(false)){
 				ConfigurationSection section = ability.getConfigurationSection(node);
@@ -68,7 +68,7 @@ public class CorConfigUpdater {
 					continue;
 				
 				if(!ability.isSet(node + ".Probability")){
-					Corruption.l.warning("[Likeaboss] Missing values for ability '" + node + ".Probability' in abilities.yml");
+					Corruption.l.warning("["+Corruption.in.getName()+"] Missing values for ability '" + node + ".Probability' in abilities.yml");
 					continue;
 				}
 				double d = section.getDouble(node + ".Probability");
@@ -81,7 +81,7 @@ public class CorConfigUpdater {
 				
 				if(ability.getString(node + ".Type").equals("Bomb")){
 					if(!ability.isSet(node + ".Radius")){
-						Corruption.l.warning("[Likeaboss] Missing values for ability '" + node + "' in abilities.yml");
+						Corruption.l.warning("["+Corruption.in.getName()+"] Missing values for ability '" + node + "' in abilities.yml");
 						continue;
 					}
 					int i = ability.getInt(node + ".Radius");
@@ -91,7 +91,7 @@ public class CorConfigUpdater {
 				
 				if(ability.getString(node + ".Type").equals("LightningAura")){
 					if(!ability.isSet(node + ".Radius")){
-						Corruption.l.warning("[Likeaboss] Missing values for ability '" + node + "' in abilities.yml");
+						Corruption.l.warning("["+Corruption.in.getName()+"] Missing values for ability '" + node + "' in abilities.yml");
 						continue;
 					}
 					int i = ability.getInt(node + ".Radius");
@@ -115,79 +115,86 @@ public class CorConfigUpdater {
 				stream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
-			
-			if(Utility.isOlderVersion(configVersion, "2.1")){
-				Corruption.l.info("[Likeaboss] Updating abilities.yml");
-				
-				for(String node : ability.getKeys(false)){
-					if(ability.get(node + ".Type").equals("FirePunch")){
-						node += ".ActivationConditions";
-						ability.createSection(node);
-						
-						ability.set(node + ".OnAttack", true);
-						ability.set(node + ".OnDefense", false);
-						ability.set(node + ".OnProximity", false);
-						
-					} else if(ability.get(node + ".Type").equals("ArmorPierce")){
-						node += ".ActivationConditions";
-						ability.createSection(node);
-						
-						ability.set(node + ".OnAttack", true);
-						ability.set(node + ".OnDefense", false);
-						ability.set(node + ".OnProximity", false);
-						
-					} else if(ability.get(node + ".Type").equals("Knockback")){
-						node += ".ActivationConditions";
-						ability.createSection(node);
-						
-						ability.set(node + ".OnAttack", true);
-						ability.set(node + ".OnDefense", false);
-						ability.set(node + ".OnProximity", false);
-						
-					} else if(ability.get(node + ".Type").equals("Bomb")){
-						node += ".ActivationConditions";
-						ability.createSection(node);
-						
-						ability.set(node + ".OnAttack", true);
-						ability.set(node + ".OnDefense", true);
-						ability.set(node + ".OnProximity", false);
-						
-					} else if(ability.get(node + ".Type").equals("LightningAura")){
-						node += ".ActivationConditions";
-						ability.createSection(node);
-						
-						ability.set(node + ".OnAttack", true);
-						ability.set(node + ".OnDefense", false);
-						ability.set(node + ".OnProximity", false);
-						
-					} else if(ability.get(node + ".Type").equals("Potion")){
-						node += ".ActivationConditions";
-						ability.createSection(node);
-						
-						ability.set(node + ".OnAttack", true);
-						ability.set(node + ".OnDefense", true);
-						ability.set(node + ".OnProximity", false);
-						
-					} else if(ability.get(node + ".Type").equals("Teleport")){
-						node += ".ActivationConditions";
-						ability.createSection(node);
-						
-						ability.set(node + ".OnAttack", true);
-						ability.set(node + ".OnDefense", true);
-						ability.set(node + ".OnProximity", false);
-					}					
-				}
-				
-				try {
-					ability.save(getFile("ability.yml"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			Corruption.l.info("[Likeaboss] Ability config updated");
+			}			
 		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.1")){
+			Corruption.l.info("["+Corruption.in.getName()+"] Updating abilities.yml");
+			ability.getKeys(false).remove("ConfigVersion");
+			for(String node : ability.getKeys(false)){
+				
+				if(!ability.isSet(node+".Type")){
+					Corruption.l.info("["+Corruption.in.getName()+"] Missing type in abilities.yml");
+					continue;
+				}
+				if(ability.getString(node + ".Type").equalsIgnoreCase("FirePunch")){					
+					node += ".ActivationConditions";
+					ability.createSection(node);
+					
+					ability.set(node + ".OnAttack", true);
+					ability.set(node + ".OnDefense", false);
+					ability.set(node + ".OnProximity", false);
+					
+					
+				} else if(ability.getString(node + ".Type").equalsIgnoreCase("ArmorPierce")){
+					node += ".ActivationConditions";
+					ability.createSection(node);
+					 
+					ability.set(node + ".OnAttack", true);
+					ability.set(node + ".OnDefense", false);
+					ability.set(node + ".OnProximity", false);
+					
+				} else if(ability.getString(node + ".Type").equalsIgnoreCase("Knockback")){
+					node += ".ActivationConditions";
+					ability.createSection(node);
+					
+					ability.set(node + ".OnAttack", true);
+					ability.set(node + ".OnDefense", false);
+					ability.set(node + ".OnProximity", false);
+					
+				} else if(ability.getString(node + ".Type").equalsIgnoreCase("Bomb")){
+					node += ".ActivationConditions";
+					ability.createSection(node);
+					
+					ability.set(node + ".OnAttack", true);
+					ability.set(node + ".OnDefense", true);
+					ability.set(node + ".OnProximity", false);
+					
+				} else if(ability.getString(node + ".Type").equalsIgnoreCase("LightningAura")){
+					node += ".ActivationConditions";
+					ability.createSection(node);
+					
+					ability.set(node + ".OnAttack", true);
+					ability.set(node + ".OnDefense", false);
+					ability.set(node + ".OnProximity", false);
+					
+				} else if(ability.getString(node + ".Type").equals("Potion")){
+					node += ".ActivationConditions";
+					ability.createSection(node);
+					
+					ability.set(node + ".OnAttack", true);
+					ability.set(node + ".OnDefense", true);
+					ability.set(node + ".OnProximity", false);
+					
+				} else if(ability.getString(node + ".Type").equals("Teleport")){
+					node += ".ActivationConditions";
+					ability.createSection(node);
+					
+					ability.set(node + ".OnAttack", true);
+					ability.set(node + ".OnDefense", true);
+					ability.set(node + ".OnProximity", false);					
+				}
+				
+				ability.set("ConfigVersion", "2.1");
+			}
+			
+			try {
+				ability.save(getFile("abilities.yml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Corruption.l.info("["+Corruption.in.getName()+"] Ability config updated");
+		}	
 	}
 	
 	private void updateGlobalConfig(){
@@ -205,7 +212,7 @@ public class CorConfigUpdater {
 		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
-		Corruption.l.info("[Likeaboss] Creating backup of config.yml");
+		Corruption.l.info("["+Corruption.in.getName()+"] Creating backup of config.yml");
 		File configFile = getFile("config.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "config.yml");
 		
@@ -217,10 +224,10 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("[Likeaboss] Global config backup created");
+		Corruption.l.info("["+Corruption.in.getName()+"] Global config backup created");
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
-			Corruption.l.info("[Likeaboss] Updating config.yml");
+			Corruption.l.info("["+Corruption.in.getName()+"] Updating config.yml");
 			global.set("Boss.Immunity", null);
 			try {
 				global.save(getFile("config.yml"));
@@ -237,8 +244,20 @@ public class CorConfigUpdater {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Corruption.l.info("[Likeaboss] Global config updated");
+			Corruption.l.info("["+Corruption.in.getName()+"] Global config updated");
 		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.1")){
+			Corruption.l.info("["+Corruption.in.getName()+"] Updating config.yml");
+			global.set("ConfigVersion", "2.1");
+			
+			try {
+				global.save(getFile("config.yml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Corruption.l.info("["+Corruption.in.getName()+"] Global config updated");
+		}	
 	}
 	
 	private void updateBossConfig(){
@@ -256,7 +275,7 @@ public class CorConfigUpdater {
 		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
-		Corruption.l.info("[Likeaboss] Creating backup of bosses.yml");
+		Corruption.l.info("["+Corruption.in.getName()+"] Creating backup of bosses.yml");
 		
 		File configFile = getFile("bosses.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "bosses.yml");
@@ -269,24 +288,24 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("[Likeaboss] Bosses config backup created");
+		Corruption.l.info("["+Corruption.in.getName()+"] Bosses config backup created");
 				
 		if(Utility.isOlderVersion(configVersion, "2.0")){
-			Corruption.l.info("[Likeaboss] Updating bosses.yml");
+			Corruption.l.info("["+Corruption.in.getName()+"] Updating bosses.yml");
 			YamlConfiguration global = getYamlConfig(getFile("config.yml"));
 			ConfigurationSection immunity = global.getConfigurationSection("Boss.Immunity");
 			
 			for(String node : bosses.getKeys(false)){
 				String spawnString = bosses.getString(node+".Spawn");
 				if (spawnString == null) {
-					Corruption.l.warning("[Likeaboss] '" + node + "' in bosses config file is missing.");
+					Corruption.l.warning("["+Corruption.in.getName()+"] '" + node + "' in bosses config file is missing.");
 					return;
 				}
 				
 				String[] spawnValues = spawnString.split(" ");
 				
 				if (spawnValues.length < 2) {
-					Corruption.l.warning("[Likeaboss] Missing values for '" + node + ".Spawn' in bosses config file");
+					Corruption.l.warning("["+Corruption.in.getName()+"] Missing values for '" + node + ".Spawn' in bosses config file");
 					return;
 				} else if (spawnValues.length < 3){
 					String[] temp = new String[spawnValues.length + 1];
@@ -304,7 +323,7 @@ public class CorConfigUpdater {
 				bosses.set(node + ".Spawn.MaxSpawnHeight", Double.parseDouble(spawnValues[2]));
 								
 				if (!bosses.isSet(node + ".Stats")) {
-					Corruption.l.warning("[Likeaboss] '" + node + ".Stats' in bosses config file is missing.");
+					Corruption.l.warning("["+Corruption.in.getName()+"] '" + node + ".Stats' in bosses config file is missing.");
 					return;
 				}
 				
@@ -312,7 +331,7 @@ public class CorConfigUpdater {
 				String[] statsValues = statsString.split(" ");
 				
 				if (statsValues.length < 3) {
-					Corruption.l.warning("[Likeaboss] Missing values for '" + node + ".Stats' in bosses config file");
+					Corruption.l.warning("["+Corruption.in.getName()+"] Missing values for '" + node + ".Stats' in bosses config file");
 					return;
 				}
 				
@@ -327,10 +346,9 @@ public class CorConfigUpdater {
 				for(String s: immunity.getKeys(true)){
 					if(immunity.getBoolean(s))
 						bosses.set(node + ".Immunity." +s, immunity.getBoolean(s));
-				}
+				}			
 				
-				if(Corruption.mcMMOInstalled)
-					bosses.set(node + ".mcMMOXPBonus", 0);
+				bosses.set(node + ".mcMMOXPBonus", 0);
 				
 				String entityType = bosses.getString(node+".EntityType");
 				if(entityType.equalsIgnoreCase("pigzombie")){
@@ -355,9 +373,7 @@ public class CorConfigUpdater {
 					if(!bosses.isSet(node + ".MaximumSize"))
 						bosses.set(node + ".MaximumSize", 4);
 				}
-			}			
-			
-			
+			}		
 			
 			try {
 				bosses.save(getFile("bosses.yml"));				
@@ -374,9 +390,22 @@ public class CorConfigUpdater {
 				stream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}	
-			Corruption.l.info("[Likeaboss] Bosses config updated");
+			}		
+			
+			Corruption.l.info("["+Corruption.in.getName()+"] Bosses config updated");
 		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.1")){
+			Corruption.l.info("["+Corruption.in.getName()+"] Updating bosses config");
+			bosses.set("ConfigVersion", "2.1");
+			
+			try {
+				bosses.save(getFile("bosses.yml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Corruption.l.info("["+Corruption.in.getName()+"] Bosses config updated");
+		}			
 	}
 	
 	private void updateEquipmentConfig(){
@@ -394,7 +423,7 @@ public class CorConfigUpdater {
 		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
-		Corruption.l.info("[Likeaboss] Creating backup of equipment.yml");
+		Corruption.l.info("["+Corruption.in.getName()+"] Creating backup of equipment.yml");
 		File configFile = getFile("equipment.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "equipment.yml");
 		
@@ -406,10 +435,10 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("[Likeaboss] Equipment config backup created");
+		Corruption.l.info("["+Corruption.in.getName()+"] Equipment config backup created");
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
-			Corruption.l.info("[Likeaboss] Updating equipment.yml");
+			Corruption.l.info("["+Corruption.in.getName()+"] Updating equipment.yml");
 			try {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("equipment.yml"), true)));
 				stream.println();
@@ -420,7 +449,19 @@ public class CorConfigUpdater {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Corruption.l.info("[Likeaboss] Equipment config updated");
+			Corruption.l.info("["+Corruption.in.getName()+"] Equipment config updated");
+		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.1")){
+			Corruption.l.info("["+Corruption.in.getName()+"] Updating equipment config");
+			equipment.set("ConfigVersion", "2.1");
+			
+			try {
+				equipment.save(getFile("equipment.yml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Corruption.l.info("["+Corruption.in.getName()+"] Equipment config updated");
 		}
 	}
 	
@@ -439,7 +480,7 @@ public class CorConfigUpdater {
 		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
-		Corruption.l.info("[Likeaboss] Creating backup of magicspells.yml");
+		Corruption.l.info("["+Corruption.in.getName()+"] Creating backup of magicspells.yml");
 		File configFile = getFile("magicspells.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "magicspells.yml");
 		
@@ -451,10 +492,10 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("[Likeaboss] MagicSpells config backup created");
+		Corruption.l.info("["+Corruption.in.getName()+"] MagicSpells config backup created");
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
-			Corruption.l.info("[Likeaboss] Updating magicspells.yml");
+			Corruption.l.info("["+Corruption.in.getName()+"] Updating magicspells.yml");
 			try {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("magicspells.yml"), true)));
 				stream.println();
@@ -465,7 +506,19 @@ public class CorConfigUpdater {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Corruption.l.info("[Likeaboss] MagicSpells config updated");
+			Corruption.l.info("["+Corruption.in.getName()+"] MagicSpells config updated");
+		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.1")){
+			Corruption.l.info("["+Corruption.in.getName()+"] Updating MagicSpells config");
+			magicSpells.set("ConfigVersion", "2.1");
+			
+			try {
+				magicSpells.save(getFile("magicspells.yml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Corruption.l.info("["+Corruption.in.getName()+"] MagicSpells config updated");
 		}
 	}
 	
@@ -485,7 +538,7 @@ public class CorConfigUpdater {
 			if(!Utility.isOlderVersion(configVersion, latestVersion))
 				continue;
 			
-			Corruption.l.info("[Likeaboss] Creating backup of " + world.getName() + ".yml");
+			Corruption.l.info("["+Corruption.in.getName()+"] Creating backup of " + world.getName() + ".yml");
 			File configFile = getFile("Worlds" + File.separator + world.getName() + ".yml");
 			File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator +  "v" + configVersion + File.separator + "Worlds" + File.separator + world.getName() + ".yml");
 			
@@ -497,11 +550,11 @@ public class CorConfigUpdater {
 				e.printStackTrace();
 			}
 			
-			Corruption.l.info("[Likeaboss] World " + world.getName() + "config backup created");
+			Corruption.l.info("["+Corruption.in.getName()+"] World " + world.getName() + "config backup created");
 			
 			
 			if(Utility.isOlderVersion(configVersion, "2.0")){
-				Corruption.l.info("[Likeaboss] Updating " + world.getName() + ".yml");
+				Corruption.l.info("["+Corruption.in.getName()+"] Updating " + world.getName() + ".yml");
 				try {
 					PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("Worlds" + File.separator + world.getName() + ".yml"), true)));
 					stream.println();
@@ -512,7 +565,19 @@ public class CorConfigUpdater {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				Corruption.l.info("[Likeaboss] World " + world.getName() + "config updated");
+				Corruption.l.info("["+Corruption.in.getName()+"] World " + world.getName() + " config updated");
+			}
+			
+			if(Utility.isOlderVersion(configVersion, "2.1")){
+				Corruption.l.info("["+Corruption.in.getName()+"] Updating "+world.getName()+" config");
+				worldConfig.set("ConfigVersion", "2.1");
+				
+				try {
+					worldConfig.save(getFile("Worlds" + File.separator + world.getName() + ".yml"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Corruption.l.info("["+Corruption.in.getName()+"] "+world.getName()+" config updated");
 			}
 		}
 	}
