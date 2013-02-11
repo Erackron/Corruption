@@ -22,11 +22,6 @@ public class Snare extends Ability implements Listener {
 	private boolean isRunning = false;
 	private List<Block> blocks = null;
 	
-	public Snare(){
-		activationConditions.add(ActivationCondition.ONATTACK);
-		activationConditions.add(ActivationCondition.ONDEFENSE);
-	}
-	
 	public int getDuration(){
 		return duration;
 	}

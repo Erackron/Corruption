@@ -7,10 +7,6 @@ import com.mcdr.likeaboss.entity.Boss;
 public class FirePunch extends Ability {
 	private int ticks = 2;
 	
-	public FirePunch() {
-		activationConditions.add(ActivationCondition.ONATTACK);
-	}
-	
 	@Override
 	public void Execute(LivingEntity livingEntity, Boss boss) {
 		super.Execute(livingEntity, boss);

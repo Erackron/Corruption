@@ -6,6 +6,10 @@ AP25:
   MinimumRange: 0
   MaximumRange: 16
   Value: 25.0
+  ActivationCondition:
+    OnAttack: true
+    OnDefense: false
+    OnProximity: false
 FP2:
   Type: FirePunch
   Message: "&4Corrupted {BOSSNAME} used Fire Punch."
@@ -14,6 +18,10 @@ FP2:
   MinimumRange: 0
   MaximumRange: 16
   Ticks: 2
+  ActivationCondition:
+    OnAttack: true
+    OnDefense: false
+    OnProximity: false
 KB2:
   Type: Knockback
   Message: "&4Corrupted {BOSSNAME} used Knockback."
@@ -23,6 +31,10 @@ KB2:
   MaximumRange: 16
   VerticalCoef: 2.0
   HorizontalCoef: 3.0
+  ActivationCondition:
+    OnAttack: true
+    OnDefense: false
+    OnProximity: false
 PO3:
   Type: Potion
   Message: "&4Corrupted {BOSSNAME} used slowness."
@@ -34,6 +46,10 @@ PO3:
   MaximumRange: 16
   Amplifier: 2
   Duration: 3.0
+  ActivationCondition:
+    OnAttack: true
+    OnDefense: true
+    OnProximity: false
 B2:
   Type: Bomb
   Message: "&4Corrupted {BOSSNAME} planted a bomb."
@@ -44,6 +60,10 @@ B2:
   Cooldown: 7.5
   Fuse: 80
   ExplosionRadius: 3
+  ActivationCondition:
+    OnAttack: true
+    OnDefense: true
+    OnProximity: false
 LA10:
   Type: LightningAura
   Message: "&4Corrupted {BOSSNAME} struck his enemies by lightning"
@@ -54,6 +74,10 @@ LA10:
   Cooldown: 10.0
   AttackRadius: 10
   Damage: 2
+  ActivationCondition:
+    OnAttack: true
+    OnDefense: false
+    OnProximity: false
 TP:
   Type: Teleport
   Message: "&4Corrupted {BOSSNAME} teleported you"
@@ -63,6 +87,10 @@ TP:
   MinimumRange: 5
   MaximumRange: 25
   Cooldown: 2.0
+  ActivationCondition:
+    OnAttack: true
+    OnDefense: false
+    OnProximity: false
 TP2:
   Type: Teleport
   Message: "&4Corrupted {BOSSNAME} pulls you closer"
@@ -72,6 +100,10 @@ TP2:
   MinimumRange: 5
   MaximumRange: 25
   Cooldown: 2.0
+  ActivationCondition:
+    OnAttack: true
+    OnDefense: false
+    OnProximity: false
 S:
   Type: Snare
   Message: "&4Corrupted {BOSSNAME} caught you"
@@ -83,6 +115,10 @@ S:
   MinimumRange: 5
   MaximumRange: 25
   Cooldown: 3.0
+  ActivationCondition:
+    OnAttack: false
+    OnDefense: true
+    OnProximity: false
 
 #Do not touch this variable  
 ConfigVersion: 2.0

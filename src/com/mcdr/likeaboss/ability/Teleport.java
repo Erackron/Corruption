@@ -13,10 +13,6 @@ import com.mcdr.likeaboss.util.Utility;
 public class Teleport extends Ability {
     private boolean centeredOnFoe;
     
-    public Teleport() {
-        activationConditions.add(ActivationCondition.ONDEFENSE);
-    }
-    
     @Override
     public void Execute(LivingEntity livingEntity, Boss boss) {
         Location location;

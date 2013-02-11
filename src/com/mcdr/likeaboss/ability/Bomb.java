@@ -18,11 +18,6 @@ public class Bomb extends Ability {
 	private boolean destroyWorld = true;
 	private boolean fire = true;
 	protected double chance = 10.0;
-	
-    public Bomb(){
-		activationConditions.add(ActivationCondition.ONATTACK);
-		activationConditions.add(ActivationCondition.ONDEFENSE);
-	}
     
     public void setFuseTicks(int fuseticks){
     	this.fuse = fuseticks;

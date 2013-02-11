@@ -77,7 +77,7 @@ public abstract class Ability {
 		return (Utility.random.nextInt(100) < this.getActivationChance());
 	}
 	
-	public void AddActivationCondition(ActivationCondition activationCondition) {
+	public void addActivationCondition(ActivationCondition activationCondition) {
 		activationConditions.add(activationCondition);
 	}
 	

@@ -12,10 +12,6 @@ import com.mcdr.likeaboss.entity.Boss;
 public class ArmorPierce extends Ability {
 	private double value = 25;
 	
-	public ArmorPierce() {
-		activationConditions.add(ActivationCondition.ONATTACK);
-	}
-	
 	@Override
 	public void Execute(LivingEntity livingEntity, Boss boss) {
 		super.Execute(livingEntity, boss);

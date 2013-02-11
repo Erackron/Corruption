@@ -11,10 +11,6 @@ public class Knockback extends Ability {
 	private double horizontalCoef = 2;
 	private double verticalCoef = 3;
 	
-	public Knockback() {
-		activationConditions.add(ActivationCondition.ONATTACK);
-	}
-	
 	@Override
 	public void Execute(LivingEntity livingEntity, Boss boss) {
 		super.Execute(livingEntity, boss);

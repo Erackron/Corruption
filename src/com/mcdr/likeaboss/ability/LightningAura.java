@@ -14,10 +14,6 @@ public class LightningAura extends Ability{
 	private boolean fire = false;
 	private boolean armorPierce = false;
 	protected double chance = 50.0;
-
-	public LightningAura() {
-		activationConditions.add(ActivationCondition.ONATTACK);
-	}
 	
 	public void setDamage(int damage){
 		this.damage = damage - 1;

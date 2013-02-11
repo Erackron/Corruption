@@ -116,6 +116,76 @@ public class LabConfigUpdater {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			if(Utility.isOlderVersion(configVersion, "2.1")){
+				Likeaboss.l.info("[Likeaboss] Updating abilities.yml");
+				
+				for(String node : ability.getKeys(false)){
+					if(ability.get(node + ".Type").equals("FirePunch")){
+						node += ".ActivationConditions";
+						ability.createSection(node);
+						
+						ability.set(node + ".OnAttack", true);
+						ability.set(node + ".OnDefense", false);
+						ability.set(node + ".OnProximity", false);
+						
+					} else if(ability.get(node + ".Type").equals("ArmorPierce")){
+						node += ".ActivationConditions";
+						ability.createSection(node);
+						
+						ability.set(node + ".OnAttack", true);
+						ability.set(node + ".OnDefense", false);
+						ability.set(node + ".OnProximity", false);
+						
+					} else if(ability.get(node + ".Type").equals("Knockback")){
+						node += ".ActivationConditions";
+						ability.createSection(node);
+						
+						ability.set(node + ".OnAttack", true);
+						ability.set(node + ".OnDefense", false);
+						ability.set(node + ".OnProximity", false);
+						
+					} else if(ability.get(node + ".Type").equals("Bomb")){
+						node += ".ActivationConditions";
+						ability.createSection(node);
+						
+						ability.set(node + ".OnAttack", true);
+						ability.set(node + ".OnDefense", true);
+						ability.set(node + ".OnProximity", false);
+						
+					} else if(ability.get(node + ".Type").equals("LightningAura")){
+						node += ".ActivationConditions";
+						ability.createSection(node);
+						
+						ability.set(node + ".OnAttack", true);
+						ability.set(node + ".OnDefense", false);
+						ability.set(node + ".OnProximity", false);
+						
+					} else if(ability.get(node + ".Type").equals("Potion")){
+						node += ".ActivationConditions";
+						ability.createSection(node);
+						
+						ability.set(node + ".OnAttack", true);
+						ability.set(node + ".OnDefense", true);
+						ability.set(node + ".OnProximity", false);
+						
+					} else if(ability.get(node + ".Type").equals("Teleport")){
+						node += ".ActivationConditions";
+						ability.createSection(node);
+						
+						ability.set(node + ".OnAttack", true);
+						ability.set(node + ".OnDefense", true);
+						ability.set(node + ".OnProximity", false);
+					}					
+				}
+				
+				try {
+					ability.save(getFile("ability.yml"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			Likeaboss.l.info("[Likeaboss] Ability config updated");
 		}
 	}

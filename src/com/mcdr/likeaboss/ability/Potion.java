@@ -14,9 +14,6 @@ public class Potion extends Ability {
 	private boolean targetSelf = false;
 	protected double chance = 25.0;
 	
-	public Potion() {
-	}
-	
 	@Override
 	public void Execute(LivingEntity livingEntity, Boss boss) {
 		super.Execute(livingEntity, boss);
@@ -47,9 +44,5 @@ public class Potion extends Ability {
 	
 	public void setTarget(String target){
 		targetSelf = target.equalsIgnoreCase("self");
-		if (targetSelf)
-			activationConditions.add(ActivationCondition.ONDEFENSE);
-		else
-			activationConditions.add(ActivationCondition.ONATTACK);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 
@@ -17,6 +18,7 @@ import com.mcdr.likeaboss.ability.Knockback;
 import com.mcdr.likeaboss.ability.LightningAura;
 import com.mcdr.likeaboss.ability.Potion;
 import com.mcdr.likeaboss.ability.Ability.AbilityType;
+import com.mcdr.likeaboss.ability.Ability.ActivationCondition;
 import com.mcdr.likeaboss.ability.Snare;
 import com.mcdr.likeaboss.ability.Teleport;
 
@@ -37,7 +39,7 @@ public abstract class AbilityConfig extends BaseConfig {
 		abilityNames.remove("ConfigVersion");
 		for (String abilityName : abilityNames) {
 			String node = abilityName;
-			Map<String, Object> abilityEntries = yamlConfig.getConfigurationSection(node).getValues(false);
+			Map<String, Object> abilityEntries = yamlConfig.getConfigurationSection(node).getValues(true);
 			String entryKey = "Type";
 			node += "." + entryKey;
 			
@@ -189,6 +191,23 @@ public abstract class AbilityConfig extends BaseConfig {
 				entryKey = "MaximumRange";
 				if(abilityEntries.containsKey(entryKey))
 					ability.setMaxRange((Integer) abilityEntries.get(entryKey));
+				
+				entryKey = "ActivationCondition";
+				if(abilityEntries.containsKey(entryKey)){
+					ConfigurationSection section = (ConfigurationSection) abilityEntries.get(entryKey);
+					
+					if(section.isSet("OnAttack"))
+						if(section.getBoolean("OnAttack"))
+							ability.addActivationCondition(ActivationCondition.ONATTACK);
+					
+					if(section.isSet("OnDefense"))
+						if(section.getBoolean("OnDefense"))
+							ability.addActivationCondition(ActivationCondition.ONDEFENSE);
+					
+					if(section.isSet("OnProximity"))
+						if(section.getBoolean("OnProximity"))
+							ability.addActivationCondition(ActivationCondition.ONPROXIMITY);				
+				}		
 
 				abilities.put(abilityName, ability);
 			}
