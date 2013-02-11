@@ -1,67 +1,68 @@
-name: Likeaboss
-main: com.mcdr.likeaboss.Likeaboss
-version: 2.0
+name: Corruption
+main: com.mcdr.corruption.Corruption
+version: 2.1
 authors: [Erackron, Pyriphlegethon]
 softdepend: [Vault]
 commands:
-  lab:
-    description: Likeaboss base command
-    permission: lab
-    usage: Type /lab help for more information
+  corruption:
+    aliases: [cor]
+    description: Corruption base command
+    permission: cor
+    usage: Type /<command> help for more information
 permissions:
-  lab.*:
-    description: Give access to all /lab permissions.
+  cor.*:
+    description: Give access to all Corruption permissions.
     children:
-      lab.clear: true
-      lab.help: true
-      lab.ignore.*: true
-      lab.info: true
-      lab.reload: true
-      lab.list: true
-      lab.spawn: true
-      lab.stats: true
-      lab.update: true
-      lab.viewer: true
+      cor.clear: true
+      cor.help: true
+      cor.ignore.*: true
+      cor.info: true
+      cor.reload: true
+      cor.list: true
+      cor.spawn: true
+      cor.stats: true
+      cor.update: true
+      cor.viewer: true
     default: op
-  lab:
+  cor:
     description: Likeaboss base command
     default: true
-  lab.clear:
-    description: Clear informations given by /lab info.
+  cor.clear:
+    description: Clear informations given by /cor info.
     default: false
-  lab.help:
+  cor.help:
     description: Display command uses.
     default: true
-  lab.ignore.*:
-    description: Give access to all /lab ignore permissions.
+  cor.ignore.*:
+    description: Give access to all /cor ignore permissions.
     children:
-      lab.ignore: true
-      lab.ignore.immediate: true
+      cor.ignore: true
+      cor.ignore.immediate: true
     default: false
-  lab.ignore:
+  cor.ignore:
     description: Toggle ignore state, which allows to not be affected by bosses.
     default: false
-  lab.ignore.immediate:
-    description: Allow to bypass /lab ignore delay
+  cor.ignore.immediate:
+    description: Allow to bypass /cor ignore delay
     default: false
-  lab.info:
+  cor.info:
     description: Display some global and non-lasting stats.
     default: false
-  lab.reload:
+  cor.reload:
     description: Reload configuration files.
     default: false
-  lab.list:
+  cor.list:
     description: Display the location of active bosses.
     default: false
-  lab.spawn:
+  cor.spawn:
     description: Spawn one or multiple bosses on the targeted block.
     default: false
-  lab.stats:
+  cor.stats:
     description: Display the leaderboard, or player stats.
     default: false
-  lab.update:
-    description: Check for updates and install them if available.
+  cor.update:
+    description: Check for updates and install them if avaicorle.
     default: false
-  lab.viewer:
+  cor.viewer:
     description: Toggle viewer state, which allows to see boss healths.
     default: false
