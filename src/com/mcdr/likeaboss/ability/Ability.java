@@ -3,7 +3,6 @@ package com.mcdr.likeaboss.ability;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -31,7 +30,8 @@ public abstract class Ability {
 		POTION,
 		BOMB,
 		LIGHTNINGAURA,
-		TELEPORT;
+		TELEPORT,
+		SNARE;
 		
 		public static AbilityType FromString(String string) {
 			for (AbilityType abilityType : AbilityType.values()) {
@@ -109,7 +109,7 @@ public abstract class Ability {
 		if(cooldown==0.0)
 			return;
 		boss.ChangeAbilityStatus(this, false);
-		Bukkit.getScheduler().scheduleSyncDelayedTask(Likeaboss.in, new AbilityReactivator(boss, this), (long) (cooldown * 20));
+		Likeaboss.scheduler.scheduleSyncDelayedTask(Likeaboss.in, new AbilityReactivator(boss, this), (long) (cooldown * 20));
 	}
 	
 	public void sendAreaMessage(Boss boss){

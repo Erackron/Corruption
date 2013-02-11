@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.Listener;
 
 import com.mcdr.likeaboss.Likeaboss;
 import com.mcdr.likeaboss.ability.Ability;
@@ -16,6 +17,7 @@ import com.mcdr.likeaboss.ability.Knockback;
 import com.mcdr.likeaboss.ability.LightningAura;
 import com.mcdr.likeaboss.ability.Potion;
 import com.mcdr.likeaboss.ability.Ability.AbilityType;
+import com.mcdr.likeaboss.ability.Snare;
 import com.mcdr.likeaboss.ability.Teleport;
 
 public abstract class AbilityConfig extends BaseConfig {
@@ -140,6 +142,26 @@ public abstract class AbilityConfig extends BaseConfig {
 				if (abilityEntries.containsKey(entryKey))
 					((Teleport) ability).setCenteredOnFoe((Boolean) abilityEntries.get(entryKey));
 				
+				break;
+			case SNARE:
+				ability = new Snare();
+				
+				entryKey = "Duration";
+				if(abilityEntries.containsKey(entryKey))
+					((Snare) ability).setDuration((Integer) abilityEntries.get(entryKey));
+				
+				entryKey = "Destructible";
+				if(abilityEntries.containsKey(entryKey))
+					((Snare) ability).setDestructible((Boolean) abilityEntries.get(entryKey));
+				
+				entryKey = "Radius";
+				if(abilityEntries.containsKey(entryKey))
+					((Snare) ability).setRadius((Integer) abilityEntries.get(entryKey));
+				
+				//Register events, since this ability uses an blockbreakeventlistener
+				Likeaboss.in.getServer().getPluginManager().registerEvents((Listener) ability, Likeaboss.in);
+				break;
+			default:
 				break;
 			}
 			

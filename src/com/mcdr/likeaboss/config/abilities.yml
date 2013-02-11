@@ -72,6 +72,17 @@ TP2:
   MinimumRange: 5
   MaximumRange: 25
   Cooldown: 2.0
+S:
+  Type: Snare
+  Message: "&4Corrupted {BOSSNAME} caught you"
+  Duration: 100
+  Destructible: true
+  Radius: 3
+  ActivationChance: 2.0
+  AssignationChance: 100.0
+  MinimumRange: 5
+  MaximumRange: 25
+  Cooldown: 3.0
 
 #Do not touch this variable  
 ConfigVersion: 2.0
