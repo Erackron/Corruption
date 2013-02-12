@@ -32,7 +32,6 @@ import org.bukkit.metadata.LazyMetadataValue;
 import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
 import com.mcdr.corruption.config.WorldConfig;
-import com.mcdr.corruption.config.GlobalConfig.MessageParam;
 import com.mcdr.corruption.entity.Boss;
 import com.mcdr.corruption.entity.BossData;
 import com.mcdr.corruption.entity.CorEntity;
@@ -45,6 +44,7 @@ import com.mcdr.corruption.entity.BossData.BossImmunity;
 import com.mcdr.corruption.handler.mcMMOHandler;
 import com.mcdr.corruption.player.CorPlayer;
 import com.mcdr.corruption.player.CorPlayerManager;
+import com.mcdr.corruption.task.ProcessEntityDamage;
 import com.mcdr.corruption.util.Utility;
 
 
@@ -331,43 +331,17 @@ public class CorEntityListener implements Listener {
 			if (event.isCancelled())
 				return;
 			
-			CorEntityManager.DamageBoss(boss, damage);
 			try{
 				boss.ActivateAbilities((LivingEntity) damager, ActivationCondition.ONDEFENSE);
 			} catch(ClassCastException e){}
 			
 			
-			// Generating viewer message	
-			String viewerMsg = Utility.parseMessage((boss.getHealth()>0)?
-													   MessageParam.VIEWERMESSAGE.getMessage():
-													   MessageParam.VIEWERDEFEATED.getMessage(),
-													 boss, boss.getHealth(), damage);
+			event.setDamage(damage);
 			
-			//Sending viewer message to attacker
-			if (corPlayer != null && corPlayer.getCorPlayerData().getViewer())
-				player.sendMessage(viewerMsg);
+			if (livingEntity.getHealth()-damage <= 0)
+				boss.setKiller(corPlayer);	
 			
-			//Sending viewer message to nearby players
-			for (CorPlayer corPlayerTemp : CorPlayerManager.getCorPlayers()) {
-				if(corPlayerTemp != null && corPlayerTemp.getCorPlayerData().getViewer()){
-					player = corPlayerTemp.getPlayer();
-					if(corPlayer!=null && player.equals(corPlayer.getPlayer()))
-						continue;
-					if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, 16)){
-						player.sendMessage(viewerMsg);
-					}
-				}
-			}
-			
-			if (boss.getHealth() <= 0) {
-				boss.setKiller(corPlayer);
-				event.setDamage(livingEntity.getMaxHealth()); //Kill the entity
-				livingEntity.setHealth(1); //Needed for armored foes (must not be set to 0 otherwise Bukkit starts to do weird things)
-			}
-			else {
-				livingEntity.setHealth(boss.getHealth()+damage);
-				event.setDamage(damage);
-			}
+			Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new ProcessEntityDamage(damager, boss, boss.getHealth()), 2L);
 		}
 	}
 	

@@ -41,6 +41,7 @@ public class Boss extends CorEntity {
 			health = (int) bossData.getHealthCoef();
 		
 		livingEntity.setMaxHealth(health);
+		livingEntity.setHealth(health);
 		this.maxHealth = health;
 		
 		//Set the start health if this is a Wither, so it can regenerate like a vanilla Wither

@@ -9,4 +9,4 @@ whitelist:
 blacklist:
 
 #Do not touch this variable
-ConfigVersion: 2.0
+ConfigVersion: '2.1'

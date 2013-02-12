@@ -25,8 +25,8 @@ public class CorruptionAPI {
 	 * @return LabPlayer the LabPlayer object belonging to the player
 	 */
 	public static CorPlayer getCorPlayer(Player p){
-		CorPlayer labPlayer = CorPlayerManager.getCorPlayer(p);	
-		return labPlayer!=null?labPlayer:CorPlayerManager.addCorPlayer(p);
+		CorPlayer corPlayer = CorPlayerManager.getCorPlayer(p);	
+		return corPlayer!=null?corPlayer:CorPlayerManager.addCorPlayer(p);
 	}
 	
 	/**
@@ -77,6 +77,7 @@ public class CorruptionAPI {
 	}
 	
 	/**
+	 * @deprecated Using livingEntity.getMaxHealth() is usually sufficient. This method was put in place when livingEntity.setMaxHealth() was not yet available.
 	 * @param e Entity to get the max health of
 	 * @return int The maximum health of the boss or entity. Will return 0 if the entity is not alive anymore
 	 */

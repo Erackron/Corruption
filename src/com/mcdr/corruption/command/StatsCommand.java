@@ -133,7 +133,7 @@ public abstract class StatsCommand extends BaseCommand {
 			
 			Entry<String, Integer> entry = it.next();
 			
-			sender.sendMessage(ChatColor.GRAY + "" + i + ". " + ChatColor.WHITE + Utility.parseMessage("{BOSSNAME}", entry.getKey()) + " (" + ChatColor.GREEN + entry.getValue() + ChatColor.WHITE + ")");
+			sender.sendMessage(ChatColor.GRAY + "" + i + ". " + ChatColor.WHITE + entry.getKey() + " (" + ChatColor.GREEN + entry.getValue() + ChatColor.WHITE + ")");
 		}
 	}
 }

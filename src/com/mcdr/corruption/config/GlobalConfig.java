@@ -31,13 +31,14 @@ public abstract class GlobalConfig extends BaseConfig {
 	}
 	
 	public enum MessageParam {
-		PLAYER_FOUND_BOSS_1 ("&cOh noes, that's a {BOSSNAME} boss!") {@Override public String getNode() {return "Message.PlayerFoundBoss.ToPlayer";}},
-		PLAYER_FOUND_BOSS_2 ("&c{PLAYER} found a {BOSSNAME} boss!") {@Override public String getNode() {return "Message.PlayerFoundBoss.ToOthers";}},
-		BOSS_FOUND_PLAYER_1 ("&cSneaky {BOSSNAME} boss.") {@Override public String getNode() {return "Message.BossFoundPlayer.ToPlayer";}},
-		BOSS_FOUND_PLAYER_2 ("&cA {BOSSNAME} boss found {PLAYER}!") {@Override public String getNode() {return "Message.BossFoundPlayer.ToOthers";}},
-		PROXIMITY ("&4You feel an evil presence...") {@Override public String getNode() {return "Message.Proximity";}},
-		VIEWERMESSAGE("Boss Health: {HEALTH} (-{DAMAGE})") {@Override public String getNode() {return "Message.ViewerMessage";}},
-		VIEWERDEFEATED("{BOSSNAME} boss has been defeated."){@Override public String getNode() {return "Message.ViewerDefeated";}};
+		PLAYER_FOUND_BOSS_1 ("&cYou attacked a Corrupted {BOSSNAME} boss!") {@Override public String getNode() {return "Message.PlayerFoundBoss.ToPlayer";}},
+		PLAYER_FOUND_BOSS_2 ("&c{PLAYER} found a Corrupted {BOSSNAME}!") {@Override public String getNode() {return "Message.PlayerFoundBoss.ToOthers";}},
+		BOSS_FOUND_PLAYER_1 ("&cA Corrupted {BOSSNAME} found you!") {@Override public String getNode() {return "Message.BossFoundPlayer.ToPlayer";}},
+		BOSS_FOUND_PLAYER_2 ("&cA Corrupted {BOSSNAME} found {PLAYER}!") {@Override public String getNode() {return "Message.BossFoundPlayer.ToOthers";}},
+		PROXIMITY ("&4You sense a magical disruption...") {@Override public String getNode() {return "Message.Proximity";}},
+		VIEWERMESSAGE("Corrupted {BOSSNAME} Health: {HEALTH} (-{DAMAGE})") {@Override public String getNode() {return "Message.ViewerMessage";}},
+		VIEWERDEFEATED("Corrupted {BOSSNAME} has been defeated."){@Override public String getNode() {return "Message.ViewerDefeated";}},
+		VIEWERDAMAGEABSORBED("Corrupted {BOSSNAME}'s armour absorbed the damage."){@Override public String getNode() {return "Message.ViewerDamageAbsorbed";}};
 		
 		private String message;
 		
@@ -58,7 +59,6 @@ public abstract class GlobalConfig extends BaseConfig {
 	
 	public enum TaskParam {
 		DRAW_BOSS_EFFECT (1.0) {@Override public String getNode() {return "Task.DrawBossEffect";}},
-		CHECK_ENTITY_HEALTH (2.0) {@Override public String getNode() {return "Task.CheckEntityHealth";}},
 		CHECK_ENTITY_EXISTENCE (2.0) {@Override public String getNode() {return "Task.CheckEntityExistence";}},
 		CHECK_ENTITY_PROXIMITY (0.5) {@Override public String getNode() {return "Task.CheckEntityProximity";}},
 		SAVE_PLAYER_DATA (600.0) {@Override public String getNode() {return "Task.SavePlayerData";}};

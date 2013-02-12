@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -110,7 +113,7 @@ public class CorConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("abilities.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.print("ConfigVersion: " + latestVersion);
+				stream.print("ConfigVersion: '" + latestVersion + "'");
 				
 				stream.close();
 			} catch (IOException e) {
@@ -121,68 +124,39 @@ public class CorConfigUpdater {
 		if(Utility.isOlderVersion(configVersion, "2.1")){
 			Corruption.l.info("["+Corruption.in.getName()+"] Updating abilities.yml");
 			ability.getKeys(false).remove("ConfigVersion");
+			List<String> conditions = new ArrayList<String>();
+			conditions.add("OnAttack");
+			conditions.add("OnDefense");
+			
 			for(String node : ability.getKeys(false)){
 				
 				if(!ability.isSet(node+".Type")){
 					Corruption.l.info("["+Corruption.in.getName()+"] Missing type in abilities.yml");
 					continue;
 				}
-				if(ability.getString(node + ".Type").equalsIgnoreCase("FirePunch")){					
+				
+				
+				if(ability.getString(node + ".Type").equalsIgnoreCase("FirePunch")){
 					node += ".ActivationConditions";
-					ability.createSection(node);
-					
-					ability.set(node + ".OnAttack", true);
-					ability.set(node + ".OnDefense", false);
-					ability.set(node + ".OnProximity", false);
-					
-					
+					ability.set(node, conditions.subList(0, 1));
 				} else if(ability.getString(node + ".Type").equalsIgnoreCase("ArmorPierce")){
 					node += ".ActivationConditions";
-					ability.createSection(node);
-					 
-					ability.set(node + ".OnAttack", true);
-					ability.set(node + ".OnDefense", false);
-					ability.set(node + ".OnProximity", false);
-					
+					ability.set(node, conditions.subList(0, 1));
 				} else if(ability.getString(node + ".Type").equalsIgnoreCase("Knockback")){
 					node += ".ActivationConditions";
-					ability.createSection(node);
-					
-					ability.set(node + ".OnAttack", true);
-					ability.set(node + ".OnDefense", false);
-					ability.set(node + ".OnProximity", false);
-					
+					ability.set(node, conditions.subList(0, 1));
 				} else if(ability.getString(node + ".Type").equalsIgnoreCase("Bomb")){
 					node += ".ActivationConditions";
-					ability.createSection(node);
-					
-					ability.set(node + ".OnAttack", true);
-					ability.set(node + ".OnDefense", true);
-					ability.set(node + ".OnProximity", false);
-					
+					ability.set(node, conditions.subList(0, 2));
 				} else if(ability.getString(node + ".Type").equalsIgnoreCase("LightningAura")){
 					node += ".ActivationConditions";
-					ability.createSection(node);
-					
-					ability.set(node + ".OnAttack", true);
-					ability.set(node + ".OnDefense", false);
-					ability.set(node + ".OnProximity", false);
-					
-				} else if(ability.getString(node + ".Type").equals("Potion")){
+					ability.set(node, conditions.subList(0, 1));
+				} else if(ability.getString(node + ".Type").equalsIgnoreCase("Potion")){
 					node += ".ActivationConditions";
-					ability.createSection(node);
-					
-					ability.set(node + ".OnAttack", true);
-					ability.set(node + ".OnDefense", true);
-					ability.set(node + ".OnProximity", false);
-					
-				} else if(ability.getString(node + ".Type").equals("Teleport")){
+					ability.set(node, conditions.subList(0, 2));
+				} else if(ability.getString(node + ".Type").equalsIgnoreCase("Teleport")){
 					node += ".ActivationConditions";
-					ability.createSection(node);
-					
-					ability.set(node + ".OnAttack", true);
-					ability.set(node + ".OnDefense", true);
-					ability.set(node + ".OnProximity", false);					
+					ability.set(node, conditions.subList(0, 2));
 				}
 				
 				ability.set("ConfigVersion", "2.1");
@@ -238,7 +212,7 @@ public class CorConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("config.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.print("ConfigVersion: " + latestVersion);
+				stream.print("ConfigVersion: '" + latestVersion + "'");
 				
 				stream.close();
 			} catch (IOException e) {
@@ -249,6 +223,13 @@ public class CorConfigUpdater {
 		
 		if(Utility.isOlderVersion(configVersion, "2.1")){
 			Corruption.l.info("["+Corruption.in.getName()+"] Updating config.yml");
+			
+			if(global.isSet("Task.CheckEntityHealth"))
+				global.set("Task.CheckEntityHealth", null);
+			
+			if(!global.isSet("Message.ViewerDamageAbsorbed"))
+				global.set("Message.ViewerDamageAbsorbed", "Corrupted {BOSSNAME}'s armour absorbed the damage.");
+			
 			global.set("ConfigVersion", "2.1");
 			
 			try {
@@ -385,7 +366,7 @@ public class CorConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("bosses.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.print("ConfigVersion: " + latestVersion);
+				stream.print("ConfigVersion: '" + latestVersion + "'");
 				
 				stream.close();
 			} catch (IOException e) {
@@ -443,7 +424,7 @@ public class CorConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("equipment.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.print("ConfigVersion: " + latestVersion);
+				stream.print("ConfigVersion: '" + latestVersion + "'");
 				
 				stream.close();
 			} catch (IOException e) {
@@ -500,7 +481,7 @@ public class CorConfigUpdater {
 				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("magicspells.yml"), true)));
 				stream.println();
 				stream.println();
-				stream.print("ConfigVersion: " + latestVersion);
+				stream.print("ConfigVersion: '" + latestVersion + "'");
 				
 				stream.close();
 			} catch (IOException e) {
@@ -559,7 +540,7 @@ public class CorConfigUpdater {
 					PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("Worlds" + File.separator + world.getName() + ".yml"), true)));
 					stream.println();
 					stream.println();
-					stream.print("ConfigVersion: " + latestVersion);
+					stream.print("ConfigVersion: '" + latestVersion + "'");
 					
 					stream.close();
 				} catch (IOException e) {
@@ -595,6 +576,6 @@ public class CorConfigUpdater {
 	}
 	
 	private File getFile(String name){
-		return ((File) new File(Corruption.in.getDataFolder().getPath() + "/" + name));
+		return ((File) new File(Corruption.in.getDataFolder().getPath() + File.separatorChar + name));
 	}
 }

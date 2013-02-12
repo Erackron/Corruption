@@ -35,7 +35,7 @@ public abstract class Ability {
 		public static ActivationCondition fromString(String activationCondition) {
 			if(activationCondition==null)
 				return null;
-			return NAME_MAP.get(activationCondition);
+			return NAME_MAP.get(activationCondition.toLowerCase());
 		}
 	}
 	
@@ -59,7 +59,7 @@ public abstract class Ability {
 		public static AbilityType fromString(String type) {
 			if(type==null)
 				return null;
-			return NAME_MAP.get(type);
+			return NAME_MAP.get(type.toLowerCase());
 		}
 	}
 	
