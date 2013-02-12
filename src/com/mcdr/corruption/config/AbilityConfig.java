@@ -2,10 +2,10 @@ package com.mcdr.corruption.config;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 
@@ -49,7 +49,7 @@ public abstract class AbilityConfig extends BaseConfig {
 			}
 			
 			String entryValue = yamlConfig.getString(node);
-			AbilityType abilityType = AbilityType.FromString(entryValue);
+			AbilityType abilityType = AbilityType.fromString(entryValue);
 			
 			Ability ability = null;
 			
@@ -192,21 +192,17 @@ public abstract class AbilityConfig extends BaseConfig {
 				if(abilityEntries.containsKey(entryKey))
 					ability.setMaxRange((Integer) abilityEntries.get(entryKey));
 				
-				entryKey = "ActivationCondition";
+				entryKey = "ActivationConditions";
 				if(abilityEntries.containsKey(entryKey)){
-					ConfigurationSection section = (ConfigurationSection) abilityEntries.get(entryKey);
-					
-					if(section.isSet("OnAttack"))
-						if(section.getBoolean("OnAttack"))
-							ability.addActivationCondition(ActivationCondition.ONATTACK);
-					
-					if(section.isSet("OnDefense"))
-						if(section.getBoolean("OnDefense"))
-							ability.addActivationCondition(ActivationCondition.ONDEFENSE);
-					
-					if(section.isSet("OnProximity"))
-						if(section.getBoolean("OnProximity"))
-							ability.addActivationCondition(ActivationCondition.ONPROXIMITY);				
+					List<String> activationConditions = yamlConfig.getConfigurationSection(abilityName).getStringList(entryKey);
+					for(String activationCondition: activationConditions){
+						ActivationCondition condition = ActivationCondition.fromString(activationCondition);
+						if(condition!=null){
+							ability.addActivationCondition(condition);
+						} else {
+							Corruption.l.warning("["+Corruption.in.getName()+"] '" + abilityName + "." + entryKey + "." + activationCondition + "' isn't a valid activation condition.");
+						}
+					}
 				}		
 
 				abilities.put(abilityName, ability);

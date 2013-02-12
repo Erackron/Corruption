@@ -1,7 +1,9 @@
 package com.mcdr.corruption.ability;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -22,6 +24,19 @@ public abstract class Ability {
 		ONATTACK,
 		ONDEFENSE,
 		ONPROXIMITY;
+		
+		private static final Map<String, ActivationCondition> NAME_MAP = new HashMap<String, ActivationCondition>();
+		
+		static{
+			for(ActivationCondition activationCondition: values())
+				NAME_MAP.put(activationCondition.toString().toLowerCase(), activationCondition);
+		}
+		
+		public static ActivationCondition fromString(String activationCondition) {
+			if(activationCondition==null)
+				return null;
+			return NAME_MAP.get(activationCondition);
+		}
 	}
 	
 	public enum AbilityType {
@@ -34,13 +49,17 @@ public abstract class Ability {
 		TELEPORT,
 		SNARE;
 		
-		public static AbilityType FromString(String string) {
-			for (AbilityType abilityType : AbilityType.values()) {
-				if (abilityType.toString().equalsIgnoreCase(string))
-					return abilityType;
-			}
-			
-			return null;
+		private static final Map<String, AbilityType> NAME_MAP = new HashMap<String, AbilityType>();
+		
+		static{
+			for(AbilityType abilityType: values())
+				NAME_MAP.put(abilityType.toString().toLowerCase(), abilityType);
+		}
+		
+		public static AbilityType fromString(String type) {
+			if(type==null)
+				return null;
+			return NAME_MAP.get(type);
 		}
 	}
 	
