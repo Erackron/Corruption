@@ -24,7 +24,7 @@ public class CorruptionAPI {
 	 * @param p The player to get the LabPlayer object of
 	 * @return LabPlayer the LabPlayer object belonging to the player
 	 */
-	public static CorPlayer getLabPlayer(Player p){
+	public static CorPlayer getCorPlayer(Player p){
 		CorPlayer labPlayer = CorPlayerManager.getCorPlayer(p);	
 		return labPlayer!=null?labPlayer:CorPlayerManager.addCorPlayer(p);
 	}
