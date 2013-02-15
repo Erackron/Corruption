@@ -18,6 +18,7 @@ import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.drop.Drop;
 import com.mcdr.corruption.drop.Roll;
 import com.mcdr.corruption.entity.BossData;
+import com.mcdr.corruption.entity.GhastBossData;
 import com.mcdr.corruption.entity.PigZombieBossData;
 import com.mcdr.corruption.entity.SkeletonBossData;
 import com.mcdr.corruption.entity.SlimeBossData;
@@ -84,6 +85,10 @@ public class BossConfig extends BaseConfig {
 					int minsize = yamlConfig.isSet(bossName + ".MinimumSize")?yamlConfig.getInt(bossName + ".MinimumSize"):2;
 					int maxsize = yamlConfig.isSet(bossName + ".MaximumSize")?yamlConfig.getInt(bossName + ".MaximumSize"):4;
 					bossData = new SlimeBossData(bossName, entityType, minsize, maxsize);
+					break;
+				case GHAST:
+					boolean immune = yamlConfig.isSet(bossName + ".ReturnToSenderImmune")?yamlConfig.getBoolean(bossName + ".ReturnToSenderImmune"):false;
+					bossData = new GhastBossData(bossName, entityType, immune);
 					break;
 				default:
 					bossData = new BossData(bossName, entityType);

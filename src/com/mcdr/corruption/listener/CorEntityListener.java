@@ -8,6 +8,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LargeFireball;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
@@ -36,6 +38,7 @@ import com.mcdr.corruption.entity.Boss;
 import com.mcdr.corruption.entity.BossData;
 import com.mcdr.corruption.entity.CorEntity;
 import com.mcdr.corruption.entity.CorEntityManager;
+import com.mcdr.corruption.entity.GhastBossData;
 import com.mcdr.corruption.entity.PigZombieBossData;
 import com.mcdr.corruption.entity.SkeletonBossData;
 import com.mcdr.corruption.entity.SlimeBossData;
@@ -200,13 +203,14 @@ public class CorEntityListener implements Listener {
 			}
 			
 			Entity damager = null;
+			Projectile projectile = null;
 			
 			//Damager finder
 			if (event instanceof EntityDamageByEntityEvent) {
 				damager = ((EntityDamageByEntityEvent) event).getDamager();
 				
 				if (damager instanceof Projectile) {
-					Projectile projectile = (Projectile) damager;
+					projectile = (Projectile) damager;
 					damager = projectile.getShooter();
 					
 					if (projectile instanceof Arrow)
@@ -254,6 +258,12 @@ public class CorEntityListener implements Listener {
 					event.setCancelled(true);
 					break;
 				}
+				
+				if(projectile instanceof LargeFireball)
+					if(boss.getLivingEntity().getType() == EntityType.GHAST)
+						if(((GhastBossData) boss.getBossData()).isReturnToSenderImmune())
+							event.setCancelled(true);
+				
 				if (player != null && !boss.getBossData().getImmunities().contains(BossImmunity.ENCHANT_FIRETICK_IMMUNE)) {
 					Map<Enchantment, Integer> enchants = player.getItemInHand().getEnchantments();
 					

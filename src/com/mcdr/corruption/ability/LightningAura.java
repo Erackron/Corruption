@@ -36,6 +36,8 @@ public class LightningAura extends Ability{
 			World world = player.getWorld();
 			
 			if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, radius)) {
+				if(corPlayer.getCorPlayerData().getIgnore())
+					continue;
 				sendMessage(boss, livingEntity);
 				world.strikeLightning(player.getLocation());
 				

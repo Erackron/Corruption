@@ -380,6 +380,14 @@ public class CorConfigUpdater {
 			Corruption.l.info("["+Corruption.in.getName()+"] Updating bosses config");
 			bosses.set("ConfigVersion", "2.1");
 			
+			for(String node : bosses.getKeys(false)){
+				String entityType = bosses.getString(node+".EntityType");
+				if(entityType.equalsIgnoreCase("ghast")){
+					if(!bosses.isSet(node + ".ReturnToSenderImmune"))
+						bosses.set(node + ".ReturnToSenderImmune", true);
+				}
+			}
+			
 			try {
 				bosses.save(getFile("bosses.yml"));
 			} catch (IOException e) {
