@@ -16,7 +16,7 @@ import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.drop.Drop;
 import com.mcdr.corruption.drop.Roll;
-import com.mcdr.corruption.entity.BossData;
+import com.mcdr.corruption.entity.data.BossData;
 import com.mcdr.corruption.world.WorldData;
 
 

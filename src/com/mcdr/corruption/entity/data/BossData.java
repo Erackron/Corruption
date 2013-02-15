@@ -1,4 +1,4 @@
-package com.mcdr.corruption.entity;
+package com.mcdr.corruption.entity.data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.bukkit.inventory.EntityEquipment;
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.config.GlobalConfig.BossParam;
 import com.mcdr.corruption.drop.Roll;
+import com.mcdr.corruption.entity.EquipmentSet;
 
 
 public class BossData {

@@ -7,7 +7,7 @@ import org.bukkit.entity.EntityType;
 
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.drop.Roll;
-import com.mcdr.corruption.entity.BossData;
+import com.mcdr.corruption.entity.data.BossData;
 
 
 public class WorldData {

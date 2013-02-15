@@ -17,6 +17,8 @@ import com.mcdr.corruption.ability.Ability.ActivationCondition;
 import com.mcdr.corruption.config.WorldConfig;
 import com.mcdr.corruption.config.GlobalConfig.BossParam;
 import com.mcdr.corruption.drop.DropCalculator;
+import com.mcdr.corruption.entity.data.BossData;
+import com.mcdr.corruption.entity.data.WitherBossData;
 import com.mcdr.corruption.player.CorPlayer;
 import com.mcdr.corruption.stats.StatsManager;
 import com.mcdr.corruption.util.Utility;

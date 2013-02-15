@@ -1,4 +1,4 @@
-package com.mcdr.corruption.entity;
+package com.mcdr.corruption.entity.data;
 
 import org.bukkit.entity.EntityType;
 

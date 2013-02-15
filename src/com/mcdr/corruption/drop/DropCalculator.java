@@ -6,7 +6,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import com.mcdr.corruption.entity.BossData;
+import com.mcdr.corruption.entity.data.BossData;
 import com.mcdr.corruption.stats.StatsManager;
 import com.mcdr.corruption.util.Utility;
 import com.mcdr.corruption.world.WorldData;

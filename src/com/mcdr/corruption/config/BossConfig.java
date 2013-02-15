@@ -17,14 +17,14 @@ import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.drop.Drop;
 import com.mcdr.corruption.drop.Roll;
-import com.mcdr.corruption.entity.BossData;
-import com.mcdr.corruption.entity.GhastBossData;
-import com.mcdr.corruption.entity.PigZombieBossData;
-import com.mcdr.corruption.entity.SkeletonBossData;
-import com.mcdr.corruption.entity.SlimeBossData;
-import com.mcdr.corruption.entity.WitherBossData;
-import com.mcdr.corruption.entity.ZombieBossData;
-import com.mcdr.corruption.entity.BossData.BossImmunity;
+import com.mcdr.corruption.entity.data.BossData;
+import com.mcdr.corruption.entity.data.GhastBossData;
+import com.mcdr.corruption.entity.data.PigZombieBossData;
+import com.mcdr.corruption.entity.data.SkeletonBossData;
+import com.mcdr.corruption.entity.data.SlimeBossData;
+import com.mcdr.corruption.entity.data.WitherBossData;
+import com.mcdr.corruption.entity.data.ZombieBossData;
+import com.mcdr.corruption.entity.data.BossData.BossImmunity;
 
 
 public class BossConfig extends BaseConfig {

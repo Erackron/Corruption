@@ -20,12 +20,12 @@ import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.config.BossConfig;
 import com.mcdr.corruption.config.GlobalConfig.CommandParam;
 import com.mcdr.corruption.entity.Boss;
-import com.mcdr.corruption.entity.BossData;
 import com.mcdr.corruption.entity.CorEntityManager;
-import com.mcdr.corruption.entity.PigZombieBossData;
-import com.mcdr.corruption.entity.SkeletonBossData;
-import com.mcdr.corruption.entity.SlimeBossData;
-import com.mcdr.corruption.entity.ZombieBossData;
+import com.mcdr.corruption.entity.data.BossData;
+import com.mcdr.corruption.entity.data.PigZombieBossData;
+import com.mcdr.corruption.entity.data.SkeletonBossData;
+import com.mcdr.corruption.entity.data.SlimeBossData;
+import com.mcdr.corruption.entity.data.ZombieBossData;
 
 
 public abstract class SpawnCommand extends BaseCommand {
