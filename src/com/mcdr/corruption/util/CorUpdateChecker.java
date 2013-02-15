@@ -15,7 +15,7 @@ import org.w3c.dom.NodeList;
 import com.mcdr.corruption.Corruption;
 
 public class CorUpdateChecker {
-	private static final String LAST_VERSION_URL = "http://dev.bukkit.org/server-mods/likeaboss-mcdr/files.rss";
+	private static final String LAST_VERSION_URL = "http://dev.bukkit.org/server-mods/corruption/files.rss";
 	public static String lastVer;
 	public static boolean updateNeeded = false;
 	public static long timeStamp = -1;

@@ -43,11 +43,9 @@ public class UpdateCommand extends BaseCommand {
 		if(CorUpdateChecker.timeStamp==-1)
 			return;
 		
-		//Get the download Url
-		CorAutoUpdater.getDownloadUrl();
-		
+		//Update the md5 hash for safety.
 		//If something went wrong, return. Errors will be handled in the LabAutoUpdater class
-		if(CorAutoUpdater.timeStamp==-1)
+		if(!CorAutoUpdater.updateMd5Hash())
 			return;
 		
 		if(CorAutoUpdater.update())

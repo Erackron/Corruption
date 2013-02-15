@@ -21,12 +21,12 @@ import com.mcdr.corruption.Corruption;
 
 public class CorAutoUpdater {
 	private static final String LAST_VERSION_URL = "http://api.bukget.org/3/plugins/bukkit/likeaboss-mcdr/latest";
+	public static final String DOWNLOAD_URL = LAST_VERSION_URL + "/download";
 	private static String jsonResponse = "";
-	public static String downloadUrl = "";
 	public static String md5Hash = "";
 	public static long timeStamp = -1;
 	
-	public static String getDownloadUrl(){
+	public static boolean updateMd5Hash(){
 		try {
 			URL jsonURL = new URL(LAST_VERSION_URL);
 			URLConnection con = jsonURL.openConnection();
@@ -40,47 +40,48 @@ public class CorAutoUpdater {
 		    in.close();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-		} catch (IOException e) {e.printStackTrace();}
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 		if(jsonResponse=="")
-			return "";
-		downloadUrl = getFileDownloadUrl(jsonResponse);
+			return false;
 		
 		timeStamp = System.currentTimeMillis();
-		return downloadUrl;
+		return getMd5Hash(jsonResponse);
 	}
 	
-	private static String getFileDownloadUrl(String jsonString){
+	private static boolean getMd5Hash(String jsonString){
 		try {
 			JSONObject json = (JSONObject) new JSONParser().parse(jsonString);
 			JSONArray jsonArray = (JSONArray) json.get("versions");
 			jsonString = jsonArray.toJSONString();
 			json = (JSONObject) new JSONParser().parse(jsonString.substring(1, jsonString.length()-1));
 			md5Hash = (String) json.get("md5");
-			return (String) json.get("download");
+			return true;
 		} catch (ParseException e) {
 			e.printStackTrace();
-			return null;
+			return false;
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-			return null;
+			return false;
 		} catch (NullPointerException e){
 			System.out.println(jsonString);
-			return null;
+			return false;
 		}
 	}
 	
 	public static boolean update() {
 		if(timeStamp==-1)
-			getDownloadUrl();
-		if(downloadUrl==null){
-			Corruption.l.info("["+Corruption.in.getName()+"] No download link found, please try again.");
-		}
+			if(!updateMd5Hash())
+				Corruption.l.info("["+Corruption.in.getName()+"] No Md5 hash found to check if the download succeeded.");
 			
-		File origFile = new File("plugins", "Likeaboss.jar"),
-			 bakFile = new File("plugins", "Likeaboss.jar.bak");
+		File origFile = new File("plugins", "Corruption.jar"),
+			 bakFile = new File("plugins", "Corruption.jar.bak");
 		try {
 			Utility.fileToFile(origFile, bakFile);
-			URL website = new URL(downloadUrl);
+			URL website = new URL(DOWNLOAD_URL);
 			URLConnection con = website.openConnection();
 		    con.setConnectTimeout(1000*2);
 		    con.setReadTimeout(1000*60*5);
