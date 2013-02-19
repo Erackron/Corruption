@@ -51,7 +51,7 @@ public class Corruption extends JavaPlugin {
 		updateConfigs();
 		ConfigManager.Load();
 		CorPlayerManager.AddOnlinePlayers();
-		TaskManager.Start();
+		TaskManager.start();
 		
 		getCommand("corruption").setExecutor(new CommandManager());
 		
@@ -78,12 +78,9 @@ public class Corruption extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		TaskManager.Stop();
-		try {
-			CorPlayerManager.SavePlayerData();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		CorPlayerManager.forcePlayerDataSaving();
+		CorEntityManager.purgeAllBosses();
+		TaskManager.stop();
 		
 		l.info("["+getName()+"] Disabled");
 	}

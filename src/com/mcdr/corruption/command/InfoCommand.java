@@ -12,7 +12,7 @@ import com.mcdr.corruption.stats.StatsManager;
 
 
 public abstract class InfoCommand extends BaseCommand {
-	public static void Process() {
+	public static void process() {
 		if (!checkPermission("cor.info", true))
 			return;
 		

@@ -51,4 +51,11 @@ public abstract class CorEntityManager {
 	public static CorEntity getEntity(LivingEntity livingEntity) {
 		return getBoss(livingEntity);		
 	}
+
+	public static void purgeAllBosses() {
+	    for (Boss boss: bosses){
+	      boss.getLivingEntity().remove();
+	    }
+	    bosses.clear();
+	}
 }

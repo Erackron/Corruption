@@ -13,7 +13,7 @@ import com.mcdr.corruption.player.CorPlayerManager;
 
 
 public abstract class IgnoreCommand extends BaseCommand {
-	public static void Process() {
+	public static void process() {
 		if (!checkPermission("cor.ignore", false))
 			return;
 		

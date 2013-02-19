@@ -7,7 +7,7 @@ import com.mcdr.corruption.stats.StatsManager;
 
 
 public abstract class ClearCommand extends BaseCommand {
-	public static void Process() {
+	public static void process() {
 		if (!checkPermission("cor.clear", true))
 			return;
 		

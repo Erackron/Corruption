@@ -17,7 +17,7 @@ import com.mcdr.corruption.util.Utility;
 
 
 public abstract class ListCommand extends BaseCommand {
-	public static void Process() {
+	public static void process() {
 		if (!checkPermission("cor.list", false))
 			return;
 		
@@ -36,7 +36,7 @@ public abstract class ListCommand extends BaseCommand {
 			unsortedMap.put(boss, distance);
 		}
 		
-		Set<Entry<Boss, Double>> sortedEntries = Utility.SortEntriesByValues(unsortedMap, true);
+		Set<Entry<Boss, Double>> sortedEntries = Utility.sortEntriesByValues(unsortedMap, true);
 		
 		for (Entry<Boss, Double> entry : sortedEntries) {
 			Boss boss = entry.getKey();

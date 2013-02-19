@@ -29,7 +29,7 @@ import com.mcdr.corruption.entity.data.ZombieBossData;
 
 
 public abstract class SpawnCommand extends BaseCommand {
-	public static void Process() {
+	public static void process() {
 		if (!checkPermission("cor.spawn", false))
 			return;
 		

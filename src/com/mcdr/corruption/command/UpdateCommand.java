@@ -8,7 +8,7 @@ import com.mcdr.corruption.util.CorAutoUpdater;
 import com.mcdr.corruption.util.CorUpdateChecker;
 
 public class UpdateCommand extends BaseCommand {
-	public static void Process(){
+	public static void process(){
 		if (!checkPermission("cor.update", true))
 			return;
 		

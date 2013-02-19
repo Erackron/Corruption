@@ -61,7 +61,8 @@ public abstract class GlobalConfig extends BaseConfig {
 		DRAW_BOSS_EFFECT (1.0) {@Override public String getNode() {return "Task.DrawBossEffect";}},
 		CHECK_ENTITY_EXISTENCE (2.0) {@Override public String getNode() {return "Task.CheckEntityExistence";}},
 		CHECK_ENTITY_PROXIMITY (0.5) {@Override public String getNode() {return "Task.CheckEntityProximity";}},
-		SAVE_PLAYER_DATA (600.0) {@Override public String getNode() {return "Task.SavePlayerData";}};
+		SAVE_PLAYER_DATA (600.0) {@Override public String getNode() {return "Task.SavePlayerData";}},
+		LOAD_PLAYER_DATA (5.0) {@Override public String getNode() {return "Task.LoadPlayerData";}};
 		
 		private double value;
 		

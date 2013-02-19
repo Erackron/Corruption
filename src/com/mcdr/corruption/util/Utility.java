@@ -127,7 +127,7 @@ public abstract class Utility {
 		}
 	}
 	
-	public static <K, V extends Comparable<? super V>> SortedSet<Entry<K, V>> SortEntriesByValues(Map<K, V> map, boolean ascendant) {
+	public static <K, V extends Comparable<? super V>> SortedSet<Entry<K, V>> sortEntriesByValues(Map<K, V> map, boolean ascendant) {
 		SortedSet<Map.Entry<K, V>> sortedEntries;
 		if (ascendant)
 			sortedEntries = new TreeSet<Entry<K, V>>(new ValueComparatorAsc<K, V>());

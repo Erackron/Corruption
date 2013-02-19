@@ -230,6 +230,9 @@ public class CorConfigUpdater {
 			if(!global.isSet("Message.ViewerDamageAbsorbed"))
 				global.set("Message.ViewerDamageAbsorbed", "Corrupted {BOSSNAME}'s armour absorbed the damage.");
 			
+			if(!global.isSet("Task.LoadPlayerData"))
+				global.set("Task.LoadPlayerData", 5.0);
+			
 			global.set("ConfigVersion", "2.1");
 			
 			try {

@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 import com.mcdr.corruption.Corruption;
 
 public abstract class HelpCommand extends BaseCommand {
-	public static void Process() {
+	public static void process() {
 		if (!checkPermission("cor.help", true))
 			return;
 		

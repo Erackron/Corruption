@@ -21,7 +21,7 @@ public class CorPlayer {
 		this.corPlayerData = new CorPlayerData();
 	}
 	
-	public void AddBossKilled(String string, int amount) {
+	public void addBossKilled(String string, int amount) {
 		int baseAmount = 0;
 		
 		if (bossesKilled.containsKey(string))

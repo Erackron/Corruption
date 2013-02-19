@@ -20,7 +20,7 @@ import org.json.simple.parser.ParseException;
 import com.mcdr.corruption.Corruption;
 
 public class CorAutoUpdater {
-	private static final String LAST_VERSION_URL = "http://api.bukget.org/3/plugins/bukkit/likeaboss-mcdr/latest";
+	private static final String LAST_VERSION_URL = "http://api.bukget.org/3/plugins/bukkit/corruption/latest";
 	public static final String DOWNLOAD_URL = LAST_VERSION_URL + "/download";
 	private static String jsonResponse = "";
 	public static String md5Hash = "";

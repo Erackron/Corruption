@@ -8,12 +8,12 @@ import com.mcdr.corruption.task.TaskManager;
 
 
 public abstract class ReloadCommand extends BaseCommand {
-	public static void Process() {
+	public static void process() {
 		if (!checkPermission("cor.reload", true))
 			return;
 		
 		ConfigManager.Load();
-		TaskManager.Restart();
+		TaskManager.restart();
 		
 		sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Reloaded");
 	}

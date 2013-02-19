@@ -167,7 +167,7 @@ public class Boss extends CorEntity {
 		CorEntityManager.getBosses().remove(this);
 		
 		if (killer != null) {
-			killer.AddBossKilled(bossData.getName(), 1);
+			killer.addBossKilled(bossData.getName(), 1);
 			StatsManager.AddBossKilled(1);
 		}
 	}

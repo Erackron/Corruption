@@ -20,6 +20,7 @@ Task:
   CheckEntityProximity: 0.5
   CheckEntityExistence: 2.0
   SavePlayerData: 600.0
+  LoadPlayerData: 5.0
 Boss:
   OverwriteDrops: false
   SetHealthAsMultiplier: true

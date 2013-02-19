@@ -18,25 +18,25 @@ public class CommandManager implements CommandExecutor{
 		String firstArg = args[0].toLowerCase();
 		
 		if(firstArg.equalsIgnoreCase("clear"))
-			ClearCommand.Process();
+			ClearCommand.process();
 		else if(firstArg.equalsIgnoreCase("help"))
-			HelpCommand.Process();
+			HelpCommand.process();
 		else if(firstArg.equalsIgnoreCase("ignore"))
-			IgnoreCommand.Process();
+			IgnoreCommand.process();
 		else if(firstArg.equalsIgnoreCase("info"))
-			InfoCommand.Process();
+			InfoCommand.process();
 		else if(firstArg.equalsIgnoreCase("list"))
-			ListCommand.Process();
+			ListCommand.process();
 		else if(firstArg.equalsIgnoreCase("reload"))
-			ReloadCommand.Process();
+			ReloadCommand.process();
 		else if(firstArg.equalsIgnoreCase("spawn"))
-			SpawnCommand.Process();
+			SpawnCommand.process();
 		else if(firstArg.equalsIgnoreCase("stats"))
-			StatsCommand.Process();
+			StatsCommand.process();
 		else if(firstArg.equalsIgnoreCase("viewer"))
-			ViewerCommand.Process();
+			ViewerCommand.process();
 		else if(firstArg.equalsIgnoreCase("update"))
-			UpdateCommand.Process();
+			UpdateCommand.process();
 
 		return BaseCommand.processed;
 	}
