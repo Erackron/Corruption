@@ -42,11 +42,11 @@ public class Corruption extends JavaPlugin {
 		in = this;
 		l = Bukkit.getLogger();
 		scheduler = Bukkit.getScheduler();
-		pluginName = getName();
 	}
 	
 	@Override
 	public void onEnable() {
+		pluginName = getName();
 		PluginManager pluginManager = getServer().getPluginManager();		
 		msInstalled = pluginManager.getPlugin("MagicSpells") != null;
 		mcMMOInstalled = pluginManager.getPlugin("mcMMO") != null;
@@ -70,8 +70,8 @@ public class Corruption extends JavaPlugin {
 		
 		if(mcMMOInstalled){
 			l.info("["+pluginName+"] mcMMO detected!");
-			String mcMMOVer = pluginManager.getPlugin("mcMMO").getDescription().getVersion();
-			if(Utility.isOlderVersion(mcMMOVer, "1.4.00-beta3-b1612")){
+			String mcMMOVer = pluginManager.getPlugin("mcMMO").getDescription().getVersion().replaceAll("-(beta|dev)([0-9])+-", "-");
+			if(Utility.isOlderVersion(mcMMOVer, "1.4.00-b1612")){
 				mcMMOInstalled = false;
 				l.info("["+pluginName+"] Unsupported mcMMO version ("+mcMMOVer+") in use.");
 				l.info("["+pluginName+"] Please update mcMMO to 1.4.00-beta3-b1612 or higher!");
