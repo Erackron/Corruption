@@ -87,7 +87,7 @@ public class BossConfig extends BaseConfig {
 					bossData = new SlimeBossData(bossName, entityType, minsize, maxsize);
 					break;
 				case GHAST:
-					boolean immune = yamlConfig.isSet(bossName + ".ReturnToSenderImmune")?yamlConfig.getBoolean(bossName + ".ReturnToSenderImmune"):false;
+					boolean immune = yamlConfig.isSet(bossName + ".ReturnToSenderImmune")?yamlConfig.getBoolean(bossName + ".ReturnToSenderImmune"):true;
 					bossData = new GhastBossData(bossName, entityType, immune);
 					break;
 				default:

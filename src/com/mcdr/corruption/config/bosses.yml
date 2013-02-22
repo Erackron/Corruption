@@ -89,6 +89,7 @@ Enderman:
 Ghast:
   EntityType: Ghast
   mcMMOXPBonus: 0
+  ReturnToSenderImmune: true
   Loot:
     FirstRoll:
       FirstItem: 348:0 20.0 4 8
