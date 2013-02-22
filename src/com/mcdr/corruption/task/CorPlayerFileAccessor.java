@@ -213,12 +213,11 @@ public class CorPlayerFileAccessor implements Runnable {
 				CorPlayer.addBossKilled(data[i], Integer.valueOf(data[(i + 1)]).intValue());
 		}
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public boolean initiatePlayerDataSaving(List<CorPlayer> CorPlayersToSave)
 		{
 			if (this.saveLock.tryLock()) {
 				try {
-					this.playersToSave = new ArrayList(CorPlayersToSave);
+					this.playersToSave = new ArrayList<CorPlayer>(CorPlayersToSave);
 
 					return true;
 				}
@@ -230,12 +229,11 @@ public class CorPlayerFileAccessor implements Runnable {
 			return false;
 		}
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public void forcePlayerDataSaving(List<CorPlayer> CorPlayersToSave) {
 			this.saveLock.lock();
 			try
 			{
-				this.playersToSave = new ArrayList(CorPlayersToSave);
+				this.playersToSave = new ArrayList<CorPlayer>(CorPlayersToSave);
 
 				this.saveCondition.await();
 			}
@@ -247,12 +245,11 @@ public class CorPlayerFileAccessor implements Runnable {
 			}
 		}
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public short initiatePlayerDataLoading(List<CorPlayer> CorPlayersToLoad) {
-			List toLoad = null;
+			List<CorPlayer> toLoad = null;
 
 			if (CorPlayersToLoad != null) {
-				toLoad = new ArrayList(CorPlayersToLoad);
+				toLoad = new ArrayList<CorPlayer>(CorPlayersToLoad);
 			}
 
 			if (this.loadLock.tryLock()) {
@@ -265,7 +262,8 @@ public class CorPlayerFileAccessor implements Runnable {
 						}
 				}
 				finally {
-					this.loadLock.unlock(); } this.loadLock.unlock();
+					this.loadLock.unlock();
+				}
 			}
 
 			return 0;

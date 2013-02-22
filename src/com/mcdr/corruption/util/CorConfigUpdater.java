@@ -280,6 +280,9 @@ public class CorConfigUpdater {
 			ConfigurationSection immunity = global.getConfigurationSection("Boss.Immunity");
 			
 			for(String node : bosses.getKeys(false)){
+				if(node.equalsIgnoreCase("ConfigVersion"))
+					continue;
+				
 				String spawnString = bosses.getString(node+".Spawn");
 				if (spawnString == null) {
 					Corruption.l.warning("["+Corruption.in.getName()+"] '" + node + "' in bosses config file is missing.");
@@ -382,9 +385,11 @@ public class CorConfigUpdater {
 		if(Utility.isOlderVersion(configVersion, "2.1")){
 			Corruption.l.info("["+Corruption.in.getName()+"] Updating bosses config");
 			bosses.set("ConfigVersion", "2.1");
-			
 			for(String node : bosses.getKeys(false)){
+				if(node.equalsIgnoreCase("ConfigVersion"))
+					continue;
 				String entityType = bosses.getString(node+".EntityType");
+				System.out.println(entityType + " | " + node);
 				if(entityType.equalsIgnoreCase("ghast")){
 					if(!bosses.isSet(node + ".ReturnToSenderImmune"))
 						bosses.set(node + ".ReturnToSenderImmune", true);

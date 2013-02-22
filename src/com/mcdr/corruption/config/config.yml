@@ -14,7 +14,7 @@ Message:
   
   ViewerMessage: 'Corrupted {BOSSNAME} Health: {HEALTH} (-{DAMAGE})'
   ViewerDefeated: 'Corrupted {BOSSNAME} has been defeated.'
-  ViewerDamageAbsorbed: 'Corrupted {BOSSNAME}'s armour absorbed the damage.'
+  ViewerDamageAbsorbed: Corrupted {BOSSNAME}'s armour absorbed the damage.
 Task:
   DrawBossEffect: 1.0
   CheckEntityProximity: 0.5

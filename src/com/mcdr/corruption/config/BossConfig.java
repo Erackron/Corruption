@@ -35,7 +35,7 @@ public class BossConfig extends BaseConfig {
 		File file = new File(DATAFOLDER, "bosses.yml");
 		
 		if(!file.exists())
-			copyResource(file, "com/mcdr/"+Corruption.in.getName()+"/config/bosses.yml");
+			copyResource(file, "com/mcdr/corruption/config/bosses.yml");
 		
 		LoadBosses(loadConfig(file));
 	}
