@@ -9,7 +9,7 @@ public abstract class HelpCommand extends BaseCommand {
 		if (!checkPermission("cor.help", true))
 			return;
 		
-		sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Commands list");
+		sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Commands list");
 		sender.sendMessage("/" + label + " clear: " + ChatColor.GRAY + "Clear informations given by /lab info.");
 		sender.sendMessage("/" + label + " ignore: " + ChatColor.GRAY + "Toggle ignore state, which allows to not be affected by bosses.");
 		sender.sendMessage("/" + label + " info: " + ChatColor.GRAY + "Display some global and non-lasting stats.");

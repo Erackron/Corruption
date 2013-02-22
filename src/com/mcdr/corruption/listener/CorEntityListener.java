@@ -341,9 +341,8 @@ public class CorEntityListener implements Listener {
 			if (event.isCancelled())
 				return;
 			
-			try{
+			if(damager instanceof LivingEntity)
 				boss.ActivateAbilities((LivingEntity) damager, ActivationCondition.ONDEFENSE);
-			} catch(ClassCastException e){}
 			
 			
 			event.setDamage(damage);

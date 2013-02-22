@@ -18,11 +18,11 @@ public abstract class BaseConfig {
 		InputStream inputStream = Corruption.in.getResource(resourcePath);
 
 		if (inputStream == null) {
-			Corruption.l.severe("["+Corruption.in.getName()+"] Missing resource file: '" + resourcePath + "', please notify the plugin author");
+			Corruption.l.severe("["+Corruption.pluginName+"] Missing resource file: '" + resourcePath + "', please notify the plugin author");
 			Bukkit.getPluginManager().disablePlugin(Corruption.in);
 		}
 		else {
-			Corruption.l.info("["+Corruption.in.getName()+"] Creating default config file: " + file.getName());
+			Corruption.l.info("["+Corruption.pluginName+"] Creating default config file: " + file.getName());
 
 			try {
 				file.getParentFile().mkdirs();

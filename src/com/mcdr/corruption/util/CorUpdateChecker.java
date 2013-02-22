@@ -26,7 +26,7 @@ public class CorUpdateChecker {
 			String curVer = pdf.getVersion();
 			String lastVersion = getLastVersion();
 			if(lastVersion==null){
-				Corruption.l.info("["+Corruption.in.getName()+"] Failed to reach dev.bukkit.org to check for updates. Is it down?");
+				Corruption.l.info("["+Corruption.pluginName+"] Failed to reach dev.bukkit.org to check for updates. Is it down?");
 				timeStamp = -1;
 				return false;
 			}

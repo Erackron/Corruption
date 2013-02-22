@@ -17,12 +17,12 @@ public abstract class BaseCommand {
 		processed = true;
 		
 		if (!consoleUsage && !(sender instanceof Player)) {
-			sender.sendMessage("["+Corruption.in.getName()+"] This command doesn't support console usage.");
+			sender.sendMessage("["+Corruption.pluginName+"] This command doesn't support console usage.");
 			return false;
 		}
 		
 		if (!Utility.hasPermission(sender, permission)) {
-			sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "You don't have the permission for this command.");
+			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "You don't have the permission for this command.");
 			sender.sendMessage(ChatColor.GRAY + permission + ChatColor.WHITE + " is needed.");
 			return false;
 		}

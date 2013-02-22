@@ -16,7 +16,7 @@ public abstract class InfoCommand extends BaseCommand {
 		if (!checkPermission("cor.info", true))
 			return;
 		
-		sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Info");
+		sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Info");
 		sender.sendMessage(ChatColor.GRAY + "Corrupted Killed: " + StatsManager.getBossesKilled());
 		sender.sendMessage(ChatColor.GRAY + "Corrupted Count: " + CorEntityManager.getBosses().size());
 			

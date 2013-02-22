@@ -17,7 +17,7 @@ public abstract class ViewerCommand extends BaseCommand {
 		CorPlayer corPlayer = CorPlayerManager.getCorPlayer((Player) sender);
 		
 		if (corPlayer == null) {
-			sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Oops, something went wrong.");
+			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Oops, something went wrong.");
 			sender.sendMessage("Please notify the plugin author.");
 		}
 		
@@ -26,7 +26,7 @@ public abstract class ViewerCommand extends BaseCommand {
 			boolean viewer = corPlayerData.getViewer();
 			
 			corPlayerData.setViewer(!viewer);
-			sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Viewer: " + ChatColor.GREEN + !viewer);
+			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Viewer: " + ChatColor.GREEN + !viewer);
 		}
 	}
 }

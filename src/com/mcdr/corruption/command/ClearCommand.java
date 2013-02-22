@@ -13,6 +13,6 @@ public abstract class ClearCommand extends BaseCommand {
 		
 		StatsManager.Clear();
 		
-		sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Cleared");
+		sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Cleared");
 	}
 }

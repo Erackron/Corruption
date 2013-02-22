@@ -48,7 +48,7 @@ public class BossConfig extends BaseConfig {
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(bossName);
 			
 			if (configurationSection == null) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + bossName + "' in bosses config file is invalid.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + "' in bosses config file is invalid.");
 				continue;
 			}
 			
@@ -56,7 +56,7 @@ public class BossConfig extends BaseConfig {
 			EntityType entityType = EntityType.fromName(entityTypeString);
 			
 			if (entityType == null) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + entityTypeString + "' in bosses config file isn't a valid EntityType.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + entityTypeString + "' in bosses config file isn't a valid EntityType.");
 				continue;
 			}
 			
@@ -115,12 +115,12 @@ public class BossConfig extends BaseConfig {
 	
 	private static boolean LoadSpawnValues(BossData bossData, ConfigurationSection spawnSection, String bossName) {
 		if (spawnSection == null) {
-			Corruption.l.warning("["+Corruption.in.getName()+"] '" + bossName + ".Spawn' in bosses config file is missing.");
+			Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Spawn' in bosses config file is missing.");
 			return false;
 		}
 		
 		if(!(spawnSection.isSet("Probability") && spawnSection.isSet("SpawnerProbability"))){
-			Corruption.l.warning("["+Corruption.in.getName()+"] '" + bossName + ".Spawn' in bosses config file is invalid.");
+			Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Spawn' in bosses config file is invalid.");
 			return false;
 		}
 		
@@ -137,7 +137,7 @@ public class BossConfig extends BaseConfig {
 	private static boolean LoadStats(BossData bossData, ConfigurationSection statsSection, String bossName) {
 		
 		if(!(statsSection.isSet("Health") && statsSection.isSet("Damage") && statsSection.isSet("Experience"))){
-			Corruption.l.info("["+Corruption.in.getName()+"] Missing values in '" + bossName + ".Stats'");
+			Corruption.l.info("["+Corruption.pluginName+"] Missing values in '" + bossName + ".Stats'");
 			return false;
 		}
 		
@@ -150,7 +150,7 @@ public class BossConfig extends BaseConfig {
 		
 		for (String abilityName : abilityNames) {
 			if (!abilities.containsKey(abilityName)) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + bossName + ".Ability." + abilityName + "' in bosses config file isn't a valid ability.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Ability." + abilityName + "' in bosses config file isn't a valid ability.");
 				continue;
 			}
 			
@@ -160,7 +160,7 @@ public class BossConfig extends BaseConfig {
 	
 	private static void LoadLoots(BossData bossData, ConfigurationSection lootSection, String bossName) {
 		if (lootSection == null) {
-			Corruption.l.warning("["+Corruption.in.getName()+"] '" + bossName + ".Loot" + "' in bosses config file is invalid.");
+			Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Loot" + "' in bosses config file is invalid.");
 			return;
 		}
 		
@@ -170,7 +170,7 @@ public class BossConfig extends BaseConfig {
 			ConfigurationSection rollSection = lootSection.getConfigurationSection(rollString);
 			
 			if (rollSection == null) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + bossName + ".Loot." + rollString + "' in bosses config file is invalid.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Loot." + rollString + "' in bosses config file is invalid.");
 				continue;
 			}
 			
@@ -181,14 +181,14 @@ public class BossConfig extends BaseConfig {
 				String dropString = dropEntry.getValue().toString();
 				
 //				if (!IsValidString(rawValue)) {
-//					Likeaboss.logger.warning("["+Corruption.in.getName()+"] Invalid values for '" + dropEntry + "' in '" + world.getName() + "' config file");
+//					Likeaboss.logger.warning("["+Corruption.pluginName+"] Invalid values for '" + dropEntry + "' in '" + world.getName() + "' config file");
 //					continue;
 //				}
 				
 				String[] dropValues = dropString.split(" ");
 				
 				if (dropValues.length < 4) {
-					Corruption.l.warning("["+Corruption.in.getName()+"] Missing values for '" + bossName + ".Loot." + rollString + "." + dropEntry.getKey() + "' in bosses config file.");
+					Corruption.l.warning("["+Corruption.pluginName+"] Missing values for '" + bossName + ".Loot." + rollString + "." + dropEntry.getKey() + "' in bosses config file.");
 					continue;
 				}
 				
@@ -219,12 +219,12 @@ public class BossConfig extends BaseConfig {
 		if(EquipmentConfig.equipmentSets.containsKey(equipmentSetName))
 			bossData.setEquipment(EquipmentConfig.equipmentSets.get(equipmentSetName));
 		else
-			Corruption.l.warning("["+Corruption.in.getName()+"] '" + section.getName() + ".EquipmentSet' in bosses config file is invalid or doesn't exist.");
+			Corruption.l.warning("["+Corruption.pluginName+"] '" + section.getName() + ".EquipmentSet' in bosses config file is invalid or doesn't exist.");
 	}
 	
 	public static void LoadImmunities(BossData bossData, ConfigurationSection section, String bossName){
 		if(section == null){
-			Corruption.l.warning("["+Corruption.in.getName()+"] '" + bossName + ".Immunities" + "' in bosses config file doesn't exist.");
+			Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Immunities" + "' in bosses config file doesn't exist.");
 			return;
 		}
 		

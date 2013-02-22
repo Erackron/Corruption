@@ -138,6 +138,9 @@ public abstract class Utility {
 	}
 	
 	public static void streamToFile(InputStream resource, File file) throws Exception {
+		if(!file.exists())
+			file.createNewFile();
+		
 		OutputStream outputStream = new FileOutputStream(file);
 		
 		copy(resource, outputStream);

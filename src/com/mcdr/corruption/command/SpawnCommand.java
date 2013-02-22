@@ -51,13 +51,13 @@ public abstract class SpawnCommand extends BaseCommand {
 					amount = Integer.parseInt(args[2]);
 				}
 				catch (Exception e) {
-					sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.GRAY + args[2] + ChatColor.WHITE + " isn't an integer.");
+					sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.GRAY + args[2] + ChatColor.WHITE + " isn't an integer.");
 					return;
 				}
 				
 				int max = CommandParam.SPAWN_MAX.getValue();
 				if (amount > max) {
-					sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "You are not allowed to spawn more than " + ChatColor.GRAY + max + ChatColor.WHITE + " boss(es) at a time.");
+					sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "You are not allowed to spawn more than " + ChatColor.GRAY + max + ChatColor.WHITE + " boss(es) at a time.");
 					return;
 				}
 			}
@@ -123,7 +123,7 @@ public abstract class SpawnCommand extends BaseCommand {
 		
 		bossListBuilder.substring(0, bossListBuilder.length() - 2);
 		
-		sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Allowed Creatures:");
+		sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Allowed Creatures:");
 		sender.sendMessage(ChatColor.GRAY + bossListBuilder.toString());
 	}
 }

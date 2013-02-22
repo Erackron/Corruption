@@ -24,7 +24,7 @@ public abstract class ListCommand extends BaseCommand {
 		Player player = (Player) sender;
 		Map<Boss, Double> unsortedMap = new HashMap<Boss, Double>();
 		
-		player.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Boss List");
+		player.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Boss List");
 		
 		for (Boss boss : CorEntityManager.getBosses()) {
 			double distance = 0;

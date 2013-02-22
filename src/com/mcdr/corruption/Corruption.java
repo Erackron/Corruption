@@ -27,12 +27,14 @@ import com.mcdr.corruption.stats.StatsManager;
 import com.mcdr.corruption.task.TaskManager;
 import com.mcdr.corruption.util.CorConfigUpdater;
 import com.mcdr.corruption.util.CorUpdateChecker;
+import com.mcdr.corruption.util.Utility;
 import com.timvisee.manager.permissionsmanager.PermissionsManager;
 
 public class Corruption extends JavaPlugin {
 	public static Corruption in;
 	public static Logger l;
 	public static BukkitScheduler scheduler;
+	public static String pluginName;
 	public static boolean msInstalled, mcMMOInstalled;
 	public PermissionsManager pm;
 	
@@ -40,6 +42,7 @@ public class Corruption extends JavaPlugin {
 		in = this;
 		l = Bukkit.getLogger();
 		scheduler = Bukkit.getScheduler();
+		pluginName = getName();
 	}
 	
 	@Override
@@ -61,28 +64,36 @@ public class Corruption extends JavaPlugin {
 		pluginManager.registerEvents(new CorWorldListener(), this);
 		
 		if(msInstalled){
-			l.info("["+getName()+"] MagicSpells detected!");
+			l.info("["+pluginName+"] MagicSpells detected!");
 			pluginManager.registerEvents(new CorMagicSpellsListener(), this);	
 		}
 		
-		if(mcMMOInstalled)
-			l.info("["+getName()+"] mcMMO detected!");
-		
+		if(mcMMOInstalled){
+			l.info("["+pluginName+"] mcMMO detected!");
+			String mcMMOVer = pluginManager.getPlugin("mcMMO").getDescription().getVersion();
+			if(Utility.isOlderVersion(mcMMOVer, "1.4.00-beta3-b1612")){
+				mcMMOInstalled = false;
+				l.info("["+pluginName+"] Unsupported mcMMO version ("+mcMMOVer+") in use.");
+				l.info("["+pluginName+"] Please update mcMMO to 1.4.00-beta3-b1612 or higher!");
+				return;
+			}
+		}
+			
 		setupMetrics();
 		
 		if(GlobalConfig.checkUpdateOnStartup)
 			checkUpdates();
 		
-		l.info("["+getName()+"] Enabled");
+		l.info("["+pluginName+"] Enabled");
 	}
-	
+
 	@Override
 	public void onDisable() {
 		CorPlayerManager.forcePlayerDataSaving();
 		CorEntityManager.purgeAllBosses();
 		TaskManager.stop();
 		
-		l.info("["+getName()+"] Disabled");
+		l.info("["+pluginName+"] Disabled");
 	}
 	
 	/**
@@ -127,22 +138,22 @@ public class Corruption extends JavaPlugin {
 			    });
 		    }
 		    if(metrics.start())
-		    	l.info("["+getName()+"] Sending metrics data");
+		    	l.info("["+pluginName+"] Sending metrics data");
 		    else
-		    	l.info("["+getName()+"] Disabled sending metrics data");
+		    	l.info("["+pluginName+"] Disabled sending metrics data");
 		} catch (IOException e) {
-		   l.warning("["+getName()+"] Failed to contact mcstats.org");
+		   l.warning("["+pluginName+"] Failed to contact mcstats.org");
 		}
 	}
 	
 	private void checkUpdates() {
 		if(CorUpdateChecker.updateNeeded()){
 			String lastVer = CorUpdateChecker.getLastVersion();
-			l.info("["+getName()+"] New version available, version " + lastVer);
-			getServer().broadcast(ChatColor.GOLD + "["+getName()+"] " + ChatColor.WHITE + " New version available, version " + lastVer, "cor.update");
-			getServer().broadcast(ChatColor.GOLD + "["+getName()+"] " + ChatColor.WHITE + " To update, use " + ChatColor.GREEN + "/corruption update install", "cor.update");
+			l.info("["+pluginName+"] New version available, version " + lastVer);
+			getServer().broadcast(ChatColor.GOLD + "["+pluginName+"] " + ChatColor.WHITE + " New version available, version " + lastVer, "cor.update");
+			getServer().broadcast(ChatColor.GOLD + "["+pluginName+"] " + ChatColor.WHITE + " To update, use " + ChatColor.GREEN + "/corruption update install", "cor.update");
 		} else {
-			l.info("["+getName()+"] No update needed, running the latest version (" + in.getDescription().getVersion() + ")");
+			l.info("["+pluginName+"] No update needed, running the latest version (" + in.getDescription().getVersion() + ")");
 		}
 	}
 	

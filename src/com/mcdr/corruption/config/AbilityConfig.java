@@ -44,7 +44,7 @@ public abstract class AbilityConfig extends BaseConfig {
 			node += "." + entryKey;
 			
 			if (!abilityEntries.containsKey(entryKey)) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + node + "' in abilities config file is missing.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + node + "' in abilities config file is missing.");
 				continue;
 			}
 			
@@ -200,7 +200,7 @@ public abstract class AbilityConfig extends BaseConfig {
 						if(condition!=null){
 							ability.addActivationCondition(condition);
 						} else {
-							Corruption.l.warning("["+Corruption.in.getName()+"] '" + abilityName + "." + entryKey + "." + activationCondition + "' isn't a valid activation condition.");
+							Corruption.l.warning("["+Corruption.pluginName+"] '" + abilityName + "." + entryKey + "." + activationCondition + "' isn't a valid activation condition.");
 						}
 					}
 				}		

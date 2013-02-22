@@ -52,7 +52,7 @@ public abstract class StatsCommand extends BaseCommand {
 				}
 			}
 
-			this.sender.sendMessage(ChatColor.GOLD + "[" + Corruption.in.getName() + "] " + ChatColor.WHITE + "Leaderboard (" + ChatColor.GREEN + "Bosses Killed" + ChatColor.WHITE + ")");
+			this.sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + "Leaderboard (" + ChatColor.GREEN + "Bosses Killed" + ChatColor.WHITE + ")");
 			DisplayStats();
 			this.CorPlayerList.clear();
 		}
@@ -76,7 +76,7 @@ public abstract class StatsCommand extends BaseCommand {
 			}
 
 			if (this.CorPlayerList.isEmpty()) {
-				this.sender.sendMessage(ChatColor.GOLD + "[" + Corruption.in.getName() + "] " + ChatColor.GRAY + this.playerName + ChatColor.WHITE + " isn't a valid player or doesn't have any stats yet.");
+				this.sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.GRAY + this.playerName + ChatColor.WHITE + " isn't a valid player or doesn't have any stats yet.");
 				return;
 			}
 
@@ -86,7 +86,7 @@ public abstract class StatsCommand extends BaseCommand {
 				this.unsortedMap.put((String)entry.getKey(), (Integer)entry.getValue());
 			}
 
-			this.sender.sendMessage(ChatColor.GOLD + "[" + Corruption.in.getName() + "] " + ChatColor.WHITE + this.playerName + " (" + ChatColor.GREEN + "Bosses Killed" + ChatColor.WHITE + ")");
+			this.sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + this.playerName + " (" + ChatColor.GREEN + "Bosses Killed" + ChatColor.WHITE + ")");
 			DisplayStats();
 			this.CorPlayerList.clear();
 		}

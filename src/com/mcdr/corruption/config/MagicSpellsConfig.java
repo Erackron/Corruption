@@ -33,9 +33,9 @@ public class MagicSpellsConfig extends BaseConfig {
 		
 		if(!allEnabled){
 			if (useWhitelist && enabledSpells.isEmpty()) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] 'whitelist' in MagicSpells config file is empty.");
+				Corruption.l.warning("["+Corruption.pluginName+"] 'whitelist' in MagicSpells config file is empty.");
 			} else if(!(useWhitelist) && disabledSpells.isEmpty()){
-				Corruption.l.warning("["+Corruption.in.getName()+"] 'blacklist' in MagicSpells config is empty.");
+				Corruption.l.warning("["+Corruption.pluginName+"] 'blacklist' in MagicSpells config is empty.");
 			} 
 						
 		}

@@ -44,7 +44,7 @@ public abstract class WorldConfig extends BaseConfig {
 		
 		for (String bossName : bossNames) {
 			if (!bossesData.containsKey(bossName)) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + bossName + "' in '" + worldName + "' config file isn't a valid boss.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + "' in '" + worldName + "' config file isn't a valid boss.");
 				continue;
 			}
 			
@@ -57,7 +57,7 @@ public abstract class WorldConfig extends BaseConfig {
 		
 		for (String abilityName : abilityNames) {
 			if (!abilities.containsKey(abilityName)) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + abilityName + "' in '" + worldName + " config file isn't a valid ability.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + abilityName + "' in '" + worldName + " config file isn't a valid ability.");
 				continue;
 			}
 			
@@ -67,7 +67,7 @@ public abstract class WorldConfig extends BaseConfig {
 	
 	private static void LoadLoots(WorldData worldData, ConfigurationSection lootSection, String worldName) {
 		if (lootSection == null) {
-			Corruption.l.warning("["+Corruption.in.getName()+"] 'Loot' in '" + worldName + "' config file is invalid.");
+			Corruption.l.warning("["+Corruption.pluginName+"] 'Loot' in '" + worldName + "' config file is invalid.");
 			return;
 		}
 		
@@ -77,7 +77,7 @@ public abstract class WorldConfig extends BaseConfig {
 			ConfigurationSection rollSection = lootSection.getConfigurationSection(rollString);
 			
 			if (rollSection == null) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] 'Loot." + rollString + "' in '" + worldName + "' config file is invalid.");
+				Corruption.l.warning("["+Corruption.pluginName+"] 'Loot." + rollString + "' in '" + worldName + "' config file is invalid.");
 				continue;
 			}
 			
@@ -88,14 +88,14 @@ public abstract class WorldConfig extends BaseConfig {
 				String dropString = dropEntry.getValue().toString();
 				
 //				if (!IsValidString(rawValue)) {
-//					Likeaboss.logger.warning("["+Corruption.in.getName()+"] Invalid values for '" + dropEntry + "' in '" + world.getName() + "' config file");
+//					Likeaboss.logger.warning("["+Corruption.pluginName+"] Invalid values for '" + dropEntry + "' in '" + world.getName() + "' config file");
 //					continue;
 //				}
 				
 				String[] dropValues = dropString.split(" ");
 				
 				if (dropValues.length < 4) {
-					Corruption.l.warning("["+Corruption.in.getName()+"] Missing values for '" + "Loot." + rollString + "." + dropEntry.getKey() + "' in '" + worldName + "' config file.");
+					Corruption.l.warning("["+Corruption.pluginName+"] Missing values for '" + "Loot." + rollString + "." + dropEntry.getKey() + "' in '" + worldName + "' config file.");
 					continue;
 				}
 				

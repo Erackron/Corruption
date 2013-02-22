@@ -75,7 +75,7 @@ public class CorAutoUpdater {
 	public static boolean update() {
 		if(timeStamp==-1)
 			if(!updateMd5Hash())
-				Corruption.l.info("["+Corruption.in.getName()+"] No Md5 hash found to check if the download succeeded.");
+				Corruption.l.info("["+Corruption.pluginName+"] No Md5 hash found to check if the download succeeded.");
 			
 		File origFile = new File("plugins", "Corruption.jar"),
 			 bakFile = new File("plugins", "Corruption.jar.bak");

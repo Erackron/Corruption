@@ -15,6 +15,6 @@ public abstract class ReloadCommand extends BaseCommand {
 		ConfigManager.Load();
 		TaskManager.restart();
 		
-		sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Reloaded");
+		sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Reloaded");
 	}
 }

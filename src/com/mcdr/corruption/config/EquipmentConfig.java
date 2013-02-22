@@ -34,7 +34,7 @@ public class EquipmentConfig extends BaseConfig {
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(equipmentSetName);
 			
 			if (configurationSection == null) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + equipmentSetName + "' in equipment config file is invalid.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + equipmentSetName + "' in equipment config file is invalid.");
 				continue;
 			}
 			
@@ -71,7 +71,7 @@ public class EquipmentConfig extends BaseConfig {
 			eSPath = equipSectionPath+equip;
 			// Check if the config section actually exists
 			if (yamlConfig.getConfigurationSection(eSPath) == null) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + equipSection.getCurrentPath() + equip + "' in the equipment config file is invalid.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + equipSection.getCurrentPath() + equip + "' in the equipment config file is invalid.");
 				continue;
 			}
 			// Check if the equipment is enabled
@@ -86,23 +86,23 @@ public class EquipmentConfig extends BaseConfig {
 			
 			// Actual sanity checks
 			if(itemId<0){
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + eSPath + ".ItemId' in the equipment config file is invalid.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + eSPath + ".ItemId' in the equipment config file is invalid.");
 				continue;
 			}
 			if(prob<=0){
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + eSPath + ".Probability' in the equipment config file is invalid.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + eSPath + ".Probability' in the equipment config file is invalid.");
 				continue;
 			}
 			if(data<0){
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + eSPath + ".ItemData' in the equipment config file is invalid.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + eSPath + ".ItemData' in the equipment config file is invalid.");
 				continue;
 			}
 			if(dur<0){
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + eSPath + ".ItemDurability' in the equipment config file is invalid.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + eSPath + ".ItemDurability' in the equipment config file is invalid.");
 				continue;
 			}
 			if(dropProb<0 || dropProb>100){
-				Corruption.l.warning("["+Corruption.in.getName()+"] '" + eSPath + ".DropProbability' in the equipment config file is invalid.");
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + eSPath + ".DropProbability' in the equipment config file is invalid.");
 				continue;
 			}
 			//End of sanity checks, the values are probably valid so increment the array counter
@@ -127,7 +127,7 @@ public class EquipmentConfig extends BaseConfig {
 			for(String enchantment: enchantments){
 				// Check if the config section acutally exists
 				if (yamlConfig.getConfigurationSection(eSPath+"."+enchantment) == null) {
-					Corruption.l.warning("["+Corruption.in.getName()+"] '" + enchantment + "' in the equipment config file is invalid.");
+					Corruption.l.warning("["+Corruption.pluginName+"] '" + enchantment + "' in the equipment config file is invalid.");
 					continue;
 				}
 				// Check if the enchantment is enabled
@@ -142,15 +142,15 @@ public class EquipmentConfig extends BaseConfig {
 				
 				// Actual sanity checks
 				if(ench==null || enchName==null){
-					Corruption.l.warning("["+Corruption.in.getName()+"] '" + eSPath+"."+enchantment + ".Enchantment' in the equipment config file is invalid.");
+					Corruption.l.warning("["+Corruption.pluginName+"] '" + eSPath+"."+enchantment + ".Enchantment' in the equipment config file is invalid.");
 					continue;
 				}
 				if(chance<=0){
-					Corruption.l.warning("["+Corruption.in.getName()+"] '" + eSPath+"."+enchantment + ".Probability' in the equipment config file is invalid.");
+					Corruption.l.warning("["+Corruption.pluginName+"] '" + eSPath+"."+enchantment + ".Probability' in the equipment config file is invalid.");
 					continue;
 				}
 				if(lvl<=0){
-					Corruption.l.warning("["+Corruption.in.getName()+"] '" + eSPath+"."+enchantment + ".Level' in the equipment config file is invalid.");
+					Corruption.l.warning("["+Corruption.pluginName+"] '" + eSPath+"."+enchantment + ".Level' in the equipment config file is invalid.");
 					continue;
 				}
 				//End of sanity checks, the values are probably valid so increment the array counter

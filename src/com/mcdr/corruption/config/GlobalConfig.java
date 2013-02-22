@@ -130,7 +130,7 @@ public abstract class GlobalConfig extends BaseConfig {
 			String node = commandParam.getNode();
 			
 			if (!yamlConfig.contains(node)) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] Adding '" + node + "' in config file.");
+				Corruption.l.warning("["+Corruption.pluginName+"] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, commandParam.getValue());
 				continue;
 			}
@@ -144,7 +144,7 @@ public abstract class GlobalConfig extends BaseConfig {
 			String node = messageParam.getNode();
 			
 			if (!yamlConfig.contains(node)) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] Adding '" + node + "' in config file.");
+				Corruption.l.warning("["+Corruption.pluginName+"] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, messageParam.getMessage());
 				continue;
 			}
@@ -158,7 +158,7 @@ public abstract class GlobalConfig extends BaseConfig {
 			String node = taskParam.getNode();
 				
 			if (!yamlConfig.contains(node)) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] Adding '" + node + "' in config file.");
+				Corruption.l.warning("["+Corruption.pluginName+"] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, taskParam.getValue());
 				continue;
 			}
@@ -172,7 +172,7 @@ public abstract class GlobalConfig extends BaseConfig {
 			String node = bossParam.getNode();
 
 			if (!yamlConfig.contains(node)) {
-				Corruption.l.warning("["+Corruption.in.getName()+"] Adding '" + node + "' in config file.");
+				Corruption.l.warning("["+Corruption.pluginName+"] Adding '" + node + "' in config file.");
 				yamlConfig.set(node, bossParam.getValue());
 				continue;
 			}

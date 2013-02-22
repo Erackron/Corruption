@@ -19,8 +19,8 @@ public class CorPlayerListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		if(CorUpdateChecker.updateNeeded() && Utility.hasPermission(player, "lab.update")){
-			player.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + " New version available, version " + CorUpdateChecker.lastVer);
-			player.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + " To update, use " + ChatColor.GREEN + "/lab update install");
+			player.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + " New version available, version " + CorUpdateChecker.lastVer);
+			player.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + " To update, use " + ChatColor.GREEN + "/lab update install");
 		}
 		CorPlayerManager.addCorPlayer(player);
 	}

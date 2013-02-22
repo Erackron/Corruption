@@ -127,7 +127,7 @@ public abstract class CorPlayerManager {
 
 	public static void forcePlayerDataSaving()
 	{
-		Corruption.l.info("[" + Corruption.in.getName() + "] Force saving player data.");
+		Corruption.l.info("[" + Corruption.pluginName + "] Force saving player data.");
 		TaskManager.getCorPlayerFileAccessor().forcePlayerDataSaving(getPlayersToSave());
 		seenCorPlayers.clear();
 	}

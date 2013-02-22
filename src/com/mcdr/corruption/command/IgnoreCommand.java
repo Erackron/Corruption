@@ -20,7 +20,7 @@ public abstract class IgnoreCommand extends BaseCommand {
 		CorPlayer corPlayer = CorPlayerManager.getCorPlayer((Player) sender);
 		
 		if (corPlayer == null) {
-			sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Oops, something went wrong.");
+			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Oops, something went wrong.");
 			sender.sendMessage("Please notify the plugin author.");
 			return;
 		}
@@ -33,11 +33,11 @@ public abstract class IgnoreCommand extends BaseCommand {
 			if (ignoreTaskId != 0) {
 				Corruption.scheduler.cancelTask(ignoreTaskId);
 				corPlayer.setIgnoreTaskId(0);
-				sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Canceled");
+				sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Canceled");
 			}
 			else {
 				corPlayer.setIgnoreTaskId(Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new IgnoreCommandTask(corPlayer), delay * 20));
-				sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Applied in " + ChatColor.GREEN + delay + ChatColor.GRAY + " second(s)");
+				sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Ignore: " + ChatColor.GRAY + "Applied in " + ChatColor.GREEN + delay + ChatColor.GRAY + " second(s)");
 			}
 		}
 		else
@@ -53,7 +53,7 @@ public abstract class IgnoreCommand extends BaseCommand {
 					((Creature) e).setTarget(null);
 					
 		labPlayerData.setIgnore(!ignore);
-		sender.sendMessage(ChatColor.GOLD + "["+Corruption.in.getName()+"] " + ChatColor.WHITE + "Ignore: " + ChatColor.GREEN + !ignore);
+		sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Ignore: " + ChatColor.GREEN + !ignore);
 	}
 }
 
