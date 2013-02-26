@@ -74,8 +74,11 @@ public abstract class CorPlayerManager {
 		if (toPlayer.length() > 0) {
 			toPlayer = Utility.parseMessage(toPlayer, bossName);
 			
-			
-			corPlayer.getPlayer().sendMessage(toPlayer);
+			try{
+				corPlayer.getPlayer().sendMessage(toPlayer);
+			} catch (NullPointerException npe){
+				//Player object is null, this probably means the player has somehow already logged out.
+			}
 		}
 		
 		if (toOthers.length() > 0) {
