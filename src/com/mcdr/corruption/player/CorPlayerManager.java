@@ -89,6 +89,9 @@ public abstract class CorPlayerManager {
 			for (CorPlayer otherCorPlayer : corPlayers) {
 				Player otherPlayer = otherCorPlayer.getPlayer();
 				
+				if(otherPlayer==null)
+					continue;
+				
 				if (Utility.isNear(otherPlayer.getLocation(), location, 0, 35))
 					otherPlayer.sendMessage(toOthers);
 			}
