@@ -26,7 +26,8 @@ public class BossData {
 	private double damageCoef;
 	private double expCoef;
 	private double maxSpawnLevel;
-	private int mcMMOXPBonus;
+	private double heroesXPBonus;
+	private int mcMMOXPBonus;	
 	private boolean useHealthAsMultiplier;
 	private boolean useDamageAsMultiplier;
 	private boolean useExperienceAsMultiplier;
@@ -90,6 +91,10 @@ public class BossData {
 		return mcMMOXPBonus;
 	}
 	
+	public double getHeroesXPBonus(){
+		return heroesXPBonus;
+	}
+	
 	public boolean useHealthMultiplier(){
 		return useHealthAsMultiplier;
 	}
@@ -122,6 +127,10 @@ public class BossData {
 	
 	public void setMCMMOXPBonus(int bonus){
 		mcMMOXPBonus = bonus;
+	}
+	
+	public void setHeroesXPBonus(double bonus){
+		heroesXPBonus = bonus;
 	}
 	
 	public void setEquipment(EquipmentSet eqS){

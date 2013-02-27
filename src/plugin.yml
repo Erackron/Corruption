@@ -1,6 +1,6 @@
 name: Corruption
 main: com.mcdr.corruption.Corruption
-version: 2.1
+version: 2.1.1
 authors: [Erackron, Pyriphlegethon]
 softdepend: [Vault]
 commands:

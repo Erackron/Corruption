@@ -168,7 +168,19 @@ public class CorConfigUpdater {
 				e.printStackTrace();
 			}
 			Corruption.l.info("["+Corruption.pluginName+"] Ability config updated");
-		}	
+		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.1.1")){
+			Corruption.l.info("["+Corruption.pluginName+"] Updating abilities.yml");
+			ability.set("ConfigVersion", "2.1.1");
+			
+			try {
+				ability.save(getFile("abilities.yml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Corruption.l.info("["+Corruption.pluginName+"] Ability config updated");
+		}
 	}
 	
 	private void updateGlobalConfig(){
@@ -241,7 +253,19 @@ public class CorConfigUpdater {
 				e.printStackTrace();
 			}
 			Corruption.l.info("["+Corruption.pluginName+"] Global config updated");
-		}	
+		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.1.1")){
+			Corruption.l.info("["+Corruption.pluginName+"] Updating config.yml");
+			global.set("ConfigVersion", "2.1.1");
+			
+			try {
+				global.save(getFile("config.yml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Corruption.l.info("["+Corruption.pluginName+"] Global config updated");
+		}
 	}
 	
 	private void updateBossConfig(){
@@ -389,7 +413,6 @@ public class CorConfigUpdater {
 				if(node.equalsIgnoreCase("ConfigVersion"))
 					continue;
 				String entityType = bosses.getString(node+".EntityType");
-				System.out.println(entityType + " | " + node);
 				if(entityType.equalsIgnoreCase("ghast")){
 					if(!bosses.isSet(node + ".ReturnToSenderImmune"))
 						bosses.set(node + ".ReturnToSenderImmune", true);
@@ -402,7 +425,27 @@ public class CorConfigUpdater {
 				e.printStackTrace();
 			}
 			Corruption.l.info("["+Corruption.pluginName+"] Bosses config updated");
-		}			
+		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.1.1")){
+			Corruption.l.info("["+Corruption.pluginName+"] Updating bosses.yml");
+			
+			for(String node : bosses.getKeys(false)){
+				if(node.equalsIgnoreCase("ConfigVersion"))
+					continue;
+				if(!bosses.isSet(node+".HeroesKillingExperience"))
+					bosses.set(node+".HeroesKillingExperience", 0.0D);
+			}
+			
+			bosses.set("ConfigVersion", "2.1.1");
+			
+			try {
+				bosses.save(getFile("bosses.yml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Corruption.l.info("["+Corruption.pluginName+"] Boss config updated");
+		}
 	}
 	
 	private void updateEquipmentConfig(){
@@ -452,6 +495,18 @@ public class CorConfigUpdater {
 		if(Utility.isOlderVersion(configVersion, "2.1")){
 			Corruption.l.info("["+Corruption.pluginName+"] Updating equipment config");
 			equipment.set("ConfigVersion", "2.1");
+			
+			try {
+				equipment.save(getFile("equipment.yml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Corruption.l.info("["+Corruption.pluginName+"] Equipment config updated");
+		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.1.1")){
+			Corruption.l.info("["+Corruption.pluginName+"] Updating equipment.yml");
+			equipment.set("ConfigVersion", "2.1.1");
 			
 			try {
 				equipment.save(getFile("equipment.yml"));
@@ -517,6 +572,18 @@ public class CorConfigUpdater {
 			}
 			Corruption.l.info("["+Corruption.pluginName+"] MagicSpells config updated");
 		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.1.1")){
+			Corruption.l.info("["+Corruption.pluginName+"] Updating magicspells.yml");
+			magicSpells.set("ConfigVersion", "2.1.1");
+			
+			try {
+				magicSpells.save(getFile("magicspells.yml"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Corruption.l.info("["+Corruption.pluginName+"] MagicSpells config updated");
+		}
 	}
 	
 	private void updateWorldConfig(){
@@ -571,6 +638,18 @@ public class CorConfigUpdater {
 				
 				try {
 					worldConfig.save(getFile("Worlds" + File.separator + world.getName() + ".yml"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Corruption.l.info("["+Corruption.pluginName+"] "+world.getName()+" config updated");
+			}
+			
+			if(Utility.isOlderVersion(configVersion, "2.1.1")){
+				Corruption.l.info("["+Corruption.pluginName+"] Updating "+world.getName()+".yml");
+				worldConfig.set("ConfigVersion", "2.1.1");
+				
+				try {
+					worldConfig.save(getFile("Worlds"+ File.separator + world.getName()+".yml"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

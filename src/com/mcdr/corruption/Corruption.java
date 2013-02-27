@@ -18,6 +18,7 @@ import com.mcdr.corruption.config.BossConfig;
 import com.mcdr.corruption.config.ConfigManager;
 import com.mcdr.corruption.config.GlobalConfig;
 import com.mcdr.corruption.entity.CorEntityManager;
+import com.mcdr.corruption.handler.HeroesHandler;
 import com.mcdr.corruption.listener.CorEntityListener;
 import com.mcdr.corruption.listener.CorMagicSpellsListener;
 import com.mcdr.corruption.listener.CorPlayerListener;
@@ -35,7 +36,7 @@ public class Corruption extends JavaPlugin {
 	public static Logger l;
 	public static BukkitScheduler scheduler;
 	public static String pluginName;
-	public static boolean msInstalled, mcMMOInstalled;
+	public static boolean msInstalled, mcMMOInstalled, heroesInstalled;
 	public PermissionsManager pm;
 	
 	public Corruption() {
@@ -50,6 +51,7 @@ public class Corruption extends JavaPlugin {
 		PluginManager pluginManager = getServer().getPluginManager();		
 		msInstalled = pluginManager.getPlugin("MagicSpells") != null;
 		mcMMOInstalled = pluginManager.getPlugin("mcMMO") != null;
+		heroesInstalled = pluginManager.getPlugin("Heroes") != null;
 		
 		updateConfigs();
 		ConfigManager.Load();
@@ -77,6 +79,14 @@ public class Corruption extends JavaPlugin {
 				l.info("["+pluginName+"] Please update mcMMO to 1.4.00-beta3-b1612 or higher!");
 				return;
 			}
+		}
+		
+		if(heroesInstalled){
+			if(HeroesHandler.prepare())
+				l.info("["+pluginName+"] Heroes detected!");
+			else
+				heroesInstalled = false;
+			
 		}
 			
 		setupMetrics();

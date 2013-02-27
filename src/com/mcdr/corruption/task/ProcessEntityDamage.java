@@ -3,9 +3,11 @@ package com.mcdr.corruption.task;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.config.GlobalConfig.MessageParam;
 import com.mcdr.corruption.entity.Boss;
 import com.mcdr.corruption.entity.CorEntityManager;
+import com.mcdr.corruption.handler.HeroesHandler;
 import com.mcdr.corruption.player.CorPlayer;
 import com.mcdr.corruption.player.CorPlayerManager;
 import com.mcdr.corruption.util.Utility;
@@ -60,6 +62,8 @@ public class ProcessEntityDamage extends BaseTask {
 		}
 		
 		if (boss.getHealth() <= 0) {
+			if(Corruption.heroesInstalled)
+				HeroesHandler.addXP(corPlayer, boss.getBossData().getHeroesXPBonus(), boss.getLivingEntity());
 			boss.setKiller(corPlayer);
 		}
 	}
