@@ -51,7 +51,7 @@ public class Corruption extends JavaPlugin {
 		PluginManager pluginManager = getServer().getPluginManager();		
 		msInstalled = pluginManager.getPlugin("MagicSpells") != null;
 		mcMMOInstalled = pluginManager.getPlugin("mcMMO") != null;
-		heroesInstalled = pluginManager.getPlugin("Heroes") != null;
+		heroesInstalled = HeroesHandler.prepare();
 		
 		updateConfigs();
 		ConfigManager.Load();
@@ -81,13 +81,8 @@ public class Corruption extends JavaPlugin {
 			}
 		}
 		
-		if(heroesInstalled){
-			if(HeroesHandler.prepare())
+		if(heroesInstalled)
 				l.info("["+pluginName+"] Heroes detected!");
-			else
-				heroesInstalled = false;
-			
-		}
 			
 		setupMetrics();
 		
