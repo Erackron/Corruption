@@ -3,6 +3,7 @@ package com.mcdr.corruption.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -57,5 +58,16 @@ public abstract class CorEntityManager {
 	      boss.getLivingEntity().remove();
 	    }
 	    bosses.clear();
+	}
+	
+	public static void purgeBosses(World world){
+		List<Boss> removeList = new ArrayList<Boss>();
+		for (Boss boss: bosses){
+			if(world.getName().equalsIgnoreCase(boss.livingEntity.getWorld().getName())){
+				removeList.add(boss);
+				boss.livingEntity.remove();
+			}
+		}
+		bosses.removeAll(removeList);
 	}
 }
