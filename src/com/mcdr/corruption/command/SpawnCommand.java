@@ -14,6 +14,7 @@ import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
+import org.bukkit.entity.Wither;
 import org.bukkit.entity.Zombie;
 
 import com.mcdr.corruption.Corruption;
@@ -77,6 +78,12 @@ public abstract class SpawnCommand extends BaseCommand {
 		EntityType entityType = bossData.getEntityType();
 		LivingEntity spawnedCreature;
 		
+		//Withers should not be spawned using a command.
+		if (Wither.class.isAssignableFrom(entityType.getEntityClass())) {
+			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.RED + "Withers should not be spawned using a command.\nDoing so will result in unexpected behaviour.");
+			return false;
+		}
+		
 		for (int i = 0 ; i < amount ; i++) {
 			Entity spawnedEntity = world.spawnEntity(location, entityType);
 			if (spawnedEntity.isValid())
@@ -118,12 +125,15 @@ public abstract class SpawnCommand extends BaseCommand {
 		StringBuilder bossListBuilder = new StringBuilder();
 		
 		for (String key : bossesData.keySet()) {
-			bossListBuilder.append(key + ", ");
+			if(bossesData.get(key).getEntityType()==EntityType.WITHER)
+				bossListBuilder.append(ChatColor.STRIKETHROUGH + key + ChatColor.RESET + ChatColor.GRAY + ", ");
+			else
+				bossListBuilder.append(key + ", ");
 		}
 		
 		bossListBuilder.substring(0, bossListBuilder.length() - 2);
 		
-		sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Allowed Creatures:");
+		sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Available Bosses:");
 		sender.sendMessage(ChatColor.GRAY + bossListBuilder.toString());
 	}
 }

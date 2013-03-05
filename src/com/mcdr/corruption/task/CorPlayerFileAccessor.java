@@ -1,11 +1,11 @@
 package com.mcdr.corruption.task;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -82,7 +82,6 @@ public class CorPlayerFileAccessor implements Runnable {
 			}
 		}
 
-		@SuppressWarnings("rawtypes")
 		private void savePlayers() throws Exception {
 			String endLine = System.getProperty("line.separator");
 			File file = getFile();
@@ -91,7 +90,7 @@ public class CorPlayerFileAccessor implements Runnable {
 			Utility.fileToFile(file, tempFile);
 
 			Scanner scanner = new Scanner(new FileInputStream(tempFile));
-			Writer writer = new OutputStreamWriter(new FileOutputStream(file, false));
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false)));
 			String nameInFile;
 			String playerName;
 			while (scanner.hasNextLine()) {
@@ -109,19 +108,17 @@ public class CorPlayerFileAccessor implements Runnable {
 
 							Map<String, Integer> bossesKilled = CorPlayer.getBossesKilled();
 
-							for (Entry bossKilled : bossesKilled.entrySet()) {
+							for (Entry<String, Integer> bossKilled : bossesKilled.entrySet()) {
 								writer.write((String)bossKilled.getKey() + seperator + bossKilled.getValue() + seperator);
 							}
 
-							writer.write(endLine);
+							writer.newLine();
 
 							this.playersToSave.remove(CorPlayer);
 							break;
 						}
 
 					}
-
-					writer.write(line + endLine);
 				}
 			}
 			scanner.close();
@@ -131,27 +128,26 @@ public class CorPlayerFileAccessor implements Runnable {
 
 				Map<String, Integer> bossesKilled = CorPlayer.getBossesKilled();
 
-				for (Entry bossKilled : bossesKilled.entrySet()) {
+				for (Entry<String, Integer> bossKilled : bossesKilled.entrySet()) {
 					writer.write((String)bossKilled.getKey() + seperator + bossKilled.getValue() + seperator);
 				}
 
-				writer.write(endLine);
+				writer.newLine();
 			}
 
 			writer.close();
 		}
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
 		private void loadPlayers() throws IOException {
 			File file = getFile();
 			String line;
 			String name;
 			CorPlayer CorPlayer;
 
-			for (Entry entry : this.playersToLoad.entrySet()) {
+			for (Entry<Short, List<CorPlayer>> entry : this.playersToLoad.entrySet()) {
 				Scanner scanner = new Scanner(new FileInputStream(file));
-				List toLoad = (List)entry.getValue();
-				List loaded = new ArrayList();
+				List<CorPlayer> toLoad = entry.getValue();
+				List<CorPlayer> loaded = new ArrayList<CorPlayer>();
 
 				if (toLoad == null) {
 					while (scanner.hasNextLine()) {
@@ -169,7 +165,7 @@ public class CorPlayerFileAccessor implements Runnable {
 						line = scanner.nextLine();
 						name = line.substring(0, line.indexOf(seperator));
 
-						Iterator localIterator2 = toLoad.iterator(); if (localIterator2.hasNext()) { CorPlayer = (CorPlayer)localIterator2.next();
+						Iterator<CorPlayer> localIterator2 = toLoad.iterator(); if (localIterator2.hasNext()) { CorPlayer = localIterator2.next();
 							if (name.equalsIgnoreCase(CorPlayer.getName()))
 							{
 								setData(line, CorPlayer);
@@ -180,7 +176,7 @@ public class CorPlayerFileAccessor implements Runnable {
 					}
 				}
 
-				this.loadedPlayers.put((Short)entry.getKey(), loaded);
+				this.loadedPlayers.put(entry.getKey(), loaded);
 				scanner.close();
 			}
 		}

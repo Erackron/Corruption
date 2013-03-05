@@ -67,7 +67,6 @@ public abstract class StatsCommand extends BaseCommand {
 			this.CorPlayerList = Arrays.asList(new CorPlayer[] { CorPlayer });
 		}
 
-	@SuppressWarnings("rawtypes")
 	public void run()
 		{
 			if (!RetrievePlayerData()) {
@@ -81,9 +80,15 @@ public abstract class StatsCommand extends BaseCommand {
 			}
 
 			CorPlayer CorPlayer = (CorPlayer)this.CorPlayerList.get(0);
-
-			for (Entry entry : CorPlayer.getBossesKilled().entrySet()) {
-				this.unsortedMap.put((String)entry.getKey(), (Integer)entry.getValue());
+			
+			String bossName; 
+			
+			for (Entry<String, Integer> entry : CorPlayer.getBossesKilled().entrySet()) {
+				bossName = Utility.parseMessage("{BOSSNAME}", entry.getKey());
+				if(this.unsortedMap.containsKey(bossName))
+					this.unsortedMap.put(bossName, this.unsortedMap.get(bossName) + entry.getValue());
+				else
+					this.unsortedMap.put(bossName, entry.getValue());
 			}
 
 			this.sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + this.playerName + " (" + ChatColor.GREEN + "Bosses Killed" + ChatColor.WHITE + ")");
@@ -120,13 +125,12 @@ public abstract class StatsCommand extends BaseCommand {
 			return true;
 		}
 
-	@SuppressWarnings("rawtypes")
-	protected void DisplayStats() {
-			Iterator it = Utility.sortEntriesByValues(this.unsortedMap, false).iterator();
+		protected void DisplayStats() {
+			Iterator<Entry<String, Integer>> it = Utility.sortEntriesByValues(this.unsortedMap, false).iterator();
 
 			for (int i = 1; (i <= 10) && (it.hasNext()); i++) {
-				Entry entry = (Entry)it.next();
-				String message = ChatColor.GRAY + String.valueOf(i) + ". " + ChatColor.WHITE + (String)entry.getKey() + " (" + ChatColor.GREEN + entry.getValue() + ChatColor.WHITE + ")";
+				Entry<String, Integer> entry = (Entry<String, Integer>)it.next();
+				String message = ChatColor.GRAY + String.valueOf(i) + ". " + ChatColor.WHITE + entry.getKey() + " (" + ChatColor.GREEN + entry.getValue() + ChatColor.WHITE + ")";
 
 				this.sender.sendMessage(message);
 			}

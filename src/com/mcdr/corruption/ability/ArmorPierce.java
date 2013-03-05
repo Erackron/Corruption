@@ -12,14 +12,18 @@ import com.mcdr.corruption.entity.Boss;
 public class ArmorPierce extends Ability {
 	private double value = 25;
 	
-	@Override
-	public void Execute(LivingEntity livingEntity, Boss boss) {
+	public void Execute(LivingEntity livingEntity, Boss boss, EntityDamageEvent entityDamageEvent) {
 		super.Execute(livingEntity, boss);
-		EntityDamageEvent entityDamageEvent = livingEntity.getLastDamageCause();
-			
+		
 		entityDamageEvent.setDamage(getNewDamage(((Player) livingEntity), entityDamageEvent.getDamage(), value));
+		
 		useCooldown(boss);
 		sendMessage(boss, livingEntity);
+	}
+	
+	public void Execute(LivingEntity livingEntity, Boss boss) {
+		//If no damage event was specified, don't do anything.
+		//This can only be because of an incompatible activation condition.
 	}
 	
 	public void setValue(double value) {

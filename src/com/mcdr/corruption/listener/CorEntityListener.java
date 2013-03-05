@@ -187,7 +187,7 @@ public class CorEntityListener implements Listener {
 					event.setDamage((int) (event.getDamage() * boss.getBossData().getDamageCoef()));
 				else
 					event.setDamage((int) boss.getBossData().getDamageCoef());
-				boss.ActivateAbilities((LivingEntity) livingEntity, ActivationCondition.ONATTACK);
+				boss.ActivateAbilities((LivingEntity) livingEntity, ActivationCondition.ONATTACK, event);
 			}
 		}
 		

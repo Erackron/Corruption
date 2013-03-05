@@ -8,12 +8,14 @@ import java.util.Map.Entry;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
+import com.mcdr.corruption.ability.ArmorPierce;
 import com.mcdr.corruption.config.WorldConfig;
 import com.mcdr.corruption.config.GlobalConfig.BossParam;
 import com.mcdr.corruption.drop.DropCalculator;
@@ -72,7 +74,11 @@ public class Boss extends CorEntity {
 		}
 	}
 	
-	public void ActivateAbilities(LivingEntity livingEntity, ActivationCondition activationCondition) {
+	public void ActivateAbilities(LivingEntity livingEntity, ActivationCondition activationCondition){
+		ActivateAbilities(livingEntity, activationCondition, null);
+	}
+	
+	public void ActivateAbilities(LivingEntity livingEntity, ActivationCondition activationCondition, EntityDamageEvent event) {
 		if(livingEntity==null)
 			return;
 		for (Entry<Ability, Boolean> entry : abilities.entrySet()) {
@@ -80,9 +86,13 @@ public class Boss extends CorEntity {
 				continue;
 			
 			Ability ability = entry.getKey();
-			if (Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), ability.getMinRange(), ability.getMaxRange()) 
-					&& ability.getActivationConditions().contains(activationCondition))
-				ability.Execute(livingEntity, this);
+			if (Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), ability.getMinRange(), ability.getMaxRange())
+					&& ability.getActivationConditions().contains(activationCondition)){
+				if(ability instanceof ArmorPierce && event!=null)
+					((ArmorPierce) ability).Execute(livingEntity, this, event);
+				else
+					ability.Execute(livingEntity, this);
+			}
 		}
 	}
 	
