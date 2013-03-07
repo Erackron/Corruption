@@ -59,11 +59,11 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Ability config backup created");
+		Corruption.l.info("["+Corruption.pluginName+"] Ability config backup created, updating abilities.yml");
+		
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating abilities.yml");
-			
+			ability = addConfigVersion("abilities.yml");
 			for(String node : ability.getKeys(false)){
 				ConfigurationSection section = ability.getConfigurationSection(node);
 				
@@ -101,23 +101,6 @@ public class CorConfigUpdater {
 					ability.set(node + ".Radius", null);
 					ability.set(node + ".MaximumRange", i);
 				}
-				
-				try {
-					ability.save(getFile("abilities.yml"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			try {
-				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("abilities.yml"), true)));
-				stream.println();
-				stream.println();
-				stream.print("ConfigVersion: '" + latestVersion + "'");
-				
-				stream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}			
 		}
 		
@@ -134,7 +117,6 @@ public class CorConfigUpdater {
 					Corruption.l.info("["+Corruption.pluginName+"] Missing type in abilities.yml");
 					continue;
 				}
-				
 				
 				if(ability.getString(node + ".Type").equalsIgnoreCase("FirePunch")){
 					node += ".ActivationConditions";
@@ -158,29 +140,13 @@ public class CorConfigUpdater {
 					node += ".ActivationConditions";
 					ability.set(node, conditions.subList(0, 2));
 				}
-				
-				ability.set("ConfigVersion", "2.1");
-			}
-			
-			try {
-				ability.save(getFile("abilities.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] Ability config updated");
+			}			
 		}
 		
-		if(Utility.isOlderVersion(configVersion, "2.1.1")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating abilities.yml");
-			ability.set("ConfigVersion", "2.1.1");
-			
-			try {
-				ability.save(getFile("abilities.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] Ability config updated");
-		}
+		ability.set("ConfigVersion", latestVersion);
+		save(ability, "abilities.yml");
+		Corruption.l.info("["+Corruption.pluginName+"] Ability config updated");
+		
 	}
 	
 	private void updateGlobalConfig(){
@@ -210,32 +176,14 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Global config backup created");
+		Corruption.l.info("["+Corruption.pluginName+"] Global config backup created, updating config.yml");
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating config.yml");
+			global = addConfigVersion("config.yml");
 			global.set("Boss.Immunity", null);
-			try {
-				global.save(getFile("config.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("config.yml"), true)));
-				stream.println();
-				stream.println();
-				stream.print("ConfigVersion: '" + latestVersion + "'");
-				
-				stream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] Global config updated");
 		}
 		
-		if(Utility.isOlderVersion(configVersion, "2.1")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating config.yml");
-			
+		if(Utility.isOlderVersion(configVersion, "2.1")){			
 			if(global.isSet("Task.CheckEntityHealth"))
 				global.set("Task.CheckEntityHealth", null);
 			
@@ -244,28 +192,19 @@ public class CorConfigUpdater {
 			
 			if(!global.isSet("Task.LoadPlayerData"))
 				global.set("Task.LoadPlayerData", 5.0);
-			
-			global.set("ConfigVersion", "2.1");
-			
-			try {
-				global.save(getFile("config.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] Global config updated");
 		}
 		
-		if(Utility.isOlderVersion(configVersion, "2.1.1")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating config.yml");
-			global.set("ConfigVersion", "2.1.1");
+		if(Utility.isOlderVersion(configVersion, "2.1.2")){
+			if(!global.isSet("CheckUpdateOnStartup"))
+				global.set("CheckUpdateOnStartup", true);
 			
-			try {
-				global.save(getFile("config.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] Global config updated");
+			if(!global.isSet("ReloadAfterUpdating"))
+				global.set("ReloadAfterUpdating", true);
 		}
+		
+		global.set("ConfigVersion", latestVersion);
+		save(global, "config.yml");
+		Corruption.l.info("["+Corruption.pluginName+"] Global config updated");
 	}
 	
 	private void updateBossConfig(){
@@ -296,10 +235,10 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Bosses config backup created");
+		Corruption.l.info("["+Corruption.pluginName+"] Bosses config backup created, updating bosses.yml");
 				
 		if(Utility.isOlderVersion(configVersion, "2.0")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating bosses.yml");
+			bosses = addConfigVersion("bosses.yml");
 			YamlConfiguration global = getYamlConfig(getFile("config.yml"));
 			ConfigurationSection immunity = global.getConfigurationSection("Boss.Immunity");
 			
@@ -385,30 +324,9 @@ public class CorConfigUpdater {
 						bosses.set(node + ".MaximumSize", 4);
 				}
 			}		
-			
-			try {
-				bosses.save(getFile("bosses.yml"));				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			try {
-				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("bosses.yml"), true)));
-				stream.println();
-				stream.println();
-				stream.print("ConfigVersion: '" + latestVersion + "'");
-				
-				stream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}		
-			
-			Corruption.l.info("["+Corruption.pluginName+"] Bosses config updated");
 		}
 		
 		if(Utility.isOlderVersion(configVersion, "2.1")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating bosses config");
-			bosses.set("ConfigVersion", "2.1");
 			for(String node : bosses.getKeys(false)){
 				if(node.equalsIgnoreCase("ConfigVersion"))
 					continue;
@@ -418,34 +336,20 @@ public class CorConfigUpdater {
 						bosses.set(node + ".ReturnToSenderImmune", true);
 				}
 			}
-			
-			try {
-				bosses.save(getFile("bosses.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] Bosses config updated");
 		}
 		
 		if(Utility.isOlderVersion(configVersion, "2.1.1")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating bosses.yml");
-			
 			for(String node : bosses.getKeys(false)){
 				if(node.equalsIgnoreCase("ConfigVersion"))
 					continue;
 				if(!bosses.isSet(node+".HeroesKillingExperience"))
 					bosses.set(node+".HeroesKillingExperience", 0.0D);
 			}
-			
-			bosses.set("ConfigVersion", "2.1.1");
-			
-			try {
-				bosses.save(getFile("bosses.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] Boss config updated");
 		}
+		
+		bosses.set("ConfigVersion", latestVersion);
+		save(bosses, "bosses.yml");
+		Corruption.l.info("["+Corruption.pluginName+"] Boss config updated");
 	}
 	
 	private void updateEquipmentConfig(){
@@ -475,46 +379,15 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Equipment config backup created");
+		Corruption.l.info("["+Corruption.pluginName+"] Equipment config backup created, updating equipment.yml");
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating equipment.yml");
-			try {
-				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("equipment.yml"), true)));
-				stream.println();
-				stream.println();
-				stream.print("ConfigVersion: '" + latestVersion + "'");
-				
-				stream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] Equipment config updated");
+			equipment = addConfigVersion("equipment.yml");
 		}
 		
-		if(Utility.isOlderVersion(configVersion, "2.1")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating equipment config");
-			equipment.set("ConfigVersion", "2.1");
-			
-			try {
-				equipment.save(getFile("equipment.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] Equipment config updated");
-		}
-		
-		if(Utility.isOlderVersion(configVersion, "2.1.1")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating equipment.yml");
-			equipment.set("ConfigVersion", "2.1.1");
-			
-			try {
-				equipment.save(getFile("equipment.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] Equipment config updated");
-		}
+		equipment.set("ConfigVersion", latestVersion);
+		save(equipment, "equipment.yml");
+		Corruption.l.info("["+Corruption.pluginName+"] Equipment config updated");
 	}
 	
 	private void updateMagicSpellsConfig(){
@@ -544,46 +417,15 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("["+Corruption.pluginName+"] MagicSpells config backup created");
+		Corruption.l.info("["+Corruption.pluginName+"] MagicSpells config backup created, updating magicspells.yml");
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating magicspells.yml");
-			try {
-				PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("magicspells.yml"), true)));
-				stream.println();
-				stream.println();
-				stream.print("ConfigVersion: '" + latestVersion + "'");
-				
-				stream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] MagicSpells config updated");
+			magicSpells = addConfigVersion("magicspells.yml");
 		}
 		
-		if(Utility.isOlderVersion(configVersion, "2.1")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating MagicSpells config");
-			magicSpells.set("ConfigVersion", "2.1");
-			
-			try {
-				magicSpells.save(getFile("magicspells.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] MagicSpells config updated");
-		}
-		
-		if(Utility.isOlderVersion(configVersion, "2.1.1")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating magicspells.yml");
-			magicSpells.set("ConfigVersion", "2.1.1");
-			
-			try {
-				magicSpells.save(getFile("magicspells.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Corruption.l.info("["+Corruption.pluginName+"] MagicSpells config updated");
-		}
+		magicSpells.set("ConfigVersion", latestVersion);
+		save(magicSpells, "magicspells.yml");
+		Corruption.l.info("["+Corruption.pluginName+"] MagicSpells config updated");
 	}
 	
 	private void updateWorldConfig(){
@@ -614,47 +456,15 @@ public class CorConfigUpdater {
 				e.printStackTrace();
 			}
 			
-			Corruption.l.info("["+Corruption.pluginName+"] World " + world.getName() + "config backup created");
-			
+			Corruption.l.info("["+Corruption.pluginName+"] World " + world.getName() + " config backup created, updating " + world.getName() + ".yml");
 			
 			if(Utility.isOlderVersion(configVersion, "2.0")){
-				Corruption.l.info("["+Corruption.pluginName+"] Updating " + world.getName() + ".yml");
-				try {
-					PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile("Worlds" + File.separator + world.getName() + ".yml"), true)));
-					stream.println();
-					stream.println();
-					stream.print("ConfigVersion: '" + latestVersion + "'");
-					
-					stream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				Corruption.l.info("["+Corruption.pluginName+"] World " + world.getName() + " config updated");
+				worldConfig = addConfigVersion("Worlds" + File.separator + world.getName() + ".yml");
 			}
 			
-			if(Utility.isOlderVersion(configVersion, "2.1")){
-				Corruption.l.info("["+Corruption.pluginName+"] Updating "+world.getName()+" config");
-				worldConfig.set("ConfigVersion", "2.1");
-				
-				try {
-					worldConfig.save(getFile("Worlds" + File.separator + world.getName() + ".yml"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				Corruption.l.info("["+Corruption.pluginName+"] "+world.getName()+" config updated");
-			}
-			
-			if(Utility.isOlderVersion(configVersion, "2.1.1")){
-				Corruption.l.info("["+Corruption.pluginName+"] Updating "+world.getName()+".yml");
-				worldConfig.set("ConfigVersion", "2.1.1");
-				
-				try {
-					worldConfig.save(getFile("Worlds"+ File.separator + world.getName()+".yml"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				Corruption.l.info("["+Corruption.pluginName+"] "+world.getName()+" config updated");
-			}
+			worldConfig.set("ConfigVersion", latestVersion);
+			save(worldConfig, "Worlds"+ File.separator + world.getName()+".yml");
+			Corruption.l.info("["+Corruption.pluginName+"] "+world.getName()+" config updated");
 		}
 	}
 	
@@ -672,5 +482,35 @@ public class CorConfigUpdater {
 	
 	private File getFile(String name){
 		return ((File) new File(Corruption.in.getDataFolder().getPath() + File.separatorChar + name));
+	}
+	
+	/**
+	 * Add the latest config version to the config file and return the updated YamlConfiguration object
+	 * @param fileName the name of the file to add the latest config version to
+	 * @return the updated YamlConfiguration object
+	 */
+	private YamlConfiguration addConfigVersion(String fileName){
+		try {
+			PrintWriter stream = new PrintWriter(new BufferedWriter(new FileWriter(getFile(fileName), true)));
+			stream.println();
+			stream.println();
+			stream.print("ConfigVersion: '" + latestVersion + "'");
+			
+			stream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return getYamlConfig(getFile(fileName));
+		}
+		return getYamlConfig(getFile(fileName));
+	}
+	
+	private boolean save(YamlConfiguration config, String fileName){
+		try {
+			config.save(getFile(fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 }

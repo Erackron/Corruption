@@ -13,6 +13,9 @@ public class ArmorPierce extends Ability {
 	private double value = 25;
 	
 	public void Execute(LivingEntity livingEntity, Boss boss, EntityDamageEvent entityDamageEvent) {
+		if(!(livingEntity instanceof Player))
+			return;
+		
 		super.Execute(livingEntity, boss);
 		
 		entityDamageEvent.setDamage(getNewDamage(((Player) livingEntity), entityDamageEvent.getDamage(), value));

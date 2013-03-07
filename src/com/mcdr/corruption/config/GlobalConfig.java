@@ -8,6 +8,7 @@ import com.mcdr.corruption.Corruption;
 
 public abstract class GlobalConfig extends BaseConfig {
 	public static boolean checkUpdateOnStartup = true;
+	public static boolean reloadAfterUpdating = true;
 	
 	public enum CommandParam {
 		IGNORE_DELAY (120) {@Override public String getNode() {return "Command.Ignore.Delay";}},
@@ -116,6 +117,13 @@ public abstract class GlobalConfig extends BaseConfig {
 			checkUpdateOnStartup = yamlConfig.getBoolean("CheckUpdateOnStartup");
 		else {
 			yamlConfig.set("CheckUpdateOnStartup", true);
+			saveConfig(yamlConfig, "config.yml");
+		}
+		
+		if(yamlConfig.isSet("ReloadAfterUpdating"))
+			checkUpdateOnStartup = yamlConfig.getBoolean("ReloadAfterUpdating");
+		else {
+			yamlConfig.set("ReloadAfterUpdating", true);
 			saveConfig(yamlConfig, "config.yml");
 		}
 		

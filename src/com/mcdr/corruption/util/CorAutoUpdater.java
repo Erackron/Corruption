@@ -12,12 +12,14 @@ import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.mcdr.corruption.Corruption;
+import com.mcdr.corruption.config.GlobalConfig;
 
 public class CorAutoUpdater {
 	private static final String LAST_VERSION_URL = "http://api.bukget.org/3/plugins/bukkit/corruption/latest";
@@ -104,8 +106,13 @@ public class CorAutoUpdater {
 				bakFile.delete();
 				return false;
 			}
-			Corruption.l.info("[Likeaboss] Reloading Likeaboss v" + CorUpdateChecker.getLastVersion());
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "reload");
+			if(GlobalConfig.reloadAfterUpdating){
+				Corruption.l.info("["+Corruption.pluginName+"] Reloading " + Corruption.pluginName + " v" + CorUpdateChecker.getLastVersion());
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "reload");
+			} else {
+				Corruption.l.info("["+Corruption.pluginName+"] " + Corruption.pluginName + " v" + CorUpdateChecker.getLastVersion() + " installed. Reload or restart your server for the changes to take effect.");
+				Corruption.l.info("["+Corruption.pluginName+"] " + ChatColor.RED + "WARNING: " + ChatColor.RESET + "Don't use a pluginmanager to reload this plugin. This plugin is not responsible for the damage that may occur if you do that.");
+			}
 	  } catch(Exception e) {
 	    e.printStackTrace();
 	    try {Utility.fileToFile(bakFile, origFile);bakFile.delete();} catch (IOException e1) {}

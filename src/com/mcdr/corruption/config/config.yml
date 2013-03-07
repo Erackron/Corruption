@@ -28,6 +28,7 @@ Boss:
   SetExperienceAsMultiplier: true
 
 CheckUpdateOnStartup: true
+ReloadAfterUpdating: true
 
 #Do not touch this variable
-ConfigVersion: '2.1'
+ConfigVersion: '2.1.2'

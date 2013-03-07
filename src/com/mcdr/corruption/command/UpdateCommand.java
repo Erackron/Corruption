@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.mcdr.corruption.Corruption;
+import com.mcdr.corruption.config.GlobalConfig;
 import com.mcdr.corruption.util.CorAutoUpdater;
 import com.mcdr.corruption.util.CorUpdateChecker;
 
@@ -50,6 +51,10 @@ public class UpdateCommand extends BaseCommand {
 		
 		if(CorAutoUpdater.update())
 			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Updated successfully.");
+			if(!GlobalConfig.reloadAfterUpdating){
+				sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Reload or restart your server for the changes to take effect.");
+				sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.RED + "WARNING: " + ChatColor.WHITE + "Don't use a pluginmanager to reload this plugin. This plugin is not responsible for the damage that may occur if you do that.");
+			}
 		else {
 			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Update failed.");
 			if(sender instanceof Player)
