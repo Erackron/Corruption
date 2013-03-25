@@ -1,6 +1,8 @@
 package com.mcdr.corruption.ability;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,7 +22,7 @@ public class Snare extends Ability implements Listener {
 	private int radius;
 	
 	private boolean isRunning = false;
-	private List<Block> blocks = null;
+	private Set<List<Block>> blocks = new HashSet<List<Block>>();
 	
 	public int getDuration(){
 		return duration;
@@ -58,7 +60,7 @@ public class Snare extends Ability implements Listener {
 		for(Block b : validBlocks)
 			b.setType(Material.WEB);
 		
-		blocks = validBlocks;
+		blocks.add(validBlocks);
 		Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new Runnable(){
 			
 			public void run() {
@@ -67,7 +69,7 @@ public class Snare extends Ability implements Listener {
 						b.setType(Material.AIR);
 				}
 				isRunning = false;
-				blocks = null;
+				blocks.clear();
 			}
 			
 		}, duration);
@@ -79,8 +81,15 @@ public class Snare extends Ability implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockBreak(BlockBreakEvent event){
 		if(isRunning){
-			if(!destructible || blocks.contains(event.getBlock()))
+			if(!destructible || containsBlock(blocks, event.getBlock()))
 				event.setCancelled(true);
 		}
+	}
+	
+	private boolean containsBlock(Set<List<Block>> list, Block b){
+		for(List<Block> entry:list){
+			return entry.contains(b);
+		}
+		return false;
 	}
 }
