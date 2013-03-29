@@ -1,6 +1,6 @@
 name: Corruption
 main: com.mcdr.corruption.Corruption
-version: 2.1.2
+version: 2.2
 authors: [Erackron, Pyriphlegethon]
 softdepend: [Vault]
 commands:
@@ -23,6 +23,7 @@ permissions:
       cor.stats: true
       cor.update: true
       cor.viewer: true
+      cor.version: true
     default: op
   cor:
     description: Likeaboss base command
@@ -66,3 +67,6 @@ permissions:
   cor.viewer:
     description: Toggle viewer state, which allows to see boss healths.
     default: false
+  cor.version:
+    description: Check the version number of the plugin
+    default: true

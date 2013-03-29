@@ -1,25 +1,103 @@
 package com.mcdr.corruption;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
+import com.mcdr.corruption.config.BossConfig;
 import com.mcdr.corruption.entity.Boss;
 import com.mcdr.corruption.entity.CorEntityManager;
+import com.mcdr.corruption.entity.data.BossData;
 import com.mcdr.corruption.player.CorPlayer;
 import com.mcdr.corruption.player.CorPlayerManager;
 import com.mcdr.corruption.util.Utility;
 
 
 public class CorruptionAPI {
+	
+	/**
+	 * Get a map of available EntityTypes and the bossnames that are available for it.
+	 * @return the map containing all the available bossnames grouped by EntityType
+	 */
+	public static Map<EntityType, List<String>> getBossNames(){
+		Map<EntityType, List<String>> result = new HashMap<EntityType, List<String>>();
 		
+		for(EntityType entityType: BossConfig.getEntityTypesUsed()){
+			result.put(entityType, new ArrayList<String>());
+		}
+
+		for(Entry<String, BossData> entry: BossConfig.getBossesData().entrySet()){
+			result.get(entry.getValue().getEntityType()).add(entry.getKey());
+		}
+		
+		return result;
+	}
+	
+	
+	/**
+	 * Spawn a corrupted at a location using a bossname.
+	 * To see which names you can use see the {@link #getBossNames()}
+	 * @param loc The location to spawn the boss at
+	 * @param bossName The name of the boss
+	 * @return The livingEntity of the spawned boss or null if the bossName is invalid
+	 */
+	public static LivingEntity spawnBoss(Location loc, String bossName){
+		List<LivingEntity> entities = spawnBoss(loc, bossName, 1);
+		if(entities!=null)
+			return entities.get(0);
+		else
+			return null;
+	}
+	
+	/**
+	 * Spawn a certain amount of corrupted at a location using a bossname.
+	 * To see which names you can use see the {@link #getBossNames()}
+	 * @param loc The location to spawn the boss at
+	 * @param bossName The name of the boss
+	 * @param amount The amount of bosses to spawn
+	 * @return A List of the livingEntities of the spawned bosses or null if the bossName is invalid or no bosses were spawned
+	 */
+	public static List<LivingEntity> spawnBoss(Location loc, String bossName, int amount){
+		if(amount<1)
+			amount = 1;
+		if(loc==null||bossName==null)
+			return null;
+		
+		List<LivingEntity> entities = new ArrayList<LivingEntity>();
+		BossData bossData = null;
+		for (Entry<String, BossData> bossesDataEntry : BossConfig.getBossesData().entrySet()) {
+			if (!bossesDataEntry.getKey().equalsIgnoreCase(bossName))
+				continue;
+			bossData = bossesDataEntry.getValue();
+		}
+		
+		if(bossData==null)
+			return null;
+		
+		Boss spawnedBoss;
+		for (int i = 0 ; i < amount ; i++) {
+			spawnedBoss = CorEntityManager.spawnBossEntity(loc, bossData.getEntityType(), bossData);
+			if(spawnedBoss!=null)
+				entities.add(spawnedBoss.getLivingEntity());
+		}
+		
+		if(entities.size()<1)
+			return null;
+		
+		return entities;
+	}
+	
 	/**
 	 * @param p The player to get the LabPlayer object of
 	 * @return LabPlayer the LabPlayer object belonging to the player

@@ -37,7 +37,10 @@ public class CommandManager implements CommandExecutor{
 			ViewerCommand.process();
 		else if(firstArg.equalsIgnoreCase("update"))
 			UpdateCommand.process();
-
+		else if(firstArg.toLowerCase().matches("v|ver|version"))
+			VersionCommand.process();
+				
+			
 		return BaseCommand.processed;
 	}
 }

@@ -36,9 +36,31 @@ public class Bomb extends Ability {
     	this.fire = fire;
     }
     
+    /**
+     * OnDeath Execute
+     */
+    public void Execute(LivingEntity livingEntity, Location lastLoc, String bossName){
+    	super.Execute(livingEntity, lastLoc, bossName);
+    	
+    	plantBomb(livingEntity.getLocation());
+    	
+	    sendAreaMessage(lastLoc, bossName, livingEntity);
+    }
+    
+    /**
+     * Normal Execute
+     */
     public void Execute(LivingEntity livingEntity, Boss boss) {
 		super.Execute(livingEntity, boss);
-	    final List<Block> validBlocks = findValidBlocks(livingEntity.getLocation(), 0, 3);
+	    
+		plantBomb(livingEntity.getLocation());
+	        
+	    useCooldown(boss);
+	    sendAreaMessage(boss, livingEntity);
+    }
+    
+    private void plantBomb(Location centerLoc){
+    	final List<Block> validBlocks = findValidBlocks(centerLoc, 0, 3);
 	    
 	    if (validBlocks.isEmpty())
 	    	return;
@@ -54,8 +76,5 @@ public class Bomb extends Ability {
 	            world.createExplosion(loc.getX(), loc.getY(), loc.getZ(), radius, fire, destroyWorld);
 	        }
 	    }, fuse);
-	        
-	    useCooldown(boss);
-	    sendAreaMessage(boss, livingEntity);
     }
 }

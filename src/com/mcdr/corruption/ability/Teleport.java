@@ -13,7 +13,9 @@ import com.mcdr.corruption.util.Utility;
 public class Teleport extends Ability {
     private boolean centeredOnFoe;
     
-    @Override
+    /**
+     * Normal Execute
+     */
     public void Execute(LivingEntity livingEntity, Boss boss) {
         Location location;
         

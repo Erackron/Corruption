@@ -14,6 +14,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.mcdr.corruption.Corruption;
+import com.mcdr.corruption.config.GlobalConfig;
 
 public class CorConfigUpdater {
 	
@@ -188,7 +189,7 @@ public class CorConfigUpdater {
 				global.set("Task.CheckEntityHealth", null);
 			
 			if(!global.isSet("Message.ViewerDamageAbsorbed"))
-				global.set("Message.ViewerDamageAbsorbed", "Corrupted {BOSSNAME}'s armour absorbed the damage.");
+				global.set("Message.ViewerDamageAbsorbed", GlobalConfig.MessageParam.VIEWERDAMAGEABSORBED.getMessage());
 			
 			if(!global.isSet("Task.LoadPlayerData"))
 				global.set("Task.LoadPlayerData", 5.0);
@@ -200,6 +201,16 @@ public class CorConfigUpdater {
 			
 			if(!global.isSet("ReloadAfterUpdating"))
 				global.set("ReloadAfterUpdating", true);
+		}
+		
+		if(Utility.isOlderVersion(configVersion, "2.2")){
+			if(global.isSet("Message.ViewerMessage"))
+				global.set("Message.ViewerMessage", global.getString("Message.ViewerMessage").replace("{HEALTH}", "&7{HEALTH}"));
+			else 
+				global.set("Message.ViewerMessage", GlobalConfig.MessageParam.VIEWERMESSAGE.getMessage());
+			
+			if(!global.isSet("Message.CustomBossName"))
+				global.set("Message.CustomBossName", GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage());
 		}
 		
 		global.set("ConfigVersion", latestVersion);

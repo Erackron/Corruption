@@ -27,7 +27,7 @@ public class BossData {
 	private double expCoef;
 	private double maxSpawnLevel;
 	private double heroesXPBonus;
-	private int mcMMOXPBonus;	
+	private int mcMMOXPBonus = 0;	
 	private boolean useHealthAsMultiplier;
 	private boolean useDamageAsMultiplier;
 	private boolean useExperienceAsMultiplier;

@@ -23,7 +23,8 @@ public abstract class Ability {
 	public enum ActivationCondition {
 		ONATTACK,
 		ONDEFENSE,
-		ONPROXIMITY;
+		ONPROXIMITY,
+		ONDEATH;
 		
 		private static final Map<String, ActivationCondition> NAME_MAP = new HashMap<String, ActivationCondition>();
 		
@@ -40,16 +41,22 @@ public abstract class Ability {
 	}
 	
 	public enum AbilityType {
-		ARMORPIERCE,
-		FIREPUNCH,
-		KNOCKBACK,
-		POTION,
-		BOMB,
-		LIGHTNINGAURA,
-		TELEPORT,
-		SNARE;
+		ARMORPIERCE(false),
+		BOMB(true),
+		COMMAND(true),
+		FIREPUNCH(false),
+		KNOCKBACK(false),
+		LIGHTNINGAURA(true),
+		POTION(false),
+		SNARE(true),
+		TELEPORT(false);
 		
+		private final boolean onDeathAllowed;
 		private static final Map<String, AbilityType> NAME_MAP = new HashMap<String, AbilityType>();
+		
+		AbilityType(boolean onDeathAllowed){
+			this.onDeathAllowed = onDeathAllowed;
+		}
 		
 		static{
 			for(AbilityType abilityType: values())
@@ -60,6 +67,10 @@ public abstract class Ability {
 			if(type==null)
 				return null;
 			return NAME_MAP.get(type.toLowerCase());
+		}
+		
+		public boolean isOnDeathAllowed(){
+			return onDeathAllowed;
 		}
 	}
 	
@@ -75,6 +86,10 @@ public abstract class Ability {
 	
 	public List<ActivationCondition> getActivationConditions() {
 		return activationConditions;
+	}
+	
+	public AbilityType getAbilityType(){
+		return abilityType;
 	}
 	
 	public double getAssignationChance() {
@@ -99,6 +114,10 @@ public abstract class Ability {
 	
 	public void addActivationCondition(ActivationCondition activationCondition) {
 		activationConditions.add(activationCondition);
+	}
+	
+	public void setAbilityType(AbilityType abilityType){
+		this.abilityType = abilityType;
 	}
 	
 	public void setAssignationChance(double assignationChance) {
@@ -137,10 +156,14 @@ public abstract class Ability {
 	}
 	
 	public void sendAreaMessage(Boss boss, LivingEntity fixedTarget){
+		sendAreaMessage(boss.getLivingEntity().getLocation(), boss.getBossData().getName(), fixedTarget);
+	}
+	
+	public void sendAreaMessage(Location loc, String bossName, LivingEntity fixedTarget){
 		if(msg=="")
 			return;
 		
-		String message = parseMsg(msg, boss);
+		String message = parseMsg(msg, bossName);
 		
 		Player target = null;
 		if(fixedTarget!=null && fixedTarget instanceof Player){
@@ -151,24 +174,42 @@ public abstract class Ability {
 			Player player = corPlayer.getPlayer();
 			if(player.equals(target))
 				continue;
-			if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, messageRadius)) {
+			if (Utility.isNear(player.getLocation(), loc, 0, messageRadius)) {
 				player.sendMessage(message);
 			}
 		}
 	}
 	
 	public void sendMessage(Boss boss, LivingEntity target){
+		sendMessage(boss.getBossData().getName(), target);
+	}
+	
+	public void sendMessage(String bossName, LivingEntity target){
 		if(msg=="")
 			return;
 		if (target instanceof Player)
-			((Player) target).sendMessage(parseMsg(msg, boss));
+			((Player) target).sendMessage(parseMsg(msg, bossName));
 		
 	}
 	
-	public String parseMsg(String msg, Boss boss){
-		return Utility.parseMessage(msg, boss);
+	public String parseMsg(String msg, String bossName){
+		return Utility.parseMessage(msg, bossName);
 	}
 	
+	/**
+	 * OnDeath Execute
+	 */
+	public void Execute(LivingEntity livingEntity, Location lastLoc, String bossName){
+		if(!checkChance())
+			return;
+		
+		if (!(livingEntity instanceof Player))
+			return;
+	}
+	
+	/**
+	 * Normal Execute
+	 */
 	public void Execute(LivingEntity livingEntity, Boss boss){
 		if(!checkChance())
 			return;

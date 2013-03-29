@@ -37,7 +37,8 @@ public abstract class GlobalConfig extends BaseConfig {
 		BOSS_FOUND_PLAYER_1 ("&cA Corrupted {BOSSNAME} found you!") {@Override public String getNode() {return "Message.BossFoundPlayer.ToPlayer";}},
 		BOSS_FOUND_PLAYER_2 ("&cA Corrupted {BOSSNAME} found {PLAYER}!") {@Override public String getNode() {return "Message.BossFoundPlayer.ToOthers";}},
 		PROXIMITY ("&4You sense a magical disruption...") {@Override public String getNode() {return "Message.Proximity";}},
-		VIEWERMESSAGE("Corrupted {BOSSNAME} Health: {HEALTH} (-{DAMAGE})") {@Override public String getNode() {return "Message.ViewerMessage";}},
+		CUSTOMBOSSNAME("Corrupted {BOSSNAME} &7[{HEALTH}/{MAXHEALTH}]") {@Override public String getNode() {return "Message.CustomBossName";}},
+		VIEWERMESSAGE("Corrupted {BOSSNAME} Health: &7{HEALTH} (-{DAMAGE})") {@Override public String getNode() {return "Message.ViewerMessage";}},
 		VIEWERDEFEATED("Corrupted {BOSSNAME} has been defeated."){@Override public String getNode() {return "Message.ViewerDefeated";}},
 		VIEWERDAMAGEABSORBED("Corrupted {BOSSNAME}'s armour absorbed the damage."){@Override public String getNode() {return "Message.ViewerDamageAbsorbed";}};
 		
@@ -62,7 +63,7 @@ public abstract class GlobalConfig extends BaseConfig {
 		DRAW_BOSS_EFFECT (1.0) {@Override public String getNode() {return "Task.DrawBossEffect";}},
 		CHECK_ENTITY_EXISTENCE (2.0) {@Override public String getNode() {return "Task.CheckEntityExistence";}},
 		CHECK_ENTITY_PROXIMITY (0.5) {@Override public String getNode() {return "Task.CheckEntityProximity";}},
-		SAVE_PLAYER_DATA (600.0) {@Override public String getNode() {return "Task.SavePlayerData";}},
+		SAVE_PLAYER_DATA (150.0) {@Override public String getNode() {return "Task.SavePlayerData";}},
 		LOAD_PLAYER_DATA (5.0) {@Override public String getNode() {return "Task.LoadPlayerData";}};
 		
 		private double value;

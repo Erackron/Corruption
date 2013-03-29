@@ -4,11 +4,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
@@ -48,9 +51,30 @@ public class Snare extends Ability implements Listener {
 		this.radius = radius;
 	}
 	
+	/**
+	 * OnDeath Execute
+	 */
+	public void Execute(LivingEntity livingEntity, Location lastLoc, String bossName){
+		super.Execute(livingEntity, lastLoc, bossName);
+		
+		ensnare(livingEntity);
+		
+		sendAreaMessage(lastLoc, bossName, livingEntity);		
+	}
+	
+	/**
+	 * Normal Execute
+	 */
 	public void Execute(LivingEntity livingEntity, Boss boss){
 		super.Execute(livingEntity, boss);
 		
+		ensnare(livingEntity);
+		
+		useCooldown(boss);
+		sendAreaMessage(boss, livingEntity);		
+	}
+	
+	private void ensnare(LivingEntity livingEntity){
 		final List<Block> validBlocks = findValidBlocks(livingEntity.getLocation(),0,radius);
 		if(validBlocks.isEmpty())
 			return;
@@ -61,22 +85,13 @@ public class Snare extends Ability implements Listener {
 			b.setType(Material.WEB);
 		
 		blocks.add(validBlocks);
-		Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new Runnable(){
-			
-			public void run() {
-				for(Block b : validBlocks){
-					if(b.getType()==Material.WEB)
-						b.setType(Material.AIR);
-				}
-				isRunning = false;
-				blocks.clear();
-			}
-			
-		}, duration);
+		Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new CleanUp(validBlocks, this), duration);
 		
-		useCooldown(boss);
-		sendAreaMessage(boss, livingEntity);		
+		if(!destructible){
+			Bukkit.getServer().getPluginManager().registerEvents(this, Corruption.in);
+		}
 	}
+	
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockBreak(BlockBreakEvent event){
@@ -91,5 +106,27 @@ public class Snare extends Ability implements Listener {
 			return entry.contains(b);
 		}
 		return false;
+	}
+	
+	class CleanUp implements Runnable{
+		private List<Block> blocks;
+		private Snare listener;
+		
+		public CleanUp(List<Block> blocks, Snare listener){
+			this.blocks = blocks;
+			this.listener = listener;
+		}
+		
+		public void run() {
+			for(Block b : blocks){
+				if(b.getType()==Material.WEB)
+					b.setType(Material.AIR);
+			}
+			isRunning = false;
+			if(!destructible)
+				HandlerList.unregisterAll(listener);
+			blocks.clear();
+		}
+			
 	}
 }

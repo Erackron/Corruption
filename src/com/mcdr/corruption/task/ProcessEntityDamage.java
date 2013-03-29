@@ -1,6 +1,8 @@
 package com.mcdr.corruption.task;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.mcdr.corruption.Corruption;
@@ -18,12 +20,14 @@ public class ProcessEntityDamage extends BaseTask {
 	private CorPlayer corPlayer = null;
 	private Boss boss;
 	private int healthBefore;
+	private Location lastLoc;
 
-	public ProcessEntityDamage(Entity damager, Boss boss, int healthBefore){
+	public ProcessEntityDamage(Entity damager, Boss boss, int healthBefore, Location lastLoc){
 		this.damager = damager;
 		this.corPlayer = CorPlayerManager.getCorPlayer(damager);
 		this.boss = boss;
 		this.healthBefore = healthBefore;
+		this.lastLoc = lastLoc;
 	}
 	
 	@Override
@@ -43,7 +47,7 @@ public class ProcessEntityDamage extends BaseTask {
 		String viewerMsg = Utility.parseMessage((boss.getHealth()>0)?
 												   (damageTaken>0?MessageParam.VIEWERMESSAGE.getMessage():MessageParam.VIEWERDAMAGEABSORBED.getMessage()):
 												   MessageParam.VIEWERDEFEATED.getMessage(),
-												 boss, entityHealth, damageTaken);
+												 boss, damageTaken);
 		
 		//Sending viewer message to attacker
 		if (corPlayer != null && corPlayer.getCorPlayerData().getViewer())
@@ -62,9 +66,12 @@ public class ProcessEntityDamage extends BaseTask {
 		}
 		
 		if (boss.getHealth() <= 0) {
-			if(Corruption.heroesInstalled)
+			if(damager instanceof LivingEntity)
+				boss.ActivateOnDeathAbilities((LivingEntity)damager, lastLoc);
+			if(boss.getBossData().getHeroesXPBonus()>0.0 && Corruption.heroesInstalled)
 				HeroesHandler.addXP(corPlayer, boss.getBossData().getHeroesXPBonus(), boss.getLivingEntity());
 			boss.setKiller(corPlayer);
-		}
+		} else
+			boss.updateCustomName();
 	}
 }

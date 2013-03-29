@@ -5,28 +5,15 @@ import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Slime;
 import org.bukkit.entity.Wither;
-import org.bukkit.entity.Zombie;
-
 import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.config.BossConfig;
 import com.mcdr.corruption.config.GlobalConfig.CommandParam;
-import com.mcdr.corruption.entity.Boss;
 import com.mcdr.corruption.entity.CorEntityManager;
 import com.mcdr.corruption.entity.data.BossData;
-import com.mcdr.corruption.entity.data.PigZombieBossData;
-import com.mcdr.corruption.entity.data.SkeletonBossData;
-import com.mcdr.corruption.entity.data.SlimeBossData;
-import com.mcdr.corruption.entity.data.ZombieBossData;
 
 
 public abstract class SpawnCommand extends BaseCommand {
@@ -49,7 +36,7 @@ public abstract class SpawnCommand extends BaseCommand {
 			
 			if (args.length >= 3) {
 				try {
-					amount = Integer.parseInt(args[2]);
+					amount = Math.abs(Integer.parseInt(args[2]));
 				}
 				catch (Exception e) {
 					sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.GRAY + args[2] + ChatColor.WHITE + " isn't an integer.");
@@ -74,9 +61,8 @@ public abstract class SpawnCommand extends BaseCommand {
 	private static Boolean Spawn(BossData bossData, int amount) {
 		Player player = (Player) sender;
 		Location location = player.getTargetBlock(null, 100).getRelative(BlockFace.UP).getLocation();
-		World world = player.getWorld();
+		location.setWorld(player.getWorld());
 		EntityType entityType = bossData.getEntityType();
-		LivingEntity spawnedCreature;
 		
 		//Withers should not be spawned using a command.
 		if (Wither.class.isAssignableFrom(entityType.getEntityClass())) {
@@ -85,41 +71,14 @@ public abstract class SpawnCommand extends BaseCommand {
 		}
 		
 		for (int i = 0 ; i < amount ; i++) {
-			Entity spawnedEntity = world.spawnEntity(location, entityType);
-			if (spawnedEntity.isValid())
-				spawnedCreature = (LivingEntity) spawnedEntity;
-			else
+			if(CorEntityManager.spawnBossEntity(location, entityType, bossData)==null)
 				return false;
-			
-			//Check and set the size of a slime
-			if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
-				Slime slime = (Slime) spawnedCreature;
-				slime.setSize(((SlimeBossData) bossData).getMaximumSize());
-			}
-			
-			//Check and set if it has to be a baby or villager zombie
-			if (Zombie.class.isAssignableFrom(entityType.getEntityClass())) {
-				Zombie zombie = (Zombie) spawnedCreature;
-				zombie.setBaby(((ZombieBossData) bossData).isBaby());
-				zombie.setVillager(((ZombieBossData) bossData).isVillager());
-				if(PigZombie.class.isAssignableFrom(entityType.getEntityClass())){
-					PigZombie pigZombie = (PigZombie) zombie;
-					pigZombie.setAngry(((PigZombieBossData) bossData).isAngry());
-				}
-			}
-			
-			//Check and set if it has to be a normal or wither skeleton
-			if (Skeleton.class.isAssignableFrom(entityType.getEntityClass())) {
-				Skeleton skeleton = (Skeleton) spawnedCreature;
-				skeleton.setSkeletonType(((SkeletonBossData) bossData).getSkeletonType());
-			}
-			
-			Boss boss = new Boss(spawnedCreature, bossData);
-			
-			CorEntityManager.AddBoss(boss);
 		}
+		
 		return true;
 	}
+	
+	
 	
 	private static void SendUsage(Map<String, BossData> bossesData) {
 		StringBuilder bossListBuilder = new StringBuilder();

@@ -8,7 +8,9 @@ import com.mcdr.corruption.entity.Boss;
 public class FirePunch extends Ability {
 	private int ticks = 2;
 	
-	@Override
+	/**
+     * Normal Execute
+     */
 	public void Execute(LivingEntity livingEntity, Boss boss) {
 		super.Execute(livingEntity, boss);
 		int fireTicks = livingEntity.getFireTicks();

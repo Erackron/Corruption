@@ -348,9 +348,9 @@ public class CorEntityListener implements Listener {
 			event.setDamage(damage);
 			
 			if (livingEntity.getHealth()-damage <= 0)
-				boss.setKiller(corPlayer);	
+				boss.setKiller(corPlayer); //Possibly obsolete
 			
-			Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new ProcessEntityDamage(damager, boss, boss.getHealth()), 2L);
+			Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new ProcessEntityDamage(damager, boss, boss.getHealth(), livingEntity.getLocation()), 2L);
 		}
 	}
 	

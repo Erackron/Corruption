@@ -1,5 +1,6 @@
 package com.mcdr.corruption.ability;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -28,17 +29,33 @@ public class LightningAura extends Ability{
 		this.armorPierce = armorPierce;
 	}
 	
+	/**
+	 * OnDeath Execute
+	 */
+	public void Execute(LivingEntity livingEntity, Location lastLoc, String bossName){
+		super.Execute(livingEntity, lastLoc, bossName);
+		strikeLightning(lastLoc, bossName);
+	}
+	
+	/**
+	 * Normal Execute
+	 */
 	public void Execute(LivingEntity livingEntity, Boss boss){
 		super.Execute(livingEntity, boss);
+		strikeLightning(boss.getLivingEntity().getLocation(), boss.getBossData().getName());
+		useCooldown(boss);	
+	}
+	
+	private void strikeLightning(Location centreLoc, String bossName){
 		int radius = getMaxRange();
 		for (CorPlayer corPlayer : CorPlayerManager.getCorPlayers()) {
 			Player player = corPlayer.getPlayer();
 			World world = player.getWorld();
 			
-			if (Utility.isNear(player.getLocation(), boss.getLivingEntity().getLocation(), 0, radius)) {
+			if (Utility.isNear(player.getLocation(), centreLoc, 0, radius)) {
 				if(corPlayer.getCorPlayerData().getIgnore())
 					continue;
-				sendMessage(boss, livingEntity);
+				sendMessage(bossName, player);
 				world.strikeLightning(player.getLocation());
 				
 				if(armorPierce){
@@ -52,6 +69,5 @@ public class LightningAura extends Ability{
 				}
 			}
 		}
-		useCooldown(boss);		
 	}
 }

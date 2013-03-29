@@ -12,6 +12,9 @@ import com.mcdr.corruption.entity.Boss;
 public class ArmorPierce extends Ability {
 	private double value = 25;
 	
+	/**
+     * Normal Execute
+     */
 	public void Execute(LivingEntity livingEntity, Boss boss, EntityDamageEvent entityDamageEvent) {
 		if(!(livingEntity instanceof Player))
 			return;

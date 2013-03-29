@@ -8,6 +8,15 @@ AP25:
   Value: 25.0
   ActivationConditions:
   - OnAttack
+COM:
+  Type: Command
+  ActivationChance: 100.0
+  AssignationChance: 100.0
+  MinimumRange: 0
+  MaximumRange: 16
+  Command: "/say {BOSSNAME}: Nooooooooooooooo!"
+  ActivationConditions:
+  - OnDeath
 FP2:
   Type: FirePunch
   Message: "&4Corrupted {BOSSNAME} used Fire Punch."
@@ -105,4 +114,4 @@ S:
   - OnDefense
 
 #Do not touch this variable  
-ConfigVersion: '2.1.2'
+ConfigVersion: '2.2'

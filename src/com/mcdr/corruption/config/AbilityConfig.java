@@ -13,6 +13,7 @@ import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.ability.ArmorPierce;
 import com.mcdr.corruption.ability.Bomb;
+import com.mcdr.corruption.ability.CommandAbility;
 import com.mcdr.corruption.ability.FirePunch;
 import com.mcdr.corruption.ability.Knockback;
 import com.mcdr.corruption.ability.LightningAura;
@@ -160,14 +161,24 @@ public abstract class AbilityConfig extends BaseConfig {
 				if(abilityEntries.containsKey(entryKey))
 					((Snare) ability).setRadius((Integer) abilityEntries.get(entryKey));
 				
-				//Register events, since this ability uses an blockbreakeventlistener
+				//Register events, since this ability uses a BlockBreakEvent listener
 				Corruption.in.getServer().getPluginManager().registerEvents((Listener) ability, Corruption.in);
+				break;
+			case COMMAND:
+				ability = new CommandAbility();
+				
+				entryKey = "Command";
+				if(abilityEntries.containsKey(entryKey))
+					((CommandAbility) ability).setCommand((String) abilityEntries.get(entryKey));
+				
 				break;
 			default:
 				break;
 			}
 			
 			if(ability != null){
+				ability.setAbilityType(abilityType);
+				
 				entryKey = "Message";
 				if(abilityEntries.containsKey(entryKey))
 					ability.setMessage((String) abilityEntries.get(entryKey));
@@ -198,6 +209,10 @@ public abstract class AbilityConfig extends BaseConfig {
 					for(String activationCondition: activationConditions){
 						ActivationCondition condition = ActivationCondition.fromString(activationCondition);
 						if(condition!=null){
+							if(condition == ActivationCondition.ONDEATH && !ability.getAbilityType().isOnDeathAllowed()){
+								Corruption.l.info("["+Corruption.pluginName+"] '" + abilityName + "." + entryKey + "." + activationCondition + "' isn't possible/allowed for this ability.");
+								continue;
+							}
 							ability.addActivationCondition(condition);
 						} else {
 							Corruption.l.warning("["+Corruption.pluginName+"] '" + abilityName + "." + entryKey + "." + activationCondition + "' isn't a valid activation condition.");

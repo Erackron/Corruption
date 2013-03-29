@@ -14,7 +14,9 @@ public class Potion extends Ability {
 	private boolean targetSelf = false;
 	protected double chance = 25.0;
 	
-	@Override
+	/**
+	 * Normal Execute
+	 */
 	public void Execute(LivingEntity livingEntity, Boss boss) {
 		super.Execute(livingEntity, boss);
 		if(effect != ""){

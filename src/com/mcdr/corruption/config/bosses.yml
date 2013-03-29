@@ -1,6 +1,7 @@
 Blaze:
   EntityType: Blaze
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 370:0 20.0 1 1
@@ -23,6 +24,7 @@ Blaze:
 CaveSpider:
   EntityType: CaveSpider
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 376:0 20.0 1 2
@@ -45,6 +47,7 @@ CaveSpider:
 Creeper:
   EntityType: Creeper
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 46:0 20.0 1 2
@@ -67,6 +70,7 @@ Creeper:
 Enderman:
   EntityType: Enderman
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 121:0 20.0 1 2
@@ -89,6 +93,7 @@ Enderman:
 Ghast:
   EntityType: Ghast
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   ReturnToSenderImmune: true
   Loot:
     FirstRoll:
@@ -112,6 +117,7 @@ Ghast:
 LavaSlime:
   EntityType: LavaSlime
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 341:0 20.0 1 3
@@ -136,6 +142,7 @@ PigZombie:
   Aggressive: true
   Baby: false
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 266:0 20.0 1 1
@@ -158,6 +165,7 @@ PigZombie:
 Silverfish:
   EntityType: SilverFish
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 350:0 20.0 1 2
@@ -181,6 +189,7 @@ Skeleton:
   EntityType: Skeleton
   WitherSkeleton: false
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 261:0 3.5 1 1
@@ -206,6 +215,7 @@ Slime:
   MinimumSize: 2
   MaximumSize: 4
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 378:0 20.0 1 3
@@ -228,6 +238,7 @@ Slime:
 Spider:
   EntityType: Spider
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 35:0 20.0 1 2
@@ -250,6 +261,7 @@ Spider:
 Witch:
   EntityType: Witch
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 288:0 20.0 1 3
@@ -273,6 +285,7 @@ Wither:
   EntityType: WitherBoss
   HealthRegenPerSecond: 2
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Spawn:
     Probability: 25.0
     SpawnerProbability: 0.0
@@ -300,6 +313,7 @@ Zombie:
   Baby: false
   Villager: false
   mcMMOXPBonus: 0
+  HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
       FirstItem: 288:0 20.0 1 3

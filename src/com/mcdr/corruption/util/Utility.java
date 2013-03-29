@@ -83,18 +83,18 @@ public abstract class Utility {
 	
 	
 	public static String parseMessage(String msg, Boss boss){
-		return parseMessage(msg, boss, 0, 0);
+		return parseMessage(msg, boss, 0);
+	}
+	
+	public static String parseMessage(String msg, Boss boss, int damage){
+		return parseMessage(msg, boss.getBossData().getName(), boss.getHealth(), boss.getMaxHealth(), damage);
 	}
 	
 	public static String parseMessage(String msg, String bossName){
-		return parseMessage(msg, bossName, 0, 0);
+		return parseMessage(msg, bossName, 0, 0, 0);
 	}
 	
-	public static String parseMessage(String msg, Boss boss, int health, int damage){
-		return parseMessage(msg, boss.getBossData().getName(), health, damage);
-	}
-	
-	public static String parseMessage(String msg, String bossName, int health, int damage){
+	public static String parseMessage(String msg, String bossName, int health, int maxHealth, int damage){
 		bossName = (bossName.contains("#"))?bossName.split("#")[0]:bossName;
 		String[] bNameS = bossName.split("(?=\\p{Upper})");
 		if (bNameS.length>1){
@@ -102,13 +102,37 @@ public abstract class Utility {
 			for (int i = 2 ; i < bNameS.length ; i++)
 				bossName += " "+bNameS[i];
 		}
-		return msg.replace('&', ChatColor.COLOR_CHAR).replace("{BOSSNAME}", bossName).replace(
+		String healthBar = "";
+		if(maxHealth!=0 && maxHealth>=health){
+			if(msg.contains("{HEALTHBAR}")&&msg.length()<40)
+				healthBar += "      ";
+			healthBar += "&r[&a";
+			int ratio = (int)((20*health)/maxHealth);
+			boolean red = false;
+			for(int i = 0; i<20; i++){
+				if(!red && i>ratio){
+					healthBar += "&4";
+					red = true;
+				}
+				healthBar += "|";
+			}
+			healthBar += "&r]";
+		}
+		
+		
+		return ChatColor.translateAlternateColorCodes('&', msg.replace("{BOSSNAME}", bossName).replace(
 				"{HEALTH}",
-				"" + ChatColor.GRAY + health
+				"" + health
 			).replace(
 				"{DAMAGE}",
 				"" + damage
-			);
+			).replace(
+				"{MAXHEALTH}",
+				"" + maxHealth
+			).replace(
+				"{HEALTHBAR}",
+				healthBar
+			));
 	}
 	
 	private static class ValueComparatorAsc<K, V extends Comparable<? super V>> implements Comparator<Entry<K, V>> {

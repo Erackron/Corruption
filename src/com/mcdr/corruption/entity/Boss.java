@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
 import com.mcdr.corruption.ability.ArmorPierce;
+import com.mcdr.corruption.config.GlobalConfig;
 import com.mcdr.corruption.config.WorldConfig;
 import com.mcdr.corruption.config.GlobalConfig.BossParam;
 import com.mcdr.corruption.drop.DropCalculator;
@@ -55,6 +57,8 @@ public class Boss extends CorEntity {
 			setHealth(startHealth);
 		}
 		
+			updateCustomName(true);
+		
 		AddAbilities();
 		if(!bossData.hasEquipment())
 			bossData.setEquipment(new EquipmentSet());
@@ -62,6 +66,18 @@ public class Boss extends CorEntity {
 		
 	}
 	
+	public void updateCustomName(){
+		updateCustomName(false);
+	}
+	
+	public void updateCustomName(boolean force) {
+		force = !GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage().equalsIgnoreCase("hide")&&force;
+		if(livingEntity.isCustomNameVisible()||force)
+			livingEntity.setCustomName(Utility.parseMessage(GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage(), this));
+		if(force && !livingEntity.isCustomNameVisible())
+			livingEntity.setCustomNameVisible(true);
+	}
+
 	private void AddAbilities() {
 		for (Ability ability : WorldConfig.getWorldData(livingEntity.getWorld()).getAbilities()) {
 			if (Utility.random.nextInt(100) < ability.getAssignationChance())
@@ -78,9 +94,20 @@ public class Boss extends CorEntity {
 		ActivateAbilities(livingEntity, activationCondition, null);
 	}
 	
+	public void ActivateOnDeathAbilities(LivingEntity targetEntity, Location lastLoc){
+		for (Entry<Ability, Boolean> entry : abilities.entrySet()) {
+			Ability ability = entry.getKey();
+			if(Utility.isNear(livingEntity.getLocation(), lastLoc, ability.getMinRange(), ability.getMaxRange())
+					&& ability.getActivationConditions().contains(ActivationCondition.ONDEATH)){
+				ability.Execute(targetEntity, lastLoc, getBossData().getName());
+			}
+		}
+	}
+	
 	public void ActivateAbilities(LivingEntity livingEntity, ActivationCondition activationCondition, EntityDamageEvent event) {
 		if(livingEntity==null)
 			return;
+		
 		for (Entry<Ability, Boolean> entry : abilities.entrySet()) {
 			if (entry.getValue() == false)
 				continue;
@@ -126,6 +153,7 @@ public class Boss extends CorEntity {
 	
 	public void setHealth(int health) {
 		this.health = health;
+		this.updateCustomName();
 	}
 	
 	public void setFireEnchantTick(int fireEnchantTick) {

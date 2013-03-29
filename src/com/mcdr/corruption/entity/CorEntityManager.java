@@ -3,14 +3,63 @@ package com.mcdr.corruption.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Slime;
+import org.bukkit.entity.Zombie;
+
+import com.mcdr.corruption.entity.data.BossData;
+import com.mcdr.corruption.entity.data.PigZombieBossData;
+import com.mcdr.corruption.entity.data.SkeletonBossData;
+import com.mcdr.corruption.entity.data.SlimeBossData;
+import com.mcdr.corruption.entity.data.ZombieBossData;
 
 public abstract class CorEntityManager {
 	private static List<Boss> bosses = new ArrayList<Boss>();
 	private static List<EntityType> bossEntityTypes = new ArrayList<EntityType>();
+	
+	public static Boss spawnBossEntity(Location location, EntityType entityType, BossData bossData){
+		LivingEntity spawnedCreature;
+		World world = location.getWorld();
+		Entity spawnedEntity = world.spawnEntity(location, entityType);
+		if (spawnedEntity.isValid())
+			spawnedCreature = (LivingEntity) spawnedEntity;
+		else
+			return null;
+		
+		//Check and set the size of a slime
+		if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
+			Slime slime = (Slime) spawnedCreature;
+			slime.setSize(((SlimeBossData) bossData).getMaximumSize());
+		}
+		
+		//Check and set if it has to be a baby or villager zombie
+		if (Zombie.class.isAssignableFrom(entityType.getEntityClass())) {
+			Zombie zombie = (Zombie) spawnedCreature;
+			zombie.setBaby(((ZombieBossData) bossData).isBaby());
+			zombie.setVillager(((ZombieBossData) bossData).isVillager());
+			if(PigZombie.class.isAssignableFrom(entityType.getEntityClass())){
+				PigZombie pigZombie = (PigZombie) zombie;
+				pigZombie.setAngry(((PigZombieBossData) bossData).isAngry());
+			}
+		}
+		
+		//Check and set if it has to be a normal or wither skeleton
+		if (Skeleton.class.isAssignableFrom(entityType.getEntityClass())) {
+			Skeleton skeleton = (Skeleton) spawnedCreature;
+			skeleton.setSkeletonType(((SkeletonBossData) bossData).getSkeletonType());
+		}
+		
+		Boss boss = new Boss(spawnedCreature, bossData);
+		
+		AddBoss(boss);
+		return boss;
+	}
 	
 	public static void AddBoss(Boss boss) {
 		bosses.add(boss);
