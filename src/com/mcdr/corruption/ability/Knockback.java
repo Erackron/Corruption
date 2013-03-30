@@ -15,10 +15,10 @@ public class Knockback extends Ability {
 	/**
 	 * OnDeath Execute
 	 */
-	public void Execute(LivingEntity livingEntity, Location lastLoc, String bossName){
-		super.Execute(livingEntity, lastLoc, bossName);
+	public void Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
+		super.Execute(livingEntity, lastLoc, boss);
 		Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new VelocityMultiplier(livingEntity));
-		sendMessage(bossName, livingEntity);
+		sendMessage(boss.getName(), livingEntity);
 	}
 	
 	/**

@@ -28,7 +28,7 @@ import com.mcdr.corruption.entity.data.BossData.BossImmunity;
 
 
 public class BossConfig extends BaseConfig {
-	private static Map<String, BossData> bossesData = new HashMap<String, BossData>();
+	private static Map<String, BossData> bossesData;
 	private static Set<EntityType> usedBossEntityTypes;
 	
 	public static void Load() {
@@ -43,6 +43,7 @@ public class BossConfig extends BaseConfig {
 	private static void LoadBosses(YamlConfiguration yamlConfig) {
 		Set<String> bossNames = yamlConfig.getKeys(false);
 		bossNames.remove("ConfigVersion");
+		bossesData = new HashMap<String, BossData>();
 		usedBossEntityTypes = new HashSet<EntityType>();
 		for (String bossName : bossNames) {
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(bossName);

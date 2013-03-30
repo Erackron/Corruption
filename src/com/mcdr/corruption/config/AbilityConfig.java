@@ -24,7 +24,7 @@ import com.mcdr.corruption.ability.Ability.AbilityType;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
 
 public abstract class AbilityConfig extends BaseConfig {
-	private static Map<String, Ability> abilities = new HashMap<String, Ability>();
+	private static Map<String, Ability> abilities;
 	public static void Load() {
 		File file = new File(DATAFOLDER, "abilities.yml");
 		
@@ -38,6 +38,7 @@ public abstract class AbilityConfig extends BaseConfig {
 	private static void LoadAbilities(YamlConfiguration yamlConfig) {
 		Set<String> abilityNames = yamlConfig.getKeys(false);
 		abilityNames.remove("ConfigVersion");
+		abilities = new HashMap<String, Ability>();
 		for (String abilityName : abilityNames) {
 			String node = abilityName;
 			Map<String, Object> abilityEntries = yamlConfig.getConfigurationSection(node).getValues(true);

@@ -16,7 +16,7 @@ import com.mcdr.corruption.entity.EquipmentSet;
 
 
 public class EquipmentConfig extends BaseConfig {
-	public static Map<String, EquipmentSet> equipmentSets = new HashMap<String, EquipmentSet>();
+	public static Map<String, EquipmentSet> equipmentSets;
 	
 	public static void Load(){
 		File file = new File(DATAFOLDER, "equipment.yml");
@@ -30,6 +30,7 @@ public class EquipmentConfig extends BaseConfig {
 	public static void loadEquipmentSets(YamlConfiguration yamlConfig){
 		Set<String> equipmentSetNames = yamlConfig.getKeys(false);
 		equipmentSetNames.remove("ConfigVersion");
+		equipmentSets = new HashMap<String, EquipmentSet>();
 		for(String equipmentSetName: equipmentSetNames){
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(equipmentSetName);
 			

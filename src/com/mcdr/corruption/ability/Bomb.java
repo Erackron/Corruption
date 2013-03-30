@@ -39,12 +39,12 @@ public class Bomb extends Ability {
     /**
      * OnDeath Execute
      */
-    public void Execute(LivingEntity livingEntity, Location lastLoc, String bossName){
-    	super.Execute(livingEntity, lastLoc, bossName);
+    public void Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
+    	super.Execute(livingEntity, lastLoc, boss);
     	
     	plantBomb(livingEntity.getLocation());
     	
-	    sendAreaMessage(lastLoc, bossName, livingEntity);
+	    sendAreaMessage(lastLoc, boss.getName(), livingEntity);
     }
     
     /**

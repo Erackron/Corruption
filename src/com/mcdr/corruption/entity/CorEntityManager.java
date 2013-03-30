@@ -1,6 +1,7 @@
 package com.mcdr.corruption.entity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -118,5 +119,12 @@ public abstract class CorEntityManager {
 			}
 		}
 		bosses.removeAll(removeList);
+	}
+	
+	public static void purgeBosses(Collection<Boss> bosses){
+		for(Boss boss: bosses){
+			boss.livingEntity.remove();
+		}
+		CorEntityManager.bosses.removeAll(bosses);
 	}
 }

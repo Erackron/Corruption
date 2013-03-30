@@ -32,9 +32,9 @@ public class LightningAura extends Ability{
 	/**
 	 * OnDeath Execute
 	 */
-	public void Execute(LivingEntity livingEntity, Location lastLoc, String bossName){
-		super.Execute(livingEntity, lastLoc, bossName);
-		strikeLightning(lastLoc, bossName);
+	public void Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
+		super.Execute(livingEntity, lastLoc, boss);
+		strikeLightning(lastLoc, boss.getName());
 	}
 	
 	/**

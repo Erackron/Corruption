@@ -199,7 +199,7 @@ public abstract class Ability {
 	/**
 	 * OnDeath Execute
 	 */
-	public void Execute(LivingEntity livingEntity, Location lastLoc, String bossName){
+	public void Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
 		if(!checkChance())
 			return;
 		

@@ -119,6 +119,10 @@ public abstract class WorldConfig extends BaseConfig {
 		}
 	}
 	
+	public static void resetWorldsData(){
+		worldsData = new HashMap<World, WorldData>();
+	}
+	
 	public static WorldData getWorldData(World world) {
 		return worldsData.get(world);
 	}

@@ -2,18 +2,28 @@ package com.mcdr.corruption.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.plugin.Plugin;
 
+import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
 import com.mcdr.corruption.ability.ArmorPierce;
@@ -28,7 +38,7 @@ import com.mcdr.corruption.stats.StatsManager;
 import com.mcdr.corruption.util.Utility;
 
 
-public class Boss extends CorEntity {
+public class Boss extends CorEntity implements CommandSender {
 	private BossData bossData;
 	private int health;
 	private int maxHealth;
@@ -79,6 +89,7 @@ public class Boss extends CorEntity {
 	}
 
 	private void AddAbilities() {
+		abilities.clear();
 		for (Ability ability : WorldConfig.getWorldData(livingEntity.getWorld()).getAbilities()) {
 			if (Utility.random.nextInt(100) < ability.getAssignationChance())
 				abilities.put(ability, true);
@@ -99,7 +110,7 @@ public class Boss extends CorEntity {
 			Ability ability = entry.getKey();
 			if(Utility.isNear(livingEntity.getLocation(), lastLoc, ability.getMinRange(), ability.getMaxRange())
 					&& ability.getActivationConditions().contains(ActivationCondition.ONDEATH)){
-				ability.Execute(targetEntity, lastLoc, getBossData().getName());
+				ability.Execute(targetEntity, lastLoc, this);
 			}
 		}
 	}
@@ -148,7 +159,25 @@ public class Boss extends CorEntity {
 	}
 	
 	public void setBossData(BossData bossData) {
+		int curDamage = maxHealth-health;
 		this.bossData = bossData;
+		
+		livingEntity.resetMaxHealth();
+		
+		if(bossData.useHealthMultiplier())
+			maxHealth = (int) (livingEntity.getMaxHealth() * bossData.getHealthCoef());
+		else
+			maxHealth = (int) bossData.getHealthCoef();
+		
+		this.health = maxHealth-curDamage;
+		livingEntity.setMaxHealth(maxHealth);
+		livingEntity.setHealth(health);
+		
+		updateCustomName(true);
+		
+		AddAbilities();
+
+		bossData.setRandomEquipment(livingEntity);
 	}
 	
 	public void setHealth(int health) {
@@ -172,7 +201,7 @@ public class Boss extends CorEntity {
 		this.lastTimeNotified = lastTimeNotified;
 	}
 	
-	@Override
+	
 	public void OnDeath(EntityDeathEvent event) {
 		//Prepare drops and exp
 		List<ItemStack> drops = DropCalculator.CreateDrops(getBossData(), WorldConfig.getWorldData(livingEntity.getWorld()));
@@ -230,4 +259,36 @@ public class Boss extends CorEntity {
 	public int getMaxHealth() {
 		return maxHealth;
 	}
+	
+	public String getRawName(){
+		return getBossData().getName();
+	}
+	
+	/**
+	 * @return The DisplayName of this boss
+	 */
+	public String getName() {
+		return Utility.parseMessage("{BOSSNAME}", getRawName());
+	}
+
+	
+	/*** ComandSender methods ***/	
+	public boolean hasPermission(String arg0) {return true;}
+	public boolean hasPermission(Permission arg0) {return true;}
+	public boolean isPermissionSet(String arg0) {return true;}
+	public boolean isPermissionSet(Permission arg0) {return true;}
+	public boolean isOp() {return true;}
+	public Server getServer() {return Bukkit.getServer();}
+
+	/*** Required Stub methods ***/
+	public void sendMessage(String message) {Corruption.l.info("["+Corruption.pluginName+"] "+getName()+": "+message);}
+	public void sendMessage(String[] messages) {for(String message: messages) sendMessage(message);}
+	public void setOp(boolean arg0) {}
+	public PermissionAttachment addAttachment(Plugin arg0) {return null;}
+	public PermissionAttachment addAttachment(Plugin arg0, int arg1) {return null;}
+	public PermissionAttachment addAttachment(Plugin arg0, String arg1, boolean arg2) {return null;}
+	public PermissionAttachment addAttachment(Plugin arg0, String arg1,	boolean arg2, int arg3) {return null;}
+	public Set<PermissionAttachmentInfo> getEffectivePermissions() {return new HashSet<PermissionAttachmentInfo>();}
+	public void recalculatePermissions() {}
+	public void removeAttachment(PermissionAttachment arg0) {}
 }

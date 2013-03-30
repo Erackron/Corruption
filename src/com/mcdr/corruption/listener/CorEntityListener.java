@@ -229,7 +229,7 @@ public class CorEntityListener implements Listener {
 				//Player notifications
 				if (!boss.getFound()) {
 					boss.setFound(true);
-					CorPlayerManager.SendFoundMessage(corPlayer, true, livingEntity.getLocation(), boss.getBossData().getName());
+					CorPlayerManager.SendFoundMessage(corPlayer, true, livingEntity.getLocation(), boss.getRawName());
 				}
 			}
 			
@@ -246,7 +246,10 @@ public class CorEntityListener implements Listener {
 					Map<Enchantment, Integer> enchants = player.getItemInHand().getEnchantments();
 					
 					if (enchants.containsKey(Enchantment.FIRE_ASPECT))
-						Bukkit.getScheduler().scheduleSyncDelayedTask(Corruption.in, new GetFireEnchantTicks(boss), 0);
+						if(boss.getBossData().getImmunities().contains(BossImmunity.ENCHANT_FIRETICK_IMMUNE)){
+							boss.setFireEnchantTick(1);
+						} else
+							Bukkit.getScheduler().scheduleSyncDelayedTask(Corruption.in, new GetFireEnchantTicks(boss), 0);
 				}
 				
 				if(player != null && Corruption.mcMMOInstalled){
@@ -264,11 +267,14 @@ public class CorEntityListener implements Listener {
 						if(((GhastBossData) boss.getBossData()).isReturnToSenderImmune())
 							event.setCancelled(true);
 				
-				if (player != null && !boss.getBossData().getImmunities().contains(BossImmunity.ENCHANT_FIRETICK_IMMUNE)) {
+				if (player != null) {
 					Map<Enchantment, Integer> enchants = player.getItemInHand().getEnchantments();
 					
 					if (enchants.containsKey(Enchantment.ARROW_FIRE))
-						Bukkit.getScheduler().scheduleSyncDelayedTask(Corruption.in, new GetFireEnchantTicks(boss), 0);
+						if(boss.getBossData().getImmunities().contains(BossImmunity.ENCHANT_FIRETICK_IMMUNE)){
+							boss.setFireEnchantTick(1);
+						} else
+							Bukkit.getScheduler().scheduleSyncDelayedTask(Corruption.in, new GetFireEnchantTicks(boss), 0);
 				}
 				if(player != null && Corruption.mcMMOInstalled){
 					mcMMOHandler.addRangeXP(player, boss);
@@ -296,9 +302,16 @@ public class CorEntityListener implements Listener {
 				break;
 			case FIRE_TICK:
 				//Handle fire enchants
-				if (boss.getFireEnchantTick() > 0)
-					boss.setFireEnchantTick(boss.getFireEnchantTick() - 1);
-				else if (boss.getBossData().getImmunities().contains(BossImmunity.ENVIRONMENTAL_FIRETICK_IMMUNE)) {
+				if (boss.getFireEnchantTick() > 0){
+					if(boss.getBossData().getImmunities().contains(BossImmunity.ENCHANT_FIRETICK_IMMUNE)){
+						System.out.println("yep"); 
+						boss.setFireEnchantTick(0);
+						boss.getLivingEntity().setFireTicks(-20);
+						event.setCancelled(true);
+					} else {
+						boss.setFireEnchantTick(boss.getFireEnchantTick() - 1);
+					}
+				} else if (boss.getBossData().getImmunities().contains(BossImmunity.ENVIRONMENTAL_FIRETICK_IMMUNE)) {
 					livingEntity.setFireTicks(0);
 					event.setCancelled(true);
 				}

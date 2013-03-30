@@ -61,6 +61,9 @@ public abstract class CorPlayerManager {
 	public static void SendFoundMessage(CorPlayer corPlayer, boolean isFinder, Location location, String bossName) {
 		String toPlayer = null;
 		String toOthers = null;
+		
+		if(corPlayer==null)
+			return;
 
 		if (isFinder) {
 			toPlayer = MessageParam.PLAYER_FOUND_BOSS_1.getMessage();

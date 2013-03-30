@@ -17,6 +17,7 @@ public abstract class ConfigManager {
 			MagicSpellsConfig.Load();
 		}
 		
+		WorldConfig.resetWorldsData();
 		for (World world : Corruption.in.getServer().getWorlds()) {
 			WorldConfig.Load(world);
 		}

@@ -54,12 +54,12 @@ public class Snare extends Ability implements Listener {
 	/**
 	 * OnDeath Execute
 	 */
-	public void Execute(LivingEntity livingEntity, Location lastLoc, String bossName){
-		super.Execute(livingEntity, lastLoc, bossName);
+	public void Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
+		super.Execute(livingEntity, lastLoc, boss);
 		
 		ensnare(livingEntity);
 		
-		sendAreaMessage(lastLoc, bossName, livingEntity);		
+		sendAreaMessage(lastLoc, boss.getName(), livingEntity);		
 	}
 	
 	/**
