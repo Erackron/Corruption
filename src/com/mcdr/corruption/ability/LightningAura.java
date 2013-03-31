@@ -11,11 +11,19 @@ import com.mcdr.corruption.player.CorPlayerManager;
 import com.mcdr.corruption.util.Utility;
 
 public class LightningAura extends Ability{
-	
 	private int damage = 2;
 	private boolean fire = false;
 	private boolean armorPierce = false;
-	protected double chance = 50.0;
+	protected double activationChance = 50.0;
+	
+	public LightningAura clone(){
+		LightningAura la = new LightningAura();
+		copySettings(la);
+		la.setDamage(this.damage);
+		la.setFire(this.fire);
+		la.setArmorPierce(this.armorPierce);
+		return la;
+	}
 	
 	public void setDamage(int damage){
 		this.damage = damage - 1;

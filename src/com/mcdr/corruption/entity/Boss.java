@@ -92,12 +92,12 @@ public class Boss extends CorEntity implements CommandSender {
 		abilities.clear();
 		for (Ability ability : WorldConfig.getWorldData(livingEntity.getWorld()).getAbilities()) {
 			if (Utility.random.nextInt(100) < ability.getAssignationChance())
-				abilities.put(ability, true);
+				abilities.put(ability.clone(), true);
 		}
 
 		for (Ability ability : bossData.getAbilities()) {
 			if (Utility.random.nextInt(100) < ability.getAssignationChance())
-				abilities.put(ability, true);
+				abilities.put(ability.clone(), true);
 		}
 	}
 	

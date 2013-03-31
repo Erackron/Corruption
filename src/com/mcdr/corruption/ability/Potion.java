@@ -12,7 +12,17 @@ public class Potion extends Ability {
 	private int duration = 3;
 	private String effect = "";
 	private boolean targetSelf = false;
-	protected double chance = 25.0;
+	protected double activationChance = 25.0;
+	
+	public Potion clone(){
+		Potion pot = new Potion();
+		copySettings(pot);
+		pot.setAmplifier(this.amplifier);
+		pot.setDuration(this.duration);
+		pot.setEffect(this.effect);
+		pot.setTarget(this.targetSelf?"self":"other");
+		return pot;
+	}
 	
 	/**
 	 * Normal Execute

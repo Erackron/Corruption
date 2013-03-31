@@ -13,13 +13,22 @@ import com.mcdr.corruption.entity.Boss;
 import com.mcdr.corruption.util.Utility;
 
 public class Bomb extends Ability {
-	
 	private int fuse = 80;
 	private float radius = 3F;
 	private boolean destroyWorld = true;
 	private boolean fire = true;
-	protected double chance = 10.0;
+	protected double activationChance = 10.0;
     
+	public Bomb clone() {
+		Bomb bomb = new Bomb();
+		copySettings(bomb);
+		bomb.setFuseTicks(this.fuse);
+		bomb.setRadius(this.radius);
+		bomb.setDestroyWorld(this.destroyWorld);
+		bomb.setFire(this.fire);
+		return bomb;
+	}
+	
     public void setFuseTicks(int fuseticks){
     	this.fuse = fuseticks;
     }

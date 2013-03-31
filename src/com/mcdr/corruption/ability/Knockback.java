@@ -12,6 +12,14 @@ public class Knockback extends Ability {
 	private double horizontalCoef = 2;
 	private double verticalCoef = 3;
 	
+	public Knockback clone(){
+		Knockback kb = new Knockback();
+		copySettings(kb);
+		kb.setHorizontalCoef(this.horizontalCoef);
+		kb.setVerticalCoef(this.verticalCoef);
+		return kb;
+	}
+	
 	/**
 	 * OnDeath Execute
 	 */

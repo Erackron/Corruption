@@ -8,6 +8,13 @@ import com.mcdr.corruption.entity.Boss;
 public class FirePunch extends Ability {
 	private int ticks = 2;
 	
+	public FirePunch clone(){
+		FirePunch fp = new FirePunch();
+		copySettings(fp);
+		fp.setTicks(this.ticks);
+		return fp;
+	}
+	
 	/**
      * Normal Execute
      */

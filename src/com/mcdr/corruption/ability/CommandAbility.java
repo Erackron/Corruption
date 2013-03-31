@@ -9,8 +9,14 @@ import com.mcdr.corruption.entity.Boss;
 import com.mcdr.corruption.util.Utility;
 
 public class CommandAbility extends Ability {
-	
 	private String command;
+	
+	public CommandAbility clone(){
+		CommandAbility ca = new CommandAbility();
+		copySettings(ca);
+		ca.setCommand(this.command);
+		return ca;
+	}
 	
 	public void setCommand(String command){
 		this.command = command.startsWith("/")?command.substring(1):command;

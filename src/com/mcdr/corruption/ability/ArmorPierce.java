@@ -12,6 +12,13 @@ import com.mcdr.corruption.entity.Boss;
 public class ArmorPierce extends Ability {
 	private double value = 25;
 	
+	public ArmorPierce clone() {
+		ArmorPierce ap = new ArmorPierce();
+		copySettings(ap);
+		ap.setValue(this.value);
+		return ap;
+	}
+	
 	/**
      * Normal Execute
      */

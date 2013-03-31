@@ -13,6 +13,13 @@ import com.mcdr.corruption.util.Utility;
 public class Teleport extends Ability {
     private boolean centeredOnFoe;
     
+    public Teleport clone(){
+    	Teleport tp = new Teleport();
+    	copySettings(tp);
+    	tp.setCenteredOnFoe(this.centeredOnFoe);
+    	return tp;
+    }
+    
     /**
      * Normal Execute
      */

@@ -1,8 +1,7 @@
 package com.mcdr.corruption.ability;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,13 +18,21 @@ import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.entity.Boss;
 
 public class Snare extends Ability implements Listener {
-	
 	private int duration;
 	private boolean destructible;
 	private int radius;
 	
 	private boolean isRunning = false;
-	private Set<List<Block>> blocks = new HashSet<List<Block>>();
+	private List<Block> blocks = new ArrayList<Block>();
+	
+	public Snare clone(){
+		Snare snare = new Snare();
+		copySettings(snare);
+		snare.setDuration(this.duration);
+		snare.setDestructible(this.destructible);
+		snare.setRadius(this.radius);
+		return snare;
+	}
 	
 	public int getDuration(){
 		return duration;
@@ -75,17 +82,16 @@ public class Snare extends Ability implements Listener {
 	}
 	
 	private void ensnare(LivingEntity livingEntity){
-		final List<Block> validBlocks = findValidBlocks(livingEntity.getLocation(),0,radius);
-		if(validBlocks.isEmpty())
+		blocks = findValidBlocks(livingEntity.getLocation(),0,radius);
+		if(blocks.isEmpty())
 			return;
 		
 		isRunning = true;
 		
-		for(Block b : validBlocks)
+		for(Block b : blocks)
 			b.setType(Material.WEB);
 		
-		blocks.add(validBlocks);
-		Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new CleanUp(validBlocks, this), duration);
+		Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new CleanUp(blocks, this), duration);
 		
 		if(!destructible){
 			Bukkit.getServer().getPluginManager().registerEvents(this, Corruption.in);
@@ -96,16 +102,9 @@ public class Snare extends Ability implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockBreak(BlockBreakEvent event){
 		if(isRunning){
-			if(!destructible || containsBlock(blocks, event.getBlock()))
+			if(!destructible || blocks.contains(event.getBlock()))
 				event.setCancelled(true);
 		}
-	}
-	
-	private boolean containsBlock(Set<List<Block>> list, Block b){
-		for(List<Block> entry:list){
-			return entry.contains(b);
-		}
-		return false;
 	}
 	
 	class CleanUp implements Runnable{

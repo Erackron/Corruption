@@ -218,6 +218,18 @@ public abstract class Ability {
 			return;
 	}
 	
+	public abstract Ability clone();
+	
+	protected void copySettings(Ability ability){
+		ability.setAbilityType(this.abilityType);
+		ability.setActivationChance(this.activationChance);
+		ability.setAssignationChance(this.assignationChance);
+		ability.setCooldown(this.cooldown);
+		ability.setMaxRange(this.maxRange);
+		ability.setMinRange(this.minRange);
+		ability.setMessage(this.msg);
+	}
+	
 	protected static List<Block> findValidBlocks(Location location, int minRange, int maxRange) {
 		List<Block> validBlocks = new ArrayList<Block>();
 		World world = location.getWorld();
