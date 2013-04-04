@@ -44,37 +44,117 @@ public class CorruptionAPI {
 		return result;
 	}
 	
+	/**
+	 * Get a random bossName belonging to a certain entityType
+	 * @param entityType The EntityType of the bossName you want
+	 * @return a random bossName that has the supplied EntityType or null if no bossName with this EntityType exists
+	 */
+	public static String getRandomBossName(EntityType entityType){
+		List<String> bossNames = getBossNames().get(entityType);
+		if(bossNames==null)
+			return null;
+		return bossNames.get(Utility.Random(0, bossNames.size()-1));
+	}
+	
+	/**
+	 * Make the supplied livingEntity a (random) boss of the appropriate entityType
+	 * @param livingEntity The LivingEntity to make a boss of
+	 * @return The boss object of the new boss or null if no boss with the appropriate EntityType has been defined or the LivingEntity was invalid
+	 */
+	public static Boss addBoss(LivingEntity livingEntity){
+		return addBoss(livingEntity, getRandomBossName(livingEntity.getType()));
+	}
+	
+	/**
+	 * Make the supplied livingEntity a (random) boss of the appropriate entityType
+	 * @param livingEntity The LivingEntity to make a boss of
+	 * @param updateEntity Whether or not to adjust the entity with params from the BossData to force a WitherSkeleton for example
+	 * @return The boss object of the new boss or null if no boss with the appropriate EntityType has been defined or the LivingEntity was invalid
+	 */
+	public static Boss addBoss(LivingEntity livingEntity, boolean updateEntity){
+		return addBoss(livingEntity, getRandomBossName(livingEntity.getType()), updateEntity);
+	}
+	
+	/**
+	 * Make the supplied livingEntity a boss of the bossName type
+	 * @param livingEntity  The LivingEntity to make a boss of
+	 * @param bossName The name of the boss type this livingEntity will be one of
+	 * @return The boss object of the new boss or null if no boss with the appropriate EntityType has been defined or the LivingEntity was invalid
+	 */
+	public static Boss addBoss(LivingEntity livingEntity, String bossName){
+		return addBoss(livingEntity, bossName, true);
+	}
+	
+	/**
+	 * Make the supplied livingEntity a boss of the bossName type
+	 * @param livingEntity  The LivingEntity to make a boss of
+	 * @param bossName The name of the boss type this livingEntity will be one of
+	 * @param updateEntity Whether or not to adjust the entity with params from the BossData to force a WitherSkeleton for example
+	 * @return The boss object of the new boss or null if no boss with the appropriate EntityType has been defined or the LivingEntity was invalid
+	 */
+	public static Boss addBoss(LivingEntity livingEntity, String bossName, boolean updateEntity){
+		if(bossName==null||livingEntity==null||!livingEntity.isValid())
+			return null;
+		BossData bossData = BossConfig.getBossesData().get(bossName);
+		if(bossData==null||livingEntity.getType()!=bossData.getEntityType())
+			return null;
+		if(updateEntity)
+			CorEntityManager.adjustSpecificEntities(livingEntity, bossData, livingEntity.getType());
+		Boss boss = new Boss(livingEntity, bossData);
+		CorEntityManager.AddBoss(boss);
+		return boss;
+	}
+	
+	/**
+	 * Spawn a corrupted at a location using an EntityType.
+	 * @param loc The location to spawn the boss at
+	 * @param entityType The EntityType of the new bosses
+	 * @return The spawned boss or null if the bossName is invalid
+	 */
+	public static Boss spawnBoss(Location loc, EntityType entityType){
+		return spawnBoss(loc, getRandomBossName(entityType));
+	}
 	
 	/**
 	 * Spawn a corrupted at a location using a bossname.
 	 * To see which names you can use see the {@link #getBossNames()}
 	 * @param loc The location to spawn the boss at
 	 * @param bossName The name of the boss
-	 * @return The livingEntity of the spawned boss or null if the bossName is invalid
+	 * @return The spawned boss or null if the bossName is invalid
 	 */
-	public static LivingEntity spawnBoss(Location loc, String bossName){
-		List<LivingEntity> entities = spawnBoss(loc, bossName, 1);
-		if(entities!=null)
-			return entities.get(0);
-		else
+	public static Boss spawnBoss(Location loc, String bossName){
+		List<Boss> entities = spawnBoss(loc, bossName, 1);
+		if(entities==null)
 			return null;
+		return entities.get(0);
+	}
+	
+	/**
+	 * Spawn a corrupted at a location using an entityType.
+	 * @param loc The location to spawn the bosses at
+	 * @param entityType The EntityType of the new bosses
+	 * @param amount The amount of bosses to spawn
+	 * @return A List of the spawned bosses or null if the bossName is invalid or no bosses were spawned
+	 */
+	public static List<Boss> spawnBoss(Location loc, EntityType entityType, int amount){
+		return spawnBoss(loc, getRandomBossName(entityType), amount);
 	}
 	
 	/**
 	 * Spawn a certain amount of corrupted at a location using a bossname.
 	 * To see which names you can use see the {@link #getBossNames()}
-	 * @param loc The location to spawn the boss at
+	 * @param loc The location to spawn the bosses at
 	 * @param bossName The name of the boss
 	 * @param amount The amount of bosses to spawn
-	 * @return A List of the livingEntities of the spawned bosses or null if the bossName is invalid or no bosses were spawned
+	 * @return A List of the spawned bosses or null if the bossName is invalid or no bosses were spawned
 	 */
-	public static List<LivingEntity> spawnBoss(Location loc, String bossName, int amount){
+	public static List<Boss> spawnBoss(Location loc, String bossName, int amount){
 		if(amount<1)
 			amount = 1;
 		if(loc==null||bossName==null)
 			return null;
 		
-		List<LivingEntity> entities = new ArrayList<LivingEntity>();
+		List<Boss> entities = new ArrayList<Boss>();
 		BossData bossData = null;
 		for (Entry<String, BossData> bossesDataEntry : BossConfig.getBossesData().entrySet()) {
 			if (!bossesDataEntry.getKey().equalsIgnoreCase(bossName))
@@ -89,7 +169,7 @@ public class CorruptionAPI {
 		for (int i = 0 ; i < amount ; i++) {
 			spawnedBoss = CorEntityManager.spawnBossEntity(loc, bossData.getEntityType(), bossData);
 			if(spawnedBoss!=null)
-				entities.add(spawnedBoss.getLivingEntity());
+				entities.add(spawnedBoss);
 		}
 		
 		if(entities.size()<1)
@@ -184,7 +264,7 @@ public class CorruptionAPI {
 	 */
 	public static String getRawName(Entity e){
 		if(isBoss(e))
-				return getBoss(e).getBossData().getName();
+				return getBoss(e).getRawName();
 		return "";
 	}
 	
@@ -247,7 +327,7 @@ public class CorruptionAPI {
 		if(!e.hasMetadata(key))
 			return false;
 
-		LazyMetadataValue meta = new FixedMetadataValue(Corruption.in, true);
+		LazyMetadataValue meta = new FixedMetadataValue(Corruption.in, "Corrupted");
 		List<MetadataValue> list = e.getMetadata(key);
 		if (list.contains(meta))
             return true;

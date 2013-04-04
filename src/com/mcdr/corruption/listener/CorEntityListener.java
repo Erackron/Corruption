@@ -28,9 +28,6 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.LazyMetadataValue;
-
 import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
 import com.mcdr.corruption.config.WorldConfig;
@@ -51,9 +48,7 @@ import com.mcdr.corruption.task.ProcessEntityDamage;
 import com.mcdr.corruption.util.Utility;
 
 
-public class CorEntityListener implements Listener {
-	private final LazyMetadataValue isBoss = new FixedMetadataValue(Corruption.in, true);
-	
+public class CorEntityListener implements Listener {	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		if (event.getSpawnReason() == SpawnReason.CUSTOM)
@@ -70,13 +65,13 @@ public class CorEntityListener implements Listener {
 		
 		for(BossData bossData: bossDatas){
 			if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY())
-				return;
+				continue;
 
 			if(bossData instanceof ZombieBossData){
 				ZombieBossData zBossData = (ZombieBossData) bossData;
 				Zombie zombie = (Zombie) livingEntity;
 				if(zombie.isBaby()!=zBossData.isBaby() || zombie.isVillager()!=zBossData.isVillager())
-					return;
+					continue;
 				if(bossData instanceof PigZombieBossData){
 					PigZombieBossData pzBossData = (PigZombieBossData) zBossData;
 					PigZombie pigZombie = (PigZombie) zombie;
@@ -86,12 +81,12 @@ public class CorEntityListener implements Listener {
 				SkeletonBossData sBossData = (SkeletonBossData) bossData;
 				Skeleton skeleton = (Skeleton) livingEntity;
 				if(skeleton.getSkeletonType()!=sBossData.getSkeletonType())
-					return;
+					continue;
 			} else if (bossData instanceof SlimeBossData){
 				SlimeBossData slBossData = (SlimeBossData) bossData;
 				Slime slime = (Slime) livingEntity;
 				if(slime.getSize() < slBossData.getMinimumSize() || slime.getSize() > slBossData.getMaximumSize())
-					return;
+					continue;
 				
 			}
 			
@@ -114,7 +109,6 @@ public class CorEntityListener implements Listener {
 	private void addBoss(LivingEntity livingEntity, BossData bossData){
 		Boss boss = new Boss(livingEntity, bossData);
 		CorEntityManager.AddBoss(boss);
-		livingEntity.setMetadata("isBoss", isBoss);
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -231,18 +225,19 @@ public class CorEntityListener implements Listener {
 					boss.setFound(true);
 					CorPlayerManager.SendFoundMessage(corPlayer, true, livingEntity.getLocation(), boss.getRawName());
 				}
+				
 			}
 			
 			//Apply damage
 			int damage = event.getDamage();
 			
 			switch (event.getCause()) {
-			case ENTITY_ATTACK:				
+			case ENTITY_ATTACK:	
 				if (boss.getBossData().getImmunities().contains(BossImmunity.ATTACK_IMMUNE)) {
 					event.setCancelled(true);
 					break;
 				}
-				if (player != null && !boss.getBossData().getImmunities().contains(BossImmunity.ENCHANT_FIRETICK_IMMUNE)) {
+				if (player != null) {
 					Map<Enchantment, Integer> enchants = player.getItemInHand().getEnchantments();
 					
 					if (enchants.containsKey(Enchantment.FIRE_ASPECT))
@@ -304,7 +299,6 @@ public class CorEntityListener implements Listener {
 				//Handle fire enchants
 				if (boss.getFireEnchantTick() > 0){
 					if(boss.getBossData().getImmunities().contains(BossImmunity.ENCHANT_FIRETICK_IMMUNE)){
-						System.out.println("yep"); 
 						boss.setFireEnchantTick(0);
 						boss.getLivingEntity().setFireTicks(-20);
 						event.setCancelled(true);

@@ -13,7 +13,10 @@ import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.Zombie;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.LazyMetadataValue;
 
+import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.entity.data.BossData;
 import com.mcdr.corruption.entity.data.PigZombieBossData;
 import com.mcdr.corruption.entity.data.SkeletonBossData;
@@ -24,6 +27,8 @@ public abstract class CorEntityManager {
 	private static List<Boss> bosses = new ArrayList<Boss>();
 	private static List<EntityType> bossEntityTypes = new ArrayList<EntityType>();
 	
+	private final static LazyMetadataValue isBoss = new FixedMetadataValue(Corruption.in, "Corrupted");
+	
 	public static Boss spawnBossEntity(Location location, EntityType entityType, BossData bossData){
 		LivingEntity spawnedCreature;
 		World world = location.getWorld();
@@ -33,28 +38,7 @@ public abstract class CorEntityManager {
 		else
 			return null;
 		
-		//Check and set the size of a slime
-		if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
-			Slime slime = (Slime) spawnedCreature;
-			slime.setSize(((SlimeBossData) bossData).getMaximumSize());
-		}
-		
-		//Check and set if it has to be a baby or villager zombie
-		if (Zombie.class.isAssignableFrom(entityType.getEntityClass())) {
-			Zombie zombie = (Zombie) spawnedCreature;
-			zombie.setBaby(((ZombieBossData) bossData).isBaby());
-			zombie.setVillager(((ZombieBossData) bossData).isVillager());
-			if(PigZombie.class.isAssignableFrom(entityType.getEntityClass())){
-				PigZombie pigZombie = (PigZombie) zombie;
-				pigZombie.setAngry(((PigZombieBossData) bossData).isAngry());
-			}
-		}
-		
-		//Check and set if it has to be a normal or wither skeleton
-		if (Skeleton.class.isAssignableFrom(entityType.getEntityClass())) {
-			Skeleton skeleton = (Skeleton) spawnedCreature;
-			skeleton.setSkeletonType(((SkeletonBossData) bossData).getSkeletonType());
-		}
+		adjustSpecificEntities(spawnedCreature, bossData, entityType);
 		
 		Boss boss = new Boss(spawnedCreature, bossData);
 		
@@ -62,7 +46,33 @@ public abstract class CorEntityManager {
 		return boss;
 	}
 	
+	public static void adjustSpecificEntities(LivingEntity livingEntity, BossData bossData, EntityType entityType){
+		//Check and set the size of a slime
+			if (Slime.class.isAssignableFrom(entityType.getEntityClass())) {
+				Slime slime = (Slime) livingEntity;
+				slime.setSize(((SlimeBossData) bossData).getMaximumSize());
+			}
+			
+			//Check and set if it has to be a baby or villager zombie
+			if (Zombie.class.isAssignableFrom(entityType.getEntityClass())) {
+				Zombie zombie = (Zombie) livingEntity;
+				zombie.setBaby(((ZombieBossData) bossData).isBaby());
+				zombie.setVillager(((ZombieBossData) bossData).isVillager());
+				if(PigZombie.class.isAssignableFrom(entityType.getEntityClass())){
+					PigZombie pigZombie = (PigZombie) zombie;
+					pigZombie.setAngry(((PigZombieBossData) bossData).isAngry());
+				}
+			}
+			
+			//Check and set if it has to be a normal or wither skeleton
+			if (Skeleton.class.isAssignableFrom(entityType.getEntityClass())) {
+				Skeleton skeleton = (Skeleton) livingEntity;
+				skeleton.setSkeletonType(((SkeletonBossData) bossData).getSkeletonType());
+			}
+	}
+	
 	public static void AddBoss(Boss boss) {
+		boss.getLivingEntity().setMetadata("isBoss", isBoss);
 		bosses.add(boss);
 	}
 	
