@@ -1,0 +1,15 @@
+com.mcdr.corruption
+com.mcdr.corruption.ability
+com.mcdr.corruption.command
+com.mcdr.corruption.config
+com.mcdr.corruption.drop
+com.mcdr.corruption.entity
+com.mcdr.corruption.entity.data
+com.mcdr.corruption.handler
+com.mcdr.corruption.listener
+com.mcdr.corruption.player
+com.mcdr.corruption.stats
+com.mcdr.corruption.task
+com.mcdr.corruption.util
+com.mcdr.corruption.world
+com.timvisee.manager.permissionsmanager
