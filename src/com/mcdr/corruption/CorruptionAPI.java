@@ -189,7 +189,7 @@ public class CorruptionAPI {
 	}
 	
 	/**
-	 * @param p The player to get the LabPlayer object of
+	 * @param p The player to get the CorPlayer object of
 	 * @return CorPlayer the CorPlayer object belonging to the player
 	 */
 	public static CorPlayer getCorPlayer(Player p){
