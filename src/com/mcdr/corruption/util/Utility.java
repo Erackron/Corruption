@@ -104,8 +104,9 @@ public abstract class Utility {
 		}
 		String healthBar = "";
 		if(maxHealth!=0 && maxHealth>=health){
-			if(msg.contains("{HEALTHBAR}")&&msg.length()<40)
-				healthBar += "      ";
+			if(msg.trim().equalsIgnoreCase("{HEALTHBAR}")&&msg.length()<40){
+				msg = "     {HEALTHBAR}";
+			}
 			healthBar += "&r[&a";
 			int ratio = (int)((20*health)/maxHealth);
 			boolean red = false;

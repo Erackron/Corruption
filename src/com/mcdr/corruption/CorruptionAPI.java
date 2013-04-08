@@ -190,7 +190,7 @@ public class CorruptionAPI {
 	
 	/**
 	 * @param p The player to get the LabPlayer object of
-	 * @return LabPlayer the LabPlayer object belonging to the player
+	 * @return CorPlayer the CorPlayer object belonging to the player
 	 */
 	public static CorPlayer getCorPlayer(Player p){
 		CorPlayer corPlayer = CorPlayerManager.getCorPlayer(p);	

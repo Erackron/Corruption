@@ -288,4 +288,8 @@ public class EquipmentSet {
 	public void setWeaponsData(int[][][] weaponsData) {
 		this.weaponsData = weaponsData;
 	}
+	
+	public boolean isEmpty(){
+		return name.equalsIgnoreCase("empty");
+	}
 }

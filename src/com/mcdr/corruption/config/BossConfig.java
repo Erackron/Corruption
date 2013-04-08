@@ -17,6 +17,7 @@ import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.drop.Drop;
 import com.mcdr.corruption.drop.Roll;
+import com.mcdr.corruption.entity.EquipmentSet;
 import com.mcdr.corruption.entity.data.BossData;
 import com.mcdr.corruption.entity.data.GhastBossData;
 import com.mcdr.corruption.entity.data.PigZombieBossData;
@@ -216,8 +217,10 @@ public class BossConfig extends BaseConfig {
 	
 	public static void LoadEquipment(BossData bossData, ConfigurationSection section){
 		String equipmentSetName = section.getString("EquipmentSet");
-		if(equipmentSetName == null)
+		if(equipmentSetName == null){
+			bossData.setEquipment(new EquipmentSet());
 			return;
+		}
 		if(EquipmentConfig.equipmentSets.containsKey(equipmentSetName))
 			bossData.setEquipment(EquipmentConfig.equipmentSets.get(equipmentSetName));
 		else

@@ -70,10 +70,8 @@ public class Boss extends CorEntity implements CommandSender {
 			updateCustomName(true);
 		
 		AddAbilities();
-		if(!bossData.hasEquipment())
-			bossData.setEquipment(new EquipmentSet());
+
 		bossData.setRandomEquipment(livingEntity);
-		
 	}
 	
 	public void updateCustomName(){
@@ -176,7 +174,6 @@ public class Boss extends CorEntity implements CommandSender {
 		updateCustomName(true);
 		
 		AddAbilities();
-
 		bossData.setRandomEquipment(livingEntity);
 	}
 	
