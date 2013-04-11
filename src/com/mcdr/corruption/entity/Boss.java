@@ -82,8 +82,7 @@ public class Boss extends CorEntity implements CommandSender {
 		force = !GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage().equalsIgnoreCase("hide")&&force;
 		if(livingEntity.isCustomNameVisible()||force)
 			livingEntity.setCustomName(Utility.parseMessage(GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage(), this));
-		if(force && !livingEntity.isCustomNameVisible())
-			livingEntity.setCustomNameVisible(true);
+		livingEntity.setCustomNameVisible(this.found);
 	}
 
 	private void AddAbilities() {
@@ -192,6 +191,7 @@ public class Boss extends CorEntity implements CommandSender {
 	
 	public void setFound(boolean found) {
 		this.found = found;
+		this.updateCustomName();
 	}
 	
 	public void setLastTimeNotified(int lastTimeNotified) {
