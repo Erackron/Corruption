@@ -85,6 +85,7 @@ public abstract class GlobalConfig extends BaseConfig {
 	
 	public enum BossParam {
 		OVERWRITE_DROPS (false) {@Override public String getNode() {return "Boss.OverwriteDrops";}},
+		ENABLE_BIOMES (false) {@Override public String getNode() {return "Boss.EnableBiomes";}},
 		USE_HEALTH_AS_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetHealthAsMultiplier";}},
 		USE_DAMAGE_AS_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetDamageAsMultiplier";}},
 		USE_EXPERIENCE_AS_MULTIPLIER (true) {@Override public String getNode() {return "Boss.SetExperienceAsMultiplier";}};

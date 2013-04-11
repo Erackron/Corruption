@@ -1,6 +1,7 @@
 package com.mcdr.corruption.config;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
@@ -106,6 +108,7 @@ public class BossConfig extends BaseConfig {
 			LoadImmunities(bossData, yamlConfig.getConfigurationSection(bossName + ".Immunity"), bossName);
 			LoadMCMMOXPBonus(bossData, yamlConfig.getInt(bossName + ".mcMMOXPBonus"));
 			LoadHeroesXPBonus(bossData, yamlConfig.getDouble(bossName + ".HeroesKillingExperience"));
+			LoadBiomes(bossData, yamlConfig.getStringList(bossName + ".Biomes"), bossName);
 			
 			String [] bossNameS = bossName.split("_");
 			bossName = bossNameS[0];
@@ -252,6 +255,24 @@ public class BossConfig extends BaseConfig {
 	
 	public static void LoadHeroesXPBonus(BossData bossData, double xp){
 		bossData.setHeroesXPBonus(xp);
+	}
+	
+	public static void LoadBiomes(BossData bossData, List<String> biomeStrings, String bossName){
+		if(GlobalConfig.BossParam.ENABLE_BIOMES.getValue() && biomeStrings == null){
+			Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Biomes' does not exist");
+			return;
+		}
+		
+		List<Biome> biomes = new ArrayList<Biome>();
+		for(String biome:biomeStrings){
+			try {
+				biomes.add(Biome.valueOf(biome));
+			} catch (IllegalArgumentException e) {
+				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Biomes." + biome + "' does not exist");
+			}
+		}
+		
+		bossData.setBiomes(biomes);
 	}
 	
 	public static Map<String, BossData> getBossesData() {

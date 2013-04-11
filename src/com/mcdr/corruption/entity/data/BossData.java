@@ -3,6 +3,7 @@ package com.mcdr.corruption.entity.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.block.Biome;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
@@ -20,6 +21,7 @@ public class BossData {
 	private EntityType entityType;
 	private EquipmentSet bossEquipment = null;
 	private List<BossImmunity> immunities;
+	private List<Biome> biomes;
 	private double chance;
 	private double chanceFromSpawner;
 	private double healthCoef;
@@ -37,6 +39,7 @@ public class BossData {
 		this.entityType = entityType;
 		setStatsMultipliers(BossParam.USE_HEALTH_AS_MULTIPLIER.getValue(), BossParam.USE_DAMAGE_AS_MULTIPLIER.getValue(), BossParam.USE_EXPERIENCE_AS_MULTIPLIER.getValue());
 		immunities = new ArrayList<BossImmunity>();
+		biomes = new ArrayList<Biome>();
 	}
 	
 	public void AddAbility(Ability ability) {
@@ -95,6 +98,10 @@ public class BossData {
 		return heroesXPBonus;
 	}
 	
+	public List<Biome> getBiomes(){
+		return biomes;
+	}
+	
 	public boolean useHealthMultiplier(){
 		return useHealthAsMultiplier;
 	}
@@ -131,6 +138,10 @@ public class BossData {
 	
 	public void setHeroesXPBonus(double bonus){
 		heroesXPBonus = bonus;
+	}
+	
+	public void setBiomes(List<Biome> biomes){
+		this.biomes = biomes;
 	}
 	
 	public void setEquipment(EquipmentSet eqS){

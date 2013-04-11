@@ -27,6 +27,7 @@ Boss:
   SetHealthAsMultiplier: true
   SetDamageAsMultiplier: true
   SetExperienceAsMultiplier: true
+  EnableBiomes: false
 
 CheckUpdateOnStartup: true
 ReloadAfterUpdating: true

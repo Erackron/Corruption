@@ -30,6 +30,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
+import com.mcdr.corruption.config.GlobalConfig;
 import com.mcdr.corruption.config.WorldConfig;
 import com.mcdr.corruption.entity.Boss;
 import com.mcdr.corruption.entity.CorEntity;
@@ -66,6 +67,10 @@ public class CorEntityListener implements Listener {
 		for(BossData bossData: bossDatas){
 			if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY())
 				continue;
+			
+			if(GlobalConfig.BossParam.ENABLE_BIOMES.getValue())
+				if(!bossData.getBiomes().contains(event.getLocation().getBlock().getBiome()))
+					continue;
 
 			if(bossData instanceof ZombieBossData){
 				ZombieBossData zBossData = (ZombieBossData) bossData;

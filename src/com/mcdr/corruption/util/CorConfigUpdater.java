@@ -211,6 +211,9 @@ public class CorConfigUpdater {
 			
 			if(!global.isSet("Message.CustomBossName"))
 				global.set("Message.CustomBossName", GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage());
+			
+			if(!global.isSet("Boss.EnableBiomes"))
+				global.set("Boss.EnableBiomes", false);
 		}
 		
 		global.set("ConfigVersion", latestVersion);
