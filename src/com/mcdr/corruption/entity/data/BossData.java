@@ -153,7 +153,7 @@ public class BossData {
 	}
 	
 	public EntityEquipment setRandomEquipment(LivingEntity e){
-		return hasEquipment()?bossEquipment.setRandomEquipment(e):new EquipmentSet().setRandomEquipment(e);
+		return bossEquipment.setRandomEquipment(e);
 	}
 	
 	public void setImmunity(String immunityName, boolean isEnabled){
