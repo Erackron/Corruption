@@ -49,13 +49,13 @@ public class UpdateCommand extends BaseCommand {
 		if(!CorAutoUpdater.updateMd5Hash())
 			return;
 		
-		if(CorAutoUpdater.update())
+		if(CorAutoUpdater.update()){
 			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Updated successfully.");
 			if(!GlobalConfig.reloadAfterUpdating){
 				sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Reload or restart your server for the changes to take effect.");
 				sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.RED + "WARNING: " + ChatColor.WHITE + "Don't use a pluginmanager to reload this plugin. This plugin is not responsible for the damage that may occur if you do that.");
 			}
-		else {
+		} else {
 			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Update failed.");
 			if(sender instanceof Player)
 				sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Check the console/logs for more information.");
