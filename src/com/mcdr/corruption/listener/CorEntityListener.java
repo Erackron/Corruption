@@ -28,8 +28,11 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 import com.mcdr.corruption.Corruption;
+import com.mcdr.corruption.CorruptionAPI;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
+import com.mcdr.corruption.config.BossConfig;
 import com.mcdr.corruption.config.GlobalConfig;
 import com.mcdr.corruption.config.WorldConfig;
 import com.mcdr.corruption.entity.Boss;
@@ -51,7 +54,7 @@ import com.mcdr.corruption.util.Utility;
 
 public class CorEntityListener implements Listener {	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onCreatureSpawn(CreatureSpawnEvent event) {
+	public void onCreatureSpawn(CreatureSpawnEvent event) {	
 		if (event.getSpawnReason() == SpawnReason.CUSTOM)
 			return;
 		
@@ -113,7 +116,22 @@ public class CorEntityListener implements Listener {
 	
 	private void addBoss(LivingEntity livingEntity, BossData bossData){
 		Boss boss = new Boss(livingEntity, bossData);
-		CorEntityManager.AddBoss(boss);
+		CorEntityManager.addBoss(boss);
+	}
+	
+	@EventHandler
+	public void onChunkLoad(ChunkLoadEvent event){
+		Entity[] eA = event.getChunk().getEntities();
+		for(Entity e: eA){
+			if(CorruptionAPI.hasBossMetatag(e) && CorEntityManager.getBoss(e)==null && e instanceof LivingEntity){
+				BossData bossData = BossConfig.getBossesData().get(CorruptionAPI.getBossMetatag(e));
+				if(bossData!=null){
+					CorEntityManager.addBoss(Boss.restoreBoss((LivingEntity) e, bossData));
+				} else {
+					e.remove();
+				}
+			}
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)

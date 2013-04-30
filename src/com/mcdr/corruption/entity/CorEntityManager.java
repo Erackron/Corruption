@@ -14,8 +14,6 @@ import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.Zombie;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.LazyMetadataValue;
-
 import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.entity.data.BossData;
 import com.mcdr.corruption.entity.data.PigZombieBossData;
@@ -26,8 +24,6 @@ import com.mcdr.corruption.entity.data.ZombieBossData;
 public abstract class CorEntityManager {
 	private static List<Boss> bosses = new ArrayList<Boss>();
 	private static List<EntityType> bossEntityTypes = new ArrayList<EntityType>();
-	
-	private final static LazyMetadataValue isBoss = new FixedMetadataValue(Corruption.in, "Corrupted");
 	
 	public static Boss spawnBossEntity(Location location, EntityType entityType, BossData bossData){
 		LivingEntity spawnedCreature;
@@ -42,7 +38,7 @@ public abstract class CorEntityManager {
 		
 		Boss boss = new Boss(spawnedCreature, bossData);
 		
-		AddBoss(boss);
+		addBoss(boss);
 		return boss;
 	}
 	
@@ -71,22 +67,22 @@ public abstract class CorEntityManager {
 			}
 	}
 	
-	public static void AddBoss(Boss boss) {
-		boss.getLivingEntity().setMetadata("isBoss", isBoss);
+	public static void addBoss(Boss boss) {
+		boss.getLivingEntity().setMetadata("isBoss", new FixedMetadataValue(Corruption.in, boss.getRawName()));
 		bosses.add(boss);
 	}
 	
-	public static void DamageBoss(Boss boss, int damage) {
+	public static void damageBoss(Boss boss, int damage) {
 		boss.setHealth(boss.getHealth() - damage);
 	}
 	
-	public static boolean IsDead(Boss boss) {
+	public static boolean isDead(Boss boss) {
 		if (boss.getHealth() <= 0)
 			return true;
 		return false;
 	}
 	
-	public static void Clear() {
+	public static void clear() {
 		bosses.clear();
 	}
 	

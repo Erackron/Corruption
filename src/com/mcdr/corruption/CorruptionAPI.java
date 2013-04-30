@@ -12,7 +12,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
 import com.mcdr.corruption.config.BossConfig;
@@ -107,7 +106,7 @@ public class CorruptionAPI {
 		if(updateEntity)
 			CorEntityManager.adjustSpecificEntities(livingEntity, bossData, livingEntity.getType());
 		Boss boss = new Boss(livingEntity, bossData);
-		CorEntityManager.AddBoss(boss);
+		CorEntityManager.addBoss(boss);
 		return boss;
 	}
 	
@@ -303,7 +302,7 @@ public class CorruptionAPI {
 	 * @return boolean Whether the Boss is dead
 	 */
 	public static boolean isDead(Boss b){
-		return CorEntityManager.IsDead(b);
+		return CorEntityManager.isDead(b);
 	}
 
 	/**
@@ -333,27 +332,29 @@ public class CorruptionAPI {
 	 * @return boolean Whether the entity has the isBoss metadatatag and whether or not it received it from Corruption
 	 */
 	public static boolean hasBossMetatag(Entity e){
+		return getBossMetatag(e)!=null;
+	}
+	
+	/**
+	 * @param e Entity to get the bossname metadatatag isBoss of
+	 * @return String the bossName of this entity belonging to its metadatatag or null if it doesn't have the isBoss tag
+	 */
+	public static String getBossMetatag(Entity e){
 		String key = "isBoss";
+		
 		if(!e.hasMetadata(key))
-			return false;
+			return null;
 
-		LazyMetadataValue meta = new FixedMetadataValue(Corruption.in, "Corrupted");
 		List<MetadataValue> list = e.getMetadata(key);
-		if (list.contains(meta))
-            return true;
 
         for (MetadataValue metaV : list) {
             if (!(metaV instanceof FixedMetadataValue))
                 continue;
             else if (!metaV.getOwningPlugin().equals(Corruption.in))
-                continue;
-            else if (!metaV.value().equals(meta.value()))
-                continue;
-            
-            return true;
+                continue;          
+            return (String) metaV.value();
         }
 
-        return false;
+        return null;
 	}
-	
 }

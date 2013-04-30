@@ -41,7 +41,7 @@ public class ProcessEntityDamage extends BaseTask {
 		
 		damageTaken = healthBefore - entityHealth;
 		
-		CorEntityManager.DamageBoss(boss, damageTaken);
+		CorEntityManager.damageBoss(boss, damageTaken);
 		
 		// Generating viewer message	
 		String viewerMsg = Utility.parseMessage((boss.getHealth()>0)?

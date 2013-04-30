@@ -2,7 +2,6 @@ package com.mcdr.corruption.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -257,6 +256,10 @@ public class Boss extends CorEntity implements CommandSender {
 		return maxHealth;
 	}
 	
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+	}
+	
 	public String getRawName(){
 		return getBossData().getName();
 	}
@@ -267,8 +270,18 @@ public class Boss extends CorEntity implements CommandSender {
 	public String getName() {
 		return Utility.parseMessage("{BOSSNAME}", getRawName());
 	}
-
 	
+	public static Boss restoreBoss(LivingEntity livingEntity, BossData bossData){
+		int curHealth = livingEntity.getHealth(), curMaxHealth = livingEntity.getMaxHealth();
+		Boss boss = new Boss(livingEntity, bossData);
+		livingEntity.setMaxHealth(curMaxHealth);
+		livingEntity.setHealth(curHealth);
+		boss.setMaxHealth(curMaxHealth);
+		boss.setHealth(curHealth);
+		boss.setBossData(bossData);
+		return boss;
+	}
+
 	/*** ComandSender methods ***/	
 	public boolean hasPermission(String arg0) {return true;}
 	public boolean hasPermission(Permission arg0) {return true;}
@@ -285,7 +298,7 @@ public class Boss extends CorEntity implements CommandSender {
 	public PermissionAttachment addAttachment(Plugin arg0, int arg1) {return null;}
 	public PermissionAttachment addAttachment(Plugin arg0, String arg1, boolean arg2) {return null;}
 	public PermissionAttachment addAttachment(Plugin arg0, String arg1,	boolean arg2, int arg3) {return null;}
-	public Set<PermissionAttachmentInfo> getEffectivePermissions() {return new HashSet<PermissionAttachmentInfo>();}
+	public Set<PermissionAttachmentInfo> getEffectivePermissions() {return Bukkit.getConsoleSender().getEffectivePermissions();}
 	public void recalculatePermissions() {}
 	public void removeAttachment(PermissionAttachment arg0) {}
 }
