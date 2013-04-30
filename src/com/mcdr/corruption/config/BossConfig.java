@@ -130,13 +130,18 @@ public class BossConfig extends BaseConfig {
 			return false;
 		}
 		
-		double height;
+		double minheight, maxheight;
 		if(spawnSection.isSet("MaxSpawnHeight"))
-			height = spawnSection.getDouble("MaxSpawnHeight");
+			maxheight = spawnSection.getDouble("MaxSpawnHeight");
 		else
-			height = 256;
+			maxheight = 256;
+		
+		if(spawnSection.isSet("MinSpawnHeight"))
+			minheight = spawnSection.getDouble("MinSpawnHeight");
+		else
+			minheight = 0;
 	
-		bossData.setSpawnData(spawnSection.getDouble("Probability"), spawnSection.getDouble("SpawnerProbability"), height);
+		bossData.setSpawnData(spawnSection.getDouble("Probability"), spawnSection.getDouble("SpawnerProbability"), minheight, maxheight);
 		return true;
 	}
 	

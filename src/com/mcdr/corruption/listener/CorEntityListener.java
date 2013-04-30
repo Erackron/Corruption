@@ -68,7 +68,7 @@ public class CorEntityListener implements Listener {
 		double chance = Utility.random.nextInt(100), curChance = 0;
 		
 		for(BossData bossData: bossDatas){
-			if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY())
+			if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY() || bossData.getMinSpawnLevel() > livingEntity.getLocation().getY())
 				continue;
 			
 			if(GlobalConfig.BossParam.ENABLE_BIOMES.getValue())

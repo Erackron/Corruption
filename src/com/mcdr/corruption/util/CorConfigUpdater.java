@@ -361,6 +361,15 @@ public class CorConfigUpdater {
 			}
 		}
 		
+		if(Utility.isOlderVersion(configVersion, "2.2")){
+			for(String node : bosses.getKeys(false)){
+				if(node.equalsIgnoreCase("ConfigVersion"))
+					continue;
+				if(!bosses.isSet(node+".Spawn.MinSpawnHeight"))
+					bosses.set(node+".Spawn.MinSpawnHeight", 0);				
+			}
+		}
+		
 		bosses.set("ConfigVersion", latestVersion);
 		save(bosses, "bosses.yml");
 		Corruption.l.info("["+Corruption.pluginName+"] Boss config updated");

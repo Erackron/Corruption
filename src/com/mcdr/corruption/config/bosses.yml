@@ -8,6 +8,7 @@ Blaze:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 5.5
@@ -31,6 +32,7 @@ CaveSpider:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 5.5
@@ -54,6 +56,7 @@ Creeper:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 3.75
@@ -77,6 +80,7 @@ Enderman:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 3.75
@@ -101,6 +105,7 @@ Ghast:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 5.5
@@ -124,6 +129,7 @@ LavaSlime:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 5.5
@@ -149,6 +155,7 @@ PigZombie:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 5.5
@@ -172,6 +179,7 @@ Silverfish:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 7.5
@@ -197,6 +205,7 @@ Skeleton:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 5.5
@@ -222,6 +231,7 @@ Slime:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 5.5
@@ -245,6 +255,7 @@ Spider:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 5.5
@@ -268,6 +279,7 @@ Witch:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 5.5
@@ -289,6 +301,7 @@ Wither:
   Spawn:
     Probability: 25.0
     SpawnerProbability: 0.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256
   Stats:
     Health: 5.0
@@ -320,6 +333,7 @@ Zombie:
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
+    MinSpawnHeight: 0.0
     MaxSpawnHeight: 256.0
   Stats:
     Health: 5.5
@@ -335,4 +349,4 @@ Zombie:
     Suffocation: true
 
 #Do not touch this variable
-ConfigVersion: '2.1.2'
+ConfigVersion: '2.2'

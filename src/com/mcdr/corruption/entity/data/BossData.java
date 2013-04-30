@@ -27,6 +27,7 @@ public class BossData {
 	private double healthCoef;
 	private double damageCoef;
 	private double expCoef;
+	private double minSpawnLevel;
 	private double maxSpawnLevel;
 	private double heroesXPBonus;
 	private int mcMMOXPBonus = 0;	
@@ -86,6 +87,10 @@ public class BossData {
 		return expCoef;
 	}
 	
+	public double getMinSpawnLevel(){
+		return minSpawnLevel;
+	}
+	
 	public double getMaxSpawnLevel(){
 		return maxSpawnLevel;
 	}
@@ -120,9 +125,10 @@ public class BossData {
 		useExperienceAsMultiplier = experience;
 	}
 	
-	public void setSpawnData(double chance, double chanceFromSpawner, double maxSpawnLevel) {
+	public void setSpawnData(double chance, double chanceFromSpawner, double minSpawnLevel, double maxSpawnLevel) {
 		this.chance = chance;
 		this.chanceFromSpawner = chanceFromSpawner;
+		this.minSpawnLevel = minSpawnLevel;
 		this.maxSpawnLevel = maxSpawnLevel;
 	}
 	
