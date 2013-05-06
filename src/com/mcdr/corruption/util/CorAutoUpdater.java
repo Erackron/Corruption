@@ -95,8 +95,8 @@ public class CorAutoUpdater {
 			try{
 				String md5 = Utility.calculateMd5Hash(origFile);
 				if(!md5.equalsIgnoreCase(md5Hash)){
-					Corruption.l.warning("[Likeaboss] Download failed, hashes did not match: " + md5 + " != " + md5Hash);
-					Corruption.l.warning("[Likeaboss] This means the file wasn't correctly downloaded, please try again.");
+					Corruption.l.warning("["+Corruption.pluginName+"] Download failed, hashes did not match: " + md5 + " != " + md5Hash);
+					Corruption.l.warning("["+Corruption.pluginName+"] This means the file wasn't correctly downloaded, please try again.");
 					Utility.fileToFile(bakFile, origFile);
 					bakFile.delete();
 					return false;
