@@ -366,7 +366,7 @@ public class CorConfigUpdater {
 				if(node.equalsIgnoreCase("ConfigVersion"))
 					continue;
 				if(!bosses.isSet(node+".Spawn.MinSpawnHeight"))
-					bosses.set(node+".Spawn.MinSpawnHeight", 0);				
+					bosses.set(node+".Spawn.MinSpawnHeight", 0.0D);				
 			}
 		}
 		
