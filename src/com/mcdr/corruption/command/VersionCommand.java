@@ -1,5 +1,7 @@
 package com.mcdr.corruption.command;
 
+import org.bukkit.ChatColor;
+
 import com.mcdr.corruption.Corruption;
 
 public class VersionCommand extends BaseCommand{
@@ -7,6 +9,6 @@ public class VersionCommand extends BaseCommand{
 		if(!checkPermission("cor.version", true))
 			return;
 		
-		sender.sendMessage("["+Corruption.pluginName+"] Version "+Corruption.in.getDescription().getVersion());
+		sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"]" + ChatColor.WHITE + " Version "+Corruption.in.getDescription().getVersion());
 	}
 }
