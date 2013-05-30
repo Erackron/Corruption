@@ -78,7 +78,7 @@ public class Boss extends CorEntity implements CommandSender {
 	}
 	
 	public void updateCustomName(boolean force) {
-		force = !GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage().equalsIgnoreCase("hide")&&force;
+		if(GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage().equalsIgnoreCase("false")) return;
 		if(livingEntity.isCustomNameVisible()||force)
 			livingEntity.setCustomName(Utility.parseMessage(GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage(), this));
 		livingEntity.setCustomNameVisible(this.found);
