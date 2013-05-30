@@ -271,7 +271,7 @@ public class BossConfig extends BaseConfig {
 		List<Biome> biomes = new ArrayList<Biome>();
 		for(String biome:biomeStrings){
 			try {
-				biomes.add(Biome.valueOf(biome));
+				biomes.add(Biome.valueOf(biome.toUpperCase()));
 			} catch (IllegalArgumentException e) {
 				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Biomes." + biome + "' does not exist");
 			}

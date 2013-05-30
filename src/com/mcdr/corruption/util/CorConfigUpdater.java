@@ -216,6 +216,14 @@ public class CorConfigUpdater {
 				global.set("Boss.EnableBiomes", false);
 		}
 		
+		if(Utility.isOlderVersion(configVersion, "2.2.1")){
+			String cbn = global.getString("Message.CustomBossName", "nothing");
+			if(cbn.equalsIgnoreCase("hide"))
+				global.set("Message.CustomBossName", "false");
+			else if(cbn.equalsIgnoreCase("nothing"))
+				global.set("Message.CustomBossName", GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage());
+		}
+		
 		global.set("ConfigVersion", latestVersion);
 		save(global, "config.yml");
 		Corruption.l.info("["+Corruption.pluginName+"] Global config updated");
