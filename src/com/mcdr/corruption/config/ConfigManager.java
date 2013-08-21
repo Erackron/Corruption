@@ -7,7 +7,7 @@ import com.mcdr.corruption.Corruption;
 
 public abstract class ConfigManager {
 	public static void Load() {
-		GlobalConfig.Load();
+		GlobalConfig.load();
 		AbilityConfig.Load();
 		// EquipmentConfig must be loaded before the BossConfig (for obvious reasons)
 		EquipmentConfig.Load();

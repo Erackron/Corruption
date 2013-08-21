@@ -77,7 +77,7 @@ public class CorAutoUpdater {
 	public static boolean update() {
 		if(timeStamp==-1)
 			if(!updateMd5Hash())
-				Corruption.l.info("["+Corruption.pluginName+"] No Md5 hash found to check if the download succeeded.");
+				CorLogger.i("No Md5 hash found to check if the download succeeded.");
 			
 		File origFile = new File("plugins", "Corruption.jar"),
 			 bakFile = new File("plugins", "Corruption.jar.bak");
@@ -95,8 +95,8 @@ public class CorAutoUpdater {
 			try{
 				String md5 = Utility.calculateMd5Hash(origFile);
 				if(!md5.equalsIgnoreCase(md5Hash)){
-					Corruption.l.warning("["+Corruption.pluginName+"] Download failed, hashes did not match: " + md5 + " != " + md5Hash);
-					Corruption.l.warning("["+Corruption.pluginName+"] This means the file wasn't correctly downloaded, please try again.");
+					CorLogger.w("Download failed, hashes did not match: " + md5 + " != " + md5Hash);
+					CorLogger.w("This means the file wasn't correctly downloaded, please try again.");
 					Utility.fileToFile(bakFile, origFile);
 					bakFile.delete();
 					return false;
@@ -107,11 +107,11 @@ public class CorAutoUpdater {
 				return false;
 			}
 			if(GlobalConfig.reloadAfterUpdating){
-				Corruption.l.info("["+Corruption.pluginName+"] Reloading " + Corruption.pluginName + " v" + CorUpdateChecker.getLastVersion());
+				CorLogger.i("Reloading " + Corruption.pluginName + " v" + CorUpdateChecker.getLastVersion());
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "reload");
 			} else {
-				Corruption.l.info("["+Corruption.pluginName+"] " + Corruption.pluginName + " v" + CorUpdateChecker.getLastVersion() + " installed. Reload or restart your server for the changes to take effect.");
-				Corruption.l.info("["+Corruption.pluginName+"] " + ChatColor.RED + "WARNING: " + ChatColor.RESET + "Don't use a pluginmanager to reload this plugin. This plugin is not responsible for the damage that may occur if you do that.");
+				CorLogger.i("" + Corruption.pluginName + " v" + CorUpdateChecker.getLastVersion() + " installed. Reload or restart your server for the changes to take effect.");
+				CorLogger.i("" + ChatColor.RED + "WARNING: " + ChatColor.RESET + "Don't use a pluginmanager to reload this plugin. This plugin is not responsible for the damage that may occur if you do that.");
 			}
 	  } catch(Exception e) {
 	    e.printStackTrace();

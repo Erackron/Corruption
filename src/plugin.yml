@@ -1,6 +1,6 @@
 name: Corruption
 main: com.mcdr.corruption.Corruption
-version: 2.2.1
+version: 2.3
 authors: [Erackron, Pyriphlegethon]
 softdepend: [Vault]
 commands:
@@ -19,6 +19,7 @@ permissions:
       cor.info: true
       cor.reload: true
       cor.list: true
+      cor.loglevel: true
       cor.spawn: true
       cor.stats: true
       cor.update: true
@@ -54,6 +55,9 @@ permissions:
     default: false
   cor.list:
     description: Display the location of active bosses.
+    default: false
+  cor.loglevel:
+    description: Change the LogLevel to control the amount of log messages from this plugin.
     default: false
   cor.spawn:
     description: Spawn one or multiple bosses on the targeted block.

@@ -19,6 +19,8 @@ public abstract class HelpCommand extends BaseCommand {
 			sender.sendMessage("/" + label + " info: " + ChatColor.GRAY + "Display some global and non-lasting stats.");
 		if(Utility.hasPermission(sender, "cor.list"))
 			sender.sendMessage("/" + label + " list: " + ChatColor.GRAY + "Display the location of active bosses.");
+		if(Utility.hasPermission(sender, "cor.loglevel"))
+			sender.sendMessage("/" + label + " loglevel <new level>: " + ChatColor.GRAY + "View or change the current logging level.");
 		if(Utility.hasPermission(sender, "cor.reload"))
 			sender.sendMessage("/" + label + " reload: " + ChatColor.GRAY + "Reload configuration files.");
 		if(Utility.hasPermission(sender, "cor.spawn"))

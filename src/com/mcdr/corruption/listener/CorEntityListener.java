@@ -49,12 +49,21 @@ import com.mcdr.corruption.handler.mcMMOHandler;
 import com.mcdr.corruption.player.CorPlayer;
 import com.mcdr.corruption.player.CorPlayerManager;
 import com.mcdr.corruption.task.ProcessEntityDamage;
+import com.mcdr.corruption.util.CorLogger;
 import com.mcdr.corruption.util.Utility;
 
 
 public class CorEntityListener implements Listener {	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onCreatureSpawn(CreatureSpawnEvent event) {	
+	public void onCreatureSpawn(CreatureSpawnEvent event) {
+		boolean debug = CorLogger.debugEnabled();
+		if(debug){
+			CorLogger.d(" __________________________________________________");
+			CorLogger.d("|Event:\t\tSpawnEvent\t\t\t|");
+			CorLogger.d("|EntityType:\t"+event.getEntityType().getName()+(event.getEntityType().getName().length()<8?"\t":"")+"\t\t\t|");
+			CorLogger.d("|SpawnReason:\t"+event.getSpawnReason()+"\t\t\t\t|");
+		}
+		
 		if (event.getSpawnReason() == SpawnReason.CUSTOM)
 			return;
 		
@@ -68,12 +77,22 @@ public class CorEntityListener implements Listener {
 		double chance = Utility.random.nextInt(100), curChance = 0;
 		
 		for(BossData bossData: bossDatas){
-			if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY() || bossData.getMinSpawnLevel() > livingEntity.getLocation().getY())
+			if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY() || bossData.getMinSpawnLevel() > livingEntity.getLocation().getY()){
+				if(debug){
+					CorLogger.d("|Skipping '"+bossData.getName()+"' due to height limit:\t|");
+					CorLogger.d("|MinSpawnLevel:\tSpawnLevel:\tMaxSpawnLevel:\t|");
+					CorLogger.d("|"+bossData.getMinSpawnLevel()+"\t\t"+livingEntity.getLocation().getY()+"\t\t"+bossData.getMaxSpawnLevel()+"\t\t|");
+				}
 				continue;
-			
+			}
+				
 			if(GlobalConfig.BossParam.ENABLE_BIOMES.getValue())
-				if(!bossData.getBiomes().contains(event.getLocation().getBlock().getBiome()))
+				if(!bossData.getBiomes().contains(event.getLocation().getBlock().getBiome())){
+					if(debug){
+						CorLogger.d("|Skipping '"+bossData.getName()+"' because of biome restrictions, '"+event.getLocation().getBlock().getBiome().name()+"' is not allowed.|");
+					}
 					continue;
+				}
 
 			if(bossData instanceof ZombieBossData){
 				ZombieBossData zBossData = (ZombieBossData) bossData;
@@ -112,11 +131,20 @@ public class CorEntityListener implements Listener {
 				curChance += bossData.getChance();
 			}
 		}
+		if(debug) CorLogger.d("|__________________________________________________|");
 	}
 	
 	private void addBoss(LivingEntity livingEntity, BossData bossData){
 		Boss boss = new Boss(livingEntity, bossData);
 		CorEntityManager.addBoss(boss);
+		
+		if(CorLogger.debugEnabled()){
+			CorLogger.d("|BossData selection finished:\t\t\t|");
+			CorLogger.d("|BossName:\t\t"+bossData.getName());
+			CorLogger.d("|Abilities assigned:\t\t\t\t|");
+			for(String aName: boss.abilityList())
+				CorLogger.d("|"+aName);
+		}
 	}
 	
 	@EventHandler

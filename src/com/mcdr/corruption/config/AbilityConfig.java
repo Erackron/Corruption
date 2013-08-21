@@ -22,6 +22,7 @@ import com.mcdr.corruption.ability.Snare;
 import com.mcdr.corruption.ability.Teleport;
 import com.mcdr.corruption.ability.Ability.AbilityType;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
+import com.mcdr.corruption.util.CorLogger;
 
 public abstract class AbilityConfig extends BaseConfig {
 	private static Map<String, Ability> abilities;
@@ -46,7 +47,7 @@ public abstract class AbilityConfig extends BaseConfig {
 			node += "." + entryKey;
 			
 			if (!abilityEntries.containsKey(entryKey)) {
-				Corruption.l.warning("["+Corruption.pluginName+"] '" + node + "' in abilities config file is missing.");
+				CorLogger.warning("'" + node + "' in abilities config file is missing.");
 				continue;
 			}
 			
@@ -180,6 +181,8 @@ public abstract class AbilityConfig extends BaseConfig {
 			if(ability != null){
 				ability.setAbilityType(abilityType);
 				
+				ability.setName(abilityName);
+				
 				entryKey = "Message";
 				if(abilityEntries.containsKey(entryKey))
 					ability.setMessage((String) abilityEntries.get(entryKey));
@@ -211,12 +214,12 @@ public abstract class AbilityConfig extends BaseConfig {
 						ActivationCondition condition = ActivationCondition.fromString(activationCondition);
 						if(condition!=null){
 							if(condition == ActivationCondition.ONDEATH && !ability.getAbilityType().isOnDeathAllowed()){
-								Corruption.l.info("["+Corruption.pluginName+"] '" + abilityName + "." + entryKey + "." + activationCondition + "' isn't possible/allowed for this ability.");
+								CorLogger.i("'" + abilityName + "." + entryKey + "." + activationCondition + "' isn't possible/allowed for this ability.");
 								continue;
 							}
 							ability.addActivationCondition(condition);
 						} else {
-							Corruption.l.warning("["+Corruption.pluginName+"] '" + abilityName + "." + entryKey + "." + activationCondition + "' isn't a valid activation condition.");
+							CorLogger.warning("'" + abilityName + "." + entryKey + "." + activationCondition + "' isn't a valid activation condition.");
 						}
 					}
 				}		

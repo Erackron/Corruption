@@ -12,11 +12,11 @@ import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.drop.Drop;
 import com.mcdr.corruption.drop.Roll;
 import com.mcdr.corruption.entity.data.BossData;
+import com.mcdr.corruption.util.CorLogger;
 import com.mcdr.corruption.world.WorldData;
 
 
@@ -44,7 +44,7 @@ public abstract class WorldConfig extends BaseConfig {
 		
 		for (String bossName : bossNames) {
 			if (!bossesData.containsKey(bossName)) {
-				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + "' in '" + worldName + "' config file isn't a valid boss.");
+				CorLogger.w("'" + bossName + "' in '" + worldName + "' config file isn't a valid boss.");
 				continue;
 			}
 			
@@ -57,7 +57,7 @@ public abstract class WorldConfig extends BaseConfig {
 		
 		for (String abilityName : abilityNames) {
 			if (!abilities.containsKey(abilityName)) {
-				Corruption.l.warning("["+Corruption.pluginName+"] '" + abilityName + "' in '" + worldName + " config file isn't a valid ability.");
+				CorLogger.w("'" + abilityName + "' in '" + worldName + " config file isn't a valid ability.");
 				continue;
 			}
 			
@@ -67,7 +67,7 @@ public abstract class WorldConfig extends BaseConfig {
 	
 	private static void LoadLoots(WorldData worldData, ConfigurationSection lootSection, String worldName) {
 		if (lootSection == null) {
-			Corruption.l.warning("["+Corruption.pluginName+"] 'Loot' in '" + worldName + "' config file is invalid.");
+			CorLogger.w("'Loot' in '" + worldName + "' config file is invalid.");
 			return;
 		}
 		
@@ -77,7 +77,7 @@ public abstract class WorldConfig extends BaseConfig {
 			ConfigurationSection rollSection = lootSection.getConfigurationSection(rollString);
 			
 			if (rollSection == null) {
-				Corruption.l.warning("["+Corruption.pluginName+"] 'Loot." + rollString + "' in '" + worldName + "' config file is invalid.");
+				CorLogger.w("'Loot." + rollString + "' in '" + worldName + "' config file is invalid.");
 				continue;
 			}
 			
@@ -95,7 +95,7 @@ public abstract class WorldConfig extends BaseConfig {
 				String[] dropValues = dropString.split(" ");
 				
 				if (dropValues.length < 4) {
-					Corruption.l.warning("["+Corruption.pluginName+"] Missing values for '" + "Loot." + rollString + "." + dropEntry.getKey() + "' in '" + worldName + "' config file.");
+					CorLogger.w("Missing values for '" + "Loot." + rollString + "." + dropEntry.getKey() + "' in '" + worldName + "' config file.");
 					continue;
 				}
 				

@@ -27,6 +27,8 @@ public class CommandManager implements CommandExecutor{
 			InfoCommand.process();
 		else if(firstArg.equalsIgnoreCase("list"))
 			ListCommand.process();
+		else if(firstArg.equalsIgnoreCase("loglevel"))
+			LogCommand.process();
 		else if(firstArg.equalsIgnoreCase("reload"))
 			ReloadCommand.process();
 		else if(firstArg.equalsIgnoreCase("spawn"))

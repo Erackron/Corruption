@@ -83,6 +83,15 @@ public abstract class Ability {
 	private int maxRange = 16;
 	private String msg = "";
 	private double cooldown = 0.0;
+	private String name = "Unknown";
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	public List<ActivationCondition> getActivationConditions() {
 		return activationConditions;
@@ -228,6 +237,7 @@ public abstract class Ability {
 		ability.setMaxRange(this.maxRange);
 		ability.setMinRange(this.minRange);
 		ability.setMessage(this.msg);
+		ability.setName(this.name);
 	}
 	
 	protected static List<Block> findValidBlocks(Location location, int minRange, int maxRange) {
@@ -261,7 +271,7 @@ public abstract class Ability {
 
 		return validBlocks;
 	}
-	
+
 	public class AbilityReactivator implements Runnable {
 		private Boss boss;
 		private Ability ability;

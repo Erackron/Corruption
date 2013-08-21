@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.config.GlobalConfig.MessageParam;
 import com.mcdr.corruption.task.TaskManager;
+import com.mcdr.corruption.util.CorLogger;
 import com.mcdr.corruption.util.Utility;
 
 
@@ -136,7 +137,7 @@ public abstract class CorPlayerManager {
 
 	public static void forcePlayerDataSaving()
 	{
-		Corruption.l.info("[" + Corruption.pluginName + "] Force saving player data.");
+		CorLogger.i("Force saving player data.");
 		TaskManager.getCorPlayerFileAccessor().forcePlayerDataSaving(getPlayersToSave());
 		seenCorPlayers.clear();
 	}

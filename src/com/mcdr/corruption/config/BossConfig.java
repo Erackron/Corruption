@@ -15,7 +15,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
-import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.drop.Drop;
 import com.mcdr.corruption.drop.Roll;
@@ -28,6 +27,7 @@ import com.mcdr.corruption.entity.data.SlimeBossData;
 import com.mcdr.corruption.entity.data.WitherBossData;
 import com.mcdr.corruption.entity.data.ZombieBossData;
 import com.mcdr.corruption.entity.data.BossData.BossImmunity;
+import com.mcdr.corruption.util.CorLogger;
 
 
 public class BossConfig extends BaseConfig {
@@ -52,7 +52,7 @@ public class BossConfig extends BaseConfig {
 			ConfigurationSection configurationSection = yamlConfig.getConfigurationSection(bossName);
 			
 			if (configurationSection == null) {
-				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + "' in bosses config file is invalid.");
+				CorLogger.w("'" + bossName + "' in bosses config file is invalid.");
 				continue;
 			}
 			
@@ -60,7 +60,7 @@ public class BossConfig extends BaseConfig {
 			EntityType entityType = EntityType.fromName(entityTypeString);
 			
 			if (entityType == null) {
-				Corruption.l.warning("["+Corruption.pluginName+"] '" + entityTypeString + "' in bosses config file isn't a valid EntityType.");
+				CorLogger.w("'" + entityTypeString + "' in bosses config file isn't a valid EntityType.");
 				continue;
 			}
 			
@@ -121,12 +121,12 @@ public class BossConfig extends BaseConfig {
 	
 	private static boolean LoadSpawnValues(BossData bossData, ConfigurationSection spawnSection, String bossName) {
 		if (spawnSection == null) {
-			Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Spawn' in bosses config file is missing.");
+			CorLogger.w("'" + bossName + ".Spawn' in bosses config file is missing.");
 			return false;
 		}
 		
 		if(!(spawnSection.isSet("Probability") && spawnSection.isSet("SpawnerProbability"))){
-			Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Spawn' in bosses config file is invalid.");
+			CorLogger.w("'" + bossName + ".Spawn' in bosses config file is invalid.");
 			return false;
 		}
 		
@@ -148,7 +148,7 @@ public class BossConfig extends BaseConfig {
 	private static boolean LoadStats(BossData bossData, ConfigurationSection statsSection, String bossName) {
 		
 		if(!(statsSection.isSet("Health") && statsSection.isSet("Damage") && statsSection.isSet("Experience"))){
-			Corruption.l.info("["+Corruption.pluginName+"] Missing values in '" + bossName + ".Stats'");
+			CorLogger.i("Missing values in '" + bossName + ".Stats'");
 			return false;
 		}
 		
@@ -161,7 +161,7 @@ public class BossConfig extends BaseConfig {
 		
 		for (String abilityName : abilityNames) {
 			if (!abilities.containsKey(abilityName)) {
-				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Ability." + abilityName + "' in bosses config file isn't a valid ability.");
+				CorLogger.w("'" + bossName + ".Ability." + abilityName + "' in bosses config file isn't a valid ability.");
 				continue;
 			}
 			
@@ -171,7 +171,7 @@ public class BossConfig extends BaseConfig {
 	
 	private static void LoadLoots(BossData bossData, ConfigurationSection lootSection, String bossName) {
 		if (lootSection == null) {
-			Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Loot" + "' in bosses config file is invalid.");
+			CorLogger.w("'" + bossName + ".Loot" + "' in bosses config file is invalid.");
 			return;
 		}
 		
@@ -181,7 +181,7 @@ public class BossConfig extends BaseConfig {
 			ConfigurationSection rollSection = lootSection.getConfigurationSection(rollString);
 			
 			if (rollSection == null) {
-				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Loot." + rollString + "' in bosses config file is invalid.");
+				CorLogger.w("'" + bossName + ".Loot." + rollString + "' in bosses config file is invalid.");
 				continue;
 			}
 			
@@ -199,7 +199,7 @@ public class BossConfig extends BaseConfig {
 				String[] dropValues = dropString.split(" ");
 				
 				if (dropValues.length < 4) {
-					Corruption.l.warning("["+Corruption.pluginName+"] Missing values for '" + bossName + ".Loot." + rollString + "." + dropEntry.getKey() + "' in bosses config file.");
+					CorLogger.w("Missing values for '" + bossName + ".Loot." + rollString + "." + dropEntry.getKey() + "' in bosses config file.");
 					continue;
 				}
 				
@@ -232,12 +232,12 @@ public class BossConfig extends BaseConfig {
 		if(EquipmentConfig.equipmentSets.containsKey(equipmentSetName))
 			bossData.setEquipment(EquipmentConfig.equipmentSets.get(equipmentSetName));
 		else
-			Corruption.l.warning("["+Corruption.pluginName+"] '" + section.getName() + ".EquipmentSet' in bosses config file is invalid or doesn't exist.");
+			CorLogger.w("'" + section.getName() + ".EquipmentSet' in bosses config file is invalid or doesn't exist.");
 	}
 	
 	public static void LoadImmunities(BossData bossData, ConfigurationSection section, String bossName){
 		if(section == null){
-			Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Immunities" + "' in bosses config file doesn't exist.");
+			CorLogger.w("'" + bossName + ".Immunities" + "' in bosses config file doesn't exist.");
 			return;
 		}
 		
@@ -264,7 +264,7 @@ public class BossConfig extends BaseConfig {
 	
 	public static void LoadBiomes(BossData bossData, List<String> biomeStrings, String bossName){
 		if(GlobalConfig.BossParam.ENABLE_BIOMES.getValue() && biomeStrings == null){
-			Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Biomes' does not exist");
+			CorLogger.w("'" + bossName + ".Biomes' does not exist");
 			return;
 		}
 		
@@ -273,7 +273,7 @@ public class BossConfig extends BaseConfig {
 			try {
 				biomes.add(Biome.valueOf(biome.toUpperCase()));
 			} catch (IllegalArgumentException e) {
-				Corruption.l.warning("["+Corruption.pluginName+"] '" + bossName + ".Biomes." + biome + "' does not exist");
+				CorLogger.w("'" + bossName + ".Biomes." + biome + "' does not exist");
 			}
 		}
 		

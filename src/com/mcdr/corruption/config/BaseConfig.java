@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.mcdr.corruption.Corruption;
+import com.mcdr.corruption.util.CorLogger;
 import com.mcdr.corruption.util.Utility;
 
 public abstract class BaseConfig {
@@ -18,11 +19,11 @@ public abstract class BaseConfig {
 		InputStream inputStream = Corruption.in.getResource(resourcePath);
 
 		if (inputStream == null) {
-			Corruption.l.severe("["+Corruption.pluginName+"] Missing resource file: '" + resourcePath + "', please notify the plugin author");
+			CorLogger.s("Missing resource file: '" + resourcePath + "', please notify the plugin authors");
 			Bukkit.getPluginManager().disablePlugin(Corruption.in);
 		}
 		else {
-			Corruption.l.info("["+Corruption.pluginName+"] Creating default config file: " + file.getName());
+			CorLogger.i("Creating default config file: " + file.getName());
 
 			try {
 				file.getParentFile().mkdirs();

@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.mcdr.corruption.Corruption;
+import com.mcdr.corruption.util.CorLogger;
 
 
 public class MagicSpellsConfig extends BaseConfig {
@@ -33,9 +33,9 @@ public class MagicSpellsConfig extends BaseConfig {
 		
 		if(!allEnabled){
 			if (useWhitelist && enabledSpells.isEmpty()) {
-				Corruption.l.warning("["+Corruption.pluginName+"] 'whitelist' in MagicSpells config file is empty.");
+				CorLogger.w("'whitelist' in MagicSpells config file is empty.");
 			} else if(!(useWhitelist) && disabledSpells.isEmpty()){
-				Corruption.l.warning("["+Corruption.pluginName+"] 'blacklist' in MagicSpells config is empty.");
+				CorLogger.w("'blacklist' in MagicSpells config is empty.");
 			} 
 						
 		}

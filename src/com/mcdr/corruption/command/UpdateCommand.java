@@ -51,7 +51,7 @@ public class UpdateCommand extends BaseCommand {
 		
 		if(CorAutoUpdater.update()){
 			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Updated successfully.");
-			if(!GlobalConfig.reloadAfterUpdating){
+			if(!GlobalConfig.reloadAfterUpdating && sender instanceof Player){
 				sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "Reload or restart your server for the changes to take effect.");
 				sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.RED + "WARNING: " + ChatColor.WHITE + "Don't use a pluginmanager to reload this plugin. This plugin is not responsible for the damage that may occur if you do that.");
 			}

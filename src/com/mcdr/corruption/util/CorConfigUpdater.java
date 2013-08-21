@@ -48,7 +48,7 @@ public class CorConfigUpdater {
 		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Creating backup of abilities.yml!");
+		CorLogger.i("Creating backup of abilities.yml!");
 		File configFile = getFile("abilities.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "abilities.yml");
 		
@@ -60,7 +60,7 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Ability config backup created, updating abilities.yml");
+		CorLogger.i("Ability config backup created, updating abilities.yml");
 		
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
@@ -72,7 +72,7 @@ public class CorConfigUpdater {
 					continue;
 				
 				if(!ability.isSet(node + ".Probability")){
-					Corruption.l.warning("["+Corruption.pluginName+"] Missing values for ability '" + node + ".Probability' in abilities.yml");
+					CorLogger.w("Missing values for ability '" + node + ".Probability' in abilities.yml");
 					continue;
 				}
 				double d = section.getDouble(node + ".Probability");
@@ -85,7 +85,7 @@ public class CorConfigUpdater {
 				
 				if(ability.getString(node + ".Type").equals("Bomb")){
 					if(!ability.isSet(node + ".Radius")){
-						Corruption.l.warning("["+Corruption.pluginName+"] Missing values for ability '" + node + "' in abilities.yml");
+						CorLogger.w("Missing values for ability '" + node + "' in abilities.yml");
 						continue;
 					}
 					int i = ability.getInt(node + ".Radius");
@@ -95,7 +95,7 @@ public class CorConfigUpdater {
 				
 				if(ability.getString(node + ".Type").equals("LightningAura")){
 					if(!ability.isSet(node + ".Radius")){
-						Corruption.l.warning("["+Corruption.pluginName+"] Missing values for ability '" + node + "' in abilities.yml");
+						CorLogger.w("Missing values for ability '" + node + "' in abilities.yml");
 						continue;
 					}
 					int i = ability.getInt(node + ".Radius");
@@ -106,7 +106,7 @@ public class CorConfigUpdater {
 		}
 		
 		if(Utility.isOlderVersion(configVersion, "2.1")){
-			Corruption.l.info("["+Corruption.pluginName+"] Updating abilities.yml");
+			CorLogger.i("Updating abilities.yml");
 			ability.getKeys(false).remove("ConfigVersion");
 			List<String> conditions = new ArrayList<String>();
 			conditions.add("OnAttack");
@@ -115,7 +115,7 @@ public class CorConfigUpdater {
 			for(String node : ability.getKeys(false)){
 				
 				if(!ability.isSet(node+".Type")){
-					Corruption.l.info("["+Corruption.pluginName+"] Missing type in abilities.yml");
+					CorLogger.i("Missing type in abilities.yml");
 					continue;
 				}
 				
@@ -146,7 +146,7 @@ public class CorConfigUpdater {
 		
 		ability.set("ConfigVersion", latestVersion);
 		save(ability, "abilities.yml");
-		Corruption.l.info("["+Corruption.pluginName+"] Ability config updated");
+		CorLogger.i("Ability config updated");
 		
 	}
 	
@@ -165,7 +165,7 @@ public class CorConfigUpdater {
 		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Creating backup of config.yml");
+		CorLogger.i("Creating backup of config.yml");
 		File configFile = getFile("config.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "config.yml");
 		
@@ -177,7 +177,7 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Global config backup created, updating config.yml");
+		CorLogger.i("Global config backup created, updating config.yml");
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
 			global = addConfigVersion("config.yml");
@@ -226,7 +226,7 @@ public class CorConfigUpdater {
 		
 		global.set("ConfigVersion", latestVersion);
 		save(global, "config.yml");
-		Corruption.l.info("["+Corruption.pluginName+"] Global config updated");
+		CorLogger.i("Global config updated");
 	}
 	
 	private void updateBossConfig(){
@@ -244,7 +244,7 @@ public class CorConfigUpdater {
 		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Creating backup of bosses.yml");
+		CorLogger.i("Creating backup of bosses.yml");
 		
 		File configFile = getFile("bosses.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "bosses.yml");
@@ -257,7 +257,7 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Bosses config backup created, updating bosses.yml");
+		CorLogger.i("Bosses config backup created, updating bosses.yml");
 				
 		if(Utility.isOlderVersion(configVersion, "2.0")){
 			bosses = addConfigVersion("bosses.yml");
@@ -270,14 +270,14 @@ public class CorConfigUpdater {
 				
 				String spawnString = bosses.getString(node+".Spawn");
 				if (spawnString == null) {
-					Corruption.l.warning("["+Corruption.pluginName+"] '" + node + "' in bosses config file is missing.");
+					CorLogger.w("'" + node + "' in bosses config file is missing.");
 					return;
 				}
 				
 				String[] spawnValues = spawnString.split(" ");
 				
 				if (spawnValues.length < 2) {
-					Corruption.l.warning("["+Corruption.pluginName+"] Missing values for '" + node + ".Spawn' in bosses config file");
+					CorLogger.w("Missing values for '" + node + ".Spawn' in bosses config file");
 					return;
 				} else if (spawnValues.length < 3){
 					String[] temp = new String[spawnValues.length + 1];
@@ -295,7 +295,7 @@ public class CorConfigUpdater {
 				bosses.set(node + ".Spawn.MaxSpawnHeight", Double.parseDouble(spawnValues[2]));
 								
 				if (!bosses.isSet(node + ".Stats")) {
-					Corruption.l.warning("["+Corruption.pluginName+"] '" + node + ".Stats' in bosses config file is missing.");
+					CorLogger.w("'" + node + ".Stats' in bosses config file is missing.");
 					return;
 				}
 				
@@ -303,7 +303,7 @@ public class CorConfigUpdater {
 				String[] statsValues = statsString.split(" ");
 				
 				if (statsValues.length < 3) {
-					Corruption.l.warning("["+Corruption.pluginName+"] Missing values for '" + node + ".Stats' in bosses config file");
+					CorLogger.w("Missing values for '" + node + ".Stats' in bosses config file");
 					return;
 				}
 				
@@ -380,7 +380,7 @@ public class CorConfigUpdater {
 		
 		bosses.set("ConfigVersion", latestVersion);
 		save(bosses, "bosses.yml");
-		Corruption.l.info("["+Corruption.pluginName+"] Boss config updated");
+		CorLogger.i("Boss config updated");
 	}
 	
 	private void updateEquipmentConfig(){
@@ -398,7 +398,7 @@ public class CorConfigUpdater {
 		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Creating backup of equipment.yml");
+		CorLogger.i("Creating backup of equipment.yml");
 		File configFile = getFile("equipment.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "equipment.yml");
 		
@@ -410,7 +410,7 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Equipment config backup created, updating equipment.yml");
+		CorLogger.i("Equipment config backup created, updating equipment.yml");
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
 			equipment = addConfigVersion("equipment.yml");
@@ -418,7 +418,7 @@ public class CorConfigUpdater {
 		
 		equipment.set("ConfigVersion", latestVersion);
 		save(equipment, "equipment.yml");
-		Corruption.l.info("["+Corruption.pluginName+"] Equipment config updated");
+		CorLogger.i("Equipment config updated");
 	}
 	
 	private void updateMagicSpellsConfig(){
@@ -436,7 +436,7 @@ public class CorConfigUpdater {
 		if(!Utility.isOlderVersion(configVersion, latestVersion))
 			return;
 		
-		Corruption.l.info("["+Corruption.pluginName+"] Creating backup of magicspells.yml");
+		CorLogger.i("Creating backup of magicspells.yml");
 		File configFile = getFile("magicspells.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "magicspells.yml");
 		
@@ -448,7 +448,7 @@ public class CorConfigUpdater {
 			e.printStackTrace();
 		}
 		
-		Corruption.l.info("["+Corruption.pluginName+"] MagicSpells config backup created, updating magicspells.yml");
+		CorLogger.i("MagicSpells config backup created, updating magicspells.yml");
 		
 		if(Utility.isOlderVersion(configVersion, "2.0")){
 			magicSpells = addConfigVersion("magicspells.yml");
@@ -456,7 +456,7 @@ public class CorConfigUpdater {
 		
 		magicSpells.set("ConfigVersion", latestVersion);
 		save(magicSpells, "magicspells.yml");
-		Corruption.l.info("["+Corruption.pluginName+"] MagicSpells config updated");
+		CorLogger.i("MagicSpells config updated");
 	}
 	
 	private void updateWorldConfig(){
@@ -475,7 +475,7 @@ public class CorConfigUpdater {
 			if(!Utility.isOlderVersion(configVersion, latestVersion))
 				continue;
 			
-			Corruption.l.info("["+Corruption.pluginName+"] Creating backup of " + world.getName() + ".yml");
+			CorLogger.i("Creating backup of " + world.getName() + ".yml");
 			File configFile = getFile("Worlds" + File.separator + world.getName() + ".yml");
 			File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator +  "v" + configVersion + File.separator + "Worlds" + File.separator + world.getName() + ".yml");
 			
@@ -487,7 +487,7 @@ public class CorConfigUpdater {
 				e.printStackTrace();
 			}
 			
-			Corruption.l.info("["+Corruption.pluginName+"] World " + world.getName() + " config backup created, updating " + world.getName() + ".yml");
+			CorLogger.i("World " + world.getName() + " config backup created, updating " + world.getName() + ".yml");
 			
 			if(Utility.isOlderVersion(configVersion, "2.0")){
 				worldConfig = addConfigVersion("Worlds" + File.separator + world.getName() + ".yml");
@@ -495,7 +495,7 @@ public class CorConfigUpdater {
 			
 			worldConfig.set("ConfigVersion", latestVersion);
 			save(worldConfig, "Worlds"+ File.separator + world.getName()+".yml");
-			Corruption.l.info("["+Corruption.pluginName+"] "+world.getName()+" config updated");
+			CorLogger.i(""+world.getName()+" config updated");
 		}
 	}
 	

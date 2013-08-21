@@ -22,7 +22,6 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
-import com.mcdr.corruption.Corruption;
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
 import com.mcdr.corruption.ability.ArmorPierce;
@@ -34,6 +33,7 @@ import com.mcdr.corruption.entity.data.BossData;
 import com.mcdr.corruption.entity.data.WitherBossData;
 import com.mcdr.corruption.player.CorPlayer;
 import com.mcdr.corruption.stats.StatsManager;
+import com.mcdr.corruption.util.CorLogger;
 import com.mcdr.corruption.util.Utility;
 
 
@@ -97,6 +97,14 @@ public class Boss extends CorEntity implements CommandSender {
 		}
 	}
 	
+	public List<String> abilityList(){
+		List<String> al = new ArrayList<String>();
+		for(Ability a: abilities.keySet()){
+			al.add(a.getName());
+		}
+		return al;
+	}
+
 	public void ActivateAbilities(LivingEntity livingEntity, ActivationCondition activationCondition){
 		ActivateAbilities(livingEntity, activationCondition, null);
 	}
@@ -291,7 +299,7 @@ public class Boss extends CorEntity implements CommandSender {
 	public Server getServer() {return Bukkit.getServer();}
 
 	/*** Required Stub methods ***/
-	public void sendMessage(String message) {Corruption.l.info("["+Corruption.pluginName+"] "+getName()+": "+message);}
+	public void sendMessage(String message) {CorLogger.i(getName()+": "+message);}
 	public void sendMessage(String[] messages) {for(String message: messages) sendMessage(message);}
 	public void setOp(boolean arg0) {}
 	public PermissionAttachment addAttachment(Plugin arg0) {return null;}
