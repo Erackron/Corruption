@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
@@ -86,7 +87,7 @@ public abstract class Utility {
 		return parseMessage(msg, boss, 0);
 	}
 	
-	public static String parseMessage(String msg, Boss boss, int damage){
+	public static String parseMessage(String msg, Boss boss, double damage){
 		return parseMessage(msg, boss.getBossData().getName(), boss.getHealth(), boss.getMaxHealth(), damage);
 	}
 	
@@ -94,7 +95,7 @@ public abstract class Utility {
 		return parseMessage(msg, bossName, 0, 0, 0);
 	}
 	
-	public static String parseMessage(String msg, String bossName, int health, int maxHealth, int damage){
+	public static String parseMessage(String msg, String bossName, double health, double maxHealth, double damage){
 		bossName = (bossName.contains("#"))?bossName.split("#")[0]:bossName;
 		String[] bNameS = bossName.split("(?=\\p{Upper})");
 		if (bNameS.length>1){
@@ -123,13 +124,13 @@ public abstract class Utility {
 		
 		return ChatColor.translateAlternateColorCodes('&', msg.replace("{BOSSNAME}", bossName).replace(
 				"{HEALTH}",
-				"" + health
+				"" + round(health)
 			).replace(
 				"{DAMAGE}",
-				"" + damage
+				"" + round(damage)
 			).replace(
 				"{MAXHEALTH}",
-				"" + maxHealth
+				"" + round(maxHealth)
 			).replace(
 				"{HEALTHBAR}",
 				healthBar
@@ -278,5 +279,16 @@ public abstract class Utility {
 		} catch(FileNotFoundException e) {
 			throw new RuntimeException("The file to hash was not found, are you sure you have the right File object?", e);
 		}
+	}
+	
+	private static double round(double value){ return round(value, 1);}
+	
+	public static double round(double value, int places){
+		if(places<0)
+			places = 0;
+		
+		BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, BigDecimal.ROUND_HALF_UP);
+	    return bd.doubleValue();
 	}
 }

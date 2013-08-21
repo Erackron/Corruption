@@ -19,14 +19,14 @@ public class ProcessEntityDamage extends BaseTask {
 	private Entity damager;
 	private CorPlayer corPlayer = null;
 	private Boss boss;
-	private int healthBefore;
+	private double healthBefore;
 	private Location lastLoc;
 
-	public ProcessEntityDamage(Entity damager, Boss boss, int healthBefore, Location lastLoc){
+	public ProcessEntityDamage(Entity damager, Boss boss, double d, Location lastLoc){
 		this.damager = damager;
 		this.corPlayer = CorPlayerManager.getCorPlayer(damager);
 		this.boss = boss;
-		this.healthBefore = healthBefore;
+		this.healthBefore = d;
 		this.lastLoc = lastLoc;
 	}
 	
@@ -35,7 +35,7 @@ public class ProcessEntityDamage extends BaseTask {
 		if(damager == null || boss == null)
 			return;
 		
-		int entityHealth = boss.getLivingEntity().getHealth(),
+		double entityHealth = boss.getLivingEntity().getHealth(),
 			damageTaken = 0;
 		Player player;
 		

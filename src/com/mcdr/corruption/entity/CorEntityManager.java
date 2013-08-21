@@ -72,8 +72,8 @@ public abstract class CorEntityManager {
 		bosses.add(boss);
 	}
 	
-	public static void damageBoss(Boss boss, int damage) {
-		boss.setHealth(boss.getHealth() - damage);
+	public static void damageBoss(Boss boss, double damageTaken) {
+		boss.setHealth(boss.getHealth() - damageTaken);
 	}
 	
 	public static boolean isDead(Boss boss) {

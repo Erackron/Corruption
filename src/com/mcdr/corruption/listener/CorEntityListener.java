@@ -280,7 +280,7 @@ public class CorEntityListener implements Listener {
 			}
 			
 			//Apply damage
-			int damage = event.getDamage();
+			double damage = event.getDamage();
 			
 			switch (event.getCause()) {
 			case ENTITY_ATTACK:	
@@ -421,7 +421,7 @@ public class CorEntityListener implements Listener {
 			return;
 		LivingEntity livingEntity = boss.getLivingEntity();
 		
-		int regainAmount = -1;
+		double regainAmount = -1;
 		switch(event.getRegainReason()){
 			case WITHER_SPAWN:
 				regainAmount = event.getAmount()==10?livingEntity.getMaxHealth()/30:boss.getRegenPerSecond();

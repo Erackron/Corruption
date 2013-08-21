@@ -216,7 +216,7 @@ public class CorruptionAPI {
 	 * @param e Entity to get the health of
 	 * @return int The health of the boss or -1 if the entity is not a boss
 	 */
-	public static int getHealth(Entity e){
+	public static double getHealth(Entity e){
 		if(isBoss(e))
 			return getBoss(e).getHealth();
 		return -1;
@@ -248,11 +248,11 @@ public class CorruptionAPI {
 	 * @param e Entity to get the max health of
 	 * @return int The maximum health of the boss or entity. Will return 0 if the entity is not alive anymore
 	 */
-	public static int getMaxHealth(Entity e){
+	public static double getMaxHealth(Entity e){
 		if(e instanceof LivingEntity){
 			if(isBoss(e))
 				return getBoss(e).getMaxHealth();
-			return ((LivingEntity)e).getMaxHealth();
+			return (int)((LivingEntity)e).getMaxHealth();
 		} else
 			return 0;
 	}

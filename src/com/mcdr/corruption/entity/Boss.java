@@ -39,8 +39,8 @@ import com.mcdr.corruption.util.Utility;
 
 public class Boss extends CorEntity implements CommandSender {
 	private BossData bossData;
-	private int health;
-	private int maxHealth;
+	private double health;
+	private double maxHealth;
 	private Map<Ability, Boolean> abilities = new HashMap<Ability, Boolean>();
 	private int fireEnchantTick;
 	private CorPlayer killer;
@@ -122,12 +122,21 @@ public class Boss extends CorEntity implements CommandSender {
 	public void ActivateAbilities(LivingEntity livingEntity, ActivationCondition activationCondition, EntityDamageEvent event) {
 		if(livingEntity==null)
 			return;
+		System.out.println("1. "+activationCondition.name());
 		
 		for (Entry<Ability, Boolean> entry : abilities.entrySet()) {
 			if (entry.getValue() == false)
 				continue;
 			
 			Ability ability = entry.getKey();
+			
+			if(ability.getActivationConditions().contains(activationCondition))
+				System.out.println("\t2. " + ability.getAbilityType().toString() + "\t Close enough? "+(Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), ability.getMinRange(), ability.getMaxRange())?"yay!":"nope!"));
+			else
+				for(ActivationCondition a: ability.getActivationConditions()){
+					System.out.println("\t\t3. "+a.name());
+				}
+			
 			if (Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), ability.getMinRange(), ability.getMaxRange())
 					&& ability.getActivationConditions().contains(activationCondition)){
 				if(ability instanceof ArmorPierce && event!=null)
@@ -142,7 +151,7 @@ public class Boss extends CorEntity implements CommandSender {
 		return bossData;
 	}
 	
-	public int getHealth() {
+	public double getHealth() {
 		return health;
 	}
 	
@@ -163,15 +172,15 @@ public class Boss extends CorEntity implements CommandSender {
 	}
 	
 	public void setBossData(BossData bossData) {
-		int curDamage = maxHealth-health;
+		double curDamage = maxHealth-health;
 		this.bossData = bossData;
 		
 		livingEntity.resetMaxHealth();
 		
 		if(bossData.useHealthMultiplier())
-			maxHealth = (int) (livingEntity.getMaxHealth() * bossData.getHealthCoef());
+			maxHealth = (livingEntity.getMaxHealth() * bossData.getHealthCoef());
 		else
-			maxHealth = (int) bossData.getHealthCoef();
+			maxHealth = bossData.getHealthCoef();
 		
 		this.health = maxHealth-curDamage;
 		livingEntity.setMaxHealth(maxHealth);
@@ -183,8 +192,8 @@ public class Boss extends CorEntity implements CommandSender {
 		bossData.setRandomEquipment(livingEntity);
 	}
 	
-	public void setHealth(int health) {
-		this.health = health;
+	public void setHealth(double curHealth) {
+		this.health = curHealth;
 		this.updateCustomName();
 	}
 	
@@ -260,12 +269,12 @@ public class Boss extends CorEntity implements CommandSender {
 			return 0;
 	}
 
-	public int getMaxHealth() {
+	public double getMaxHealth() {
 		return maxHealth;
 	}
 	
-	public void setMaxHealth(int maxHealth) {
-		this.maxHealth = maxHealth;
+	public void setMaxHealth(double curMaxHealth) {
+		this.maxHealth = curMaxHealth;
 	}
 	
 	public String getRawName(){
@@ -280,7 +289,7 @@ public class Boss extends CorEntity implements CommandSender {
 	}
 	
 	public static Boss restoreBoss(LivingEntity livingEntity, BossData bossData){
-		int curHealth = livingEntity.getHealth(), curMaxHealth = livingEntity.getMaxHealth();
+		double curHealth = livingEntity.getHealth(), curMaxHealth = livingEntity.getMaxHealth();
 		Boss boss = new Boss(livingEntity, bossData);
 		livingEntity.setMaxHealth(curMaxHealth);
 		livingEntity.setHealth(curHealth);

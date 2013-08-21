@@ -128,13 +128,13 @@ public class ArmorPierce extends Ability {
 		return 0;
 	}
 	
-	public static int getNewDamage(Player p, int damage, double value){
+	public static double getNewDamage(Player p, double d, double value){
 		PlayerInventory playerInventory = p.getInventory();
 		double absorption = HelmetDefense(playerInventory.getHelmet()) + ChestplateDefense(playerInventory.getChestplate()) + LeggingsDefense(playerInventory.getLeggings()) + BootsDefense(playerInventory.getBoots());
 	 	
-	    int newDamage =  (int) (damage * (1 - absorption * (1 - value / 100) / 100) / (1 - absorption / 100));
+	    double newDamage =  (d * (1 - absorption * (1 - value / 100) / 100) / (1 - absorption / 100));
 		
-		short baseDurabilityLoss = (short) (damage / 4);
+		short baseDurabilityLoss = (short) (d / 4);
 		
 		if (baseDurabilityLoss < 1)
 			baseDurabilityLoss = 1;

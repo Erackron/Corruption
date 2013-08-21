@@ -238,6 +238,8 @@ public abstract class Ability {
 		ability.setMinRange(this.minRange);
 		ability.setMessage(this.msg);
 		ability.setName(this.name);
+		for(ActivationCondition a: this.activationConditions)
+			ability.addActivationCondition(a);
 	}
 	
 	protected static List<Block> findValidBlocks(Location location, int minRange, int maxRange) {
