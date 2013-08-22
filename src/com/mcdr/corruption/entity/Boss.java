@@ -122,20 +122,12 @@ public class Boss extends CorEntity implements CommandSender {
 	public void ActivateAbilities(LivingEntity livingEntity, ActivationCondition activationCondition, EntityDamageEvent event) {
 		if(livingEntity==null)
 			return;
-		System.out.println("1. "+activationCondition.name());
 		
 		for (Entry<Ability, Boolean> entry : abilities.entrySet()) {
 			if (entry.getValue() == false)
 				continue;
 			
 			Ability ability = entry.getKey();
-			
-			if(ability.getActivationConditions().contains(activationCondition))
-				System.out.println("\t2. " + ability.getAbilityType().toString() + "\t Close enough? "+(Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), ability.getMinRange(), ability.getMaxRange())?"yay!":"nope!"));
-			else
-				for(ActivationCondition a: ability.getActivationConditions()){
-					System.out.println("\t\t3. "+a.name());
-				}
 			
 			if (Utility.isNear(livingEntity.getLocation(), getLivingEntity().getLocation(), ability.getMinRange(), ability.getMaxRange())
 					&& ability.getActivationConditions().contains(activationCondition)){
