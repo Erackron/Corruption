@@ -84,7 +84,7 @@ public abstract class Utility {
 	
 	
 	public static String parseMessage(String msg, Boss boss){
-		return parseMessage(msg, boss, 0);
+		return parseMessage(msg, boss, 0.0);
 	}
 	
 	public static String parseMessage(String msg, Boss boss, double damage){
@@ -92,7 +92,7 @@ public abstract class Utility {
 	}
 	
 	public static String parseMessage(String msg, String bossName){
-		return parseMessage(msg, bossName, 0, 0, 0);
+		return parseMessage(msg, bossName, 0.0, 0.0, 0.0);
 	}
 	
 	public static String parseMessage(String msg, String bossName, double health, double maxHealth, double damage){
