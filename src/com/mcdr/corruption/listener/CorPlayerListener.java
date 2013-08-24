@@ -21,7 +21,7 @@ public class CorPlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		if(CorUpdateChecker.updateNeeded() && Utility.hasPermission(player, "lab.update")){
+		if(CorUpdateChecker.isUpdateNeeded() && Utility.hasPermission(player, "cor.update")){
 			player.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + " New version available, version " + CorUpdateChecker.lastVer);
 			player.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + " To update, use " + ChatColor.GREEN + "/lab update install");
 		}

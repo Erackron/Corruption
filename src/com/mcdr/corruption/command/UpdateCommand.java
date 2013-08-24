@@ -26,7 +26,7 @@ public class UpdateCommand extends BaseCommand {
 	}
 	
 	private static void checkCommand(){
-		if(CorUpdateChecker.updateNeeded()){
+		if(CorUpdateChecker.checkForUpdate()){
 			String lastVer = CorUpdateChecker.getLastVersion();
 			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "New version available, version " + ChatColor.GRAY +lastVer);
 			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "To update, use " + ChatColor.GREEN + "/" + label + " update install");
@@ -36,7 +36,7 @@ public class UpdateCommand extends BaseCommand {
 	}
 	
 	private static void installCommand(){
-		if(!CorUpdateChecker.updateNeeded()){
+		if(!CorUpdateChecker.checkForUpdate()){
 			sender.sendMessage(ChatColor.GOLD + "["+Corruption.pluginName+"] " + ChatColor.WHITE + "No update needed, running the latest version (" + ChatColor.GRAY + Corruption.in.getDescription().getVersion() + ChatColor.WHITE + ")");
 			return;
 		}

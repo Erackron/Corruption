@@ -153,7 +153,7 @@ public class Corruption extends JavaPlugin {
 	}
 	
 	private void checkUpdates() {
-		if(CorUpdateChecker.updateNeeded()){
+		if(CorUpdateChecker.checkForUpdate()){
 			String lastVer = CorUpdateChecker.getLastVersion();
 			CorLogger.i("New version available, version " + lastVer);
 			getServer().broadcast(ChatColor.GOLD + "["+pluginName+"] " + ChatColor.WHITE + " New version available, version " + lastVer, "cor.update");

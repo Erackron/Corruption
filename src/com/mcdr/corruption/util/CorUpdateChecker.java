@@ -20,7 +20,11 @@ public class CorUpdateChecker {
 	public static boolean updateNeeded = false;
 	public static long timeStamp = -1;
 	
-	public static boolean updateNeeded() {
+	public static boolean isUpdateNeeded(){
+		return updateNeeded;
+	}
+	
+	public static boolean checkForUpdate() {
 		if(timeStamp==-1 || System.currentTimeMillis()-timeStamp>1000*60*30){
 			PluginDescriptionFile pdf = Corruption.in.getDescription();
 			String curVer = pdf.getVersion();
