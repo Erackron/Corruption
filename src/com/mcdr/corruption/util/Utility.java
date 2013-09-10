@@ -285,10 +285,18 @@ public abstract class Utility {
 	
 	public static double round(double value, int places){
 		if(places<0)
-			places = 0;
-		
-		BigDecimal bd = new BigDecimal(value);
-	    bd = bd.setScale(places, BigDecimal.ROUND_HALF_UP);
+			places = 1;
+		if(value < 0.0)
+			return 0.0;
+
+		BigDecimal bd;
+		try{
+			bd = new BigDecimal(value);
+			bd = bd.setScale(places, BigDecimal.ROUND_HALF_UP);
+		} catch (NumberFormatException ex){
+			bd = new BigDecimal(0.0);
+		}
 	    return bd.doubleValue();
+	    
 	}
 }
