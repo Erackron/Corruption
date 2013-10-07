@@ -349,4 +349,4 @@ Zombie:
     Suffocation: true
 
 #Do not touch this variable
-ConfigVersion: '2.3.1'
+ConfigVersion: '2.3.2'

@@ -161,7 +161,7 @@ public class CorEntityListener implements Listener {
 			CorEntityManager.getBosses().remove(boss);
 	}
 		
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onEntityDamage(EntityDamageEvent event) {
 		//This allows us to ignore event thrown by LivingEntity.damage(0, x), probably unneeded
 		if (event.getDamage() <= 0)

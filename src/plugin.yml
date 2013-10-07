@@ -1,8 +1,8 @@
 name: Corruption
 main: com.mcdr.corruption.Corruption
-version: 2.3.1
+version: 2.3.2
 authors: [Erackron, Pyriphlegethon]
-softdepend: [Vault]
+softdepend: [Vault, PermissionsEx, PermissionsBukkit, bPermissions, GroupManager, zPermissions, Permissions, mcMMO, Heroes]
 commands:
   corruption:
     aliases: [cor]
@@ -27,7 +27,7 @@ permissions:
       cor.version: true
     default: op
   cor:
-    description: Likeaboss base command
+    description: Corruption base command
     default: true
   cor.clear:
     description: Clear informations given by /cor info.
