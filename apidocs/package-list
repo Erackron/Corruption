@@ -11,4 +11,5 @@ com.mcdr.corruption.player
 com.mcdr.corruption.stats
 com.mcdr.corruption.task
 com.mcdr.corruption.util
+com.mcdr.corruption.util.legacy
 com.mcdr.corruption.world
