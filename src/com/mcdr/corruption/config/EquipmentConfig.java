@@ -13,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 
 import com.mcdr.corruption.entity.EquipmentSet;
 import com.mcdr.corruption.util.CorLogger;
+import com.mcdr.corruption.util.legacy.EnchNames;
 
 
 public class EquipmentConfig extends BaseConfig {
@@ -157,7 +158,7 @@ public class EquipmentConfig extends BaseConfig {
 				//End of sanity checks, the values are probably valid so increment the array counter
 				j++;
 				//And assign the values
-				enchantmentIds[i][j] = ench.getId();
+				enchantmentIds[i][j] = EnchNames.getId(ench);
 				enchantmentChances[i][j] = chance;
 				enchantmentLvls[i][j] = lvl;
 			}

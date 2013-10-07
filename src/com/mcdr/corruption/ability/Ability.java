@@ -74,10 +74,10 @@ public abstract class Ability {
 		}
 	}
 	
-	protected List<ActivationCondition> activationConditions = new ArrayList<ActivationCondition>();
-	protected AbilityType abilityType;
-	protected double assignationChance = 100.0;
-	protected double activationChance = 100.0;
+	private List<ActivationCondition> activationConditions = new ArrayList<ActivationCondition>();
+	private AbilityType abilityType;
+	private double assignationChance = 100.0;
+	private double activationChance = 100.0;
 	private int messageRadius = 16;
 	private int minRange = 0;
 	private int maxRange = 16;
@@ -208,23 +208,15 @@ public abstract class Ability {
 	/**
 	 * OnDeath Execute
 	 */
-	public void Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
-		if(!checkChance())
-			return;
-		
-		if (!(livingEntity instanceof Player))
-			return;
+	public boolean Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
+		return ((livingEntity instanceof Player) && checkChance());
 	}
 	
 	/**
 	 * Normal Execute
 	 */
-	public void Execute(LivingEntity livingEntity, Boss boss){
-		if(!checkChance())
-			return;
-		
-		if (!(livingEntity instanceof Player))
-			return;
+	public boolean Execute(LivingEntity livingEntity, Boss boss){
+		return ((livingEntity instanceof Player) && checkChance());
 	}
 	
 	public abstract Ability clone();

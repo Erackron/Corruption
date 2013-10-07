@@ -23,20 +23,24 @@ public class Knockback extends Ability {
 	/**
 	 * OnDeath Execute
 	 */
-	public void Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
-		super.Execute(livingEntity, lastLoc, boss);
+	public boolean Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
+		if(!super.Execute(livingEntity, lastLoc, boss))
+			return false;
 		Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new VelocityMultiplier(livingEntity));
 		sendMessage(boss.getName(), livingEntity);
+		return true;
 	}
 	
 	/**
 	 * Normal Execute
 	 */
-	public void Execute(LivingEntity livingEntity, Boss boss) {
-		super.Execute(livingEntity, boss);
+	public boolean Execute(LivingEntity livingEntity, Boss boss) {
+		if(!super.Execute(livingEntity, boss))
+			return false;
 		Corruption.scheduler.scheduleSyncDelayedTask(Corruption.in, new VelocityMultiplier(livingEntity));
 		useCooldown(boss);
 		sendMessage(boss, livingEntity);
+		return true;
 	}
 	
 	public void setHorizontalCoef(double horizontalCoef) {

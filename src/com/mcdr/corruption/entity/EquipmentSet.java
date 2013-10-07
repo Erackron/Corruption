@@ -1,7 +1,7 @@
 package com.mcdr.corruption.entity;
 
 import java.util.ArrayList;
-import org.bukkit.enchantments.Enchantment;
+
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.EntityEquipment;
@@ -9,6 +9,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 import com.mcdr.corruption.util.Utility;
+import com.mcdr.corruption.util.legacy.ItemNames;
+import com.mcdr.corruption.util.legacy.EnchNames;
 
 public class EquipmentSet {
 
@@ -71,15 +73,15 @@ public class EquipmentSet {
 		if(weaponI==null){
 			switch(le.getType()){
 				case PIG_ZOMBIE:
-					weaponI = new ItemStack(283);
+					weaponI = new ItemStack(ItemNames.getById(283));
 					break;
 				case SKELETON:
 					switch(((Skeleton) le).getSkeletonType()){
 					case NORMAL:
-						weaponI = new ItemStack(261);
+						weaponI = new ItemStack(ItemNames.getById(261));
 						break;
 					case WITHER:
-						weaponI = new ItemStack(272);
+						weaponI = new ItemStack(ItemNames.getById(272));
 						break;				
 					}			
 					break;
@@ -113,15 +115,16 @@ public class EquipmentSet {
 	 * @param enchantments the twodimensional array containing the enchantments
 	 * @return the processed itemstack
 	 */
+	@SuppressWarnings("deprecation")
 	public ItemStack processEquipment(int[][] itemData, int[][] enchantments){
 		if(itemData[0][0]<=0)
 			return null;
 		
 		//Make the new item using its Id
-		ItemStack item = new ItemStack(itemData[0][0]);
+		ItemStack item = new ItemStack(ItemNames.getById(itemData[0][0]));
 		//Set the item data
 		if(itemData[1][0]>0)
-			item.setData(new MaterialData(itemData[0][0],(byte)itemData[1][0]));
+			item.setData(new MaterialData(ItemNames.getById(itemData[0][0]),(byte)itemData[1][0])); //TODO Find alternative for new MaterialData(Material type, byte data)
 		//Set the item durability
 		if(itemData[2][0]>0)
 			item.setDurability((short)itemData[2][0]);
@@ -130,7 +133,7 @@ public class EquipmentSet {
 			int enchAmount = enchantments.length;
 			for(int i = 0; i < enchAmount; i++){
 				if(enchantments[i][0]>0 && enchantments[i][1]>0)
-					item.addUnsafeEnchantment(Enchantment.getById(enchantments[i][0]), enchantments[i][1]);
+					item.addUnsafeEnchantment(EnchNames.getById(enchantments[i][0]), enchantments[i][1]);
 			}
 		}
 		

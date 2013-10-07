@@ -58,9 +58,10 @@ public abstract class SpawnCommand extends BaseCommand {
 		SendUsage(bossesData);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static Boolean Spawn(BossData bossData, int amount) {
 		Player player = (Player) sender;
-		Location location = player.getTargetBlock(null, 100).getRelative(BlockFace.UP).getLocation();
+		Location location = player.getTargetBlock(null, 100).getRelative(BlockFace.UP).getLocation(); //TODO Find alternative for LivingEntity.getTargetBlock(HashSet<Byte> transparent, int maxDistance)
 		location.setWorld(player.getWorld());
 		EntityType entityType = bossData.getEntityType();
 		

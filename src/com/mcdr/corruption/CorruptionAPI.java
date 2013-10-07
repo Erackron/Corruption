@@ -209,7 +209,7 @@ public class CorruptionAPI {
 	 * @return boolean whether the entity is a boss or not
 	 */
 	public static boolean isBoss(Entity e){
-		return (getBoss(e)!=null||hasBossMetatag(e));
+		return (getBoss(e)!=null);
 	}
 	
 	/**

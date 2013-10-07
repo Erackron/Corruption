@@ -55,15 +55,7 @@ import com.mcdr.corruption.util.Utility;
 
 public class CorEntityListener implements Listener {	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onCreatureSpawn(CreatureSpawnEvent event) {
-		boolean debug = CorLogger.debugEnabled();
-		if(debug){
-			CorLogger.d(" __________________________________________________");
-			CorLogger.d("|Event:\t\tSpawnEvent\t\t\t|");
-			CorLogger.d("|EntityType:\t"+event.getEntityType().getName()+(event.getEntityType().getName().length()<8?"\t":"")+"\t\t\t|");
-			CorLogger.d("|SpawnReason:\t"+event.getSpawnReason()+"\t\t\t\t|");
-		}
-		
+	public void onCreatureSpawn(CreatureSpawnEvent event) {		
 		if (event.getSpawnReason() == SpawnReason.CUSTOM)
 			return;
 		
@@ -78,19 +70,11 @@ public class CorEntityListener implements Listener {
 		
 		for(BossData bossData: bossDatas){
 			if(bossData.getMaxSpawnLevel() < livingEntity.getLocation().getY() || bossData.getMinSpawnLevel() > livingEntity.getLocation().getY()){
-				if(debug){
-					CorLogger.d("|Skipping '"+bossData.getName()+"' due to height limit:\t|");
-					CorLogger.d("|MinSpawnLevel:\tSpawnLevel:\tMaxSpawnLevel:\t|");
-					CorLogger.d("|"+bossData.getMinSpawnLevel()+"\t\t"+livingEntity.getLocation().getY()+"\t\t"+bossData.getMaxSpawnLevel()+"\t\t|");
-				}
 				continue;
 			}
 				
 			if(GlobalConfig.BossParam.ENABLE_BIOMES.getValue())
 				if(!bossData.getBiomes().contains(event.getLocation().getBlock().getBiome())){
-					if(debug){
-						CorLogger.d("|Skipping '"+bossData.getName()+"' because of biome restrictions, '"+event.getLocation().getBlock().getBiome().name()+"' is not allowed.|");
-					}
 					continue;
 				}
 
@@ -131,7 +115,6 @@ public class CorEntityListener implements Listener {
 				curChance += bossData.getChance();
 			}
 		}
-		if(debug) CorLogger.d("|__________________________________________________|");
 	}
 	
 	private void addBoss(LivingEntity livingEntity, BossData bossData){

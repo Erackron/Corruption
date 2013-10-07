@@ -17,6 +17,7 @@ import com.mcdr.corruption.drop.Drop;
 import com.mcdr.corruption.drop.Roll;
 import com.mcdr.corruption.entity.data.BossData;
 import com.mcdr.corruption.util.CorLogger;
+import com.mcdr.corruption.util.legacy.ItemNames;
 import com.mcdr.corruption.world.WorldData;
 
 
@@ -104,11 +105,11 @@ public abstract class WorldConfig extends BaseConfig {
 				
 				if (dropValues[0].contains(":")) {
 					String[] tempData = dropValues[0].split(":");
-					material = Material.getMaterial(Integer.valueOf(tempData[0]));
+					material = ItemNames.getById(Integer.valueOf(tempData[0]));
 					metaData = Short.valueOf(tempData[1]);
 				}
 				else
-					material = Material.getMaterial(Integer.valueOf(dropValues[0]));
+					material = ItemNames.getById(Integer.valueOf(dropValues[0]));
 				
 				Drop drop = new Drop(material, metaData, Double.valueOf(dropValues[1]), Integer.valueOf(dropValues[2]), Integer.valueOf(dropValues[3]));
 				

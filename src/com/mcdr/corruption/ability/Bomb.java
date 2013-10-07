@@ -48,24 +48,29 @@ public class Bomb extends Ability {
     /**
      * OnDeath Execute
      */
-    public void Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
-    	super.Execute(livingEntity, lastLoc, boss);
+    public boolean Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
+    	if(!super.Execute(livingEntity, lastLoc, boss))
+    		return false;
     	
     	plantBomb(livingEntity.getLocation());
     	
 	    sendAreaMessage(lastLoc, boss.getName(), livingEntity);
+	    return true;
     }
     
     /**
      * Normal Execute
+     * @return Whether or not the Ability was executed
      */
-    public void Execute(LivingEntity livingEntity, Boss boss) {
-		super.Execute(livingEntity, boss);
+    public boolean Execute(LivingEntity livingEntity, Boss boss) {
+		if(!super.Execute(livingEntity, boss))
+			return false;
 	    
 		plantBomb(livingEntity.getLocation());
 	        
 	    useCooldown(boss);
 	    sendAreaMessage(boss, livingEntity);
+	    return true;
     }
     
     private void plantBomb(Location centerLoc){

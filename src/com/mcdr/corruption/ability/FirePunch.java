@@ -18,8 +18,10 @@ public class FirePunch extends Ability {
 	/**
      * Normal Execute
      */
-	public void Execute(LivingEntity livingEntity, Boss boss) {
-		super.Execute(livingEntity, boss);
+	public boolean Execute(LivingEntity livingEntity, Boss boss) {
+		if(!super.Execute(livingEntity, boss))
+			return false;
+		
 		int fireTicks = livingEntity.getFireTicks();
 			
 		//Somehow getFireTicks returns -20 when not on fire
@@ -30,7 +32,7 @@ public class FirePunch extends Ability {
 			
 		useCooldown(boss);
 		sendMessage(boss, livingEntity);
-		
+		return true;
 	}
 	
 	public void setTicks(int ticks) {

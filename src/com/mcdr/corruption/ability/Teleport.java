@@ -23,8 +23,11 @@ public class Teleport extends Ability {
     /**
      * Normal Execute
      */
-    public void Execute(LivingEntity livingEntity, Boss boss) {
-        Location location;
+    public boolean Execute(LivingEntity livingEntity, Boss boss) {
+        if(!super.Execute(livingEntity, boss))
+        	return false;
+    	
+    	Location location;
         
         if (centeredOnFoe)
             location = livingEntity.getLocation();
@@ -46,7 +49,9 @@ public class Teleport extends Ability {
                 Utility.setFacing(livingEntity, v);
             }
             useCooldown(boss);
+            return true;
         }
+        return false;
     }
     
     public void setCenteredOnFoe(boolean centeredOnFoe) {

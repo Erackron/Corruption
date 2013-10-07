@@ -27,8 +27,10 @@ public class Potion extends Ability {
 	/**
 	 * Normal Execute
 	 */
-	public void Execute(LivingEntity livingEntity, Boss boss) {
-		super.Execute(livingEntity, boss);
+	public boolean Execute(LivingEntity livingEntity, Boss boss) {
+		if(!super.Execute(livingEntity, boss))
+			return false;
+		
 		if(effect != ""){
 			PotionEffect potionEffect = new PotionEffect(PotionEffectType.getByName(effect), duration, amplifier);
 			if (targetSelf) {
@@ -39,7 +41,9 @@ public class Potion extends Ability {
 				sendMessage(boss, livingEntity);
 			}
 			useCooldown(boss);
+			return true;
 		}
+		return false;
 	}
 	
 	public void setEffect(String effect){

@@ -28,6 +28,7 @@ import com.mcdr.corruption.entity.data.WitherBossData;
 import com.mcdr.corruption.entity.data.ZombieBossData;
 import com.mcdr.corruption.entity.data.BossData.BossImmunity;
 import com.mcdr.corruption.util.CorLogger;
+import com.mcdr.corruption.util.legacy.ItemNames;
 
 
 public class BossConfig extends BaseConfig {
@@ -57,7 +58,8 @@ public class BossConfig extends BaseConfig {
 			}
 			
 			String entityTypeString = yamlConfig.getString(bossName + ".EntityType");
-			EntityType entityType = EntityType.fromName(entityTypeString);
+			@SuppressWarnings("deprecation")
+			EntityType entityType = EntityType.fromName(entityTypeString); //TODO Find alternative for EntityType.fromName(String name)
 			
 			if (entityType == null) {
 				CorLogger.w("'" + entityTypeString + "' in bosses config file isn't a valid EntityType.");
@@ -208,11 +210,11 @@ public class BossConfig extends BaseConfig {
 				
 				if (dropValues[0].contains(":")) {
 					String[] tempData = dropValues[0].split(":");
-					material = Material.getMaterial(Integer.valueOf(tempData[0]));
+					material = ItemNames.getById(Integer.valueOf(tempData[0]));
 					metaData = Short.valueOf(tempData[1]);
 				}
 				else
-					material = Material.getMaterial(Integer.valueOf(dropValues[0]));
+					material = ItemNames.getById(Integer.valueOf(dropValues[0]));
 				
 				Drop drop = new Drop(material, metaData, Double.valueOf(dropValues[1]), Integer.valueOf(dropValues[2]), Integer.valueOf(dropValues[3]));
 				

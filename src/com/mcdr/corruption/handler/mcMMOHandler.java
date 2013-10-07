@@ -12,23 +12,25 @@ public class mcMMOHandler {
 		
 		ItemStack weapon = p.getItemInHand();
 			
-		switch(weapon.getTypeId()){
-		case 0:
+		switch(weapon.getType()){
+		case AIR:
 			ExperienceAPI.addXP(p, "unarmed", boss.getBossData().getMCMMOXPBonus());
 			break;
-		case 267:
-		case 268:
-		case 272:
-		case 276:
-		case 283:
+		case IRON_SWORD:
+		case WOOD_SWORD:
+		case STONE_SWORD:
+		case DIAMOND_SWORD:
+		case GOLD_SWORD:
 			ExperienceAPI.addXP(p, "swords", boss.getBossData().getMCMMOXPBonus());
 			break;
-		case 271:
-		case 275:
-		case 279:
-		case 286:
-		case 258:
+		case WOOD_AXE:
+		case STONE_AXE:
+		case IRON_AXE:
+		case DIAMOND_AXE:
+		case GOLD_AXE:
 			ExperienceAPI.addXP(p, "axes", boss.getBossData().getMCMMOXPBonus());
+			break;
+		default:
 			break;
 		}
 		

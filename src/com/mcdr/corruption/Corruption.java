@@ -119,6 +119,7 @@ public class Corruption extends JavaPlugin {
 		return pm;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void setupMetrics(){
 		try {
 		    CorMetrics metrics = new CorMetrics(this);
@@ -126,7 +127,7 @@ public class Corruption extends JavaPlugin {
 		    Graph graphActive = metrics.createGraph("Active bosses");
 		    for(final EntityType type : BossConfig.getEntityTypesUsed()){
 		    	
-			    graphActive.addPlotter(new CorMetrics.Plotter(type.getName()){		    
+			    graphActive.addPlotter(new CorMetrics.Plotter(type.getName()){ //TODO Find alternative for EntityType.getName()   
 						
 					@Override
 					public int getValue() {

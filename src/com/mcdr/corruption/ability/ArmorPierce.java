@@ -22,21 +22,21 @@ public class ArmorPierce extends Ability {
 	/**
      * Normal Execute
      */
-	public void Execute(LivingEntity livingEntity, Boss boss, EntityDamageEvent entityDamageEvent) {
-		if(!(livingEntity instanceof Player))
-			return;
-		
-		super.Execute(livingEntity, boss);
+	public boolean Execute(LivingEntity livingEntity, Boss boss, EntityDamageEvent entityDamageEvent) {	
+		if(!super.Execute(livingEntity, boss))
+			return false;
 		
 		entityDamageEvent.setDamage(getNewDamage(((Player) livingEntity), entityDamageEvent.getDamage(), value));
 		
 		useCooldown(boss);
 		sendMessage(boss, livingEntity);
+		return true;
 	}
 	
-	public void Execute(LivingEntity livingEntity, Boss boss) {
-		//If no damage event was specified, don't do anything.
+	public boolean Execute(LivingEntity livingEntity, Boss boss) {
+		//If no damage event was specified, just return false.
 		//This can only be because of an incompatible activation condition.
+		return false;
 	}
 	
 	public void setValue(double value) {

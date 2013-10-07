@@ -41,6 +41,7 @@ public class Boss extends CorEntity implements CommandSender {
 	private BossData bossData;
 	private double health;
 	private double maxHealth;
+	private double originalMaxHealth;
 	private Map<Ability, Boolean> abilities = new HashMap<Ability, Boolean>();
 	private int fireEnchantTick;
 	private CorPlayer killer;
@@ -50,6 +51,7 @@ public class Boss extends CorEntity implements CommandSender {
 	public Boss(LivingEntity livingEntity, BossData bossData) {
 		this.livingEntity = livingEntity;
 		this.bossData = bossData;
+		this.originalMaxHealth = livingEntity.getMaxHealth();
 		if(bossData.useHealthMultiplier())
 			health = (int) (livingEntity.getMaxHealth() * bossData.getHealthCoef());
 		else
@@ -167,7 +169,7 @@ public class Boss extends CorEntity implements CommandSender {
 		double curDamage = maxHealth-health;
 		this.bossData = bossData;
 		
-		livingEntity.resetMaxHealth();
+		livingEntity.setMaxHealth(this.originalMaxHealth);
 		
 		if(bossData.useHealthMultiplier())
 			maxHealth = (livingEntity.getMaxHealth() * bossData.getHealthCoef());
