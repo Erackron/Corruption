@@ -29,8 +29,8 @@ import com.mcdr.corruption.task.TaskManager;
 import com.mcdr.corruption.util.CorConfigUpdater;
 import com.mcdr.corruption.util.CorLogger;
 import com.mcdr.corruption.util.CorUpdateChecker;
+import com.mcdr.corruption.util.PermissionsManager;
 import com.mcdr.corruption.util.Utility;
-import com.timvisee.manager.permissionsmanager.PermissionsManager;
 
 public class Corruption extends JavaPlugin {
 	public static Corruption in;
