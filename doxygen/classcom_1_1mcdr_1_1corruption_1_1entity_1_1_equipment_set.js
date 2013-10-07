@@ -11,6 +11,7 @@ var classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set =
     [ "getRandomEnchantments", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a9cf5bb53a7540465502dd9d53aeb93eb", null ],
     [ "getRandomEntry", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a436313982e3a161fb1db4d74eb4149f5", null ],
     [ "getWeaponsData", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a81bbbaa39543563b12dbec4e000985a1", null ],
+    [ "isEmpty", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#aa56ed0528e0885fe2c006209d7cb57c0", null ],
     [ "processEquipment", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a52f551cb0b96f1014358f057ce536d0b", null ],
     [ "setBootsData", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#ad561df8d1ae76ffad5a8d684f620083a", null ],
     [ "setChestplatesData", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a287649c475cf29447c8a0b3ce5d91df3", null ],

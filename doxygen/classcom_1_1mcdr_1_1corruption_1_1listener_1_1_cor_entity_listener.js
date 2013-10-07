@@ -1,5 +1,6 @@
 var classcom_1_1mcdr_1_1corruption_1_1listener_1_1_cor_entity_listener =
 [
+    [ "onChunkLoad", "classcom_1_1mcdr_1_1corruption_1_1listener_1_1_cor_entity_listener.html#a360ccc3329ea7115a7cf5b9e19082af7", null ],
     [ "onCreatureSpawn", "classcom_1_1mcdr_1_1corruption_1_1listener_1_1_cor_entity_listener.html#a1a0bfc248f3b0795067fe28e4c505a18", null ],
     [ "onEntityDamage", "classcom_1_1mcdr_1_1corruption_1_1listener_1_1_cor_entity_listener.html#ae8a94e269c348f261861d3da6b19a40d", null ],
     [ "onEntityDeath", "classcom_1_1mcdr_1_1corruption_1_1listener_1_1_cor_entity_listener.html#a79e7949a6cebd35c91fa3c3271f14a55", null ],

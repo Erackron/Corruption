@@ -23,6 +23,7 @@ var annotated =
             [ "IgnoreCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_ignore_command.html", null ],
             [ "InfoCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_info_command.html", null ],
             [ "ListCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_list_command.html", null ],
+            [ "LogCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_log_command.html", null ],
             [ "ReloadCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_reload_command.html", null ],
             [ "SpawnCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_spawn_command.html", null ],
             [ "StatsCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_stats_command.html", null ],
@@ -89,9 +90,16 @@ var annotated =
             [ "TaskManager", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_task_manager.html", null ]
           ] ],
           [ "util", null, [
+            [ "legacy", null, [
+              [ "EnchNames", "enumcom_1_1mcdr_1_1corruption_1_1util_1_1legacy_1_1_ench_names.html", "enumcom_1_1mcdr_1_1corruption_1_1util_1_1legacy_1_1_ench_names" ],
+              [ "ItemNames", "enumcom_1_1mcdr_1_1corruption_1_1util_1_1legacy_1_1_item_names.html", "enumcom_1_1mcdr_1_1corruption_1_1util_1_1legacy_1_1_item_names" ]
+            ] ],
             [ "CorAutoUpdater", "classcom_1_1mcdr_1_1corruption_1_1util_1_1_cor_auto_updater.html", null ],
             [ "CorConfigUpdater", "classcom_1_1mcdr_1_1corruption_1_1util_1_1_cor_config_updater.html", "classcom_1_1mcdr_1_1corruption_1_1util_1_1_cor_config_updater" ],
+            [ "CorLogger", "classcom_1_1mcdr_1_1corruption_1_1util_1_1_cor_logger.html", null ],
             [ "CorUpdateChecker", "classcom_1_1mcdr_1_1corruption_1_1util_1_1_cor_update_checker.html", null ],
+            [ "PermissionsManager", "classcom_1_1mcdr_1_1corruption_1_1util_1_1_permissions_manager.html", "classcom_1_1mcdr_1_1corruption_1_1util_1_1_permissions_manager" ],
+            [ "PermissionsSystemType", "enumcom_1_1mcdr_1_1corruption_1_1util_1_1_permissions_system_type.html", "enumcom_1_1mcdr_1_1corruption_1_1util_1_1_permissions_system_type" ],
             [ "Utility", "classcom_1_1mcdr_1_1corruption_1_1util_1_1_utility.html", null ]
           ] ],
           [ "world", null, [
@@ -100,14 +108,6 @@ var annotated =
           [ "CorMetrics", "classcom_1_1mcdr_1_1corruption_1_1_cor_metrics.html", "classcom_1_1mcdr_1_1corruption_1_1_cor_metrics" ],
           [ "Corruption", "classcom_1_1mcdr_1_1corruption_1_1_corruption.html", "classcom_1_1mcdr_1_1corruption_1_1_corruption" ],
           [ "CorruptionAPI", "classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html", null ]
-        ] ]
-      ] ],
-      [ "timvisee", null, [
-        [ "manager", null, [
-          [ "permissionsmanager", null, [
-            [ "PermissionsManager", "classcom_1_1timvisee_1_1manager_1_1permissionsmanager_1_1_permissions_manager.html", "classcom_1_1timvisee_1_1manager_1_1permissionsmanager_1_1_permissions_manager" ],
-            [ "PermissionsSystemType", "enumcom_1_1timvisee_1_1manager_1_1permissionsmanager_1_1_permissions_system_type.html", "enumcom_1_1timvisee_1_1manager_1_1permissionsmanager_1_1_permissions_system_type" ]
-          ] ]
         ] ]
       ] ]
     ] ]

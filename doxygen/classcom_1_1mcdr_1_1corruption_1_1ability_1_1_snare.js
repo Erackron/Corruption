@@ -1,8 +1,8 @@
 var classcom_1_1mcdr_1_1corruption_1_1ability_1_1_snare =
 [
     [ "clone", "classcom_1_1mcdr_1_1corruption_1_1ability_1_1_snare.html#ad9ead6005ab95d2588c56367799370b5", null ],
-    [ "Execute", "classcom_1_1mcdr_1_1corruption_1_1ability_1_1_snare.html#a62cda5d718c625068288dbeb10a55252", null ],
-    [ "Execute", "classcom_1_1mcdr_1_1corruption_1_1ability_1_1_snare.html#a0177ee41917a46ce4ef7452e14a6119f", null ],
+    [ "Execute", "classcom_1_1mcdr_1_1corruption_1_1ability_1_1_snare.html#a1fbf43726b63527b716944d9f6e9721b", null ],
+    [ "Execute", "classcom_1_1mcdr_1_1corruption_1_1ability_1_1_snare.html#ae676a84f4c69aa2c463b16efe05c5cbd", null ],
     [ "getDuration", "classcom_1_1mcdr_1_1corruption_1_1ability_1_1_snare.html#ae706ba3ed3ba271522f368ad1bfdd3f0", null ],
     [ "getRadius", "classcom_1_1mcdr_1_1corruption_1_1ability_1_1_snare.html#a899ed28d49f902638c6f2159467a66df", null ],
     [ "isDestructible", "classcom_1_1mcdr_1_1corruption_1_1ability_1_1_snare.html#a7dd81587d8ea3b21c3be4e4f7ad49c09", null ],

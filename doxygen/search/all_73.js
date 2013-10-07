@@ -8,7 +8,7 @@ var searchData=
   ['setleggingsdata',['setLeggingsData',['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a90dd7f352cd546c8d87fd0dc00f2e4f4',1,'com::mcdr::corruption::entity::EquipmentSet']]],
   ['setname',['setName',['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a1024be1d0616067a45f9b1e2f984f989',1,'com::mcdr::corruption::entity::EquipmentSet']]],
   ['setrandomequipment',['setRandomEquipment',['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a1787a6772d917c9722bb7533af2f581f',1,'com::mcdr::corruption::entity::EquipmentSet']]],
-  ['setup',['setup',['../classcom_1_1timvisee_1_1manager_1_1permissionsmanager_1_1_permissions_manager.html#ab7c99fffab27c6fcea39e0b1e1ec2d38',1,'com::timvisee::manager::permissionsmanager::PermissionsManager']]],
+  ['setup',['setup',['../classcom_1_1mcdr_1_1corruption_1_1util_1_1_permissions_manager.html#a7c72d3ad75b980a834525d9759b07657',1,'com::mcdr::corruption::util::PermissionsManager']]],
   ['setuppermissionsmanager',['setupPermissionsManager',['../classcom_1_1mcdr_1_1corruption_1_1_corruption.html#aecc3f3ff058e2336b1e3a150aad79d04',1,'com::mcdr::corruption::Corruption']]],
   ['setweaponsdata',['setWeaponsData',['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a1a621250fd77a556ab99245774a983d8',1,'com::mcdr::corruption::entity::EquipmentSet']]],
   ['skeletonbossdata',['SkeletonBossData',['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1data_1_1_skeleton_boss_data.html',1,'com::mcdr::corruption::entity::data']]],

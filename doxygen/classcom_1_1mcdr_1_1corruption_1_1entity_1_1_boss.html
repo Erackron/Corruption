@@ -31,11 +31,10 @@
   <td id="projectlogo"><img alt="Logo" src="corruption_logo_text_w600.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Corruption
-   &#160;<span id="projectnumber">2.2</span>
+   &#160;<span id="projectnumber">2.3.2</span>
    </div>
    <div id="projectbrief">A bukkit plugin to spawn epic bosses.</div>
-   <span>Go directly to the <a href="classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html">API</a></span>
-  </td>
+   <span>Go directly to the <a href="classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html">API</a></span>  </td>
  </tr>
  </tbody>
 </table>
@@ -108,6 +107,7 @@ $(document).ready(function(){initNavTree('classcom_1_1mcdr_1_1corruption_1_1enti
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">com.mcdr.corruption.entity.Boss Class Reference</div>  </div>
@@ -127,6 +127,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>updateCustomName</b> 
 <tr class="memitem:a9dd83610aeaebde75b8ade31ab6993c8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9dd83610aeaebde75b8ade31ab6993c8"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>updateCustomName</b> (boolean force)</td></tr>
 <tr class="separator:a9dd83610aeaebde75b8ade31ab6993c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1456ef25d7388537880519f12307299d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1456ef25d7388537880519f12307299d"></a>
+List&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>abilityList</b> ()</td></tr>
+<tr class="separator:a1456ef25d7388537880519f12307299d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabf3380c6ad691f0421a1569a9bb8765"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aabf3380c6ad691f0421a1569a9bb8765"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ActivateAbilities</b> (LivingEntity livingEntity, <a class="el" href="enumcom_1_1mcdr_1_1corruption_1_1ability_1_1_ability_1_1_activation_condition.html">ActivationCondition</a> activationCondition)</td></tr>
 <tr class="separator:aabf3380c6ad691f0421a1569a9bb8765"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,9 +142,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ActivateAbilities</b>
 <tr class="memitem:a5557dbabf97e665606e487a1a21810cd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5557dbabf97e665606e487a1a21810cd"></a>
 <a class="el" href="classcom_1_1mcdr_1_1corruption_1_1entity_1_1data_1_1_boss_data.html">BossData</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getBossData</b> ()</td></tr>
 <tr class="separator:a5557dbabf97e665606e487a1a21810cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e2256b7ea88cc39191b6950415b3bbd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0e2256b7ea88cc39191b6950415b3bbd"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getHealth</b> ()</td></tr>
-<tr class="separator:a0e2256b7ea88cc39191b6950415b3bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a0d77df6fac05742c88c6567e841c00"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a0d77df6fac05742c88c6567e841c00"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>getHealth</b> ()</td></tr>
+<tr class="separator:a7a0d77df6fac05742c88c6567e841c00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d9c55507ad94a5e815aaa72b12c81c4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d9c55507ad94a5e815aaa72b12c81c4"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>getFireEnchantTick</b> ()</td></tr>
 <tr class="separator:a5d9c55507ad94a5e815aaa72b12c81c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,9 +160,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>getLastTimeNotified</b
 <tr class="memitem:a0d2091418ede0055cbd046dc4fff568d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d2091418ede0055cbd046dc4fff568d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setBossData</b> (<a class="el" href="classcom_1_1mcdr_1_1corruption_1_1entity_1_1data_1_1_boss_data.html">BossData</a> bossData)</td></tr>
 <tr class="separator:a0d2091418ede0055cbd046dc4fff568d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4af40df3fc40702469da7b759e25432a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4af40df3fc40702469da7b759e25432a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setHealth</b> (int health)</td></tr>
-<tr class="separator:a4af40df3fc40702469da7b759e25432a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61c9bd53db01bd5f8f586809717321f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a61c9bd53db01bd5f8f586809717321f7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setHealth</b> (double curHealth)</td></tr>
+<tr class="separator:a61c9bd53db01bd5f8f586809717321f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1238d23312a4a9d7719a478cb294015"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad1238d23312a4a9d7719a478cb294015"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setFireEnchantTick</b> (int fireEnchantTick)</td></tr>
 <tr class="separator:ad1238d23312a4a9d7719a478cb294015"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,9 +184,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ChangeAbilityStatus</
 <tr class="memitem:a8974690333f101cb5857ef61c94f3fd3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8974690333f101cb5857ef61c94f3fd3"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>getRegenPerSecond</b> ()</td></tr>
 <tr class="separator:a8974690333f101cb5857ef61c94f3fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3b8e555391f011c7f5a1cb80e7cac17"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab3b8e555391f011c7f5a1cb80e7cac17"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getMaxHealth</b> ()</td></tr>
-<tr class="separator:ab3b8e555391f011c7f5a1cb80e7cac17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a002a4d1d48c6a7c5e992bd82f23a1db6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a002a4d1d48c6a7c5e992bd82f23a1db6"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>getMaxHealth</b> ()</td></tr>
+<tr class="separator:a002a4d1d48c6a7c5e992bd82f23a1db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec6311cdb1c1e3545679469e7135ce2d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aec6311cdb1c1e3545679469e7135ce2d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setMaxHealth</b> (double curMaxHealth)</td></tr>
+<tr class="separator:aec6311cdb1c1e3545679469e7135ce2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35cf78c57e6e17ee901b3480e9c67bc5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35cf78c57e6e17ee901b3480e9c67bc5"></a>
 String&#160;</td><td class="memItemRight" valign="bottom"><b>getRawName</b> ()</td></tr>
 <tr class="separator:a35cf78c57e6e17ee901b3480e9c67bc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,6 +254,12 @@ LivingEntity&#160;</td><td class="memItemRight" valign="bottom"><b>getLivingEnti
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setLivingEntity</b> (LivingEntity livingEntity)</td></tr>
 <tr class="separator:a49a7d29d7a606c6a77ab4c8e77468ae4 inherit pub_methods_classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_entity"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ac8c0a73246b3eab609b0a969d390be19"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac8c0a73246b3eab609b0a969d390be19"></a>
+static <a class="el" href="classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html">Boss</a>&#160;</td><td class="memItemRight" valign="bottom"><b>restoreBoss</b> (LivingEntity livingEntity, <a class="el" href="classcom_1_1mcdr_1_1corruption_1_1entity_1_1data_1_1_boss_data.html">BossData</a> bossData)</td></tr>
+<tr class="separator:ac8c0a73246b3eab609b0a969d390be19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_entity"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_entity')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_entity.html">com.mcdr.corruption.entity.CorEntity</a></td></tr>
@@ -273,7 +285,7 @@ LivingEntity&#160;</td><td class="memItemRight" valign="bottom"><b>livingEntity<
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>com/mcdr/corruption/entity/Boss.java</li>
+<li>Boss.java</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -281,7 +293,7 @@ LivingEntity&#160;</td><td class="memItemRight" valign="bottom"><b>livingEntity<
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>com</b></li><li class="navelem"><b>mcdr</b></li><li class="navelem"><b>corruption</b></li><li class="navelem"><b>entity</b></li><li class="navelem"><a class="el" href="classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html">Boss</a></li>
-    <li class="footer">Generated on Sun Apr 7 2013 00:09:36 for Corruption by
+    <li class="footer">Generated on Mon Oct 7 2013 22:22:08 for Corruption by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>

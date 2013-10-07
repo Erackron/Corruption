@@ -12,6 +12,7 @@ var searchData=
   ['corentity',['CorEntity',['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_entity.html',1,'com::mcdr::corruption::entity']]],
   ['corentitylistener',['CorEntityListener',['../classcom_1_1mcdr_1_1corruption_1_1listener_1_1_cor_entity_listener.html',1,'com::mcdr::corruption::listener']]],
   ['corentitymanager',['CorEntityManager',['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_entity_manager.html',1,'com::mcdr::corruption::entity']]],
+  ['corlogger',['CorLogger',['../classcom_1_1mcdr_1_1corruption_1_1util_1_1_cor_logger.html',1,'com::mcdr::corruption::util']]],
   ['cormagicspellslistener',['CorMagicSpellsListener',['../classcom_1_1mcdr_1_1corruption_1_1listener_1_1_cor_magic_spells_listener.html',1,'com::mcdr::corruption::listener']]],
   ['cormetrics',['CorMetrics',['../classcom_1_1mcdr_1_1corruption_1_1_cor_metrics.html',1,'com::mcdr::corruption']]],
   ['corplayer',['CorPlayer',['../classcom_1_1mcdr_1_1corruption_1_1player_1_1_cor_player.html',1,'com::mcdr::corruption::player']]],

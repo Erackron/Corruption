@@ -31,11 +31,10 @@
   <td id="projectlogo"><img alt="Logo" src="corruption_logo_text_w600.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Corruption
-   &#160;<span id="projectnumber">2.2</span>
+   &#160;<span id="projectnumber">2.3.2</span>
    </div>
    <div id="projectbrief">A bukkit plugin to spawn epic bosses.</div>
-   <span>Go directly to the <a href="classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html">API</a></span>
-  </td>
+   <span>Go directly to the <a href="classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html">API</a></span>  </td>
  </tr>
  </tbody>
 </table>
@@ -139,15 +138,15 @@ static boolean&#160;</td><td class="memItemRight" valign="bottom"><b>hasPermissi
 <tr class="memitem:a1798072f32062b7e6cc531133ed7fe24"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1798072f32062b7e6cc531133ed7fe24"></a>
 static String&#160;</td><td class="memItemRight" valign="bottom"><b>parseMessage</b> (String msg, <a class="el" href="classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html">Boss</a> boss)</td></tr>
 <tr class="separator:a1798072f32062b7e6cc531133ed7fe24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d531248c3d7317e182bb379fa5f9055"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7d531248c3d7317e182bb379fa5f9055"></a>
-static String&#160;</td><td class="memItemRight" valign="bottom"><b>parseMessage</b> (String msg, <a class="el" href="classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html">Boss</a> boss, int damage)</td></tr>
-<tr class="separator:a7d531248c3d7317e182bb379fa5f9055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a850a6b4a2f64582492e3fbcca47507d7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a850a6b4a2f64582492e3fbcca47507d7"></a>
+static String&#160;</td><td class="memItemRight" valign="bottom"><b>parseMessage</b> (String msg, <a class="el" href="classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html">Boss</a> boss, double damage)</td></tr>
+<tr class="separator:a850a6b4a2f64582492e3fbcca47507d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a891bfda9c96f0d9380ce1c576cf7eb64"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a891bfda9c96f0d9380ce1c576cf7eb64"></a>
 static String&#160;</td><td class="memItemRight" valign="bottom"><b>parseMessage</b> (String msg, String bossName)</td></tr>
 <tr class="separator:a891bfda9c96f0d9380ce1c576cf7eb64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89aee8dd03aac5e5ee712b2c91303385"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a89aee8dd03aac5e5ee712b2c91303385"></a>
-static String&#160;</td><td class="memItemRight" valign="bottom"><b>parseMessage</b> (String msg, String bossName, int health, int maxHealth, int damage)</td></tr>
-<tr class="separator:a89aee8dd03aac5e5ee712b2c91303385"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55a0f742ad7b37dd2621f50659e5ae4a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a55a0f742ad7b37dd2621f50659e5ae4a"></a>
+static String&#160;</td><td class="memItemRight" valign="bottom"><b>parseMessage</b> (String msg, String bossName, double health, double maxHealth, double damage)</td></tr>
+<tr class="separator:a55a0f742ad7b37dd2621f50659e5ae4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a318c73a4003b569d0aaa5579fcf4e5b1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a318c73a4003b569d0aaa5579fcf4e5b1"></a>
 static&lt; K, VextendsComparable<br class="typebreak"/>
 &lt;?superV &gt; SortedSet&lt; Entry&lt; K, <br class="typebreak"/>
@@ -166,6 +165,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>fileToFile</b>
 <tr class="memitem:af7625a4a6414e6e79999ad020c6e8786"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7625a4a6414e6e79999ad020c6e8786"></a>
 static String&#160;</td><td class="memItemRight" valign="bottom"><b>calculateMd5Hash</b> (File f)</td></tr>
 <tr class="separator:af7625a4a6414e6e79999ad020c6e8786"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b7680f3b5d3018673bb841d11a270a3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b7680f3b5d3018673bb841d11a270a3"></a>
+static double&#160;</td><td class="memItemRight" valign="bottom"><b>round</b> (double value, int places)</td></tr>
+<tr class="separator:a5b7680f3b5d3018673bb841d11a270a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -261,7 +263,7 @@ static java.util.Random&#160;</td><td class="memItemRight" valign="bottom"><b>ra
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>com/mcdr/corruption/util/Utility.java</li>
+<li>Utility.java</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -269,7 +271,7 @@ static java.util.Random&#160;</td><td class="memItemRight" valign="bottom"><b>ra
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>com</b></li><li class="navelem"><b>mcdr</b></li><li class="navelem"><b>corruption</b></li><li class="navelem"><b>util</b></li><li class="navelem"><a class="el" href="classcom_1_1mcdr_1_1corruption_1_1util_1_1_utility.html">Utility</a></li>
-    <li class="footer">Generated on Sun Apr 7 2013 00:09:37 for Corruption by
+    <li class="footer">Generated on Mon Oct 7 2013 22:22:08 for Corruption by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
   </ul>
