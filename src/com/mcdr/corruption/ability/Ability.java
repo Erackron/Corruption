@@ -80,6 +80,7 @@ public abstract class Ability {
 	private double activationChance = 100.0;
     private int minRange = 0;
 	private int maxRange = 16;
+    private int messageRadius = 16;
 	private String msg = "";
 	private double cooldown = 0.0;
 	private String name = "Unknown";
@@ -182,7 +183,6 @@ public abstract class Ability {
 			Player player = corPlayer.getPlayer();
 			if(player.equals(target))
 				continue;
-            int messageRadius = 16;
             if (Utility.isNear(player.getLocation(), loc, 0, messageRadius)) {
 				player.sendMessage(message);
 			}
