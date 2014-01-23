@@ -32,10 +32,10 @@ public class PermissionsManager {
 	private PermissionsSystemType permsType = PermissionsSystemType.NONE;
 	private Server s;
 	private Plugin p;
-	
+
 	// Permissions Ex
 	private PermissionManager pexPerms;
-	
+
 	// Group manager essentials
 	private GroupManager groupManagerPerms;
 	
@@ -205,10 +205,8 @@ public class PermissionsManager {
 		case ESSENTIALS_GROUP_MANAGER:
 			// Essentials Group Manager
 			final AnjoPermissionsHandler handler = groupManagerPerms.getWorldsHolder().getWorldPermissions(p);
-			if (handler == null)
-				return false;
-			return handler.has(p, permsNode);
-		case Z_PERMISSIONS:
+            return handler != null && handler.has(p, permsNode);
+            case Z_PERMISSIONS:
 			// zPermissions
 			Map<String, Boolean> perms = zPermissionsService.getPlayerPermissions(p.getWorld().getName(), null, p.getName());
 			if(perms.containsKey(permsNode)){

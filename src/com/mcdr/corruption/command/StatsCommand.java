@@ -48,7 +48,7 @@ public abstract class StatsCommand extends BaseCommand {
 				int amount = CorPlayer.getTotalBossesKilled();
 
 				if (amount > 0) {
-					this.unsortedMap.put(CorPlayer.getName(), Integer.valueOf(amount));
+					this.unsortedMap.put(CorPlayer.getName(), amount);
 				}
 			}
 
@@ -64,7 +64,7 @@ public abstract class StatsCommand extends BaseCommand {
 		public IndividualStatsDisplayer(CommandSender sender, CorPlayer CorPlayer) {
 			super(sender);
 			this.playerName = CorPlayer.getName();
-			this.CorPlayerList = Arrays.asList(new CorPlayer[] { CorPlayer });
+			this.CorPlayerList = Arrays.asList(CorPlayer);
 		}
 
 	public void run()
@@ -79,7 +79,7 @@ public abstract class StatsCommand extends BaseCommand {
 				return;
 			}
 
-			CorPlayer CorPlayer = (CorPlayer)this.CorPlayerList.get(0);
+			CorPlayer CorPlayer = this.CorPlayerList.get(0);
 			
 			String bossName; 
 			
@@ -118,18 +118,15 @@ public abstract class StatsCommand extends BaseCommand {
 
 			this.CorPlayerList = TaskManager.getCorPlayerFileAccessor().getResult(this.requestId);
 
-			if (this.CorPlayerList == null) {
-				return false;
-			}
+            return this.CorPlayerList != null;
 
-			return true;
-		}
+        }
 
 		protected void DisplayStats() {
 			Iterator<Entry<String, Integer>> it = Utility.sortEntriesByValues(this.unsortedMap, false).iterator();
 
 			for (int i = 1; (i <= 10) && (it.hasNext()); i++) {
-				Entry<String, Integer> entry = (Entry<String, Integer>)it.next();
+				Entry<String, Integer> entry = it.next();
 				String message = ChatColor.GRAY + String.valueOf(i) + ". " + ChatColor.WHITE + entry.getKey() + " (" + ChatColor.GREEN + entry.getValue() + ChatColor.WHITE + ")";
 
 				this.sender.sendMessage(message);

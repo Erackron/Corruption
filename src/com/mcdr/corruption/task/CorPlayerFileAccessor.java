@@ -109,7 +109,7 @@ public class CorPlayerFileAccessor implements Runnable {
 							Map<String, Integer> bossesKilled = CorPlayer.getBossesKilled();
 
 							for (Entry<String, Integer> bossKilled : bossesKilled.entrySet()) {
-								writer.write((String)bossKilled.getKey() + seperator + bossKilled.getValue() + seperator);
+								writer.write(bossKilled.getKey() + seperator + bossKilled.getValue() + seperator);
 							}
 
 							writer.newLine();
@@ -129,7 +129,7 @@ public class CorPlayerFileAccessor implements Runnable {
 				Map<String, Integer> bossesKilled = CorPlayer.getBossesKilled();
 
 				for (Entry<String, Integer> bossKilled : bossesKilled.entrySet()) {
-					writer.write((String)bossKilled.getKey() + seperator + bossKilled.getValue() + seperator);
+					writer.write(bossKilled.getKey() + seperator + bossKilled.getValue() + seperator);
 				}
 
 				writer.newLine();
@@ -201,12 +201,12 @@ public class CorPlayerFileAccessor implements Runnable {
 			String[] data = pattern.split(line);
 
 			if (data.length >= 3) {
-				CorPlayer.getCorPlayerData().setViewer(Boolean.valueOf(data[1]).booleanValue());
-				CorPlayer.getCorPlayerData().setIgnore(Boolean.valueOf(data[2]).booleanValue());
+				CorPlayer.getCorPlayerData().setViewer(Boolean.valueOf(data[1]));
+				CorPlayer.getCorPlayerData().setIgnore(Boolean.valueOf(data[2]));
 			}
 
 			for (int i = 3; i < data.length; i += 2)
-				CorPlayer.addBossKilled(data[i], Integer.valueOf(data[(i + 1)]).intValue());
+				CorPlayer.addBossKilled(data[i], Integer.valueOf(data[(i + 1)]));
 		}
 
 		public boolean initiatePlayerDataSaving(List<CorPlayer> CorPlayersToSave)
@@ -251,9 +251,9 @@ public class CorPlayerFileAccessor implements Runnable {
 			if (this.loadLock.tryLock()) {
 				try {
 					for (short id = 1; id < 32767; id = (short)(id + 1))
-						if (!this.loadedPlayers.containsKey(Short.valueOf(id)))
+						if (!this.loadedPlayers.containsKey(id))
 						{
-							this.playersToLoad.put(Short.valueOf(id), toLoad);
+							this.playersToLoad.put(id, toLoad);
 							return id;
 						}
 				}
@@ -295,7 +295,7 @@ public class CorPlayerFileAccessor implements Runnable {
 		public List<CorPlayer> getResult(short id) {
 			if (this.loadLock.tryLock()) {
 				try {
-					return (List<CorPlayer>)this.loadedPlayers.get(Short.valueOf(id));
+					return this.loadedPlayers.get(id);
 				}
 				finally {
 					this.loadLock.unlock();

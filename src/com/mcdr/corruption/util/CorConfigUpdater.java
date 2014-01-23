@@ -52,7 +52,7 @@ public class CorConfigUpdater {
 		File configFile = getFile("abilities.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "abilities.yml");
 		
-		((File) new File(backupFile.getParent())).mkdirs();
+		new File(backupFile.getParent()).mkdirs();
 		
 		try {
 			Utility.fileToFile(configFile, backupFile);
@@ -169,7 +169,7 @@ public class CorConfigUpdater {
 		File configFile = getFile("config.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "config.yml");
 		
-		((File) new File(backupFile.getParent())).mkdirs();
+		new File(backupFile.getParent()).mkdirs();
 		
 		try {
 			Utility.fileToFile(configFile, backupFile);
@@ -249,7 +249,7 @@ public class CorConfigUpdater {
 		File configFile = getFile("bosses.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "bosses.yml");
 		
-		((File) new File(backupFile.getParent())).mkdirs();
+		new File(backupFile.getParent()).mkdirs();
 		
 		try {
 			Utility.fileToFile(configFile, backupFile);
@@ -402,7 +402,7 @@ public class CorConfigUpdater {
 		File configFile = getFile("equipment.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "equipment.yml");
 		
-		((File) new File(backupFile.getParent())).mkdirs();
+		new File(backupFile.getParent()).mkdirs();
 		
 		try {
 			Utility.fileToFile(configFile, backupFile);
@@ -440,7 +440,7 @@ public class CorConfigUpdater {
 		File configFile = getFile("magicspells.yml");
 		File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator + "v" + configVersion + File.separator + "magicspells.yml");
 		
-		((File) new File(backupFile.getParent())).mkdirs();
+		new File(backupFile.getParent()).mkdirs();
 		
 		try {
 			Utility.fileToFile(configFile, backupFile);
@@ -479,7 +479,7 @@ public class CorConfigUpdater {
 			File configFile = getFile("Worlds" + File.separator + world.getName() + ".yml");
 			File backupFile = new File(Corruption.in.getDataFolder().getPath(), "old_files" + File.separator +  "v" + configVersion + File.separator + "Worlds" + File.separator + world.getName() + ".yml");
 			
-			((File) new File(backupFile.getParent())).mkdirs();
+			new File(backupFile.getParent()).mkdirs();
 			
 			try {
 				Utility.fileToFile(configFile, backupFile);
@@ -512,7 +512,7 @@ public class CorConfigUpdater {
 	}
 	
 	private File getFile(String name){
-		return ((File) new File(Corruption.in.getDataFolder().getPath() + File.separatorChar + name));
+		return new File(Corruption.in.getDataFolder().getPath() + File.separatorChar + name);
 	}
 	
 	/**

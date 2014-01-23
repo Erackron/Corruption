@@ -15,10 +15,8 @@ public class HeroesHandler {
 	
 	public static boolean prepare(){
 		plugin = (Heroes) Corruption.in.getServer().getPluginManager().getPlugin("Heroes");
-		if(plugin == null)
-			return false;
-		return true;
-	}
+        return plugin != null;
+    }
 	
 	public static void addXP(CorPlayer corPlayer, double xp, LivingEntity victim){
 		if(xp==0)

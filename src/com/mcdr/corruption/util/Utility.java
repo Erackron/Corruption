@@ -47,12 +47,10 @@ public abstract class Utility {
 		double relY = first.getY() - second.getY();
 		double relZ = first.getZ() - second.getZ();
 		double dist = relX * relX + relY * relY + relZ * relZ;
-		
-		if (dist < maxDistance * maxDistance && dist > minDistance * minDistance)
-			return true;
-		
-		return false;
-	}
+
+        return dist < maxDistance * maxDistance && dist > minDistance * minDistance;
+
+    }
 	
 	public static void setFacing(LivingEntity le, Location targetLoc){
 		if(!le.isValid() || targetLoc == null)
@@ -72,10 +70,7 @@ public abstract class Utility {
 	}
 	
 	public static boolean hasPermission(CommandSender sender, String permission){
-		if(sender instanceof Player)
-			return ((Player) sender).isOp() || hasPermission((Player) sender, permission);
-		else
-			return true;
+        return !(sender instanceof Player) || ((Player) sender).isOp() || hasPermission((Player) sender, permission);
 	}
 	
 	public static boolean hasPermission(Player player, String permission){

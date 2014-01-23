@@ -131,10 +131,10 @@ public class EquipmentSet {
 		
 		if(enchantments[0]!=null){
 			int enchAmount = enchantments.length;
-			for(int i = 0; i < enchAmount; i++){
-				if(enchantments[i][0]>0 && enchantments[i][1]>0)
-					item.addUnsafeEnchantment(EnchNames.getById(enchantments[i][0]), enchantments[i][1]);
-			}
+            for (int[] enchantment : enchantments) {
+                if (enchantment[0] > 0 && enchantment[1] > 0)
+                    item.addUnsafeEnchantment(EnchNames.getById(enchantment[0]), enchantment[1]);
+            }
 		}
 		
 		return item;
@@ -202,7 +202,7 @@ public class EquipmentSet {
 			int[][] output = new int[size][2];
 			for(int i = 0; i < size; i++)
 				for(int j = 0; j < 2; j++)
-					output[i][j] = (int)entries.get(i)[j];
+					output[i][j] = entries.get(i)[j];
 			return output;
 		} else
 			return empty;

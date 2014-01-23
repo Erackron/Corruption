@@ -47,10 +47,8 @@ public abstract class CorLogger {
 	}
 	
 	private static boolean shouldLog(Level level){
-		if(level.equals(LogLevel.OFF))
-			return false;
-		return level.intValue()>=CorLogger.level;
-	}
+        return !level.equals(LogLevel.OFF) && level.intValue() >= CorLogger.level;
+    }
 	
 	public static boolean debugEnabled(){
 		return shouldLog(LogLevel.DEBUG);
@@ -86,24 +84,22 @@ public abstract class CorLogger {
 				return Level.parse(name);
 			} catch (IllegalArgumentException e){
 				// Look for a known Level with the given non-localized name.
-				for (int i = 0; i < known.size(); i++) {
-					Level l = known.get(i);
-					if (name.equals(l.getName())) {
-						return l;
-					}
-				}
+                for (Level l : known) {
+                    if (name.equals(l.getName())) {
+                        return l;
+                    }
+                }
 
 				// Now, check if the given name is an integer.  If so,
 				// first look for a Level with the given value and then
 				// if necessary create one.
 				try {
 					int x = Integer.parseInt(name);
-					for (int i = 0; i < known.size(); i++) {
-						Level l = known.get(i);
-						if (l.intValue() == x) {
-							return l;
-						}
-					}
+                    for (Level l : known) {
+                        if (l.intValue() == x) {
+                            return l;
+                        }
+                    }
 					// Create a new Level.
 					return new LogLevel(name, x);
 				} catch (NumberFormatException ex) {
@@ -114,12 +110,11 @@ public abstract class CorLogger {
 				// Finally, look for a known level with the given localized name,
 				// in the current default locale.
 				// This is relatively expensive, but not excessively so.
-				for (int i = 0; i < known.size(); i++) {
-					Level l =  known.get(i);
-					if (name.equals(l.getLocalizedName())) {
-						return l;
-					}
-				}
+                for (Level l : known) {
+                    if (name.equals(l.getLocalizedName())) {
+                        return l;
+                    }
+                }
 
 				// OK, we've tried everything and failed
 				throw new IllegalArgumentException("Bad level \"" + name + "\"");

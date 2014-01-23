@@ -61,7 +61,7 @@ public class CorUpdateChecker {
 		    return version;
 		} catch(SocketTimeoutException e){
 			return null;
-		} catch (Exception e) {}
+		} catch (Exception ignored) {}
 		return Corruption.in.getDescription().getVersion();
 	}
 }

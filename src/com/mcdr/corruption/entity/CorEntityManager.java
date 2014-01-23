@@ -77,10 +77,8 @@ public abstract class CorEntityManager {
 	}
 	
 	public static boolean isDead(Boss boss) {
-		if (boss.getHealth() <= 0)
-			return true;
-		return false;
-	}
+        return boss.getHealth() <= 0;
+    }
 	
 	public static void clear() {
 		bosses.clear();

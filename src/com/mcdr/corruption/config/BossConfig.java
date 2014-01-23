@@ -75,7 +75,7 @@ public class BossConfig extends BaseConfig {
 					bossData = new ZombieBossData(bossName, entityType, isBaby, isVillager);
 					break;
 				case PIG_ZOMBIE:
-					boolean isPigBaby = yamlConfig.getBoolean(bossName + ".Baby"), isAngry = yamlConfig.isSet(bossName + ".Aggressive")?yamlConfig.getBoolean(bossName + ".Aggressive"):true;
+					boolean isPigBaby = yamlConfig.getBoolean(bossName + ".Baby"), isAngry = !yamlConfig.isSet(bossName + ".Aggressive") || yamlConfig.getBoolean(bossName + ".Aggressive");
 					bossData = new PigZombieBossData(bossName, entityType, isPigBaby, isAngry);
 					break;
 				case SKELETON:
@@ -93,7 +93,7 @@ public class BossConfig extends BaseConfig {
 					bossData = new SlimeBossData(bossName, entityType, minsize, maxsize);
 					break;
 				case GHAST:
-					boolean immune = yamlConfig.isSet(bossName + ".ReturnToSenderImmune")?yamlConfig.getBoolean(bossName + ".ReturnToSenderImmune"):true;
+					boolean immune = !yamlConfig.isSet(bossName + ".ReturnToSenderImmune") || yamlConfig.getBoolean(bossName + ".ReturnToSenderImmune");
 					bossData = new GhastBossData(bossName, entityType, immune);
 					break;
 				default:
@@ -246,10 +246,7 @@ public class BossConfig extends BaseConfig {
 		for(BossImmunity immunities : BossImmunity.values()){
 			if(immunities.getNode() != null){
 				boolean immunityNode;
-				if(section.isSet(immunities.getNode()))
-					immunityNode = section.getBoolean(immunities.getNode());
-				else
-					immunityNode = false;
+                immunityNode = section.isSet(immunities.getNode()) && section.getBoolean(immunities.getNode());
 				bossData.setImmunity(immunities.getNode(), immunityNode);
 			}			
 		}

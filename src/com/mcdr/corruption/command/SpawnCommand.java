@@ -86,9 +86,9 @@ public abstract class SpawnCommand extends BaseCommand {
 		
 		for (String key : bossesData.keySet()) {
 			if(bossesData.get(key).getEntityType()==EntityType.WITHER)
-				bossListBuilder.append(ChatColor.STRIKETHROUGH + key + ChatColor.RESET + ChatColor.GRAY + ", ");
+				bossListBuilder.append(ChatColor.STRIKETHROUGH).append(key).append(ChatColor.RESET).append(ChatColor.GRAY).append(", ");
 			else
-				bossListBuilder.append(key + ", ");
+				bossListBuilder.append(key).append(", ");
 		}
 		
 		bossListBuilder.substring(0, bossListBuilder.length() - 2);

@@ -126,7 +126,7 @@ public class Boss extends CorEntity implements CommandSender {
 			return;
 		
 		for (Entry<Ability, Boolean> entry : abilities.entrySet()) {
-			if (entry.getValue() == false)
+			if (!entry.getValue())
 				continue;
 			
 			Ability ability = entry.getKey();

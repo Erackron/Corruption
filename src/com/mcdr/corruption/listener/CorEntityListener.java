@@ -215,7 +215,7 @@ public class CorEntityListener implements Listener {
 					event.setDamage((int) (event.getDamage() * boss.getBossData().getDamageCoef()));
 				else
 					event.setDamage((int) boss.getBossData().getDamageCoef());
-				boss.ActivateAbilities((LivingEntity) livingEntity, ActivationCondition.ONATTACK, event);
+				boss.ActivateAbilities(livingEntity, ActivationCondition.ONATTACK, event);
 			}
 		}
 		
@@ -431,7 +431,7 @@ public class CorEntityListener implements Listener {
 		Entity t = event.getTarget();
 		if(event.getEntity() instanceof LivingEntity){
 			if(t instanceof Player) {
-				CorPlayer corPlayer = CorPlayerManager.getCorPlayer((Player) t);
+				CorPlayer corPlayer = CorPlayerManager.getCorPlayer(t);
 				if (corPlayer != null && corPlayer.getCorPlayerData().getIgnore()) {
 					event.setCancelled(true);
 				}

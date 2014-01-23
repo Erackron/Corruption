@@ -238,10 +238,8 @@ public class CorruptionAPI {
 	 * @return True if this entity has an absolute health, false if it doesn't or the entity is not a boss 
 	 */
 	public static boolean isUsingAbsoluteHealth(Entity e){
-		if(isBoss(e))
-			return !getBoss(e).getBossData().useHealthMultiplier();
-		return false;
-	}
+        return isBoss(e) && !getBoss(e).getBossData().useHealthMultiplier();
+    }
 	
 	/**
 	 * @deprecated Using livingEntity.getMaxHealth() is usually sufficient. This method was put in place when livingEntity.setMaxHealth() was not yet available.

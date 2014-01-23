@@ -115,7 +115,7 @@ public class CorAutoUpdater {
 			}
 	  } catch(Exception e) {
 	    e.printStackTrace();
-	    try {Utility.fileToFile(bakFile, origFile);bakFile.delete();} catch (IOException e1) {}
+	    try {Utility.fileToFile(bakFile, origFile);bakFile.delete();} catch (IOException ignored) {}
 	    return false;
 	  }
 		bakFile.delete();

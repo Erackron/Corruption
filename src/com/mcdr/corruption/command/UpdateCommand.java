@@ -22,8 +22,7 @@ public class UpdateCommand extends BaseCommand {
 			checkCommand();
 		else if(arg.equalsIgnoreCase("i")||arg.equalsIgnoreCase("install"))
 			installCommand();
-		return;
-	}
+    }
 	
 	private static void checkCommand(){
 		if(CorUpdateChecker.checkForUpdate()){
