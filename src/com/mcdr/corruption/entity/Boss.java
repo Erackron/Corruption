@@ -289,7 +289,6 @@ public class Boss extends CorEntity implements CommandSender {
 		livingEntity.setHealth(curHealth);
 		boss.setMaxHealth(curMaxHealth);
 		boss.setHealth(curHealth);
-		boss.setBossData(bossData);
 		return boss;
 	}
 
