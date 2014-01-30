@@ -13,11 +13,11 @@ public abstract class TaskManager {
 		ScheduleSyncRepeatingTask(new LoadPlayerData(), TaskParam.LOAD_PLAYER_DATA.getValue());
 		ScheduleSyncRepeatingTask(new SavePlayerData(), TaskParam.SAVE_PLAYER_DATA.getValue());
 		corPlayerFileAccessor.start();
-	}
-	
-	private static void ScheduleSyncRepeatingTask(BaseTask baseTask, double period) {
-		if (period > 0.0D) {
-		      long periodInTicks = (long)(period * 20.0D);
+    }
+
+    private static void ScheduleSyncRepeatingTask(BaseTask baseTask, double period) {
+        if (period > 0.0D) {
+            long periodInTicks = (long)(period * 20.0D);
 		      Corruption.scheduler.runTaskTimer(Corruption.in, baseTask, periodInTicks, periodInTicks);
 		}
 	}
