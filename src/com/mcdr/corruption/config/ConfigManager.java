@@ -9,6 +9,7 @@ public abstract class ConfigManager {
 	public static void Load() {
 		GlobalConfig.load();
 		AbilityConfig.Load();
+        ItemConfig.Load();
 		// EquipmentConfig must be loaded before the BossConfig (for obvious reasons)
 		EquipmentConfig.Load();
 		BossConfig.Load();

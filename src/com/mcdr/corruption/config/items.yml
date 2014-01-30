@@ -1,0 +1,16 @@
+"FirstItem":
+  Enabled: true
+  Id: 276
+  Data: 0
+  Durability: 0
+  Enchantments:
+    "knockback":
+      Enabled: true
+      Enchantment: "Knockback"
+      Probability: 30
+      Level: 2
+    "sharpness":
+      Enabled: true
+      Enchantment: "Damage All"
+      Probability: 50
+      Level: 3
