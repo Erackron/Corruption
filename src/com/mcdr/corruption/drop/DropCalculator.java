@@ -32,11 +32,12 @@ public abstract class DropCalculator {
 					if (quantity == 0) //Don't drop a "ghost" item
 						break;
 					
-					Material material = drop.getMaterial();
-					ItemStack itemStack = new ItemStack(material, quantity, drop.getData());
-					
+					ItemStack itemStack = drop.getItem().getItemStack();
+
+                    itemStack.setAmount(quantity);
+
 					drops.add(itemStack);
-					StatsManager.AddDrops(material, quantity);
+					StatsManager.AddDrops(itemStack.getType(), quantity);
 					break;
 				}
 			}

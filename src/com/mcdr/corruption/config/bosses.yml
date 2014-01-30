@@ -4,7 +4,11 @@ Blaze:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 370:0 20.0 1 1
+      FirstItem:
+        Item: FirstItem
+        Probability: 20
+        MinQuantity: 1
+        MaxQuantity: 1
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
