@@ -24,7 +24,7 @@ public abstract class HelpCommand extends BaseCommand {
             sender.sendMessage("/" + label + " reload: " + ChatColor.GRAY + "Reload configuration files.");
         if (Utility.hasPermission(sender, "cor.spawn")) {
             sender.sendMessage("/" + label + " spawn [type] <amount> <x> <y> <z> <World>: " + ChatColor.GRAY + "Spawn one or multiple bosses on the targeted block or specified coordinates.");
-            sender.sendMessage(" To use with command blocks: " + "/" + label + " spawn [type] <amount> <x> <y> <z> <World> or " + "/" + label + " spawn [type] <amount> <player>");
+            sender.sendMessage("/" + label + " spawn [type] <amount> <player>:" + ChatColor.GRAY + "Spawn one or multiple bosses where the targeted player is looking.");
         }
         if (Utility.hasPermission(sender, "cor.stats"))
             sender.sendMessage("/" + label + " stats <player>: " + ChatColor.GRAY + "Display the leaderboard, or player stats.");

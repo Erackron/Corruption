@@ -99,6 +99,15 @@ public abstract class SpawnCommand extends BaseCommand {
                     w = player.getWorld();
                 }
                 loc = new Location(w, x, y, z);
+            } else if (args.length == 4) {
+                Player otherPlayer = Bukkit.getServer().getPlayer(args[3]);
+                if (otherPlayer != null) {
+                    loc = otherPlayer.getTargetBlock(null, 100).getRelative(BlockFace.UP).getLocation(); //TODO Find alternative for LivingEntity.getTargetBlock(HashSet<Byte> transparent, int maxDistance)
+                    loc.setWorld(otherPlayer.getWorld());
+                } else {
+                    sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + "Specified player" + ChatColor.GRAY + args[3] + ChatColor.WHITE + " isn't online.");
+                    return null;
+                }
             } else {
                 loc = player.getTargetBlock(null, 100).getRelative(BlockFace.UP).getLocation(); //TODO Find alternative for LivingEntity.getTargetBlock(HashSet<Byte> transparent, int maxDistance)
                 loc.setWorld(player.getWorld());
