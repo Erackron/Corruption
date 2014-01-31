@@ -1,16 +1,196 @@
-"FirstItem":
-  Enabled: true
-  Id: 276
+Blaze_FirstRoll_FirstItem:
+  Id: 376
   Data: 0
   Durability: 0
-  Enchantments:
-    "knockback":
-      Enabled: true
-      Enchantment: "Knockback"
-      Probability: 30
-      Level: 2
-    "sharpness":
-      Enabled: true
-      Enchantment: "Damage All"
-      Probability: 50
-      Level: 3
+CaveSpider_FirstRoll_FirstItem:
+  Id: 376
+  Data: 0
+  Durability: 0
+Creeper_FirstRoll_FirstItem:
+  Id: 46
+  Data: 0
+  Durability: 0
+Enderman_FirstRoll_FirstItem:
+  Id: 121
+  Data: 0
+  Durability: 0
+Ghast_FirstRoll_FirstItem:
+  Id: 348
+  Data: 0
+  Durability: 0
+LavaSlime_FirstRoll_FirstItem:
+  Id: 341
+  Data: 0
+  Durability: 0
+PigZombie_FirstRoll_FirstItem:
+  Id: 266
+  Data: 0
+  Durability: 0
+Silverfish_FirstRoll_FirstItem:
+  Id: 350
+  Data: 0
+  Durability: 0
+Skeleton_FirstRoll_FirstItem:
+  Id: 261
+  Data: 0
+  Durability: 0
+Skeleton_FirstRoll_SecondItem:
+  Id: 262
+  Data: 0
+  Durability: 0
+Slime_FirstRoll_FirstItem:
+  Id: 378
+  Data: 0
+  Durability: 0
+Spider_FirstRoll_FirstItem:
+  Id: 35
+  Data: 0
+  Durability: 0
+Witch_FirstRoll_FirstItem:
+  Id: 288
+  Data: 0
+  Durability: 0
+Wither_netherstar_netherstar:
+  Id: 399
+  Data: 0
+  Durability: 0
+Wither_diamonds_diamond:
+  Id: 264
+  Data: 0
+  Durability: 0
+Zombie_FirstRoll_FirstItem:
+  Id: 288
+  Data: 0
+  Durability: 0
+world_FirstRoll_FirstItem:
+  Id: 264
+  Data: 0
+  Durability: 0
+world_FirstRoll_SecondItem:
+  Id: 266
+  Data: 0
+  Durability: 0
+world_FirstRoll_ThirdItem:
+  Id: 265
+  Data: 0
+  Durability: 0
+world_FirstRoll_FourthItem:
+  Id: 263
+  Data: 0
+  Durability: 0
+world_SecondRoll_FirstItem:
+  Id: 364
+  Data: 0
+  Durability: 0
+world_SecondRoll_SecondItem:
+  Id: 320
+  Data: 0
+  Durability: 0
+world_SecondRoll_ThirdItem:
+  Id: 366
+  Data: 0
+  Durability: 0
+world_SecondRoll_FourthItem:
+  Id: 354
+  Data: 0
+  Durability: 0
+world_ThirdRoll_FirstItem:
+  Id: 280
+  Data: 0
+  Durability: 0
+world_ThirdRoll_SecondItem:
+  Id: 374
+  Data: 0
+  Durability: 0
+world_ThirdRoll_ThirdItem:
+  Id: 281
+  Data: 0
+  Durability: 0
+world_nether_FirstRoll_FirstItem:
+  Id: 264
+  Data: 0
+  Durability: 0
+world_nether_FirstRoll_SecondItem:
+  Id: 266
+  Data: 0
+  Durability: 0
+world_nether_FirstRoll_ThirdItem:
+  Id: 265
+  Data: 0
+  Durability: 0
+world_nether_FirstRoll_FourthItem:
+  Id: 263
+  Data: 0
+  Durability: 0
+world_nether_SecondRoll_FirstItem:
+  Id: 364
+  Data: 0
+  Durability: 0
+world_nether_SecondRoll_SecondItem:
+  Id: 320
+  Data: 0
+  Durability: 0
+world_nether_SecondRoll_ThirdItem:
+  Id: 366
+  Data: 0
+  Durability: 0
+world_nether_SecondRoll_FourthItem:
+  Id: 354
+  Data: 0
+  Durability: 0
+world_nether_ThirdRoll_FirstItem:
+  Id: 280
+  Data: 0
+  Durability: 0
+world_nether_ThirdRoll_SecondItem:
+  Id: 374
+  Data: 0
+  Durability: 0
+world_nether_ThirdRoll_ThirdItem:
+  Id: 281
+  Data: 0
+  Durability: 0
+world_the_end_FirstRoll_FirstItem:
+  Id: 264
+  Data: 0
+  Durability: 0
+world_the_end_FirstRoll_SecondItem:
+  Id: 266
+  Data: 0
+  Durability: 0
+world_the_end_FirstRoll_ThirdItem:
+  Id: 265
+  Data: 0
+  Durability: 0
+world_the_end_FirstRoll_FourthItem:
+  Id: 263
+  Data: 0
+  Durability: 0
+world_the_end_SecondRoll_FirstItem:
+  Id: 364
+  Data: 0
+  Durability: 0
+world_the_end_SecondRoll_SecondItem:
+  Id: 320
+  Data: 0
+  Durability: 0
+world_the_end_SecondRoll_ThirdItem:
+  Id: 366
+  Data: 0
+  Durability: 0
+world_the_end_SecondRoll_FourthItem:
+  Id: 354
+  Data: 0
+  Durability: 0
+world_the_end_ThirdRoll_FirstItem:
+  Id: 280
+  Data: 0
+  Durability: 0
+world_the_end_ThirdRoll_SecondItem:
+  Id: 374
+  Data: 0
+  Durability: 0
+world_the_end_ThirdRoll_ThirdItem:
+  Id: 281
+  Data: 0
+  Durability: 0

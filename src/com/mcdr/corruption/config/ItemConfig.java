@@ -42,12 +42,13 @@ public class ItemConfig extends BaseConfig{
             CorItem item = processItemSection(configurationSection);
             items.put(itemName, item);
         }
-        CorLogger.info("END");
     }
 
     public static CorItem processItemSection(ConfigurationSection configurationSection){
         int id, data, durability;
         int[] enchantmentIds = new int[0], enchantmentChances = new int[0], enchantmentLevels = new int[0];
+
+        String name;
 
         // The enchantment variables
         String enchName;
@@ -57,6 +58,7 @@ public class ItemConfig extends BaseConfig{
         id = configurationSection.getInt("Id");
         data = configurationSection.getInt("Data");
         durability = configurationSection.getInt("Durability");
+        name = configurationSection.getString("Name");
 
         if(id<0){
             CorLogger.w("'"+configurationSection.getCurrentPath()+".Id' in the item config file is invalid");
@@ -107,6 +109,6 @@ public class ItemConfig extends BaseConfig{
                 enchantmentLevels[j] = lvl;
             }
         }
-        return new CorItem(id, data, durability, enchantmentIds, enchantmentChances, enchantmentLevels);
+        return new CorItem(id, data, durability, enchantmentIds, enchantmentChances, enchantmentLevels, name);
     }
 }

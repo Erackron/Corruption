@@ -90,15 +90,14 @@ public abstract class WorldConfig extends BaseConfig {
                     CorLogger.w("'"+rollSection.getCurrentPath()+"."+drop+"' in the " + worldName + " config file is invalid");
                     continue;
                 }
-                String itemName = rollSection.getConfigurationSection(drop).getString("Item");
-                CorItem item = ItemConfig.items.get(itemName);
+                CorItem item = ItemConfig.items.get(drop);
 
                 int probability = rollSection.getConfigurationSection(drop).getInt("Probability");
                 int minQuantity = rollSection.getConfigurationSection(drop).getInt("MinQuantity");
                 int maxQuantity = rollSection.getConfigurationSection(drop).getInt("MaxQuantity");
 
                 if(item==null){
-                    CorLogger.w("'"+rollSection.getCurrentPath()+"."+drop+".Item' in the " + worldName + " config file is invalid");
+                    CorLogger.w("'"+rollSection.getCurrentPath()+"."+drop+"' in the " + worldName + " config file is invalid");
                     continue;
                 }
 

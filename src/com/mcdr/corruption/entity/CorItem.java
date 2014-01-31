@@ -4,6 +4,7 @@ import com.mcdr.corruption.util.Utility;
 import com.mcdr.corruption.util.legacy.EnchNames;
 import com.mcdr.corruption.util.legacy.ItemNames;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
@@ -19,18 +20,21 @@ public class CorItem {
 
     private int[] empty = {0};
 
+    private String name;
+
     public CorItem(){
         id=data=durability=0;
         enchantmentIds=enchantmentChances=enchantmentLevels=empty;
     }
 
-    public CorItem(int id, int data, int durability, int[] enchantmentIds, int[] enchantmentChances, int[] enchantmentLevels){
+    public CorItem(int id, int data, int durability, int[] enchantmentIds, int[] enchantmentChances, int[] enchantmentLevels, String name){
         this.id = id;
         this.data = data;
         this.durability = durability;
         this.enchantmentIds = enchantmentIds;
         this.enchantmentChances = enchantmentChances;
         this.enchantmentLevels = enchantmentLevels;
+        this.name = name;
     }
 
     private int[][] getRandomEnchantments(){
@@ -67,6 +71,12 @@ public class CorItem {
 
         if(durability>0) {
             item.setDurability((short) durability);
+        }
+
+        if(name!=null){
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(name);
+            item.setItemMeta(meta);
         }
 
         int[][] enchantments = getRandomEnchantments();

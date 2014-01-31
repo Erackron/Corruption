@@ -4,11 +4,10 @@ Blaze:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem:
-        Item: FirstItem
-        Probability: 20
+      Blaze_FirstRoll_FirstItem:
+        Probability: 20.0
         MinQuantity: 1
-        MaxQuantity: 1
+        MaxQuantity: 2
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -32,7 +31,10 @@ CaveSpider:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 376:0 20.0 1 2
+      CaveSpider_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 1
+        MaxQuantity: 2
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -56,7 +58,10 @@ Creeper:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 46:0 20.0 1 2
+      Creeper_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 1
+        MaxQuantity: 2
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -80,7 +85,10 @@ Enderman:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 121:0 20.0 1 2
+      Enderman_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 1
+        MaxQuantity: 2
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -105,7 +113,10 @@ Ghast:
   ReturnToSenderImmune: true
   Loot:
     FirstRoll:
-      FirstItem: 348:0 20.0 4 8
+      Ghast_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 4
+        MaxQuantity: 8
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -129,7 +140,10 @@ LavaSlime:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 341:0 20.0 1 3
+      LavaSlime_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 1
+        MaxQuantity: 3
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -155,7 +169,10 @@ PigZombie:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 266:0 20.0 1 1
+      PigZombie_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 1
+        MaxQuantity: 1
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -179,7 +196,10 @@ Silverfish:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 350:0 20.0 1 2
+      Silverfish_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 1
+        MaxQuantity: 2
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -204,8 +224,14 @@ Skeleton:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 261:0 3.5 1 1
-      SecondItem: 262:0 20.0 2 4
+      Skeleton_FirstRoll_FirstItem:
+        Probability: 3.5
+        MinQuantity: 1
+        MaxQuantity: 1
+      Skeleton_FirstRoll_SecondItem:
+        Probability: 20.0
+        MinQuantity: 2
+        MaxQuantity: 4
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -231,7 +257,10 @@ Slime:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 378:0 20.0 1 3
+      Slime_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 1
+        MaxQuantity: 3
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -255,7 +284,10 @@ Spider:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 35:0 20.0 1 2
+      Spider_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 1
+        MaxQuantity: 2
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -279,7 +311,10 @@ Witch:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 288:0 20.0 1 3
+      Witch_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 1
+        MaxQuantity: 3
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -313,9 +348,15 @@ Wither:
     Experience: 180.0
   Loot:
     netherstar:
-        netherstar: 399:0 100 1 1
+      Wither_netherstar_netherstar:
+        Probability: 100.0
+        MinQuantity: 1
+        MaxQuantity: 1
     diamonds:
-        diamond: 264:0 100 20 30
+      Wither_diamonds_diamond:
+        Probability: 100.0
+        MinQuantity: 20
+        MaxQuantity: 30
   Immunity:
     BlockExplosion: true
     EntityExplosion: true
@@ -333,7 +374,10 @@ Zombie:
   HeroesKillingExperience: 0.0
   Loot:
     FirstRoll:
-      FirstItem: 288:0 20.0 1 3
+      Zombie_FirstRoll_FirstItem:
+        Probability: 20.0
+        MinQuantity: 1
+        MaxQuantity: 3
   Spawn:
     Probability: 3.0
     SpawnerProbability: 1.0
@@ -351,6 +395,4 @@ Zombie:
     Contact: true
     Drowning: true
     Suffocation: true
-
-#Do not touch this variable
-ConfigVersion: '2.3.2'
+ConfigVersion: '2.4'
