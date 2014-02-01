@@ -13,7 +13,7 @@ public class UpdateCommand extends BaseCommand {
             return;
 
         if (args.length < 2) {
-            sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.GRAY + "Usage: " + ChatColor.WHITE + "/" + label + " update <check/install>.");
+            sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.GRAY + "Usage: " + ChatColor.WHITE + "/" + label + " update <check|install>.");
             return;
         }
         String arg = args[1].toLowerCase();
