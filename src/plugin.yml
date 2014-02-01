@@ -20,7 +20,7 @@ permissions:
       cor.reload: true
       cor.list: true
       cor.loglevel: true
-      cor.spawn: true
+      cor.spawn.*: true
       cor.stats: true
       cor.update: true
       cor.viewer: true
@@ -59,8 +59,38 @@ permissions:
   cor.loglevel:
     description: Change the LogLevel to control the amount of log messages from this plugin.
     default: false
+  cor.spawn.*:
+    description: Give access to all /cor spawn and /cor region permissions.
+    children:
+      cor.spawn: true
+      cor.spawn.region.*: true
+    default: false
   cor.spawn:
-    description: Spawn one or multiple bosses on the targeted block.
+    description: Spawn one or multiple bosses on the targeted block or given location.
+    default: false
+  cor.spawn.region.*:
+    description: Give access to all /cor region permissions.
+    children:
+      cor.spawn.region.list: true
+      cor.spawn.region.info: true
+      cor.spawn.region.toggle: true
+      cor.spawn.region.edit: true
+      cor.spawn.region.manage: true
+    default: false
+  cor.spawn.region.list:
+    description: List existing spawners in a given World or globally without the extra parameter.
+    default: false
+  cor.spawn.region.info:
+    description: Get detailed information about spawners matching the name or id or spawners nearby without the extra parameter.
+    default: false
+  cor.spawn.region.toggle:
+    description: Enable/disable spawners using /cor region <enable|disable> [name|id]
+    default: false
+  cor.spawn.region.edit:
+    description: Edit spawner settings (including spawnable bosses) using /cor region edit
+    default: false
+  cor.spawn.region.manage:
+    description: Add/remove spawners using /cor region <add|remove> [name|id] [options]
     default: false
   cor.stats:
     description: Display the leaderboard, or player stats.
