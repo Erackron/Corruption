@@ -37,6 +37,31 @@ public class CorItem {
         this.name = name;
     }
 
+    public int getId(){
+        return id;
+    }
+
+    public int getData(){
+        return data;
+    }
+
+    public int getDurability(){
+        return durability;
+    }
+
+    public int[] getEnchantmentIds(){
+        return enchantmentIds;
+    }
+
+    public int[] getEnchantmentChances(){
+        return enchantmentChances;
+    }
+
+    public int[] getEnchantmentLevels(){
+        return enchantmentLevels;
+    }
+
+
     private int[][] getRandomEnchantments(){
         int[][] empty = {{0},{0}};
         if(id <= 0 || enchantmentIds == null){

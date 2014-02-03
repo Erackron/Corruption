@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -456,6 +455,41 @@ public class CorConfigUpdater {
             equipment = addConfigVersion("equipment.yml");
         }
 
+        if(Utility.isOlderVersion(configVersion, "2.4")){
+            YamlConfiguration itemsConfiguration = getYamlConfig(getFile("items.yml"));
+            for(String equipmentSet : equipment.getKeys(false)) {
+                if(equipmentSet.equalsIgnoreCase("ConfigVersion"))
+                    continue;
+                ConfigurationSection equipSection = equipment.getConfigurationSection(equipmentSet);
+
+                String[] parts = {"Helmet", "Chestplate", "Leggings", "Boots", "Weapon"};
+
+                for(String part:parts){
+                    ConfigurationSection partSection = equipSection.getConfigurationSection(part);
+                    for(String name:partSection.getKeys(false)){
+                        ConfigurationSection newSection = putEquipmentInItemsConfig(name, partSection, itemsConfiguration);
+
+                        boolean enabled;
+                        int probability, dropProbability;
+                        ConfigurationSection enchantments;
+                        enabled = partSection.getConfigurationSection(name).getBoolean("Enabled");
+                        probability = partSection.getConfigurationSection(name).getInt("Probability");
+                        dropProbability = partSection.getConfigurationSection(name).getInt("DropProbability");
+                        enchantments = partSection.getConfigurationSection(name).getConfigurationSection("Enchantments");
+
+                        partSection.set(name, null);
+
+                        ConfigurationSection newPartSection = partSection.createSection(newSection.getName());
+                        newPartSection.set("Enabled", enabled);
+                        newPartSection.set("Probability", probability);
+                        newPartSection.set("DropProbability", dropProbability);
+                        newPartSection.set("Enchantments", enchantments);
+                    }
+                }
+            }
+            save(itemsConfiguration, "items.yml");
+        }
+
         equipment.set("ConfigVersion", latestVersion);
         save(equipment, "equipment.yml");
         CorLogger.i("Equipment config updated");
@@ -633,15 +667,43 @@ public class CorConfigUpdater {
         return getYamlConfig(getFile(fileName));
     }
 
-    private void putItemInItemsConfig(YamlConfiguration itemsConfiguration, String name, String item){
+    private ConfigurationSection putItemInItemsConfig(YamlConfiguration itemsConfiguration, String name, String item){
         ConfigurationSection section = itemsConfiguration.createSection(name);
         String[] itemValues = {item, "0"};
         if(item.contains(":")){
             itemValues = item.split(":");
         }
+        String dur = "0";
+        if(item.contains(" ")){
+            dur = item.split(" ")[1];
+            itemValues[1] = itemValues[1].split(" ")[0];
+        }
         section.set("Id", Integer.parseInt(itemValues[0]));
         section.set("Data", Integer.parseInt(itemValues[1]));
-        section.set("Durability", 0);
+        section.set("Durability", Integer.parseInt(dur));
+        return section;
+    }
+
+    private ConfigurationSection putEquipmentInItemsConfig(String part, ConfigurationSection section, YamlConfiguration itemConfiguration){
+        ConfigurationSection partSection = section.getConfigurationSection(part);
+        if(partSection == null)
+            return null;
+
+        String item = "", id, data, dur;
+        id = partSection.getString("ItemId");
+        data = partSection.getString("ItemData");
+        dur = partSection.getString("ItemDurability");
+
+        if(id==null||data==null||dur==null)
+            return null;
+
+        item += id;
+        item += ":" + data;
+        item += " " + dur;
+
+        String name = partSection.getCurrentPath().replace(".", "_");
+
+        return putItemInItemsConfig(itemConfiguration, name, item);
     }
 
     private boolean save(YamlConfiguration config, String fileName){

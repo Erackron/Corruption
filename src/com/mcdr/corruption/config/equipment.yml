@@ -1,43 +1,28 @@
 diamond:
   Helmet:
-    diamond_helmet:
+    diamond_Helmet_diamond_helmet:
       Enabled: true
-      ItemId: 310
       Probability: 50
-      ItemData: 0
-      ItemDurability: 0
       DropProbability: 50
   Chestplate:
-    diamond_chestplate:
+    diamond_Chestplate_diamond_chestplate:
       Enabled: true
-      ItemId: 311
       Probability: 100
-      ItemData: 0
-      ItemDurability: 0
       DropProbability: 50
   Leggings:
-    diamond_leggings:
+    diamond_Leggings_diamond_leggings:
       Enabled: true
-      ItemId: 312
       Probability: 100
-      ItemData: 0
-      ItemDurability: 0
       DropProbability: 50
   Boots:
-    diamond_boots:
+    diamond_Boots_diamond_boots:
       Enabled: true
-      ItemId: 313
       Probability: 50
-      ItemData: 0
-      ItemDurability: 0
       DropProbability: 50
   Weapon:
-    diamond_sword:
+    diamond_Weapon_diamond_sword:
       Enabled: true
-      ItemId: 276
       Probability: 100
-      ItemData: 0
-      ItemDurability: 0
       DropProbability: 50
       Enchantments:
         knockback:

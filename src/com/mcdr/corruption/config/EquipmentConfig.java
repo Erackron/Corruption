@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.mcdr.corruption.entity.CorItem;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -73,17 +74,23 @@ public class EquipmentConfig extends BaseConfig {
 			eSPath = equipSectionPath+equip;
 			// Check if the config section actually exists
 			if (yamlConfig.getConfigurationSection(eSPath) == null) {
-				CorLogger.w("'" + equipSection.getCurrentPath() + equip + "' in the equipment config file is invalid.");
+				CorLogger.w("'" + eSPath + "' in the equipment config file is invalid.");
 				continue;
 			}
+            CorItem item = ItemConfig.items.get(equip);
+            if(item == null){
+                CorLogger.w("'" + eSPath + "' in the equipment config file does not exist.");
+                continue;
+            }
+
 			// Check if the equipment is enabled
 			if(!yamlConfig.getBoolean(eSPath+".Enabled"))
 				continue;
 			// Assign necessary variables for sanity checks & processing
-			itemId = yamlConfig.getInt(eSPath+".ItemId");
+			itemId = item.getId();
 			prob = yamlConfig.getInt(eSPath+".Probability");
-			data = yamlConfig.getInt(eSPath+".ItemData");
-			dur = yamlConfig.getInt(eSPath+".ItemDurability");
+			data = item.getData();
+			dur = item.getDurability();
 			dropProb = yamlConfig.getInt(eSPath+".DropProbability");
 			
 			// Actual sanity checks
@@ -110,63 +117,15 @@ public class EquipmentConfig extends BaseConfig {
 			//End of sanity checks, the values are probably valid so increment the array counter
 			i++;
 			//And assign the values
-			itemIds[i] = yamlConfig.getInt(eSPath+".ItemId");
-			probabilities[i] = yamlConfig.getInt(eSPath+".Probability");
-			itemData[i] = yamlConfig.getInt(eSPath+".ItemData");
-			durability[i] = yamlConfig.getInt(eSPath+".ItemDurability");
-			dropChances[i] = yamlConfig.getInt(eSPath+".DropProbability");
-			
-			// And now for the enchantments
-			eSPath += ".Enchantments";
-			if (yamlConfig.getConfigurationSection(eSPath) == null)
-				continue;
-			
-			Set<String> enchantments = yamlConfig.getConfigurationSection(eSPath).getKeys(false);
-			enchAmount = enchantments.size();
-			enchantmentIds[i] = new int[enchAmount];
-			enchantmentChances[i] = new int[enchAmount];
-			enchantmentLvls[i] = new int[enchAmount];
-			for(String enchantment: enchantments){
-				// Check if the config section acutally exists
-				if (yamlConfig.getConfigurationSection(eSPath+"."+enchantment) == null) {
-					CorLogger.w("'" + enchantment + "' in the equipment config file is invalid.");
-					continue;
-				}
-				// Check if the enchantment is enabled
-				if(!yamlConfig.getBoolean(eSPath+"."+enchantment+".Enabled"))
-					continue;
-				
-				// Assign necessary variables for sanity checks & processing
-				enchName = yamlConfig.getString(eSPath+"."+enchantment+".Enchantment").trim().toUpperCase().replace(" ", "_");
-				ench = Enchantment.getByName(enchName);
-				chance = yamlConfig.getInt(eSPath+"."+enchantment+".Probability");
-				lvl = yamlConfig.getInt(eSPath+"."+enchantment+".Level");
-				
-				// Actual sanity checks
-				if(ench==null || enchName==null){
-					CorLogger.w("'" + eSPath+"."+enchantment + ".Enchantment' in the equipment config file is invalid.");
-					continue;
-				}
-				if(chance<=0){
-					CorLogger.w("'" + eSPath+"."+enchantment + ".Probability' in the equipment config file is invalid.");
-					continue;
-				}
-				if(lvl<=0){
-					CorLogger.w("'" + eSPath+"."+enchantment + ".Level' in the equipment config file is invalid.");
-					continue;
-				}
-				//End of sanity checks, the values are probably valid so increment the array counter
-				j++;
-				//And assign the values
-				enchantmentIds[i][j] = EnchNames.getId(ench);
-				enchantmentChances[i][j] = chance;
-				enchantmentLvls[i][j] = lvl;
-			}
-			if(j+1<amount){
-				enchantmentIds[i] = trimArrayAfterIndex(enchantmentIds[i], j);
-				enchantmentChances[i] = trimArrayAfterIndex(enchantmentChances[i], j);
-				enchantmentLvls[i] = trimArrayAfterIndex(enchantmentLvls[i], j);
-			}
+			itemIds[i] = itemId;
+			probabilities[i] = prob;
+			itemData[i] = data;
+            durability[i] = dur;
+            dropChances[i] = dropProb;
+
+            enchantmentIds[i] = item.getEnchantmentIds();
+            enchantmentChances[i] = item.getEnchantmentChances();
+            enchantmentLvls[i] = item.getEnchantmentLevels();
 		}
 		if(i+1<amount){
 			itemIds = trimArrayAfterIndex(itemIds, i);
