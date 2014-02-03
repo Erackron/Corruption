@@ -8,6 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CorItem {
     private int id;
@@ -22,12 +23,14 @@ public class CorItem {
 
     private String name;
 
+    private List<String> lore;
+
     public CorItem(){
         id=data=durability=0;
         enchantmentIds=enchantmentChances=enchantmentLevels=empty;
     }
 
-    public CorItem(int id, int data, int durability, int[] enchantmentIds, int[] enchantmentChances, int[] enchantmentLevels, String name){
+    public CorItem(int id, int data, int durability, int[] enchantmentIds, int[] enchantmentChances, int[] enchantmentLevels, String name, List<String> lore){
         this.id = id;
         this.data = data;
         this.durability = durability;
@@ -35,6 +38,7 @@ public class CorItem {
         this.enchantmentChances = enchantmentChances;
         this.enchantmentLevels = enchantmentLevels;
         this.name = name;
+        this.lore = lore;
     }
 
     public int getId(){
@@ -101,6 +105,12 @@ public class CorItem {
         if(name!=null){
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName(name);
+            item.setItemMeta(meta);
+        }
+
+        if(lore!=null){
+            ItemMeta meta = item.getItemMeta();
+            meta.setLore(lore);
             item.setItemMeta(meta);
         }
 

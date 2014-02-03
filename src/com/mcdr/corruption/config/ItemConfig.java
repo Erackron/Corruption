@@ -3,12 +3,15 @@ package com.mcdr.corruption.config;
 import com.mcdr.corruption.entity.CorItem;
 import com.mcdr.corruption.util.CorLogger;
 import com.mcdr.corruption.util.legacy.EnchNames;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class ItemConfig extends BaseConfig{
@@ -49,6 +52,7 @@ public class ItemConfig extends BaseConfig{
         int[] enchantmentIds = new int[0], enchantmentChances = new int[0], enchantmentLevels = new int[0];
 
         String name;
+        List<String> lore;
 
         // The enchantment variables
         String enchName;
@@ -59,6 +63,7 @@ public class ItemConfig extends BaseConfig{
         data = configurationSection.getInt("Data");
         durability = configurationSection.getInt("Durability");
         name = configurationSection.getString("Name");
+        lore = configurationSection.getStringList("Lore");
 
         if(id<0){
             CorLogger.w("'"+configurationSection.getCurrentPath()+".Id' in the item config file is invalid");
@@ -109,6 +114,10 @@ public class ItemConfig extends BaseConfig{
                 enchantmentLevels[j] = lvl;
             }
         }
-        return new CorItem(id, data, durability, enchantmentIds, enchantmentChances, enchantmentLevels, name);
+        ArrayList<String> parsedLore = new ArrayList<String>();
+        for(String loreString:lore)
+            parsedLore.add(ChatColor.translateAlternateColorCodes('&', loreString));
+
+        return new CorItem(id, data, durability, enchantmentIds, enchantmentChances, enchantmentLevels, name, parsedLore);
     }
 }
