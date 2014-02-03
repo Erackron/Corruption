@@ -1,5 +1,5 @@
 Blaze_FirstRoll_FirstItem:
-  Id: 376
+  Id: 370
   Data: 0
   Durability: 0
 CaveSpider_FirstRoll_FirstItem:
@@ -62,6 +62,37 @@ Zombie_FirstRoll_FirstItem:
   Id: 288
   Data: 0
   Durability: 0
+diamond_Helmet_diamond_helmet:
+  Id: 310
+  Data: 0
+  Durability: 0
+diamond_Chestplate_diamond_chestplate:
+  Id: 311
+  Data: 0
+  Durability: 0
+diamond_Leggings_diamond_leggings:
+  Id: 312
+  Data: 0
+  Durability: 0
+diamond_Boots_diamond_boots:
+  Id: 313
+  Data: 0
+  Durability: 0
+diamond_Weapon_diamond_sword:
+  Id: 276
+  Data: 0
+  Durability: 0
+  Enchantments:
+    knockback:
+      Enabled: true
+      Enchantment: Knockback
+      Probability: 30
+      Level: 2
+    sharpness:
+      Enabled: true
+      Enchantment: Damage All
+      Probability: 50
+      Level: 3
 world_FirstRoll_FirstItem:
   Id: 264
   Data: 0
@@ -194,23 +225,4 @@ world_the_end_ThirdRoll_ThirdItem:
   Id: 281
   Data: 0
   Durability: 0
-diamond_Helmet_diamond_helmet:
-  Id: 310
-  Data: 0
-  Durability: 0
-diamond_Chestplate_diamond_chestplate:
-  Id: 311
-  Data: 0
-  Durability: 0
-diamond_Leggings_diamond_leggings:
-  Id: 312
-  Data: 0
-  Durability: 0
-diamond_Boots_diamond_boots:
-  Id: 313
-  Data: 0
-  Durability: 0
-diamond_Weapon_diamond_sword:
-  Id: 276
-  Data: 0
-  Durability: 0
+ConfigVersion: '2.4'

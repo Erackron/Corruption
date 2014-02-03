@@ -404,7 +404,7 @@ public class CorConfigUpdater {
                             continue;
                         }
 
-                        putItemInItemsConfig(itemsConfiguration, name, itemValues[0]);
+                        putItemInItemsConfig(itemsConfiguration, name, itemValues[0], null);
 
                         rollSection.set(itemNode, null);
                         ConfigurationSection itemSection = rollSection.createSection(name);
@@ -467,15 +467,13 @@ public class CorConfigUpdater {
                 for(String part:parts){
                     ConfigurationSection partSection = equipSection.getConfigurationSection(part);
                     for(String name:partSection.getKeys(false)){
-                        ConfigurationSection newSection = putEquipmentInItemsConfig(name, partSection, itemsConfiguration);
+                        ConfigurationSection newSection = putEquipmentInItemsConfig(name, partSection, itemsConfiguration, partSection.getConfigurationSection(name).getConfigurationSection("Enchantments"));
 
                         boolean enabled;
                         int probability, dropProbability;
-                        ConfigurationSection enchantments;
                         enabled = partSection.getConfigurationSection(name).getBoolean("Enabled");
                         probability = partSection.getConfigurationSection(name).getInt("Probability");
                         dropProbability = partSection.getConfigurationSection(name).getInt("DropProbability");
-                        enchantments = partSection.getConfigurationSection(name).getConfigurationSection("Enchantments");
 
                         partSection.set(name, null);
 
@@ -483,10 +481,10 @@ public class CorConfigUpdater {
                         newPartSection.set("Enabled", enabled);
                         newPartSection.set("Probability", probability);
                         newPartSection.set("DropProbability", dropProbability);
-                        newPartSection.set("Enchantments", enchantments);
                     }
                 }
             }
+            itemsConfiguration.set("ConfigVersion", latestVersion);
             save(itemsConfiguration, "items.yml");
         }
 
@@ -582,7 +580,7 @@ public class CorConfigUpdater {
                             continue;
                         }
 
-                        putItemInItemsConfig(itemsConfiguration, name, itemValues[0]);
+                        putItemInItemsConfig(itemsConfiguration, name, itemValues[0], null);
 
                         rollSection.set(itemNode, null);
                         ConfigurationSection itemSection = rollSection.createSection(name);
@@ -667,7 +665,7 @@ public class CorConfigUpdater {
         return getYamlConfig(getFile(fileName));
     }
 
-    private ConfigurationSection putItemInItemsConfig(YamlConfiguration itemsConfiguration, String name, String item){
+    private ConfigurationSection putItemInItemsConfig(YamlConfiguration itemsConfiguration, String name, String item, ConfigurationSection enchantments){
         ConfigurationSection section = itemsConfiguration.createSection(name);
         String[] itemValues = {item, "0"};
         if(item.contains(":")){
@@ -681,10 +679,11 @@ public class CorConfigUpdater {
         section.set("Id", Integer.parseInt(itemValues[0]));
         section.set("Data", Integer.parseInt(itemValues[1]));
         section.set("Durability", Integer.parseInt(dur));
+        section.set("Enchantments", enchantments);
         return section;
     }
 
-    private ConfigurationSection putEquipmentInItemsConfig(String part, ConfigurationSection section, YamlConfiguration itemConfiguration){
+    private ConfigurationSection putEquipmentInItemsConfig(String part, ConfigurationSection section, YamlConfiguration itemConfiguration, ConfigurationSection enchantments){
         ConfigurationSection partSection = section.getConfigurationSection(part);
         if(partSection == null)
             return null;
@@ -703,7 +702,7 @@ public class CorConfigUpdater {
 
         String name = partSection.getCurrentPath().replace(".", "_");
 
-        return putItemInItemsConfig(itemConfiguration, name, item);
+        return putItemInItemsConfig(itemConfiguration, name, item, enchantments);
     }
 
     private boolean save(YamlConfiguration config, String fileName){
