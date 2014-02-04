@@ -6,20 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mcdr.corruption.ability.*;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
 
 import com.mcdr.corruption.Corruption;
-import com.mcdr.corruption.ability.Ability;
-import com.mcdr.corruption.ability.ArmorPierce;
-import com.mcdr.corruption.ability.Bomb;
-import com.mcdr.corruption.ability.CommandAbility;
-import com.mcdr.corruption.ability.FirePunch;
-import com.mcdr.corruption.ability.Knockback;
-import com.mcdr.corruption.ability.LightningAura;
-import com.mcdr.corruption.ability.Potion;
-import com.mcdr.corruption.ability.Snare;
-import com.mcdr.corruption.ability.Teleport;
 import com.mcdr.corruption.ability.Ability.AbilityType;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
 import com.mcdr.corruption.util.CorLogger;
@@ -174,6 +166,30 @@ public abstract class AbilityConfig extends BaseConfig {
 					((CommandAbility) ability).setCommand((String) abilityEntries.get(entryKey));
 				
 				break;
+            case SUMMON:
+                ability = new Summon();
+
+                entryKey = "MinAmount";
+                if(abilityEntries.containsKey(entryKey))
+                    ((Summon) ability).setMinAmount((Integer) abilityEntries.get(entryKey));
+
+                entryKey = "MaxAmount";
+                if(abilityEntries.containsKey(entryKey))
+                    ((Summon) ability).setMaxAmount((Integer) abilityEntries.get(entryKey));
+
+                entryKey = "MinDistance";
+                if(abilityEntries.containsKey(entryKey))
+                    ((Summon) ability).setMinDistance((Integer) abilityEntries.get(entryKey));
+
+                entryKey = "MaxDistance";
+                if(abilityEntries.containsKey(entryKey))
+                    ((Summon) ability).setMaxDistance((Integer) abilityEntries.get(entryKey));
+
+                entryKey = "MonsterType";
+                if(abilityEntries.containsKey(entryKey))
+                    ((Summon) ability).setMonsterType(EntityType.fromName((String) abilityEntries.get(entryKey)));
+
+                break;
 			default:
 				break;
 			}

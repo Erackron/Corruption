@@ -12,9 +12,8 @@ public class Potion extends Ability {
 	private int duration = 3;
 	private String effect = "";
 	private boolean targetSelf = false;
-	protected double activationChance = 25.0;
-	
-	public Potion clone(){
+
+    public Potion clone(){
 		Potion pot = new Potion();
 		copySettings(pot);
 		pot.setAmplifier(this.amplifier);
