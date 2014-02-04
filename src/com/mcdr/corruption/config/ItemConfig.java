@@ -14,27 +14,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class ItemConfig extends BaseConfig{
+public class ItemConfig extends BaseConfig {
 
     public static HashMap<String, CorItem> items;
 
     public static void Load() {
         File file = new File(DATAFOLDER, "items.yml");
 
-        if(!file.exists()){
+        if (!file.exists()) {
             copyResource(file, "com/mcdr/corruption/config/items.yml");
         }
 
         loadItems(loadConfig(file));
     }
 
-    public static void loadItems(YamlConfiguration yamlConfiguration){
+    public static void loadItems(YamlConfiguration yamlConfiguration) {
         Set<String> itemNames = yamlConfiguration.getKeys(false);
         itemNames.remove("ConfigVersion");
 
         items = new HashMap<String, CorItem>();
 
-        for(String itemName : itemNames){
+        for (String itemName : itemNames) {
             ConfigurationSection configurationSection = yamlConfiguration.getConfigurationSection(itemName);
 
             if (configurationSection == null) {
@@ -43,11 +43,12 @@ public class ItemConfig extends BaseConfig{
             }
 
             CorItem item = processItemSection(configurationSection);
-            items.put(itemName, item);
+            if (item != null)
+                items.put(itemName, item);
         }
     }
 
-    public static CorItem processItemSection(ConfigurationSection configurationSection){
+    public static CorItem processItemSection(ConfigurationSection configurationSection) {
         int id, data, durability;
         int[] enchantmentIds = new int[0], enchantmentChances = new int[0], enchantmentLevels = new int[0];
 
@@ -65,28 +66,28 @@ public class ItemConfig extends BaseConfig{
         name = configurationSection.getString("Name");
         lore = configurationSection.getStringList("Lore");
 
-        if(id<0){
-            CorLogger.w("'"+configurationSection.getCurrentPath()+".Id' in the item config file is invalid");
+        if (id < 0) {
+            CorLogger.w("'" + configurationSection.getCurrentPath() + ".Id' in the item config file is invalid");
             return null;
         }
-        if(data<0){
-            CorLogger.w("'"+configurationSection.getCurrentPath()+".Data' in the item config file is invalid");
+        if (data < 0) {
+            CorLogger.w("'" + configurationSection.getCurrentPath() + ".Data' in the item config file is invalid");
             return null;
         }
-        if(durability<0){
-            CorLogger.w("'"+configurationSection.getCurrentPath()+".Durability' in the item config file is invalid");
+        if (durability < 0) {
+            CorLogger.w("'" + configurationSection.getCurrentPath() + ".Durability' in the item config file is invalid");
             return null;
         }
 
-        if(configurationSection.isConfigurationSection("Enchantments")) {
+        if (configurationSection.isConfigurationSection("Enchantments")) {
             ConfigurationSection enchantmentSection = configurationSection.getConfigurationSection("Enchantments");
             enchAmount = enchantmentSection.getKeys(false).size();
             enchantmentIds = new int[enchAmount];
             enchantmentChances = new int[enchAmount];
             enchantmentLevels = new int[enchAmount];
             int j = -1;
-            for(String enchantment:enchantmentSection.getKeys(false)){
-                if(!enchantmentSection.getConfigurationSection(enchantment).getBoolean("Enabled"))
+            for (String enchantment : enchantmentSection.getKeys(false)) {
+                if (!enchantmentSection.getConfigurationSection(enchantment).getBoolean("Enabled"))
                     continue;
 
                 enchName = enchantmentSection.getConfigurationSection(enchantment).getString("Enchantment").trim().toUpperCase().replace(" ", "_");
@@ -94,16 +95,16 @@ public class ItemConfig extends BaseConfig{
                 chance = enchantmentSection.getConfigurationSection(enchantment).getInt("Probability");
                 lvl = enchantmentSection.getConfigurationSection(enchantment).getInt("Level");
 
-                if(ench==null || enchName==null){
-                    CorLogger.w("'" + enchantmentSection.getCurrentPath()+"."+enchantment + ".Enchantment' in the equipment config file is invalid.");
+                if (ench == null || enchName == null) {
+                    CorLogger.w("'" + enchantmentSection.getCurrentPath() + "." + enchantment + ".Enchantment' in the equipment config file is invalid.");
                     continue;
                 }
-                if(chance<=0){
-                    CorLogger.w("'" + enchantmentSection.getCurrentPath()+"."+enchantment + ".Probability' in the equipment config file is invalid.");
+                if (chance <= 0) {
+                    CorLogger.w("'" + enchantmentSection.getCurrentPath() + "." + enchantment + ".Probability' in the equipment config file is invalid.");
                     continue;
                 }
-                if(lvl<=0){
-                    CorLogger.w("'" + enchantmentSection.getCurrentPath()+"."+enchantment + ".Level' in the equipment config file is invalid.");
+                if (lvl <= 0) {
+                    CorLogger.w("'" + enchantmentSection.getCurrentPath() + "." + enchantment + ".Level' in the equipment config file is invalid.");
                     continue;
                 }
 
@@ -115,7 +116,7 @@ public class ItemConfig extends BaseConfig{
             }
         }
         ArrayList<String> parsedLore = new ArrayList<String>();
-        for(String loreString:lore)
+        for (String loreString : lore)
             parsedLore.add(ChatColor.translateAlternateColorCodes('&', loreString));
 
         return new CorItem(id, data, durability, enchantmentIds, enchantmentChances, enchantmentLevels, name, parsedLore);
