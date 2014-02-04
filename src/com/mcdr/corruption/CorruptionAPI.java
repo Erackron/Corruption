@@ -232,9 +232,10 @@ public abstract class CorruptionAPI {
     }
 
     /**
+     * Use {@link CorruptionAPI#isUsingAbsoluteHealth(Entity e)} to check if this value is a multiplier or an absolute value
      * @param e Entity to get the health coefficient of
      * @return double The health coefficient of the boss or -1.0 if the entity is not a boss
-     * @see {@link #isUsingAbsoluteHealth(Entity e)} to check if this value is a multiplier or an absolute value
+     * @see CorruptionAPI#isUsingAbsoluteHealth(Entity e)
      */
     public static double getHealthCoef(Entity e) {
         if (isBoss(e))
@@ -354,6 +355,7 @@ public abstract class CorruptionAPI {
      * @param e       The entity to get a Corruption metadatatag of
      * @param metaKey The metedatatag's key to search for
      * @return String the value of the metadatatag if it was set by Corruption or null if it has not been set (by Corruption)
+     * @since Corruption 2.4
      */
     public static String getMetaTag(Entity e, String metaKey) {
         if (!e.hasMetadata(metaKey))
