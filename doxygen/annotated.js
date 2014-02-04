@@ -24,6 +24,7 @@ var annotated =
             [ "InfoCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_info_command.html", null ],
             [ "ListCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_list_command.html", null ],
             [ "LogCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_log_command.html", null ],
+            [ "RegionCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_region_command.html", null ],
             [ "ReloadCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_reload_command.html", null ],
             [ "SpawnCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_spawn_command.html", null ],
             [ "StatsCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_stats_command.html", null ],
@@ -38,6 +39,7 @@ var annotated =
             [ "ConfigManager", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_config_manager.html", null ],
             [ "EquipmentConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_equipment_config.html", null ],
             [ "GlobalConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_global_config.html", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_global_config" ],
+            [ "ItemConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_item_config.html", null ],
             [ "MagicSpellsConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_magic_spells_config.html", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_magic_spells_config" ],
             [ "WorldConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_world_config.html", null ]
           ] ],
@@ -59,7 +61,9 @@ var annotated =
             [ "Boss", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss" ],
             [ "CorEntity", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_entity.html", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_entity" ],
             [ "CorEntityManager", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_entity_manager.html", null ],
-            [ "EquipmentSet", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set" ]
+            [ "CorItem", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_item.html", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_item" ],
+            [ "EquipmentSet", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set" ],
+            [ "Spawner", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_spawner.html", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_spawner" ]
           ] ],
           [ "handler", null, [
             [ "HeroesHandler", "classcom_1_1mcdr_1_1corruption_1_1handler_1_1_heroes_handler.html", null ],
@@ -87,6 +91,8 @@ var annotated =
             [ "LoadPlayerData", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_load_player_data.html", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_load_player_data" ],
             [ "ProcessEntityDamage", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_process_entity_damage.html", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_process_entity_damage" ],
             [ "SavePlayerData", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_save_player_data.html", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_save_player_data" ],
+            [ "SpawnerTask", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_spawner_task.html", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_spawner_task" ],
+            [ "SpawnManager", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_spawn_manager.html", null ],
             [ "TaskManager", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_task_manager.html", null ]
           ] ],
           [ "util", null, [

@@ -22,6 +22,7 @@ var classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss =
     [ "getRawName", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#a35cf78c57e6e17ee901b3480e9c67bc5", null ],
     [ "getRegenPerSecond", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#a8974690333f101cb5857ef61c94f3fd3", null ],
     [ "getServer", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#a82f54fa7d2ddfb96a232e2d8a43a62ae", null ],
+    [ "getSpawner", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#ab17b0672dac618e750215a6be9ae6c72", null ],
     [ "hasPermission", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#a2d521051211332b5664f6b795099b4c6", null ],
     [ "hasPermission", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#a9897cd555d8fbc182c9c0ac98bedf9c6", null ],
     [ "isOp", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#a7ccffaef63d7274201888d215a27d3db", null ],
@@ -40,6 +41,7 @@ var classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss =
     [ "setLastTimeNotified", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#a282df82d52fe2f1d686ba8d59b1430b5", null ],
     [ "setMaxHealth", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#aec6311cdb1c1e3545679469e7135ce2d", null ],
     [ "setOp", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#a51ea9eb143e296a830bba3c55e8d5459", null ],
+    [ "setSpawner", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#a4f693392a0dc851f91f3c15d83eace43", null ],
     [ "updateCustomName", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#ac3bf514072d6a272a50d7ad2d1edd393", null ],
     [ "updateCustomName", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#a9dd83610aeaebde75b8ade31ab6993c8", null ]
 ];

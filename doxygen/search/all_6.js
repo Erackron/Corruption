@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['getboss',['getBoss',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#a46170e1943d90187d863695d9a440373',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['getbossentities',['getBossEntities',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#a48e21dc0604b5a4bd81c0ba2bb7f0b9b',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['getbossmetatag',['getBossMetatag',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#a40bbcaf97bcfcc0b290ff4c5da88fab2',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['getbossnames',['getBossNames',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#aec136d32517d6b8873211fd6d7d73ca2',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['getconfigfile',['getConfigFile',['../classcom_1_1mcdr_1_1corruption_1_1_cor_metrics.html#ab76c3667e3bce5d8a71e695e290e858c',1,'com::mcdr::corruption::CorMetrics']]],
+  ['getcorplayer',['getCorPlayer',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#a28252064464b1fd543155a4d6a7d2699',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['gethealth',['getHealth',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#a426e5ddb9e4ba949b40415ca820667d4',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['gethealthcoef',['getHealthCoef',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#a5399b6f0e7cc1ff643e214085493f65f',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['getmaxchance',['getMaxChance',['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a6149d4d998fc5561550ffbee12c995cb',1,'com::mcdr::corruption::entity::EquipmentSet']]],
+  ['getmaxhealth',['getMaxHealth',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#a9dc300e0b2e070c47974d8aaddc56af1',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['getmetatag',['getMetaTag',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#ac7fcaaadf050c0368c7469b59113d258',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['getname',['getName',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#abacef8d8dbba91e9d42909dc28eb9272',1,'com.mcdr.corruption.CorruptionAPI.getName()'],['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html#ae13b8638b37122303b1b9e2d1bd9e603',1,'com.mcdr.corruption.entity.Boss.getName()'],['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#ae309fec52c42792b6e81e4c401ff1e70',1,'com.mcdr.corruption.entity.EquipmentSet.getName()']]],
+  ['getpermissionsmanager',['getPermissionsManager',['../classcom_1_1mcdr_1_1corruption_1_1_corruption.html#a49df29a41d04090dee85607bd463d26f',1,'com::mcdr::corruption::Corruption']]],
+  ['getrandombossname',['getRandomBossName',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#a132f2b45f1322e5d9f543bb4fe31908e',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['getrandomentry',['getRandomEntry',['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1_equipment_set.html#a9a2c8732e180ca0280434c6115b30127',1,'com::mcdr::corruption::entity::EquipmentSet']]],
+  ['getrawname',['getRawName',['../classcom_1_1mcdr_1_1corruption_1_1_corruption_a_p_i.html#af55989dc4f4933683dddc0fc6965fa21',1,'com::mcdr::corruption::CorruptionAPI']]],
+  ['getusedpermissionssystemtype',['getUsedPermissionsSystemType',['../classcom_1_1mcdr_1_1corruption_1_1util_1_1_permissions_manager.html#a7ab4bfd261a7971795a223913efa6ebb',1,'com::mcdr::corruption::util::PermissionsManager']]],
+  ['ghastbossdata',['GhastBossData',['../classcom_1_1mcdr_1_1corruption_1_1entity_1_1data_1_1_ghast_boss_data.html',1,'com::mcdr::corruption::entity::data']]],
+  ['globalconfig',['GlobalConfig',['../classcom_1_1mcdr_1_1corruption_1_1config_1_1_global_config.html',1,'com::mcdr::corruption::config']]]
+];

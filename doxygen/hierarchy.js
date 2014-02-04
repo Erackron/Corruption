@@ -20,6 +20,7 @@ var hierarchy =
       [ "com.mcdr.corruption.command.InfoCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_info_command.html", null ],
       [ "com.mcdr.corruption.command.ListCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_list_command.html", null ],
       [ "com.mcdr.corruption.command.LogCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_log_command.html", null ],
+      [ "com.mcdr.corruption.command.RegionCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_region_command.html", null ],
       [ "com.mcdr.corruption.command.ReloadCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_reload_command.html", null ],
       [ "com.mcdr.corruption.command.SpawnCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_spawn_command.html", null ],
       [ "com.mcdr.corruption.command.StatsCommand", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_stats_command.html", null ],
@@ -32,6 +33,7 @@ var hierarchy =
       [ "com.mcdr.corruption.config.BossConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_boss_config.html", null ],
       [ "com.mcdr.corruption.config.EquipmentConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_equipment_config.html", null ],
       [ "com.mcdr.corruption.config.GlobalConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_global_config.html", null ],
+      [ "com.mcdr.corruption.config.ItemConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_item_config.html", null ],
       [ "com.mcdr.corruption.config.MagicSpellsConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_magic_spells_config.html", null ],
       [ "com.mcdr.corruption.config.WorldConfig", "classcom_1_1mcdr_1_1corruption_1_1config_1_1_world_config.html", null ]
     ] ],
@@ -56,6 +58,7 @@ var hierarchy =
       [ "com.mcdr.corruption.entity.Boss", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_boss.html", null ]
     ] ],
     [ "com.mcdr.corruption.entity.CorEntityManager", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_entity_manager.html", null ],
+    [ "com.mcdr.corruption.entity.CorItem", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_cor_item.html", null ],
     [ "com.mcdr.corruption.util.CorLogger", "classcom_1_1mcdr_1_1corruption_1_1util_1_1_cor_logger.html", null ],
     [ "com.mcdr.corruption.CorMetrics", "classcom_1_1mcdr_1_1corruption_1_1_cor_metrics.html", null ],
     [ "com.mcdr.corruption.player.CorPlayer", "classcom_1_1mcdr_1_1corruption_1_1player_1_1_cor_player.html", null ],
@@ -82,11 +85,15 @@ var hierarchy =
       [ "com.mcdr.corruption.task.CorPlayerFileAccessor", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_cor_player_file_accessor.html", null ]
     ] ],
     [ "com.mcdr.corruption.task.SavePlayerData", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_save_player_data.html", null ],
+    [ "com.mcdr.corruption.entity.Spawner", "classcom_1_1mcdr_1_1corruption_1_1entity_1_1_spawner.html", null ],
+    [ "com.mcdr.corruption.task.SpawnerTask", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_spawner_task.html", null ],
+    [ "com.mcdr.corruption.task.SpawnManager", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_spawn_manager.html", null ],
     [ "com.mcdr.corruption.stats.StatsManager", "classcom_1_1mcdr_1_1corruption_1_1stats_1_1_stats_manager.html", null ],
     [ "com.mcdr.corruption.task.TaskManager", "classcom_1_1mcdr_1_1corruption_1_1task_1_1_task_manager.html", null ],
     [ "com.mcdr.corruption.config.GlobalConfig.TaskParam", "enumcom_1_1mcdr_1_1corruption_1_1config_1_1_global_config_1_1_task_param.html", null ],
     [ "com.mcdr.corruption.util.Utility", "classcom_1_1mcdr_1_1corruption_1_1util_1_1_utility.html", null ],
     [ "com.mcdr.corruption.world.WorldData", "classcom_1_1mcdr_1_1corruption_1_1world_1_1_world_data.html", null ],
+    [ "BukkitRunnable", null, null ],
     [ "CommandExecutor", null, [
       [ "com.mcdr.corruption.command.CommandManager", "classcom_1_1mcdr_1_1corruption_1_1command_1_1_command_manager.html", null ]
     ] ],
