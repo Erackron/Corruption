@@ -1,28 +1,18 @@
 package com.mcdr.corruption.drop;
 
-import org.bukkit.Material;
+import com.mcdr.corruption.entity.CorItem;
 
 public class Drop {
-	private Material material;
-	private short data;
+	private CorItem item;
 	private double chance;
 	private int minQuantity;
 	private int maxQuantity;
 	
-	public Drop(Material material, short data, double chance, int minQuantity, int maxQuantity) {
-		this.material = material;
-		this.data = data;
+	public Drop(CorItem item, double chance, int minQuantity, int maxQuantity) {
+		this.item = item;
 		this.chance = chance;
 		this.minQuantity = minQuantity;
 		this.maxQuantity = maxQuantity;
-	}
-	
-	public Material getMaterial() {
-		return material;
-	}
-	
-	public short getData() {
-		return data;
 	}
 	
 	public double getChance() {
@@ -36,4 +26,8 @@ public class Drop {
 	public int getMaxQuantity() {
 		return maxQuantity;
 	}
+
+    public CorItem getItem() {
+        return item;
+    }
 }

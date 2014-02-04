@@ -1,5 +1,17 @@
 package com.mcdr.corruption.config;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.drop.Drop;
 import com.mcdr.corruption.drop.Roll;
@@ -137,36 +149,42 @@ public abstract class WorldConfig extends BaseConfig {
             }
 
             Roll roll = new Roll();
-            Map<String, Object> drops = rollSection.getValues(false);
+            Set<String> drops = rollSection.getKeys(false);
+            for(String drop:drops){
+                if(!rollSection.isConfigurationSection(drop)){
+                    CorLogger.w("'"+rollSection.getCurrentPath()+"."+drop+"' in the " + worldName + " config file is invalid");
+                    continue;
+                }
+                CorItem item = ItemConfig.items.get(drop);
 
-            for (Entry<String, Object> dropEntry : drops.entrySet()) {
-                String dropString = dropEntry.getValue().toString();
+                int probability = rollSection.getConfigurationSection(drop).getInt("Probability");
+                int minQuantity = rollSection.getConfigurationSection(drop).getInt("MinQuantity");
+                int maxQuantity = rollSection.getConfigurationSection(drop).getInt("MaxQuantity");
 
-//				if (!IsValidString(rawValue)) {
-//					Likeaboss.logger.warning("["+Corruption.pluginName+"] Invalid values for '" + dropEntry + "' in '" + world.getName() + "' config file");
-//					continue;
-//				}
-
-                String[] dropValues = dropString.split(" ");
-
-                if (dropValues.length < 4) {
-                    CorLogger.w("Missing values for '" + "Loot." + rollString + "." + dropEntry.getKey() + "' in '" + worldName + "' config file.");
+                if(item==null){
+                    CorLogger.w("'"+rollSection.getCurrentPath()+"."+drop+"' in the " + worldName + " config file is invalid");
                     continue;
                 }
 
-                Material material = null;
-                short metaData = 0;
+                if(probability<0||probability>100){
+                    CorLogger.w("'"+rollSection.getCurrentPath()+"."+drop+".Probability' in the " + worldName + " config file is invalid");
+                    continue;
+                }
 
-                if (dropValues[0].contains(":")) {
-                    String[] tempData = dropValues[0].split(":");
-                    material = ItemNames.getById(Integer.valueOf(tempData[0]));
-                    metaData = Short.valueOf(tempData[1]);
-                } else
-                    material = ItemNames.getById(Integer.valueOf(dropValues[0]));
+                if(minQuantity<0){
+                    CorLogger.w("'"+rollSection.getCurrentPath()+"."+drop+".MinQuantity' in the " + worldName + " config file is invalid");
+                    continue;
+                }
+                if(maxQuantity<0){
+                    CorLogger.w("'"+rollSection.getCurrentPath()+"."+drop+".MaxQuantity' in the " + worldName + " config file is invalid");
+                    continue;
+                }
+                if(minQuantity>maxQuantity){
+                    CorLogger.w("'"+rollSection.getCurrentPath()+"."+drop+".MaxQuantity' in the " + worldName + " config file is invalid");
+                    continue;
+                }
 
-                Drop drop = new Drop(material, metaData, Double.valueOf(dropValues[1]), Integer.valueOf(dropValues[2]), Integer.valueOf(dropValues[3]));
-
-                roll.AddDrop(drop);
+                roll.addDrop(new Drop(item, probability, minQuantity, maxQuantity));
             }
 
             worldData.addRoll(roll);

@@ -11,11 +11,10 @@ Message:
     ToPlayer: '&cA Corrupted {BOSSNAME} found you!'
     ToOthers: '&cA Corrupted {BOSSNAME} found {PLAYER}!'
   Proximity: '&4You sense a magical disruption...'
-  
-  CustomBossName: 'Corrupted {BOSSNAME} &7[{HEALTH}/{MAXHEALTH}]'
+  CustomBossName: Corrupted {BOSSNAME} &7[{HEALTH}/{MAXHEALTH}]
   ViewerMessage: 'Corrupted {BOSSNAME} Health: &7{HEALTH} (-{DAMAGE})'
-  ViewerDefeated: 'Corrupted {BOSSNAME} has been defeated.'
-  ViewerDamageAbsorbed: "Corrupted {BOSSNAME}'s armour absorbed the damage."
+  ViewerDefeated: Corrupted {BOSSNAME} has been defeated.
+  ViewerDamageAbsorbed: Corrupted {BOSSNAME}'s armour absorbed the damage.
 Task:
   DrawBossEffect: 1.0
   CheckEntityProximity: 0.5
@@ -28,10 +27,7 @@ Boss:
   SetDamageAsMultiplier: true
   SetExperienceAsMultiplier: true
   EnableBiomes: false
-
 CheckUpdateOnStartup: true
 ReloadAfterUpdating: true
 LogLevel: INFO
-
-#Do not touch this variable
-ConfigVersion: '2.3.2'
+ConfigVersion: '2.4'

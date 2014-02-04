@@ -1,6 +1,6 @@
 AP25:
   Type: ArmorPierce
-  Message: "&4Corrupted {BOSSNAME} used Armor Pierce."
+  Message: '&4Corrupted {BOSSNAME} used Armor Pierce.'
   ActivationChance: 10.0
   AssignationChance: 100.0
   MinimumRange: 0
@@ -14,12 +14,12 @@ COM:
   AssignationChance: 100.0
   MinimumRange: 0
   MaximumRange: 16
-  Command: "/say {BOSSNAME}: Nooooooooooooooo!"
+  Command: '/say {BOSSNAME}: Nooooooooooooooo!'
   ActivationConditions:
   - OnDeath
 FP2:
   Type: FirePunch
-  Message: "&4Corrupted {BOSSNAME} used Fire Punch."
+  Message: '&4Corrupted {BOSSNAME} used Fire Punch.'
   ActivationChance: 15.0
   AssignationChance: 100.0
   MinimumRange: 0
@@ -29,7 +29,7 @@ FP2:
   - OnAttack
 KB2:
   Type: Knockback
-  Message: "&4Corrupted {BOSSNAME} used Knockback."
+  Message: '&4Corrupted {BOSSNAME} used Knockback.'
   ActivationChance: 25.0
   AssignationChance: 100.0
   MinimumRange: 0
@@ -40,7 +40,7 @@ KB2:
   - OnAttack
 PO3:
   Type: Potion
-  Message: "&4Corrupted {BOSSNAME} used slowness."
+  Message: '&4Corrupted {BOSSNAME} used slowness.'
   Effect: slow
   Target: other
   ActivationChance: 25.0
@@ -54,7 +54,7 @@ PO3:
   - OnDefense
 B2:
   Type: Bomb
-  Message: "&4Corrupted {BOSSNAME} planted a bomb."
+  Message: '&4Corrupted {BOSSNAME} planted a bomb.'
   ActivationChance: 15.0
   AssignationChance: 100.0
   MinimumRange: 0
@@ -67,7 +67,7 @@ B2:
   - OnDefense
 LA10:
   Type: LightningAura
-  Message: "&4Corrupted {BOSSNAME} struck his enemies by lightning"
+  Message: '&4Corrupted {BOSSNAME} struck his enemies by lightning'
   ActivationChance: 5.0
   AssignationChance: 100.0
   MinimumRange: 0
@@ -79,7 +79,7 @@ LA10:
   - OnAttack
 TP:
   Type: Teleport
-  Message: "&4Corrupted {BOSSNAME} teleported you"
+  Message: '&4Corrupted {BOSSNAME} teleported you'
   CenteredOnFoe: true
   ActivationChance: 5.0
   AssignationChance: 100.0
@@ -90,7 +90,7 @@ TP:
   - OnAttack
 TP2:
   Type: Teleport
-  Message: "&4Corrupted {BOSSNAME} pulls you closer"
+  Message: '&4Corrupted {BOSSNAME} pulls you closer'
   CenteredOnFoe: false
   ActivationChance: 5.0
   AssignationChance: 100.0
@@ -101,7 +101,7 @@ TP2:
   - OnAttack
 S:
   Type: Snare
-  Message: "&4Corrupted {BOSSNAME} caught you"
+  Message: '&4Corrupted {BOSSNAME} caught you'
   Duration: 100
   Destructible: true
   Radius: 3
@@ -112,6 +112,4 @@ S:
   Cooldown: 3.0
   ActivationConditions:
   - OnDefense
-
-#Do not touch this variable  
-ConfigVersion: '2.3.2'
+ConfigVersion: '2.4'
