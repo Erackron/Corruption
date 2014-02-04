@@ -1,27 +1,14 @@
 package com.mcdr.corruption.config;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
-
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.mcdr.corruption.ability.Ability;
 import com.mcdr.corruption.drop.Drop;
 import com.mcdr.corruption.drop.Roll;
+import com.mcdr.corruption.entity.CorItem;
 import com.mcdr.corruption.entity.Spawner;
 import com.mcdr.corruption.entity.data.BossData;
 import com.mcdr.corruption.util.CorLogger;
-import com.mcdr.corruption.util.legacy.ItemNames;
 import com.mcdr.corruption.world.WorldData;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -30,7 +17,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 
