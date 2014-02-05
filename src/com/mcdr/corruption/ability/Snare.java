@@ -78,17 +78,18 @@ public class Snare extends Ability implements Listener {
 		if(!super.Execute(livingEntity, boss))
 			return false;
 		
-		ensnare(livingEntity);
+		if(!ensnare(livingEntity))
+            return false;
 		
 		useCooldown(boss);
 		sendAreaMessage(boss, livingEntity);
 		return true;
 	}
 	
-	private void ensnare(LivingEntity livingEntity){
+	private boolean ensnare(LivingEntity livingEntity){
 		blocks = findValidBlocks(livingEntity.getLocation(),0,radius);
 		if(blocks.isEmpty())
-			return;
+			return false;
 		
 		isRunning = true;
 		
@@ -100,6 +101,7 @@ public class Snare extends Ability implements Listener {
 		if(!destructible){
 			Bukkit.getServer().getPluginManager().registerEvents(this, Corruption.in);
 		}
+        return true;
 	}
 	
 	

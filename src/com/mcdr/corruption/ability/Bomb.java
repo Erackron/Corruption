@@ -17,9 +17,8 @@ public class Bomb extends Ability {
 	private float radius = 3F;
 	private boolean destroyWorld = true;
 	private boolean fire = true;
-	protected double activationChance = 10.0;
-    
-	public Bomb clone() {
+
+    public Bomb clone() {
 		Bomb bomb = new Bomb();
 		copySettings(bomb);
 		bomb.setFuseTicks(this.fuse);

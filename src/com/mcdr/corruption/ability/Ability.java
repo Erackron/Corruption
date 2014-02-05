@@ -49,7 +49,8 @@ public abstract class Ability {
 		LIGHTNINGAURA(true),
 		POTION(false),
 		SNARE(true),
-		TELEPORT(false);
+		TELEPORT(false),
+        SUMMON(true);
 		
 		private final boolean onDeathAllowed;
 		private static final Map<String, AbilityType> NAME_MAP = new HashMap<String, AbilityType>();
