@@ -1,13 +1,19 @@
 package com.mcdr.corruption.ability;
 
-import com.mcdr.corruption.CorruptionAPI;
+import com.mcdr.corruption.config.BossConfig;
 import com.mcdr.corruption.entity.Boss;
+import com.mcdr.corruption.entity.CorEntityManager;
+import com.mcdr.corruption.entity.data.BossData;
+import com.mcdr.corruption.util.CorLogger;
 import com.mcdr.corruption.util.Utility;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Summon extends Ability {
@@ -17,10 +23,12 @@ public class Summon extends Ability {
     private int maxAmount;
     private int minDistance;
     private int maxDistance;
-    private int corruptedChance;
+    private int bossChance;
 
-    private boolean canBeCorrupted;
-    private boolean alwaysCorrupted;
+    private boolean canBeBoss;
+    private boolean alwaysBoss;
+
+    private List<String> allowedBosses;
 
     @Override
     public Ability clone() {
@@ -30,9 +38,10 @@ public class Summon extends Ability {
         summon.setMaxAmount(maxAmount);
         summon.setMinDistance(minDistance);
         summon.setMaxDistance(maxDistance);
-        summon.setCorruptedChance(corruptedChance);
-        summon.setCanBeCorrupted(canBeCorrupted);
-        summon.setAlwaysCorrupted(alwaysCorrupted);
+        summon.setBossChance(bossChance);
+        summon.setCanBeBoss(canBeBoss);
+        summon.setAlwaysBoss(alwaysBoss);
+        summon.setAllowedBosses(allowedBosses);
         copySettings(summon);
         return summon;
     }
@@ -53,12 +62,33 @@ public class Summon extends Ability {
         int amount = Utility.random.nextInt((maxAmount - minAmount) + 1) + minAmount;
         List<Block> validBlocks = findValidBlocks(location, minDistance, maxDistance);
 
-        if (validBlocks.isEmpty())
+        if (validBlocks.isEmpty() || amount <= 0)
             return false;
 
+        ArrayList<Entity> spawnedEntities = new ArrayList<Entity>();
         for (int i = 1; i <= amount; i++) {
             Block block = validBlocks.get(Utility.random.nextInt(validBlocks.size()));
-            location.getWorld().spawnEntity(block.getLocation(), monsterType);
+            spawnedEntities.add(location.getWorld().spawnEntity(block.getLocation(), monsterType));
+        }
+
+        if (canBeBoss || alwaysBoss) {
+            int bossAmount;
+            bossAmount = (int) Math.round((bossChance / 100.0) * amount);
+            if (alwaysBoss)
+                bossAmount = amount;
+
+            Collections.shuffle(spawnedEntities);
+
+            for (int i = 0; i < bossAmount; i++) {
+                String bossName = allowedBosses.get(Utility.random.nextInt(allowedBosses.size()));
+                BossData bossData = BossConfig.getBossesData().get(bossName);
+                if (bossData == null || !bossData.getEntityType().equals(monsterType))
+                    continue;
+
+                CorEntityManager.adjustSpecificEntities((LivingEntity) spawnedEntities.get(i), bossData, monsterType);
+                Boss boss = new Boss((LivingEntity) spawnedEntities.get(i), bossData);
+                CorEntityManager.addBoss(boss);
+            }
         }
         return true;
     }
@@ -83,15 +113,19 @@ public class Summon extends Ability {
         this.maxDistance = maxDistance;
     }
 
-    public void setCorruptedChance(int corruptedChance) {
-        this.corruptedChance = corruptedChance;
+    public void setBossChance(int bossChance) {
+        this.bossChance = bossChance;
     }
 
-    public void setCanBeCorrupted(boolean canBeCorrupted) {
-        this.canBeCorrupted = canBeCorrupted;
+    public void setCanBeBoss(boolean canBeBoss) {
+        this.canBeBoss = canBeBoss;
     }
 
-    public void setAlwaysCorrupted(boolean alwaysCorrupted) {
-        this.alwaysCorrupted = alwaysCorrupted;
+    public void setAlwaysBoss(boolean alwaysBoss) {
+        this.alwaysBoss = alwaysBoss;
+    }
+
+    public void setAllowedBosses(List<String> allowedBosses) {
+        this.allowedBosses = allowedBosses;
     }
 }

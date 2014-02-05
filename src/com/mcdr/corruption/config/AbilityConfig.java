@@ -129,9 +129,9 @@ public abstract class AbilityConfig extends BaseConfig {
                         ((LightningAura) ability).setFire((Boolean) abilityEntries.get(entryKey));
 
                     entryKey = "ArmorPierce";
-                    if (abilityEntries.containsKey(entryKey)) {
+                    if (abilityEntries.containsKey(entryKey))
                         ((LightningAura) ability).setArmorPierce((Boolean) abilityEntries.get(entryKey));
-                    }
+
                     break;
                 case TELEPORT:
                     ability = new Teleport();
@@ -190,17 +190,21 @@ public abstract class AbilityConfig extends BaseConfig {
                     if (abilityEntries.containsKey(entryKey))
                         ((Summon) ability).setMonsterType(EntityType.fromName((String) abilityEntries.get(entryKey)));
 
-                    entryKey = "CanBeCorrupted";
+                    entryKey = "CanBeBoss";
                     if (abilityEntries.containsKey(entryKey))
-                        ((Summon) ability).setCanBeCorrupted((Boolean) abilityEntries.get(entryKey));
+                        ((Summon) ability).setCanBeBoss((Boolean) abilityEntries.get(entryKey));
 
-                    entryKey = "AlwaysCorrupted";
+                    entryKey = "AlwaysBoss";
                     if (abilityEntries.containsKey(entryKey))
-                        ((Summon) ability).setAlwaysCorrupted((Boolean) abilityEntries.get(entryKey));
+                        ((Summon) ability).setAlwaysBoss((Boolean) abilityEntries.get(entryKey));
 
-                    entryKey = "CorruptedChance";
+                    entryKey = "BossChance";
                     if (abilityEntries.containsKey(entryKey))
-                        ((Summon) ability).setCorruptedChance((Integer) abilityEntries.get(entryKey));
+                        ((Summon) ability).setBossChance((Integer) abilityEntries.get(entryKey));
+
+                    entryKey = "AllowedBosses";
+                    if(abilityEntries.containsKey(entryKey))
+                        ((Summon) ability).setAllowedBosses((List<String>) abilityEntries.get(entryKey));
 
                     break;
                 default:
