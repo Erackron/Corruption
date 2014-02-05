@@ -58,6 +58,18 @@ public class Summon extends Ability {
         return true;
     }
 
+    public boolean Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
+        if (!super.Execute(livingEntity, lastLoc, boss))
+            return false;
+
+        if (!summon(lastLoc))
+            return false;
+
+        useCooldown(boss);
+        sendAreaMessage(lastLoc, boss.getName(), livingEntity);
+        return true;
+    }
+
     private boolean summon(Location location) {
         int amount = Utility.random.nextInt((maxAmount - minAmount) + 1) + minAmount;
         List<Block> validBlocks = findValidBlocks(location, minDistance, maxDistance);
