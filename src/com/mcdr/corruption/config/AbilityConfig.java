@@ -170,19 +170,19 @@ public abstract class AbilityConfig extends BaseConfig {
                 case SUMMON:
                     ability = new Summon();
 
-                    entryKey = "MinAmount";
+                    entryKey = "MinimumAmount";
                     if (abilityEntries.containsKey(entryKey))
                         ((Summon) ability).setMinAmount((Integer) abilityEntries.get(entryKey));
 
-                    entryKey = "MaxAmount";
+                    entryKey = "MaximumAmount";
                     if (abilityEntries.containsKey(entryKey))
                         ((Summon) ability).setMaxAmount((Integer) abilityEntries.get(entryKey));
 
-                    entryKey = "MinDistance";
+                    entryKey = "MinimumDistance";
                     if (abilityEntries.containsKey(entryKey))
                         ((Summon) ability).setMinDistance((Integer) abilityEntries.get(entryKey));
 
-                    entryKey = "MaxDistance";
+                    entryKey = "MaximumDistance";
                     if (abilityEntries.containsKey(entryKey))
                         ((Summon) ability).setMaxDistance((Integer) abilityEntries.get(entryKey));
 
