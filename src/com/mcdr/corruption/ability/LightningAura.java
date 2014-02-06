@@ -14,9 +14,8 @@ public class LightningAura extends Ability{
 	private int damage = 2;
 	private boolean fire = false;
 	private boolean armorPierce = false;
-	protected double activationChance = 50.0;
-	
-	public LightningAura clone(){
+
+    public LightningAura clone(){
 		LightningAura la = new LightningAura();
 		copySettings(la);
 		la.setDamage(this.damage);
