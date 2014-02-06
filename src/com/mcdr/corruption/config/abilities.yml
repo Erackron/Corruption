@@ -125,8 +125,6 @@ SUM:
   MinimumAmount: 5
   MaximumAmount: 10
   MonsterType: Zombie
-  CanBeBoss: true
-  AlwaysBoss: false
   BossChance: 20
   AllowedBosses:
     - Zombie

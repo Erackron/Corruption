@@ -190,14 +190,6 @@ public abstract class AbilityConfig extends BaseConfig {
                     if (abilityEntries.containsKey(entryKey))
                         ((Summon) ability).setMonsterType(EntityType.fromName((String) abilityEntries.get(entryKey)));
 
-                    entryKey = "CanBeBoss";
-                    if (abilityEntries.containsKey(entryKey))
-                        ((Summon) ability).setCanBeBoss((Boolean) abilityEntries.get(entryKey));
-
-                    entryKey = "AlwaysBoss";
-                    if (abilityEntries.containsKey(entryKey))
-                        ((Summon) ability).setAlwaysBoss((Boolean) abilityEntries.get(entryKey));
-
                     entryKey = "BossChance";
                     if (abilityEntries.containsKey(entryKey))
                         ((Summon) ability).setBossChance((Integer) abilityEntries.get(entryKey));

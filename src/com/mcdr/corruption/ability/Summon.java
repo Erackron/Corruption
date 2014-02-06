@@ -4,7 +4,6 @@ import com.mcdr.corruption.config.BossConfig;
 import com.mcdr.corruption.entity.Boss;
 import com.mcdr.corruption.entity.CorEntityManager;
 import com.mcdr.corruption.entity.data.BossData;
-import com.mcdr.corruption.util.CorLogger;
 import com.mcdr.corruption.util.Utility;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -25,9 +24,6 @@ public class Summon extends Ability {
     private int maxDistance;
     private int bossChance;
 
-    private boolean canBeBoss;
-    private boolean alwaysBoss;
-
     private List<String> allowedBosses;
 
     @Override
@@ -39,8 +35,6 @@ public class Summon extends Ability {
         summon.setMinDistance(minDistance);
         summon.setMaxDistance(maxDistance);
         summon.setBossChance(bossChance);
-        summon.setCanBeBoss(canBeBoss);
-        summon.setAlwaysBoss(alwaysBoss);
         summon.setAllowedBosses(allowedBosses);
         copySettings(summon);
         return summon;
@@ -82,26 +76,22 @@ public class Summon extends Ability {
             Block block = validBlocks.get(Utility.random.nextInt(validBlocks.size()));
             spawnedEntities.add(location.getWorld().spawnEntity(block.getLocation(), monsterType));
         }
+        int bossAmount;
+        bossAmount = (int) Math.round((bossChance / 100.0) * amount);
 
-        if (canBeBoss || alwaysBoss) {
-            int bossAmount;
-            bossAmount = (int) Math.round((bossChance / 100.0) * amount);
-            if (alwaysBoss)
-                bossAmount = amount;
+        Collections.shuffle(spawnedEntities);
 
-            Collections.shuffle(spawnedEntities);
+        for (int i = 0; i < bossAmount; i++) {
+            String bossName = allowedBosses.get(Utility.random.nextInt(allowedBosses.size()));
+            BossData bossData = BossConfig.getBossesData().get(bossName);
+            if (bossData == null || !bossData.getEntityType().equals(monsterType))
+                continue;
 
-            for (int i = 0; i < bossAmount; i++) {
-                String bossName = allowedBosses.get(Utility.random.nextInt(allowedBosses.size()));
-                BossData bossData = BossConfig.getBossesData().get(bossName);
-                if (bossData == null || !bossData.getEntityType().equals(monsterType))
-                    continue;
-
-                CorEntityManager.adjustSpecificEntities((LivingEntity) spawnedEntities.get(i), bossData, monsterType);
-                Boss boss = new Boss((LivingEntity) spawnedEntities.get(i), bossData);
-                CorEntityManager.addBoss(boss);
-            }
+            CorEntityManager.adjustSpecificEntities((LivingEntity) spawnedEntities.get(i), bossData, monsterType);
+            Boss boss = new Boss((LivingEntity) spawnedEntities.get(i), bossData);
+            CorEntityManager.addBoss(boss);
         }
+
         return true;
     }
 
@@ -127,14 +117,6 @@ public class Summon extends Ability {
 
     public void setBossChance(int bossChance) {
         this.bossChance = bossChance;
-    }
-
-    public void setCanBeBoss(boolean canBeBoss) {
-        this.canBeBoss = canBeBoss;
-    }
-
-    public void setAlwaysBoss(boolean alwaysBoss) {
-        this.alwaysBoss = alwaysBoss;
     }
 
     public void setAllowedBosses(List<String> allowedBosses) {
