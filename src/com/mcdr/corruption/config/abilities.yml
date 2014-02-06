@@ -99,7 +99,7 @@ TP2:
   Cooldown: 2.0
   ActivationConditions:
   - OnAttack
-S:
+SN:
   Type: Snare
   Message: '&4Corrupted {BOSSNAME} caught you'
   Duration: 100
@@ -112,4 +112,25 @@ S:
   Cooldown: 3.0
   ActivationConditions:
   - OnDefense
+SUM:
+  Type: Summon
+  Message: 'Corrupted {BOSSNAME} summoned the dead'
+  ActivationChance: 2.0
+  AssignationChance: 100.0
+  MinimumRange: 5
+  MaximumRange: 25
+  Cooldown: 30.0
+  MinimumDistance: 0
+  MaximumDistance: 10
+  MinimumAmount: 5
+  MaximumAmount: 10
+  MonsterType: Zombie
+  CanBeBoss: true
+  AlwaysBoss: false
+  BossChance: 20
+  AllowedBosses:
+    - Zombie
+  ActivationConditions:
+    - OnDefense
+
 ConfigVersion: '2.4'
