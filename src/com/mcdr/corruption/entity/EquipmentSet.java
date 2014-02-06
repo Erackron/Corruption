@@ -83,7 +83,7 @@ public class EquipmentSet {
             eq.setChestplateDropChance((float) (chestplatesData.get(chestplate)[1] / 100));
         if (armor[3] != null && helmetsData.get(helmet)[1] > 0)
             eq.setHelmetDropChance((float) (helmetsData.get(helmet)[1] / 100));
-        if (weaponI != null && weaponsData.get(weapon)[1] > 0)
+        if (!weapon.isEmpty() && weaponsData.get(weapon)[1] > 0)
             eq.setItemInHandDropChance((float) (weaponsData.get(weapon)[1] / 100));
 
         //Return the EntityEquipment object for manual changes

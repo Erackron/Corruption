@@ -23,12 +23,12 @@ public class CorItem {
 
     private List<String> lore;
 
-    private boolean isEmpty = false;
+    private boolean empty = false;
 
     public CorItem() {
         id = data = durability = 0;
         enchantmentIds = enchantmentChances = enchantmentLevels = new int[]{0};
-        isEmpty = true;
+        empty = true;
     }
 
     public CorItem(int id, int data, int durability, int[] enchantmentIds, int[] enchantmentChances, int[] enchantmentLevels, String name, List<String> lore) {
@@ -66,6 +66,10 @@ public class CorItem {
         return enchantmentLevels;
     }
 
+    public boolean isEmpty() {
+        return empty;
+    }
+
 
     private int[][] getRandomEnchantments() {
         int[][] empty = {{0}, {0}};
@@ -96,7 +100,7 @@ public class CorItem {
 
     @SuppressWarnings("deprecation")
     public ItemStack getItemStack() {
-        if (isEmpty)
+        if (empty)
             return null;
 
         ItemStack item = new ItemStack(ItemNames.getById(id));
