@@ -1,8 +1,7 @@
 package com.mcdr.corruption.ability;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.mcdr.corruption.Corruption;
+import com.mcdr.corruption.entity.Boss;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,8 +13,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import com.mcdr.corruption.Corruption;
-import com.mcdr.corruption.entity.Boss;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Snare extends Ability implements Listener {
 	private int duration;
@@ -31,7 +30,9 @@ public class Snare extends Ability implements Listener {
 		snare.setDuration(this.duration);
 		snare.setDestructible(this.destructible);
 		snare.setRadius(this.radius);
-		return snare;
+        //Register events, since this ability uses a BlockBreakEvent listener
+        Bukkit.getServer().getPluginManager().registerEvents(snare, Corruption.in);
+        return snare;
 	}
 	
 	public int getDuration(){
@@ -64,8 +65,8 @@ public class Snare extends Ability implements Listener {
 	public boolean Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
 		if(!super.Execute(livingEntity, lastLoc, boss))
 			return false;
-		
-		ensnare(livingEntity);
+
+        ensnare(livingEntity);
 		
 		sendAreaMessage(lastLoc, boss.getName(), livingEntity);	
 		return true;
@@ -132,6 +133,15 @@ public class Snare extends Ability implements Listener {
 				HandlerList.unregisterAll(listener);
 			blocks.clear();
 		}
-			
-	}
+
+    }
+
+    /**
+     * Unregister this ability from the BlockBreakEvent if this Snare instance is no longer bound to a boss.
+     * Called by the Java Garbage collector.
+     */
+    public void finalize() throws Throwable {
+        super.finalize();
+        BlockBreakEvent.getHandlerList().unregister(this);
+    }
 }

@@ -1,20 +1,17 @@
 package com.mcdr.corruption.config;
 
+import com.mcdr.corruption.ability.*;
+import com.mcdr.corruption.ability.Ability.AbilityType;
+import com.mcdr.corruption.ability.Ability.ActivationCondition;
+import com.mcdr.corruption.util.CorLogger;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.mcdr.corruption.ability.*;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
-import org.bukkit.event.Listener;
-
-import com.mcdr.corruption.Corruption;
-import com.mcdr.corruption.ability.Ability.AbilityType;
-import com.mcdr.corruption.ability.Ability.ActivationCondition;
-import com.mcdr.corruption.util.CorLogger;
 
 public abstract class AbilityConfig extends BaseConfig {
     private static Map<String, Ability> abilities;
@@ -156,8 +153,6 @@ public abstract class AbilityConfig extends BaseConfig {
                     if (abilityEntries.containsKey(entryKey))
                         ((Snare) ability).setRadius((Integer) abilityEntries.get(entryKey));
 
-                    //Register events, since this ability uses a BlockBreakEvent listener
-                    Corruption.in.getServer().getPluginManager().registerEvents((Listener) ability, Corruption.in);
                     break;
                 case COMMAND:
                     ability = new CommandAbility();
@@ -169,6 +164,10 @@ public abstract class AbilityConfig extends BaseConfig {
                     break;
                 case SUMMON:
                     ability = new Summon();
+
+                    entryKey = "Lightning";
+                    if (abilityEntries.containsKey(entryKey))
+                        ((Summon) ability).setLightning((Boolean) abilityEntries.get(entryKey));
 
                     entryKey = "MinimumAmount";
                     if (abilityEntries.containsKey(entryKey))
@@ -189,6 +188,10 @@ public abstract class AbilityConfig extends BaseConfig {
                     entryKey = "MonsterType";
                     if (abilityEntries.containsKey(entryKey))
                         ((Summon) ability).setMonsterType(EntityType.fromName((String) abilityEntries.get(entryKey)));
+                    else {
+                        CorLogger.warning("'" + abilityName + ".MonsterType' in abilities config file is missing.");
+                        continue;
+                    }
 
                     entryKey = "BossChance";
                     if (abilityEntries.containsKey(entryKey))

@@ -115,6 +115,7 @@ SN:
 SUM:
   Type: Summon
   Message: 'Corrupted {BOSSNAME} summoned the dead'
+  Lightning: true
   ActivationChance: 2.0
   AssignationChance: 100.0
   MinimumRange: 5

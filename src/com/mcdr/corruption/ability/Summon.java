@@ -18,13 +18,14 @@ import java.util.List;
 public class Summon extends Ability {
 
     private EntityType monsterType;
-    private int minAmount;
-    private int maxAmount;
-    private int minDistance;
-    private int maxDistance;
-    private int bossChance;
+    private int minAmount = 5;
+    private int maxAmount = 10;
+    private int minDistance = 0;
+    private int maxDistance = 10;
+    private int bossChance = 20;
+    private boolean strikeLightning = false;
 
-    private List<String> allowedBosses;
+    private List<String> allowedBosses = new ArrayList<String>();
 
     @Override
     public Ability clone() {
@@ -36,6 +37,7 @@ public class Summon extends Ability {
         summon.setMaxDistance(maxDistance);
         summon.setBossChance(bossChance);
         summon.setAllowedBosses(allowedBosses);
+        summon.setLightning(strikeLightning);
         copySettings(summon);
         return summon;
     }
@@ -75,6 +77,8 @@ public class Summon extends Ability {
         for (int i = 1; i <= amount; i++) {
             Block block = validBlocks.get(Utility.random.nextInt(validBlocks.size()));
             spawnedEntities.add(location.getWorld().spawnEntity(block.getLocation(), monsterType));
+            if (strikeLightning)
+                location.getWorld().strikeLightningEffect(block.getLocation());
         }
         int bossAmount;
         bossAmount = (int) Math.round((bossChance / 100.0) * amount);
@@ -121,5 +125,9 @@ public class Summon extends Ability {
 
     public void setAllowedBosses(List<String> allowedBosses) {
         this.allowedBosses = allowedBosses;
+    }
+
+    public void setLightning(boolean lightning) {
+        this.strikeLightning = lightning;
     }
 }
