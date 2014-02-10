@@ -114,7 +114,7 @@ SN:
   - OnDefense
 SUM:
   Type: Summon
-  Message: 'Corrupted {BOSSNAME} summoned the dead'
+  Message: '&4Corrupted {BOSSNAME} summoned the dead'
   Lightning: true
   ActivationChance: 2.0
   AssignationChance: 100.0
