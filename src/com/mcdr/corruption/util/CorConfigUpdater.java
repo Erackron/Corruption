@@ -210,6 +210,18 @@ public class CorConfigUpdater {
                 global.set("Message.CustomBossName", GlobalConfig.MessageParam.CUSTOMBOSSNAME.getMessage());
         }
 
+        if (Utility.isOlderVersion(configVersion, "2.4")) {
+            boolean updateOnStartup = global.getBoolean("CheckUpdateOnStartup", true),
+                    reloadAfterUpdating = global.getBoolean("ReloadAfterUpdating", true);
+            global.set("CheckUpdateOnStartup", null);
+            global.set("ReloadAfterUpdating", null);
+
+            global.createSection("Updating");
+            global.set("Updating.CheckUpdateOnStartup", updateOnStartup);
+            global.set("Updating.ReloadAfterUpdating", reloadAfterUpdating);
+            global.options().header("To use an API Key to check for updates(optional), add an APIKey node to the Updating section.\nTo get your API key, go to https://dev.bukkit.org/home/servermods-apikey/");
+        }
+
         updateConfigVersion(global);
         save(global, "config.yml");
         CorLogger.i("Global config updated");

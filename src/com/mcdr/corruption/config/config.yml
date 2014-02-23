@@ -1,3 +1,5 @@
+#To use an API Key to check for updates(optional), add an APIKey node to the Updating section.
+#To get your API key, go to https://dev.bukkit.org/home/servermods-apikey/
 Command:
   Ignore:
     Delay: 120
@@ -27,7 +29,8 @@ Boss:
   SetDamageAsMultiplier: true
   SetExperienceAsMultiplier: true
   EnableBiomes: false
-CheckUpdateOnStartup: true
-ReloadAfterUpdating: true
+Updating:
+  CheckUpdateOnStartup: true
+  ReloadAfterUpdating: true
 LogLevel: INFO
 ConfigVersion: '2.4'

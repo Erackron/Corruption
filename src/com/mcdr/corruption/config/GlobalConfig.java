@@ -17,6 +17,7 @@ import java.util.logging.Level;
 public abstract class GlobalConfig extends BaseConfig {
     public static boolean checkUpdateOnStartup = true;
     public static boolean reloadAfterUpdating = true;
+    public static String APIKey = null;
     private static YamlConfiguration yamlConfig = null;
     private static HashMap<Integer, Spawner> spawners = new HashMap<Integer, Spawner>();
 
@@ -235,20 +236,22 @@ public abstract class GlobalConfig extends BaseConfig {
 
         yamlConfig = loadConfig(file);
 
-        if (yamlConfig.isSet("CheckUpdateOnStartup"))
+        if (yamlConfig.isSet("Updating.CheckUpdateOnStartup"))
             checkUpdateOnStartup = yamlConfig.getBoolean("CheckUpdateOnStartup");
         else {
-            yamlConfig.set("CheckUpdateOnStartup", true);
+            yamlConfig.set("Updating.CheckUpdateOnStartup", true);
             saveNeeded = true;
         }
 
-        if (yamlConfig.isSet("ReloadAfterUpdating"))
-            checkUpdateOnStartup = yamlConfig.getBoolean("ReloadAfterUpdating");
+        if (yamlConfig.isSet("Updating.ReloadAfterUpdating"))
+            checkUpdateOnStartup = yamlConfig.getBoolean("Updating.ReloadAfterUpdating");
         else {
             yamlConfig.set("ReloadAfterUpdating", true);
             saveNeeded = true;
 
         }
+
+        APIKey = yamlConfig.getString("Updating.APIKey");
 
         if (yamlConfig.isSet("LogLevel")) {
             Level logLevel;

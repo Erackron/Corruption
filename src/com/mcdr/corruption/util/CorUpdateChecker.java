@@ -1,19 +1,19 @@
 package com.mcdr.corruption.util;
 
 import com.mcdr.corruption.Corruption;
+import com.mcdr.corruption.config.GlobalConfig;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.InputStream;
-import java.net.SocketTimeoutException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
 public class CorUpdateChecker {
-    private static final String LAST_VERSION_URL = "http://dev.bukkit.org/bukkit-plugins/corruption/files.rss";
+    private static final String SERVERMODS_API = "https://api.curseforge.com/servermods/files?projectIds=48581";
     public static String lastVer;
     public static boolean updateNeeded = false;
     public static long timeStamp = -1;
@@ -23,12 +23,12 @@ public class CorUpdateChecker {
     }
 
     public static boolean checkForUpdate() {
-        if (timeStamp == -1 || System.currentTimeMillis() - timeStamp > 1000 * 60 * 30) {
+        if (ignoreCache()) {
             PluginDescriptionFile pdf = Corruption.in.getDescription();
             String curVer = pdf.getVersion();
             String lastVersion = getLastVersion();
             if (lastVersion == null) {
-                CorLogger.i("Failed to reach dev.bukkit.org to check for updates. Is it down?");
+                CorLogger.i("Failed to reach api.curseforge.com to check for updates. Is it down?");
                 timeStamp = -1;
                 return false;
             }
@@ -39,26 +39,48 @@ public class CorUpdateChecker {
     }
 
     public static String getLastVersion() {
-        try {
-            // Create a URL for the desired page
-            URL url = new URL(LAST_VERSION_URL);
+        JSONObject latest = getLatest();
+        // Extract the version number out of the File title or return null. The format is: Corruption-<version>
+        return latest == null ? null : latest.get("name").toString().replaceAll("[a-zA-z ]|-", "");
+    }
 
-            URLConnection con = url.openConnection();
-            con.setConnectTimeout(1000 * 2);
+    public static JSONObject getLatest() {
+        try {
+            // Create a URLConnection to the ServerMods API
+            URLConnection con = new URL(SERVERMODS_API).openConnection();
+
+            //Add the API Key to the request if defined in the config
+            if (GlobalConfig.APIKey != null) {
+                con.addRequestProperty("X-API-Key", GlobalConfig.APIKey);
+            }
+
+            // Set the timeout of the requests
+            con.setConnectTimeout(1000 * 3);
             con.setReadTimeout(1000 * 30);
 
-            InputStream input = con.getInputStream();
+            // Add the user-agent to identify Corruption
+            con.addRequestProperty("User-Agent", "Corruption/v" + Corruption.in.getDescription().getVersion() + " (by Nauxuron, Erackron)");
 
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(input);
+            // Read the response. The response is in JSON format and only spans one line.
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String response = reader.readLine();
 
-            Node latestFile = doc.getElementsByTagName("item").item(0);
-            NodeList children = latestFile.getChildNodes();
+            // Parse the array of files from the query's response
+            JSONArray array = (JSONArray) JSONValue.parse(response);
 
-            return children.item(1).getTextContent().replaceAll("[a-zA-z ]|-", "");
-        } catch (SocketTimeoutException e) {
-            return null;
+            if (array.size() > 0) {
+                // Return the newest file's details
+                return (JSONObject) array.get(array.size() - 1);
+            } else {
+                CorLogger.w("No files found for " + Corruption.pluginName + ". Please contact the developer.");
+                return null;
+            }
         } catch (Exception ignored) {
         }
-        return Corruption.in.getDescription().getVersion();
+        return null;
+    }
+
+    public static boolean ignoreCache() {
+        return timeStamp == -1 || System.currentTimeMillis() - timeStamp > 1000 * 60 * 30;
     }
 }

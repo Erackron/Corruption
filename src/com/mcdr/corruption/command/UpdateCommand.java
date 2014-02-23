@@ -28,24 +28,30 @@ public class UpdateCommand extends BaseCommand {
             String lastVer = CorUpdateChecker.getLastVersion();
             sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + "New version available, version " + ChatColor.GRAY + lastVer);
             sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + "To update, use " + ChatColor.GREEN + "/" + label + " update install");
-        } else {
+        } else if (CorUpdateChecker.timeStamp != -1) {
             sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + "No update needed, running the latest version (" + ChatColor.GRAY + Corruption.in.getDescription().getVersion() + ChatColor.WHITE + ")");
         }
     }
 
     private static void installCommand() {
-        if (!CorUpdateChecker.checkForUpdate()) {
-            sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + "No update needed, running the latest version (" + ChatColor.GRAY + Corruption.in.getDescription().getVersion() + ChatColor.WHITE + ")");
-            return;
+        if (args.length < 3 || !args[2].toLowerCase().matches("f(orce)?")) {
+            if (!CorUpdateChecker.checkForUpdate()) {
+                sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + "No update needed, running the latest version (" + ChatColor.GRAY + Corruption.in.getDescription().getVersion() + ChatColor.WHITE + ")");
+                return;
+            }
+            //If something went wrong, return. Errors will be handled in the CorUpdateChecker class
+            if (CorUpdateChecker.timeStamp == -1)
+                return;
+        } else {
+            String lastVer = (CorUpdateChecker.lastVer != null && CorUpdateChecker.ignoreCache()) ? CorUpdateChecker.lastVer : CorUpdateChecker.getLastVersion();
+            sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + "Forcing update from " + ChatColor.GRAY + Corruption.in.getDescription().getVersion() + ChatColor.WHITE + " to " + ChatColor.GRAY + lastVer);
         }
-        //If something went wrong, return. Errors will be handled in the CorUpdateChecker class
-        if (CorUpdateChecker.timeStamp == -1)
-            return;
+
 
         //Update the md5 hash for safety.
         //If something went wrong, return. Errors will be handled in the LabAutoUpdater class
-        if (!CorAutoUpdater.updateMd5Hash())
-            return;
+        /*if (!CorAutoUpdater.updateMd5Hash())
+            return;*/
 
         if (CorAutoUpdater.update()) {
             sender.sendMessage(ChatColor.GOLD + "[" + Corruption.pluginName + "] " + ChatColor.WHITE + "Updated successfully.");
