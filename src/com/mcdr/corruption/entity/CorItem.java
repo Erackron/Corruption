@@ -104,6 +104,10 @@ public class CorItem {
             return null;
 
         ItemStack item = new ItemStack(ItemNames.getById(id));
+
+        if (id == 0)
+            return item;
+
         item.setData(new MaterialData(ItemNames.getById(id), (byte) data));
 
         if (durability > 0) {
