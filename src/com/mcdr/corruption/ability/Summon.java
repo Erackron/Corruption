@@ -10,34 +10,32 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.potion.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Summon extends Ability {
 
-    private EntityType monsterType;
     private int minAmount = 5;
     private int maxAmount = 10;
     private int minDistance = 0;
     private int maxDistance = 10;
-    private int bossChance = 20;
     private boolean strikeLightning = false;
+    private boolean fireResistant = false;
 
-    private List<String> allowedBosses = new ArrayList<String>();
+    private Map<SummonType, Integer> allowedBosses = new HashMap<SummonType, Integer>();
+    private int totalChance;
 
     @Override
     public Ability clone() {
         Summon summon = new Summon();
-        summon.setMonsterType(monsterType);
         summon.setMinAmount(minAmount);
         summon.setMaxAmount(maxAmount);
         summon.setMinDistance(minDistance);
         summon.setMaxDistance(maxDistance);
-        summon.setBossChance(bossChance);
         summon.setAllowedBosses(allowedBosses);
         summon.setLightning(strikeLightning);
+        summon.setFireResistant(fireResistant);
         copySettings(summon);
         return summon;
     }
@@ -54,7 +52,7 @@ public class Summon extends Ability {
         return true;
     }
 
-    public boolean Execute(LivingEntity livingEntity, Location lastLoc, Boss boss){
+    public boolean Execute(LivingEntity livingEntity, Location lastLoc, Boss boss) {
         if (!super.Execute(livingEntity, lastLoc, boss))
             return false;
 
@@ -73,34 +71,32 @@ public class Summon extends Ability {
         if (validBlocks.isEmpty() || amount <= 0)
             return false;
 
-        ArrayList<Entity> spawnedEntities = new ArrayList<Entity>();
-        for (int i = 1; i <= amount; i++) {
-            Block block = validBlocks.get(Utility.random.nextInt(validBlocks.size()));
-            spawnedEntities.add(location.getWorld().spawnEntity(block.getLocation(), monsterType));
-            if (strikeLightning)
-                location.getWorld().strikeLightningEffect(block.getLocation());
+        for (Map.Entry<SummonType, Integer> entry : allowedBosses.entrySet()) {
+            ArrayList<Entity> spawnedEntities = new ArrayList<Entity>();
+            long amountPerType = Math.round((double) entry.getValue() / totalChance * amount);
+
+            for (int i = 1; i <= amountPerType; i++) {
+                Block block = validBlocks.get(Utility.random.nextInt(validBlocks.size()));
+                Entity entity = location.getWorld().spawnEntity(block.getLocation(), entry.getKey().getMonsterType());
+                spawnedEntities.add(entity);
+                if (strikeLightning)
+                    location.getWorld().strikeLightningEffect(block.getLocation());
+            }
+
+            int bossAmount = (int) Math.round((entry.getKey().getBossChance() / 100.0) * amountPerType);
+
+            int finger = 0;
+            for (Map.Entry<BossData, Integer> bossEntry : entry.getKey().getBossesAmounts(bossAmount).entrySet()) {
+                for (int i = 0; i < bossEntry.getValue(); i++) {
+                    CorEntityManager.adjustSpecificEntities((LivingEntity) spawnedEntities.get(finger + i), bossEntry.getKey(), entry.getKey().getMonsterType());
+                    Boss boss = new Boss((LivingEntity) spawnedEntities.get(finger + i), bossEntry.getKey());
+                    CorEntityManager.addBoss(boss);
+                }
+
+                finger += bossEntry.getValue();
+            }
         }
-        int bossAmount;
-        bossAmount = (int) Math.round((bossChance / 100.0) * amount);
-
-        Collections.shuffle(spawnedEntities);
-
-        for (int i = 0; i < bossAmount; i++) {
-            String bossName = allowedBosses.get(Utility.random.nextInt(allowedBosses.size()));
-            BossData bossData = BossConfig.getBossesData().get(bossName);
-            if (bossData == null || !bossData.getEntityType().equals(monsterType))
-                continue;
-
-            CorEntityManager.adjustSpecificEntities((LivingEntity) spawnedEntities.get(i), bossData, monsterType);
-            Boss boss = new Boss((LivingEntity) spawnedEntities.get(i), bossData);
-            CorEntityManager.addBoss(boss);
-        }
-
         return true;
-    }
-
-    public void setMonsterType(EntityType entityType) {
-        this.monsterType = entityType;
     }
 
     public void setMinAmount(int minAmount) {
@@ -119,15 +115,20 @@ public class Summon extends Ability {
         this.maxDistance = maxDistance;
     }
 
-    public void setBossChance(int bossChance) {
-        this.bossChance = bossChance;
-    }
-
-    public void setAllowedBosses(List<String> allowedBosses) {
+    public void setAllowedBosses(Map<SummonType, Integer> allowedBosses) {
         this.allowedBosses = allowedBosses;
+        int total = 0;
+        for (Integer i : allowedBosses.values()) {
+            total += i;
+        }
+        this.totalChance = total;
     }
 
     public void setLightning(boolean lightning) {
         this.strikeLightning = lightning;
+    }
+
+    public void setFireResistant(boolean fireResistant) {
+        this.fireResistant = fireResistant;
     }
 }

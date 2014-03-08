@@ -4,14 +4,12 @@ import com.mcdr.corruption.ability.*;
 import com.mcdr.corruption.ability.Ability.AbilityType;
 import com.mcdr.corruption.ability.Ability.ActivationCondition;
 import com.mcdr.corruption.util.CorLogger;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class AbilityConfig extends BaseConfig {
     private static Map<String, Ability> abilities;
@@ -185,21 +183,41 @@ public abstract class AbilityConfig extends BaseConfig {
                     if (abilityEntries.containsKey(entryKey))
                         ((Summon) ability).setMaxDistance((Integer) abilityEntries.get(entryKey));
 
-                    entryKey = "MonsterType";
+                    entryKey = "FireResistant";
                     if (abilityEntries.containsKey(entryKey))
-                        ((Summon) ability).setMonsterType(EntityType.fromName((String) abilityEntries.get(entryKey)));
-                    else {
-                        CorLogger.warning("'" + abilityName + ".MonsterType' in abilities config file is missing.");
-                        continue;
+                        ((Summon) ability).setFireResistant((Boolean) abilityEntries.get(entryKey));
+
+                    entryKey = "MonsterTypes";
+                    if (abilityEntries.containsKey(entryKey)) {
+                        ConfigurationSection monsterTypeSection = (ConfigurationSection) abilityEntries.get(entryKey);
+                        Map<SummonType, Integer> bosses = new HashMap<SummonType, Integer>();
+                        for (String monsterNode : monsterTypeSection.getKeys(false)) {
+                            EntityType type = EntityType.fromName(monsterNode);
+                            if (type == null) {
+                                CorLogger.w("'" + monsterNode + "' in '" + abilityName + "' in abilities.yml is not a valid EntityType");
+                                continue;
+                            }
+                            int chance = 1;
+                            if (monsterTypeSection.isInt(monsterNode + ".Chance")) {
+                                chance = monsterTypeSection.getInt(monsterNode + ".Chance");
+                            }
+
+                            double bossChance = 1;
+                            if (monsterTypeSection.isDouble(monsterNode + ".BossChance")) {
+                                bossChance = monsterTypeSection.getDouble(monsterNode + ".BossChance");
+                            }
+
+                            List<String> allowedBosses = new ArrayList<String>();
+                            if (monsterTypeSection.isList(monsterNode + ".BossTypes")) {
+                                allowedBosses = (List<String>) monsterTypeSection.getList(monsterNode + ".BossTypes");
+                            }
+
+                            SummonType summonType = new SummonType(type, bossChance, allowedBosses);
+                            bosses.put(summonType, chance);
+                        }
+
+                        ((Summon) ability).setAllowedBosses(bosses);
                     }
-
-                    entryKey = "BossChance";
-                    if (abilityEntries.containsKey(entryKey))
-                        ((Summon) ability).setBossChance((Integer) abilityEntries.get(entryKey));
-
-                    entryKey = "AllowedBosses";
-                    if(abilityEntries.containsKey(entryKey))
-                        ((Summon) ability).setAllowedBosses((List<String>) abilityEntries.get(entryKey));
 
                     break;
                 default:

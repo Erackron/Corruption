@@ -134,6 +134,48 @@ public class CorConfigUpdater {
             }
         }
 
+        if (Utility.isOlderVersion(configVersion, "2.4.1")) { //TODO
+            CorLogger.i("Updating abilities.yml");
+            for (String node : ability.getKeys(false)) {
+                if (ability.isString(node + ".Type") && ability.getString(node + ".Type").equalsIgnoreCase("Summon")) {
+                    String monsterType;
+                    double bossChance = 0;
+                    List<String> allowedBosses = new ArrayList<String>();
+
+                    if (ability.isString(node + ".MonsterType")) {
+                        monsterType = ability.getString(node + ".MonsterType");
+                        ability.set(node + ".MonsterType", null);
+                    } else {
+                        CorLogger.w("'MonsterType' in '" + node + "' in abilities.yml is not a valid EntityType");
+                        continue;
+                    }
+                    if (ability.isDouble(node + ".BossChance")||ability.isInt(node + ".BossChance")) {
+                        bossChance = Double.valueOf(ability.getString(node + ".BossChance"));
+                        ability.set(node + ".BossChance", null);
+                    }
+
+                    if (ability.isList(node + ".AllowedBosses")) {
+                        allowedBosses = (List<String>) ability.getList(node + ".AllowedBosses");
+                        ability.set(node + ".AllowedBosses", null);
+                    }
+
+                    ConfigurationSection section = ability.createSection(node + ".MonsterTypes");
+
+                    ConfigurationSection monsterSection = section.createSection(monsterType);
+                    monsterSection.set("Chance", 1);
+                    monsterSection.set("BossChance", bossChance);
+
+                    ArrayList<String> newList = new ArrayList<String>();
+                    for (String boss : allowedBosses) {
+                        boss += " 1";
+                        newList.add(boss);
+                    }
+                    monsterSection.set("BossTypes", newList);
+                }
+            }
+
+        }
+
         updateConfigVersion(ability);
         save(ability, "abilities.yml");
         CorLogger.i("Ability config updated");

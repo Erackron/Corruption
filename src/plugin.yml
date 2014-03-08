@@ -1,6 +1,6 @@
 name: Corruption
 main: com.mcdr.corruption.Corruption
-version: 2.4
+version: 2.4.1
 authors: [Erackron, Pyriphlegethon]
 softdepend: [Vault, PermissionsEx, PermissionsBukkit, bPermissions, GroupManager, zPermissions, Permissions, mcMMO, Heroes]
 commands:
