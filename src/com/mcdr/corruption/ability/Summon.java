@@ -10,9 +10,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.potion.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Summon extends Ability {
 
@@ -23,7 +25,7 @@ public class Summon extends Ability {
     private boolean strikeLightning = false;
     private boolean fireResistant = false;
 
-    private Map<SummonType, Integer> allowedBosses = new HashMap<SummonType, Integer>();
+    private Map<Type, Integer> allowedBosses = new HashMap<Type, Integer>();
     private int totalChance;
 
     @Override
@@ -71,7 +73,7 @@ public class Summon extends Ability {
         if (validBlocks.isEmpty() || amount <= 0)
             return false;
 
-        for (Map.Entry<SummonType, Integer> entry : allowedBosses.entrySet()) {
+        for (Map.Entry<Type, Integer> entry : allowedBosses.entrySet()) {
             ArrayList<Entity> spawnedEntities = new ArrayList<Entity>();
             long amountPerType = Math.round((double) entry.getValue() / totalChance * amount);
 
@@ -115,7 +117,7 @@ public class Summon extends Ability {
         this.maxDistance = maxDistance;
     }
 
-    public void setAllowedBosses(Map<SummonType, Integer> allowedBosses) {
+    public void setAllowedBosses(Map<Type, Integer> allowedBosses) {
         this.allowedBosses = allowedBosses;
         int total = 0;
         for (Integer i : allowedBosses.values()) {
@@ -130,5 +132,83 @@ public class Summon extends Ability {
 
     public void setFireResistant(boolean fireResistant) {
         this.fireResistant = fireResistant;
+    }
+
+    public class Type {
+
+        private EntityType monsterType;
+        private double bossChance = 50;
+
+        private Map<String, Integer> allowedBosses;
+        private int totalBossChance;
+
+        public Type(EntityType monsterType, double bossChance, List<String> allowedBosses) {
+            this.monsterType = monsterType;
+            this.bossChance = bossChance;
+            parseAllowedBosses(allowedBosses);
+        }
+
+        public double getBossChance() {
+            return bossChance;
+        }
+
+        public void setBossChance(double bossChance) {
+            this.bossChance = bossChance;
+        }
+
+        public Map<String, Integer> getAllowedBosses() {
+            return allowedBosses;
+        }
+
+        public void setAllowedBosses(Map<String, Integer> allowedBosses) {
+            this.allowedBosses = allowedBosses;
+        }
+
+        public void parseAllowedBosses(List<String> allowedBosses) {
+            this.allowedBosses = new HashMap<String, Integer>();
+            for (String boss : allowedBosses) {
+                String[] params = boss.split(" ");
+
+                if (params.length < 2)
+                    continue;
+
+                int value;
+
+                try {
+                    value = Integer.parseInt(params[1]);
+                } catch (NumberFormatException e) {
+                    value = 1;
+                }
+
+                this.allowedBosses.put(params[0], value);
+            }
+
+            int total = 0;
+            for (Integer i : this.allowedBosses.values()) {
+                total += i;
+            }
+            totalBossChance = total;
+        }
+
+        public EntityType getMonsterType() {
+            return monsterType;
+        }
+
+        public void setMonsterType(EntityType monsterType) {
+            this.monsterType = monsterType;
+        }
+
+        public Map<BossData, Integer> getBossesAmounts(int totalAmount) {
+            Map<BossData, Integer> bossesAmounts = new HashMap<BossData, Integer>();
+            for (Map.Entry<String, Integer> entry : allowedBosses.entrySet()) {
+                int amountPerBoss = (int) Math.round((double) entry.getValue() / totalBossChance * totalAmount);
+                BossData bossData = BossConfig.getBossesData().get(entry.getKey());
+                if (bossData == null || !bossData.getEntityType().equals(monsterType))
+                    continue;
+                bossesAmounts.put(bossData, amountPerBoss);
+            }
+
+            return bossesAmounts;
+        }
     }
 }

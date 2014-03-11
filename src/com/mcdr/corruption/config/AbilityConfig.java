@@ -11,6 +11,8 @@ import org.bukkit.entity.EntityType;
 import java.io.File;
 import java.util.*;
 
+import static com.mcdr.corruption.ability.Summon.*;
+
 public abstract class AbilityConfig extends BaseConfig {
     private static Map<String, Ability> abilities;
 
@@ -190,7 +192,7 @@ public abstract class AbilityConfig extends BaseConfig {
                     entryKey = "MonsterTypes";
                     if (abilityEntries.containsKey(entryKey)) {
                         ConfigurationSection monsterTypeSection = (ConfigurationSection) abilityEntries.get(entryKey);
-                        Map<SummonType, Integer> bosses = new HashMap<SummonType, Integer>();
+                        Map<Summon.Type, Integer> bosses = new HashMap<Summon.Type, Integer>();
                         for (String monsterNode : monsterTypeSection.getKeys(false)) {
                             EntityType type = EntityType.fromName(monsterNode);
                             if (type == null) {
@@ -212,7 +214,7 @@ public abstract class AbilityConfig extends BaseConfig {
                                 allowedBosses = (List<String>) monsterTypeSection.getList(monsterNode + ".BossTypes");
                             }
 
-                            SummonType summonType = new SummonType(type, bossChance, allowedBosses);
+                            Summon.Type summonType = ((Summon) ability).new Type(type, bossChance, allowedBosses);
                             bosses.put(summonType, chance);
                         }
 
