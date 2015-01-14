@@ -1,0 +1,263 @@
+package com.mcdr.corruption.logger;
+
+import com.mcdr.corruption.Corruption;
+import org.bukkit.Bukkit;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * CorLogger logs whenever called upon and stores logs in a log file.
+ * CorLogger uses Level to determine severity of a log message.
+ */
+public abstract class CorLogger {
+    protected static int level = Level.INFO.intValue();
+    private static Logger logger = Bukkit.getLogger();
+
+    /**
+     * Get the current log level.
+     *
+     * @return The current log level
+     */
+    public static Level getLogLevel() {
+        return LogLevel.parse(level + "");
+    }
+
+    /**
+     * Get the current log level as an integer.
+     *
+     * @return The current log level as an integer
+     */
+    public static int getLogLevelInt() {
+        return level;
+    }
+
+    /**
+     * Set te current log level.
+     *
+     * @param lvl The log level to set the logger to
+     */
+    public static void setLogLevel(Level lvl) {
+        level = lvl.intValue();
+    }
+
+    /**
+     * Log a message with a certain log level.
+     * If the level is too verbose for the current log level,
+     * no message will be logged.
+     *
+     * @param level     The level to log the message with
+     * @param msg       The message to log
+     * @param throwable A throwable to add the stacktrace of
+     */
+    public static void log(Level level, String msg, Throwable throwable) {
+        if (shouldLog(level)) {
+            logger.log(level, "[" + Corruption.getInstance().getName() + "] " + msg + (throwable != null ? "\n" + getStackTrace(throwable) : ""));
+        }
+    }
+
+    /**
+     * Log a message with the info level.
+     *
+     * @param msg The message to log
+     */
+    public static void info(String msg) {
+        info(msg, null);
+    }
+
+    /**
+     * Log a message with the info level, adding a stacktrace belonging to a throwable
+     *
+     * @param msg       The message to log
+     * @param throwable A throwable to add the stacktrace of
+     */
+    public static void info(String msg, Throwable throwable) {
+        log(LogLevel.INFO, msg, throwable);
+    }
+
+    /**
+     * Log a message with the debug level.
+     *
+     * @param msg The message to log
+     */
+    public static void debug(String msg) {
+        debug(msg, null);
+    }
+
+    /**
+     * Log a message with the debug level, adding a stacktrace belonging to a throwable.
+     *
+     * @param msg       The message to log
+     * @param throwable A throwable to add the stacktrace of
+     */
+    public static void debug(String msg, Throwable throwable) {
+        log(LogLevel.INFO, "(DEBUG) " + msg, throwable);
+    }
+
+    /**
+     * Log a message with the warning level.
+     *
+     * @param msg The message to log
+     */
+    public static void warning(String msg) {
+        warning(msg, null);
+    }
+
+    /**
+     * Log a message with the warning level, adding a stacktrace belonging to a throwable.
+     *
+     * @param msg       The message to log
+     * @param throwable A throwable to add the stacktrace of
+     */
+    public static void warning(String msg, Throwable throwable) {
+        log(LogLevel.WARNING, msg, throwable);
+    }
+
+    /**
+     * Log a message with the severe level.
+     *
+     * @param msg The message to log
+     */
+    public static void severe(String msg) {
+        severe(msg, null);
+    }
+
+    /**
+     * Log a message with the severe level.
+     *
+     * @param msg       The message to log
+     * @param throwable A throwable to add the stacktrace of
+     */
+    public static void severe(String msg, Throwable throwable) {
+        log(LogLevel.SEVERE, msg, throwable);
+    }
+
+    /**
+     * Check whether a certain log level should be logged
+     * by the current log level setting.
+     *
+     * @param level The log level to check
+     * @return Whether the supplied log level should be logged
+     */
+    protected static boolean shouldLog(Level level) {
+        return !level.equals(LogLevel.OFF) && level.intValue() >= CorLogger.level;
+    }
+
+    /**
+     * Check whether the debug log level is enabled.
+     *
+     * @return Whether the debug log level is enabled
+     */
+    public static boolean debugEnabled() {
+        return shouldLog(LogLevel.DEBUG);
+    }
+
+    /**
+     * <p>Gets the stack trace from a Throwable as a String.</p>
+     * <p/>
+     * <p>The result of this method vary by JDK version as this method
+     * uses {@link Throwable#printStackTrace(java.io.PrintWriter)}.
+     * On JDK1.3 and earlier, the cause exception will not be shown
+     * unless the specified throwable alters printStackTrace.</p>
+     *
+     * @param throwable the <code>Throwable</code> to be examined
+     * @return the stack trace as generated by the exception's
+     * <code>printStackTrace(PrintWriter)</code> method
+     */
+    protected static String getStackTrace(final Throwable throwable) {
+        final StringWriter sw = new StringWriter();
+        final PrintWriter pw = new PrintWriter(sw, true);
+        throwable.printStackTrace(pw);
+        return sw.getBuffer().toString();
+    }
+
+    //The LogLevel class, a subclass of java.util.logging.Level to enable extra/custom logging levels.
+    public static class LogLevel extends Level {
+        protected static final long serialVersionUID = 1L;
+
+        // Lame solution to get a list of all predefined java.util.logging.Level values,
+        // since java.util.logging.Level.KnownLevels has package scope.
+        protected static final Level[] baseLevels = new Level[]{OFF, CONFIG, FINE, FINER, FINEST, INFO, SEVERE, WARNING, ALL};
+
+        protected static ArrayList<Level> known = new ArrayList<Level>(Arrays.asList(baseLevels));
+
+        public static final LogLevel DEBUG = new LogLevel("DEBUG", 200);
+
+        /**
+         * Create a new log level and add it to the known list.
+         *
+         * @param name  The name of the log level
+         * @param value The int value of this log level
+         */
+        protected LogLevel(String name, int value) {
+            super(name, value);
+            synchronized (LogLevel.class) {
+                known.add(this);
+            }
+        }
+
+        /**
+         * Uses {@link java.util.logging.Level#parse(String name)}.
+         *
+         * @param name The name or integer level to get a Level object of
+         * @return The log level belonging to the given name
+         * @throws IllegalArgumentException When the given name isn't an integer nor a known log level
+         */
+        public static synchronized Level parse(String name) throws IllegalArgumentException {
+            try {
+                return Level.parse(name);
+            } catch (IllegalArgumentException e) {
+                // Look for a known Level with the given non-localized name.
+                for (Level l : known) {
+                    if (name.equals(l.getName())) {
+                        return l;
+                    }
+                }
+
+                // Finally, look for a known level with the given localized name,
+                // in the current default locale.
+                // This is relatively expensive, but not excessively so.
+                for (Level l : known) {
+                    if (name.equals(l.getLocalizedName())) {
+                        return l;
+                    }
+                }
+
+                // OK, we've tried everything and failed
+                throw new IllegalArgumentException("Bad level \"" + name + "\"");
+            }
+        }
+
+        /**
+         * Return all logging levels.
+         *
+         * @return The list of known log levels
+         */
+        public static ArrayList<Level> getKnown() {
+            ArrayList<Level> levels = new ArrayList<Level>();
+            levels.addAll(known);
+            return levels;
+        }
+
+        /**
+         * Return all logging levels sorted by integer value in descending order.
+         *
+         * @return The sorted list of known log levels
+         */
+        public static ArrayList<Level> getKnownSorted() {
+            ArrayList<Level> levels = getKnown();
+            levels.sort(new Comparator<Level>() {
+                @Override
+                public int compare(Level o1, Level o2) {
+                    return o1.intValue() == o2.intValue() ? 0 : (o1.intValue() < o2.intValue() ? 1 : -1);
+                }
+            });
+            return levels;
+        }
+    }
+}
