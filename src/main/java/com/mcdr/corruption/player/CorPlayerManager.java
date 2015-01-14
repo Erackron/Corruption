@@ -11,6 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -21,7 +22,7 @@ public abstract class CorPlayerManager {
     private static short requestId;
 
     public static void AddOnlinePlayers() {
-        Player[] players = Corruption.getInstance().getServer().getOnlinePlayers();
+        Collection<? extends Player> players = Corruption.getInstance().getServer().getOnlinePlayers();
 
         for (Player player : players)
             addCorPlayer(player);
